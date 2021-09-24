@@ -20,7 +20,7 @@ jobs:
       - run: lerna run build
       - run: lerna run build:storybook
 
-      - run: 'echo "$ENV_FILE" > .env'
+      - run: echo "$ENV_FILE" > .env
         env:
-          ENV_FILE: ${{secrets.ENV_FILE}}
+          ENV_FILE: ${{ secrets.ENV_FILE }}
       - run: lerna run deploy
