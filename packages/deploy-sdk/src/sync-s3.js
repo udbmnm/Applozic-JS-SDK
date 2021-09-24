@@ -71,6 +71,7 @@ const uploadFileToS3 = async (filepath, bucket, key, ACL = 'public-read') => {
     Key: key,
     Body: file,
     ContentType: mimeTypes[contentType] || 'text/plain',
+    CacheControl: 'max-age=86400',
     ACL
   };
   await s3.putObject(params).promise();
