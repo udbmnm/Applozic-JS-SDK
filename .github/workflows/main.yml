@@ -23,4 +23,10 @@ jobs:
       - run: echo "$ENV_FILE" > .env
         env:
           ENV_FILE: ${{ secrets.ENV_FILE }}
+
+      - run: mkdir ~/.aws
+
+      - run: echo "$AWS_CREDS" > ~/.aws/credentials
+        env:
+          AWS_CREDS: ${{ secrets.AWS_CREDS }}
       - run: lerna run deploy
