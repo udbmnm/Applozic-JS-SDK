@@ -2,7 +2,7 @@ const path = require('path');
 
 const dotenv = require('dotenv');
 const ENV = dotenv.config({
-  path: path.join(__dirname, '../.env')
+  path: path.join(__dirname, '../../../.env')
 }).parsed;
 
 const AWS = require('aws-sdk');
