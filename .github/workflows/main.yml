@@ -17,17 +17,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+      - uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
-        run: npm i -g yarn lerna
-        run: lerna bootstrap
-        run: lerna run build
+          node-version: '14'
+      - run: npm i -g yarn lerna
+      - run: lerna bootstrap
+      - run: lerna run build
 
-      - name: Save .env file
-        run: 'echo "$ENV_FILE" > .env'
-        shell: bash
+      - run: 'echo "$ENV_FILE" > .env'
         env:
           SSH_KEY: ${{secrets.ENV_FILE}}
-        run: lerna run deploy
+      - run: lerna run deploy
