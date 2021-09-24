@@ -24,7 +24,7 @@ jobs:
       - run: lerna bootstrap
       - run: lerna run build
       - name: Save .env file
-        - run: 'echo "$ENV_FILE" > .env'
+      - run: 'echo "$ENV_FILE" > .env'
         shell: bash
         env:
           SSH_KEY: ${{secrets.ENV_FILE}}
