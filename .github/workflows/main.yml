@@ -16,9 +16,29 @@ jobs:
         with:
           node-version: '14'
       - run: npm i -g yarn lerna
-      - run: lerna bootstrap
+      - run: lerna bootstrap --scope=@applozic/local-store --scope=@applozic/core-sdk --scope=@applozic/ui-components --scope=@applozic/react-app
       - run: lerna run build
       - run: lerna run build:storybook
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: websdk-dist
+          path: packages/core/dist_web
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: storybook
+          path: packages/ui-components/storybook-build
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - run: npm i -g yarn lerna
+      - run: lerna bootstrap --scope=@applozic/deploy-sdk
 
       - run: echo "$ENV_FILE" > .env
         env:
@@ -29,4 +49,15 @@ jobs:
       - run: echo "$AWS_CREDS" > ~/.aws/credentials
         env:
           AWS_CREDS: ${{ secrets.AWS_CREDS }}
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: websdk-dist
+          path: packages/core/dist_web
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: storybook
+          path: packages/ui-components/storybook-build
+
       - run: lerna run deploy
