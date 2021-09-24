@@ -23,7 +23,7 @@
   "scripts": {
     "cleanbuild": "rm -r node_modules && npm install && tsc",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook -o ./storybook-build",
+    "build:storybook": "build-storybook -o ./storybook-build",
     "build:webpack": "webpack",
     "build": "rm -rf dist && yarn build:webpack",
     "deploy-storybook": "yarn build-storybook && firebase deploy"
