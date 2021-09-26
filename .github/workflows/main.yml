@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: '14'
       - run: npm i -g yarn lerna
-      - run: lerna bootstrap --scope=@applozic/local-store --scope=@applozic/core-sdk --scope=@applozic/ui-components --scope=@applozic/react-app
+      - run: lerna bootstrap
       - run: lerna run build
       - run: lerna run build:storybook
 
@@ -39,7 +39,7 @@ jobs:
         with:
           node-version: '14'
       - run: npm i -g yarn lerna
-      - run: lerna bootstrap --scope=@applozic/deploy-sdk
+      - run: lerna bootstrap
 
       - run: echo "$ENV_FILE" > .env
         env:

@@ -1,0 +1,33 @@
+name: Deploy UI Components
+on:
+  push:
+    tags: 'release-ui-components-*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - run: npm i -g yarn lerna
+      - run: lerna bootstrap
+      - run: lerna run build
+
+      - run: echo "$ENV_FILE" > .env
+        env:
+          ENV_FILE: ${{ secrets.ENV_FILE }}
+
+      - run: mkdir ~/.aws
+
+      - run: echo "$AWS_CREDS" > ~/.aws/credentials
+        env:
+          AWS_CREDS: ${{ secrets.AWS_CREDS }}
+      
+      # - run: cd packages/ui-components; npm publish
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - run: lerna run deploy:storybook

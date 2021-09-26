@@ -1,0 +1,43 @@
+{
+  "name": "@applozic/deploy",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "MKC Developer <developer@mkclabs.xyz>",
+  "homepage": "",
+  "license": "ISC",
+  "main": "src/deploy-sdk.js",
+  "directories": {
+    "src": "src",
+    "test": "__tests__"
+  },
+  "files": [
+    "src"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github-mkc:MKC-Tech/applozic-js-sdk.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "deploy:core": "ts-node src/deploy/core.ts",
+    "deploy:storybook": "ts-node src/deploy/storybook.ts",
+    "release:core": "ts-node src/release/core.ts",
+    "release:local-store": "ts-node src/release/local-store.ts",
+    "release:ui-components": "ts-node src/release/ui-components.ts",
+    "release:storybook": "ts-node src/release/storybook.ts",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.994.0",
+    "dotenv": "^10.0.0",
+    "simple-git": "^2.45.1",
+    "typescript": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^16.10.1",
+    "ts-node": "^10.2.1"
+  }
+}
