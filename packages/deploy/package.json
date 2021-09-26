@@ -21,14 +21,12 @@
     "url": "github-mkc:MKC-Tech/applozic-js-sdk.git"
   },
   "scripts": {
-    "build": "tsc",
     "deploy:core": "ts-node src/deploy/core.ts",
     "deploy:storybook": "ts-node src/deploy/storybook.ts",
     "release:core": "ts-node src/release/core.ts",
     "release:local-store": "ts-node src/release/local-store.ts",
     "release:ui-components": "ts-node src/release/ui-components.ts",
-    "release:storybook": "ts-node src/release/storybook.ts",
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "release:storybook": "ts-node src/release/storybook.ts"
   },
   "dependencies": {
     "aws-sdk": "^2.994.0",

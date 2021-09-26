@@ -7,6 +7,7 @@ export const invalidateCloudfront = async (
   distributionId: string,
   paths: string[]
 ) => {
+  paths = paths.filter(path => path.indexOf('~') < 0); // Exclude these files
   const params = {
     DistributionId: distributionId,
     InvalidationBatch: {
@@ -17,5 +18,9 @@ export const invalidateCloudfront = async (
       }
     }
   };
-  return cf.createInvalidation(params).promise();
+  const result = await cf.createInvalidation(params).promise();
+  console.log(
+    `Invalidated Cloudfront\n\tInvalidation ID:\t${result?.Invalidation?.Id}`
+  );
+  return result;
 };

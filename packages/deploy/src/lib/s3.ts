@@ -53,26 +53,34 @@ export const uploadFileToS3 = async ({
   }
 };
 
-// Delete files with prefix in s3
-export const deleteObjectsByPrefix = async (bucket: string, prefix: string) => {
-  const data = await s3
+export const listObjectsByPrefix = async (bucket: string, prefix: string) => {
+  return s3
     .listObjectsV2({
       Bucket: bucket,
       Prefix: prefix
     })
     .promise();
+};
+
+// Delete files with prefix in s3
+export const deleteObjectsByPrefix = async (bucket: string, prefix: string) => {
+  const data = await listObjectsByPrefix(bucket, prefix);
   if (data && data.Contents) {
     const keys = data.Contents.map(item => item.Key as string);
     if (keys && keys.length) {
-      const deleteParams = {
-        Bucket: bucket,
-        Delete: {
-          Objects: keys.map(key => ({ Key: key }))
-        }
-      };
-      await s3.deleteObjects(deleteParams).promise();
+      return deleteObjects(bucket, keys);
     }
   }
+};
+
+export const deleteObjects = async (bucket: string, keys: string[]) => {
+  const deleteParams = {
+    Bucket: bucket,
+    Delete: {
+      Objects: keys.map(key => ({ Key: key }))
+    }
+  };
+  return s3.deleteObjects(deleteParams).promise();
 };
 
 // Upload directory to S3
@@ -84,9 +92,9 @@ export const syncS3 = async (
 ) => {
   // Get list of files
   const files = await getFiles(directory);
-  console.log(directory, ':', files);
 
   let count = 1;
+  console.log(`Uploading ${directory} to S3...`);
   await Promise.all(
     files.map(async filepath => {
       const key = path.join(prefix, filepath.replace(directory, ''));
@@ -97,22 +105,19 @@ export const syncS3 = async (
         invalidateCF: false,
         ACL: 'public-read'
       });
-      console.log('Success:', filepath, `${count}/${files.length}`);
+      console.log(`\t${count}/${files.length}`, filepath);
       count += 1;
     })
   );
 
-  console.log(`\nSynced to S3\n\tDirectory:\t\t${directory}\n`);
+  console.log(`Uploading ${directory} to S3...  done!`);
+
+  // console.log(`\nSynced to S3\n\tDirectory:\t\t${directory}\n`);
   if (cfDistributionId) {
-    const paths = files
-      .map(file => file.replace(directory, ''))
-      .filter(path => path.indexOf('~') < 0); // Exclude these files. They have a hash anyway.
-    const result = await invalidateCloudfront(cfDistributionId, [
+    const paths = files.map(file => file.replace(directory, ''));
+    await invalidateCloudfront(cfDistributionId, [
       ...paths,
       '/'
     ]);
-    console.log(
-      `Invalidated Cloudfront\n\tInvalidation ID:\t${result?.Invalidation?.Id}`
-    );
   }
 };

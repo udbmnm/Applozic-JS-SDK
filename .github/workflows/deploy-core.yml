@@ -26,7 +26,7 @@ jobs:
         env:
           AWS_CREDS: ${{ secrets.AWS_CREDS }}
 
-      - run: lerna run deploy:core-sdk
+      - run: lerna run deploy:core
 
       # - run: cd packages/core; npm publish
       #   env:
