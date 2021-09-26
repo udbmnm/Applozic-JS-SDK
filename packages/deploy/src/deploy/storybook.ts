@@ -35,6 +35,12 @@ const deployStorybook = async () => {
     key: `${uploadConfig.prefix}/versioned/${hash}/`,
     invalidateCF: false
   });
+  await uploadFileToS3({
+    filepath: path.join(uploadConfig.path, 'index.html'),
+    bucket: uploadConfig.bucket,
+    key: `${uploadConfig.prefix}/versioned/${hash}`,
+    invalidateCF: false
+  });
 
   console.log('Removing old storybook release...');
   const objects = await listObjectsByPrefix(

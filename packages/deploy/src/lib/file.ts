@@ -26,7 +26,7 @@ export const getFiles = async (directory: string) =>
       if (err) {
         reject(err);
       } else {
-        resolve(files.filter(path => path.indexOf('~') < 0));
+        resolve(files);
       }
     });
   });
