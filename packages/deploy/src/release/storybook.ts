@@ -1,5 +1,5 @@
 // import md5File from 'md5-file';
-import { addLocalGitTag, pushGitTags, checkIfTagExists } from '../lib/git';
+import { createAndPushTags, checkIfTagExists } from '../lib/git';
 import { getStorybookHash } from '../utils/storybook';
 
 const release = async () => {
@@ -13,8 +13,7 @@ const release = async () => {
   }
 
   const annotation = `storybook release: ${hash}`;
-  await addLocalGitTag(releaseName, annotation);
-  await pushGitTags();
+  await createAndPushTags(releaseName, annotation);
   process.exit(0);
 };
 

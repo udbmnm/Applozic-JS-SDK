@@ -77,12 +77,11 @@ export const checkIfTagExists = async (tagName: string) =>
 
 export const pushGitTags = (): Promise<void> =>
   new Promise((resolve, reject) => {
-    git.pushTags((result, err) => {
+    git.pushTags((err, result) => {
       if (err) {
         console.error('Tag push error', { err });
         reject(err);
       } else {
-        // console.log('Pushed tags');
         resolve();
       }
     });
@@ -99,14 +98,27 @@ export const addLocalGitTag = (tagName: string, annotation: string) =>
     });
   });
 
+export const createAndPushTags = async (
+  tagName: string,
+  annotation: string
+) => {
+  try {
+    await addLocalGitTag(tagName, annotation);
+    console.log(`Tag ${tagName} created`);
+    await pushGitTags();
+    console.log('Tags pushed');
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const createRelease = async (packageName: string) => {
   const version = getCurrentPackageVersion(packageName);
   const tagName = `release-${packageName}-v${version}`;
   try {
     if (!(await checkIfTagExists(tagName))) {
       const annotation = `${packageName} Release v${version}`;
-      await addLocalGitTag(tagName, annotation);
-      await pushGitTags();
+      await createAndPushTags(tagName, annotation);
     } else {
       console.log(`Git tag "${tagName}" already exists`);
       rl.question(
