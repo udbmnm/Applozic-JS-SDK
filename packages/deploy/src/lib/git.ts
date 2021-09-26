@@ -15,7 +15,7 @@ const rl = readline.createInterface({
 });
 
 const options: Partial<SimpleGitOptions> = {
-  baseDir: process.cwd(),
+  baseDir: path.join(__dirname, '../../../../'),
   binary: 'git',
   maxConcurrentProcesses: 6
 };
@@ -56,14 +56,14 @@ const updateVersionInPackageJson = async (
     });
   });
 
-export const getCurrentPackageVersion = (packageName: string) => {
+export const getCurrentPackageVersion = (packageName: string): string => {
   const pathToPackageJSON = getPathToPackageJson(packageName);
   const packageContents = fs.readFileSync(pathToPackageJSON, 'utf8');
   const packageJSON = JSON.parse(packageContents);
   return packageJSON.version;
 };
 
-const checkIfTagExists = async (tagName: string) =>
+export const checkIfTagExists = async (tagName: string) =>
   new Promise((resolve, reject) => {
     git.tags((err, tags) => {
       if (err) {
@@ -75,7 +75,7 @@ const checkIfTagExists = async (tagName: string) =>
     });
   });
 
-const pushGitTags = (): Promise<void> =>
+export const pushGitTags = (): Promise<void> =>
   new Promise((resolve, reject) => {
     git.pushTags((result, err) => {
       if (err) {
@@ -88,7 +88,7 @@ const pushGitTags = (): Promise<void> =>
     });
   });
 
-const addLocalGitTag = (tagName: string, annotation: string) =>
+export const addLocalGitTag = (tagName: string, annotation: string) =>
   new Promise(resolve => {
     git.addAnnotatedTag(tagName, annotation, (err, data) => {
       if (err) {
@@ -104,7 +104,7 @@ export const createRelease = async (packageName: string) => {
   const tagName = `release-${packageName}-v${version}`;
   try {
     if (!(await checkIfTagExists(tagName))) {
-      const annotation = `Core SDK Release v${version}`;
+      const annotation = `${packageName} Release v${version}`;
       await addLocalGitTag(tagName, annotation);
       await pushGitTags();
     } else {
