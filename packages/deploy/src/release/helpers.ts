@@ -19,7 +19,7 @@ export const releaseStorybook = async () => {
     getReadableString(now.getMinutes()),
     getReadableString(now.getSeconds())
   ];
-  const dateString = items.join();
+  const dateString = items.join('');
   const releaseName = `release-storybook-${dateString}`;
 
   if (await checkIfTagExists(releaseName)) {
