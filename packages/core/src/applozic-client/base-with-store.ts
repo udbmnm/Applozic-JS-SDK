@@ -50,21 +50,23 @@ export default class BaseClientWithStore extends BaseClientWithApi {
       return this.initializedPromise;
     }
     this.initializedPromise = new Promise<void>(async resolve => {
-      try {
-        const gracefulLogout = await this.store.getItem(GRACEFUL_LOGOUT);
-        if (gracefulLogout) {
-          await this.store.removeItem(LOGIN_RESULT);
-          await this.store.removeItem(GRACEFUL_LOGOUT);
-        }
-        const loginRes = await this.store.getItem<LoginResult>(LOGIN_RESULT);
-        const accessToken = await this.store.getItem<string>(ACCESS_TOKEN);
-        if (loginRes && accessToken) {
-          await this.postLogin(loginRes, accessToken);
-        } else {
-          // clear the store if either is missing
-          await this.store.clear();
-        }
-      } catch (e) {}
+      if (this.store) {
+        try {
+          const gracefulLogout = await this.store.getItem(GRACEFUL_LOGOUT);
+          if (gracefulLogout) {
+            await this.store.removeItem(LOGIN_RESULT);
+            await this.store.removeItem(GRACEFUL_LOGOUT);
+          }
+          const loginRes = await this.store.getItem<LoginResult>(LOGIN_RESULT);
+          const accessToken = await this.store.getItem<string>(ACCESS_TOKEN);
+          if (loginRes && accessToken) {
+            await this.postLogin(loginRes, accessToken);
+          } else {
+            // clear the store if either is missing
+            await this.store.clear();
+          }
+        } catch (e) {}
+      }
       resolve();
     });
     return this.initializedPromise;

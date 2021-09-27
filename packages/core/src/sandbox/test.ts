@@ -1,4 +1,6 @@
-import * as fs from 'fs';
+// import * as fs from 'fs';
+// import ApplozicClient from '..';
+import fs from 'fs';
 import ApplozicClient from '../';
 const APPLICATION_ID = 'applozic-sample-app';
 
@@ -22,6 +24,9 @@ const main = async () => {
       '\n\n\nFINAL RESULT\n\n',
       JSON.stringify(getContactListResult, null, 2)
     );
+
+    const blockList = await applozicClient.contacts.blockListSync(0);
+    console.log({ blockList });
     // fs.writeFileSync('sample.json', JSON.stringify(getContactListResult));
 
     // const uploadResponse = await applozicClient.files.upload();

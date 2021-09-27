@@ -94,7 +94,7 @@ export default class BaseClient {
     }
   ): Promise<any> => {
     const useJSON = options?.json ?? true;
-    let response: Response;
+    let response: Response | null;
 
     const request = this.getAgent(!!options?.useAuth);
 
@@ -114,13 +114,19 @@ export default class BaseClient {
       } else if (method === METHODS.POST) {
         response = await request
           .post(`${AppConfig.APPLOZIC_HOST}${endpoint}`)
-          .send(options.data);
+          .send(options?.data ?? null);
+      } else {
+        response = null;
       }
 
-      if (useJSON) {
-        return response.body;
+      if (response !== null) {
+        if (useJSON) {
+          return response.body;
+        }
+        return response.text;
+      } else {
+        console.error('Applozic: API call failed');
       }
-      return response.text;
     } catch (error) {
       console.error(error);
       throw error;

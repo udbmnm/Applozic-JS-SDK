@@ -1,13 +1,13 @@
 import User from './User';
 
 export enum GroupTypes {
-  PRIVATE = 1,
-  PUBLIC = 2,
-  BROADCAST = 5,
-  OPEN = 6,
-  ONE_ON_ONE = 7,
-  CONTACTS = 9,
-  SUPPORT = 10
+  PRIVATE = 1 as number,
+  PUBLIC = 2 as number,
+  BROADCAST = 5 as number,
+  OPEN = 6 as number,
+  ONE_ON_ONE = 7 as number,
+  CONTACTS = 9 as number,
+  SUPPORT = 10 as number
 }
 
 export enum UserRoles {

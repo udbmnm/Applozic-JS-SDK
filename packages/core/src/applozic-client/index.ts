@@ -12,15 +12,13 @@ interface ApplozicClientOptions extends BaseClientWithStoreOptions {
 
 /**
  * Applozic Client
- * 
+ *
  * This is the main class for interacting with the Applozic API.
  * This class incorporates the [BaseClientWithStore](./base-with-store.ts) class
  */
 export default class ApplozicClient extends BaseClientWithStore {
   public applozicSocket: ApplozicSocket | undefined = undefined;
   private options: ApplozicClientOptions | undefined = undefined;
-  private typingStatus: number = 0;
-  private typingTimer: ReturnType<typeof setTimeout> | null;
 
   constructor(applicationId: string, options?: ApplozicClientOptions) {
     super(applicationId, options);
@@ -49,15 +47,15 @@ export default class ApplozicClient extends BaseClientWithStore {
 
   public sendTypingStatus = (receiverId: string, status: number) => {
     const topic = `/topic/typing-${this.applicationId}-${receiverId}`;
-    const message = `${this.applicationId},${this.loginResult.userId},${status}`;
-    this.applozicSocket.sendMessage(topic, message);
+    const message = `${this.applicationId},${this.loginResult?.userId},${status}`;
+    this.applozicSocket?.sendMessage(topic, message);
   };
 
   private subscribeToTypingStatus = async () => {
-    await this.applozicSocket.connect();
-    if (this.options?.events?.onTypingStatus) {
+    await this.applozicSocket?.connect();
+    if (this.options?.events?.onTypingStatus && this.applozicSocket) {
       this.applozicSocket.subscribe(
-        `/topic/typing-${this.applicationId}-${this.loginResult.userId}`,
+        `/topic/typing-${this.applicationId}-${this.loginResult?.userId}`,
         stompMessage => {
           try {
             const [appId, userId, status] = stompMessage.body.split(',');
