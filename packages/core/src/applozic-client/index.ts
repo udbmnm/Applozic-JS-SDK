@@ -10,6 +10,12 @@ interface ApplozicClientOptions extends BaseClientWithStoreOptions {
   events?: SocketEventListener;
 }
 
+/**
+ * Applozic Client
+ * 
+ * This is the main class for interacting with the Applozic API.
+ * This class incorporates the [BaseClientWithStore](./base-with-store.ts) class
+ */
 export default class ApplozicClient extends BaseClientWithStore {
   public applozicSocket: ApplozicSocket | undefined = undefined;
   private options: ApplozicClientOptions | undefined = undefined;

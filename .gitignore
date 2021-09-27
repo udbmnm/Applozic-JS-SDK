@@ -196,3 +196,5 @@ storybook-static
 storybook-build
 
 *.icloud
+
+docs
