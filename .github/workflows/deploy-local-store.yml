@@ -12,12 +12,23 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
-      - run: npm i -g yarn lerna
-      - run: lerna bootstrap
-      - run: lerna run build
+      
+      - name: Install yarn and lerna
+        run: npm i -g yarn lerna
 
-      - run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+      - name: Run lerna bootstrap
+        run: lerna bootstrap
 
-      - run: cd packages/local-store; npm publish
+      - name: Build monorepo
+        run: lerna run build
+
+      - name: Save npm token
+        run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+        working-directory: ./packages/local-store
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+            NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish local-store to npm
+        run: npm publish
+        working-directory: ./packages/local-store
+        
