@@ -16,6 +16,8 @@ jobs:
       - run: lerna bootstrap
       - run: lerna run build
 
+      - run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+
       - run: cd packages/local-store; npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
