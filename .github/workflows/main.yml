@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-packages:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -15,17 +15,30 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
-      - run: npm i -g yarn lerna
-      - run: lerna bootstrap
-      - run: lerna run build
-      - run: lerna run build:storybook
+      
+      - name: Install yarn and lerna
+        run: npm i -g yarn lerna
 
-      - uses: actions/upload-artifact@v2
-        with:
-          name: websdk-dist
-          path: packages/core/dist_web
+      - name: Run lerna bootstrap
+        run: lerna bootstrap
 
-      - uses: actions/upload-artifact@v2
+      - name: Build monorepo
+        run: lerna run build
+      
+  build-storybook:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
         with:
-          name: storybook
-          path: packages/ui-components/storybook-build
+          node-version: '14'
+      
+      - name: Install yarn and lerna
+        run: npm i -g yarn lerna
+
+      - name: Run lerna bootstrap
+        run: lerna bootstrap
+      
+      - name: Build storybook
+        run: lerna run build:storybook
