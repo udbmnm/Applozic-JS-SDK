@@ -59,5 +59,5 @@ export const processMessage: MessageHandler = (data: MessageHandlerData) => {
   if (handlers[data.messageData.type]) {
     return handlers[data.messageData.type](data);
   }
-  console.warn(`Could not process message with type ${data.messageData.type}`);
+  // console.warn(`Could not process message with type ${data.messageData.type}`);
 };

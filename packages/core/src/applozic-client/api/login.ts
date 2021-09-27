@@ -7,15 +7,13 @@ export interface LoginApi {
   (email: string, password: string): Promise<LoginResult>;
 }
 
-export interface PostLoginCallback {
-  (loginRes: LoginResult, accessToken: string):
-    | LoginResult
-    | Promise<LoginResult>;
-}
+// export interface PostLoginCallback {
+//   (loginRes: LoginResult, accessToken: string): Promise<LoginResult>;
+// }
 
 const loginBuilder = (applozicClient: BaseClient): LoginApi => {
   const loginApi: LoginApi = async (email, password) => {
-    const response: LoginResult = await applozicClient.makeApiCall(
+    const response: LoginResult | string = await applozicClient.makeApiCall(
       METHODS.POST,
       ENDPOINT,
       {
@@ -26,8 +24,16 @@ const loginBuilder = (applozicClient: BaseClient): LoginApi => {
         }
       }
     );
-    await applozicClient.postLogin(response, password);
-    return response;
+    if (typeof response === 'string') {
+      if (response === 'INVALID_PASSWORD') {
+        throw new Error('Invalid password');
+      } else {
+        throw new Error(`Login Failure: ${response}`);
+      }
+    } else {
+      await applozicClient.postLogin(response, password);
+      return response;
+    }
   };
   return loginApi;
 };
