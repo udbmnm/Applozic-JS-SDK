@@ -7,26 +7,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  npm-test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-
-      - name: Save npm token
-        run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
-        working-directory: ./packages/local-store
-        env:
-            NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Publish local-store to npm
-        run: npm whoami
-        working-directory: ./packages/local-store
-
-
   build:
     runs-on: ubuntu-latest
     steps:
