@@ -41,6 +41,7 @@ export default class ApplozicSocket {
     this.stompClient.heartbeat.outgoing = 10000;
     this.stompClient.heartbeat.incoming = 0;
     this.stompClient.reconnect_delay = 30000;
+    this.stompClient.debug = () => {}; // Disable stomp debug messages
     return this.stompClient;
   };
 
