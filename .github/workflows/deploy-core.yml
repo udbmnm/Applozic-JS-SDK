@@ -12,22 +12,38 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
-      - run: npm i -g yarn lerna
-      - run: lerna bootstrap
-      - run: lerna run build
+      
+      - name: Install yarn and lerna
+        run: npm i -g yarn lerna
 
-      - run: echo "$ENV_FILE" > .env
+      - name: Run lerna bootstrap
+        run: lerna bootstrap
+
+      - name: Build monorepo
+        run: lerna run build
+
+      - name: Save .env file
+        run: echo "$ENV_FILE" > .env
         env:
           ENV_FILE: ${{ secrets.ENV_FILE }}
 
-      - run: mkdir ~/.aws
+      - name: Setup AWS dir
+        run: mkdir ~/.aws
 
-      - run: echo "$AWS_CREDS" > ~/.aws/credentials
+      - name: Save AWS credentials
+        run: echo "$AWS_CREDS" > ~/.aws/credentials
         env:
           AWS_CREDS: ${{ secrets.AWS_CREDS }}
 
-      - run: lerna run deploy:core
+      - name: Deploy core-sdk to S3
+        run: lerna run deploy:core
 
-      # - run: cd packages/core; npm publish
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Save npm token
+        run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+        working-directory: ./packages/core
+        env:
+            NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish core-sdk to npm
+        run: npm publish
+        working-directory: ./packages/core
