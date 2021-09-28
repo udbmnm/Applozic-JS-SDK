@@ -1,6 +1,6 @@
 {
   "name": "@applozic/ui-components",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Applozic Chat UI components",
   "author": "MKC Developer <developer@mkclabs.xyz>",
   "homepage": "",
@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "@applozic/core-sdk": "0.0.8",
-    "@applozic/local-store": "^0.0.2",
+    "@applozic/local-store": "0.0.3",
     "@chakra-ui/icons": "^1.0.15",
     "@chakra-ui/react": "^1.6.6",
     "@dschoon/react-waves": "^4.0.3",

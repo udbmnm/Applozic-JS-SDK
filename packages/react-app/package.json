@@ -2,8 +2,8 @@
   "name": "@applozic/react-app",
   "version": "0.1.0",
   "dependencies": {
-    "@applozic/core-sdk": "^0.0.7",
-    "@applozic/ui-components": "0.0.6",
+    "@applozic/core-sdk": "0.0.8",
+    "@applozic/ui-components": "0.0.7",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
