@@ -265,7 +265,8 @@ export {
   IUpdateGroupUser, // TODO refactor export name
   ApplozicSocketOptions,
   ApplozicSocket,
-  SocketEventListener
+  SocketEventListener,
+  ApplozicClient
 };
 
 export default ApplozicClient;

@@ -58,8 +58,6 @@ const applozicClient = new ApplozicClient('YOUR-APPLOZIC-APP-ID', {
 
 ### 2. Using `script` tag
 
-# example html
-
 ```html
 <!DOCTYPE html>
 <head>
@@ -91,11 +89,9 @@ const applozicClient = new ApplozicClient('YOUR-APPLOZIC-APP-ID', {
         onConversationRead: userId => {
           console.log('onConversationRead', { userId });
         },
-
         onConversationDeleted: contactId => {
           console.log('onConversationDeleted', { contactId });
         },
-
         onUserActivated: message => {
           console.log('onUserActivated', { onUserActivated: message });
         },

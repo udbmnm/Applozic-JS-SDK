@@ -20,6 +20,11 @@ interface ConversationUpdateEvent {
   (userId: string): void | Promise<void>;
 }
 
+/**
+ * Define callbacks for realtime events.
+ * 
+ * For usage, see {@link ApplozicClient}
+ */
 export interface SocketEventListener {
   onConnect?: () => void | Promise<void>;
   onConversationDeleted?: ConversationUpdateEvent;
