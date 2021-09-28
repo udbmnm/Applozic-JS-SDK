@@ -24,14 +24,14 @@ export interface UpdateUserDetailsReq {
  * Sample usage:
  * ```typescript
  * const updatedUser = await applozicClient.contacts.updateUserDetails({
- *  email: 'new@email.com'
- *  displayName: 'New Name'
- *  imageLink: 'https://new.image.com/link.png'
- *  statusMessage: 'New status message'
+ *   email: 'new@email.com'
+ *   displayName: 'New Name'
+ *   imageLink: 'https://new.image.com/link.png'
+ *   statusMessage: 'New status message'
  * });
  * ```
  */
-export interface UserDetailsApi {
+export interface UpdateUserDetailsApi {
   /**
    * @param data - Update user details request
    */
@@ -40,8 +40,8 @@ export interface UserDetailsApi {
 
 const updateUserDetailsBuilder = (
   applozicClient: BaseClient
-): UserDetailsApi => {
-  const updateUserDetailsApi: UserDetailsApi = async data => {
+): UpdateUserDetailsApi => {
+  const updateUserDetailsApi: UpdateUserDetailsApi = async data => {
     const response: BaseResponse<string> = await applozicClient.makeApiCall(
       METHODS.POST,
       ENDPOINT,

@@ -1,15 +1,28 @@
+import { BaseResponse } from 'src';
 import BaseClient, { METHODS } from '../../base';
 
 const ENDPOINT = '/rest/ws/user/update/password';
 
-interface UpdateUserPasswordRes {
-  status: string;
-  generatedAt: number;
-  response?: string;
-}
-
+/**
+ * Update details of currently logged in user
+ *
+ * https://docs.applozic.com/reference/contacts#update-user
+ *
+ * Sample usage:
+ * ```typescript
+ * const updatedPasswordResult = await applozicClient.contacts.updateUserDetails(
+ *   'oldPassword',
+ *   'newPassword'
+ * );
+ * console.log({ updatedPasswordResult });
+ * ```
+ */
 export interface UpdateUserPasswordApi {
-  (oldPassword: string, newPassword: string): Promise<UpdateUserPasswordRes>;
+  /**
+   * @param oldPassword - Old password of the user
+   * @param newPassword - New password of the user
+   */
+  (oldPassword: string, newPassword: string): Promise<string>;
 }
 
 const updateUserPasswordBuilder = (
@@ -19,7 +32,7 @@ const updateUserPasswordBuilder = (
     oldPassword,
     newPassword
   ) => {
-    const response: UpdateUserPasswordRes = await applozicClient.makeApiCall(
+    const response: BaseResponse<string> = await applozicClient.makeApiCall(
       METHODS.GET,
       ENDPOINT,
       {
@@ -30,7 +43,7 @@ const updateUserPasswordBuilder = (
         useAuth: true
       }
     );
-    return response;
+    return response.response;
   };
   return updateUserPasswordApi;
 };

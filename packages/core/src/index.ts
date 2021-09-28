@@ -47,8 +47,10 @@ import {
 
 import {
   UpdateUserDetailsReq,
-  UserDetailsApi
+  UpdateUserDetailsApi
 } from './applozic-client/api/contacts/update-user-details';
+
+import { UpdateUserPasswordApi } from './applozic-client/api/contacts/update-user-password';
 
 import BaseClient, { BaseResponse } from './applozic-client/base';
 import BaseClientWithApi from './applozic-client/base-with-api';
@@ -65,7 +67,8 @@ export {
   ContactListApiRes,
   ContactListApi,
   UpdateUserDetailsReq,
-  UserDetailsApi,
+  UpdateUserDetailsApi,
+  UpdateUserPasswordApi,
   BaseClient,
   BaseResponse,
   BaseClientWithApi,

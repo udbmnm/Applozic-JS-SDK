@@ -25,8 +25,8 @@ const main = async () => {
     //   JSON.stringify(getContactListResult, null, 2)
     // );
 
-    const blockList = await applozicClient.contacts.unblockUser('some-email-3@applozic.com');
-    console.log({ blockList });
+    // const blockList = await applozicClient.contacts.updateUserPassword('testing1', 'testing');
+    // console.log({ blockList });
     // fs.writeFileSync('sample.json', JSON.stringify(getContactListResult));
 
     // const uploadResponse = await applozicClient.files.upload();
