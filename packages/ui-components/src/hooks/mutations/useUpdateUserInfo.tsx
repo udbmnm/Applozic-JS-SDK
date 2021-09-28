@@ -9,7 +9,7 @@ function useUpdateSelfInfo() {
     async (updateReq: UpdateUserDetailsReq) => {
       if (loginResult?.userId) {
         const response = await client?.contacts.updateUserDetails(updateReq);
-        return response?.response;
+        return response;
       }
     },
     {

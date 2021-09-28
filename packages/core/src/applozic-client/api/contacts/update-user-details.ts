@@ -23,7 +23,7 @@ export interface UpdateUserDetailsApi {
   /**
    * @param data - Update user details request
    */
-  (data: UpdateUserDetailsReq): Promise<BaseResponse<string>>;
+  (data: UpdateUserDetailsReq): Promise<string>;
 }
 
 const updateUserDetailsBuilder = (
@@ -38,7 +38,7 @@ const updateUserDetailsBuilder = (
         useAuth: true
       }
     );
-    return response;
+    return response.response;
   };
   return updateUserDetailsApi;
 };
