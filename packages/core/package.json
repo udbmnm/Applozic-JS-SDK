@@ -23,7 +23,7 @@
     "prepublish": "yarn build",
     "build:webpack": "webpack",
     "build:node": "tsc",
-    "build:docs": "typedoc --hideGenerator --cleanOutputDir true --entryPointStrategy expand src/index.ts",
+    "build:docs": "typedoc --preserveWatchOutput --hideGenerator --cleanOutputDir true --entryPointStrategy expand --gitRemote origin --includeVersion src/index.ts",
     "build": "rm -rf dist; rm -rf dist_web; yarn build:webpack; yarn build:node",
     "build-storybook": "yarn build",
     "watch": "webpack --watch",
