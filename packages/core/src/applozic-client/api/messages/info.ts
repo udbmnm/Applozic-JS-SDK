@@ -1,3 +1,4 @@
+import { BaseResponse } from 'src';
 import BaseClient, { METHODS } from '../../base';
 
 const ENDPOINT = '/rest/ws/message/info';
@@ -8,27 +9,22 @@ interface MessageInfoItem {
   status: number;
 }
 
-interface MessageInfoRes {
-  status: string;
-  generatedAt: number;
-  response: MessageInfoItem[];
-}
-
+/**
+ * For usage, see {@link MessagesApi.info}
+ */
 export interface MessageInfoApi {
-  (messageKey: string): Promise<MessageInfoRes>;
+  (messageKey: string): Promise<MessageInfoItem[]>;
 }
 
 const messageInfoBuilder = (applozicClient: BaseClient): MessageInfoApi => {
   const messageInfoApi: MessageInfoApi = async key => {
-    const response: MessageInfoRes = await applozicClient.makeApiCall(
-      METHODS.GET,
-      ENDPOINT,
-      {
-        query: { key },
-        useAuth: true
-      }
-    );
-    return response;
+    const response: BaseResponse<
+      MessageInfoItem[]
+    > = await applozicClient.makeApiCall(METHODS.GET, ENDPOINT, {
+      query: { key },
+      useAuth: true
+    });
+    return response.response;
   };
   return messageInfoApi;
 };

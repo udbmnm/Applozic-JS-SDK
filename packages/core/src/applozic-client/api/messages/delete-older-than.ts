@@ -1,22 +1,22 @@
-import BaseClient, { METHODS } from '../../base';
+import BaseClient, { BaseResponse, METHODS } from '../../base';
 
 const ENDPOINT = '/rest/ws/message/delete';
 
-interface DeleteMessageOlderThanRes {
-  status: string;
-  generatedAt: number;
-  response: string;
-}
-
+/**
+ * For usage, see {@link MessagesApi.deleteOlderThan}
+ */
 export interface DeleteMessageOlderThanApi {
-  (days: number): Promise<DeleteMessageOlderThanRes>;
+  /**
+   * @param days - Number of days to delete messages older than
+   */
+  (days: number): Promise<string>;
 }
 
 const deleteMessagesOlderThanBuilder = (
   applozicClient: BaseClient
 ): DeleteMessageOlderThanApi => {
   const deleteMessagesOlderThanApi: DeleteMessageOlderThanApi = async days => {
-    const response: DeleteMessageOlderThanRes = await applozicClient.makeApiCall(
+    const response: BaseResponse<string> = await applozicClient.makeApiCall(
       METHODS.POST,
       ENDPOINT,
       {
@@ -24,7 +24,7 @@ const deleteMessagesOlderThanBuilder = (
         useAuth: true
       }
     );
-    return response;
+    return response.response;
   };
   return deleteMessagesOlderThanApi;
 };

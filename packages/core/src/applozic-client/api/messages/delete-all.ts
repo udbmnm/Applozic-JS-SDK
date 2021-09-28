@@ -1,29 +1,27 @@
+import { BaseResponse } from 'src';
 import BaseClient, { METHODS } from '../../base';
 
 const ENDPOINT = '/rest/ws/message/delete/all';
 
-interface DeleteAllMessagesRes {
-  status: string;
-  generatedAt: number;
-  response: string;
-}
-
+/**
+ * For usage, see {@link MessagesApi.deleteAll}
+ */
 export interface DeleteAllMessagesApi {
-  (): Promise<DeleteAllMessagesRes>;
+  (): Promise<string>;
 }
 
 const deleteAllMessagesBuilder = (
   applozicClient: BaseClient
 ): DeleteAllMessagesApi => {
   const deleteAllMessagesApi: DeleteAllMessagesApi = async () => {
-    const response: DeleteAllMessagesRes = await applozicClient.makeApiCall(
+    const response: BaseResponse<string> = await applozicClient.makeApiCall(
       METHODS.GET,
       ENDPOINT,
       {
         useAuth: true
       }
     );
-    return response;
+    return response.response;
   };
   return deleteAllMessagesApi;
 };

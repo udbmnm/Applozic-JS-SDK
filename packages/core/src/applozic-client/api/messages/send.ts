@@ -3,6 +3,9 @@ import { SendMessageReq, SendMessageRes } from '../../models/Message';
 
 const ENDPOINT = '/rest/ws/message/v2/send';
 
+/**
+ * For usage, see {@link MessagesApi.send}
+ */
 export interface SendMessageApi {
   (messageRequest: SendMessageReq): Promise<SendMessageRes>;
 }

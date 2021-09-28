@@ -1,41 +1,43 @@
-import BaseClient, { METHODS } from '../../base';
+import BaseClient, { BaseResponse, METHODS } from '../../base';
 
 const ENDPOINT = '/rest/ws/message/delete/conversation';
 
-interface DeleteConversationRes {
-  status: string;
-  generatedAt: number;
-  response: string;
-}
-
-interface DeleteUserConversation {
+/**
+ * For usage, see {@link MessagesApi.deleteConversation}
+ */
+export interface DeleteUserConversation {
+  /** User ID to of the conversation to be deleted */
   userId: string;
 }
 
-interface DeleteGroupConversation {
+/**
+ * For usage, see {@link MessagesApi.deleteConversation}
+ */
+export interface DeleteGroupConversation {
   groupId: string;
 }
 
+/**
+ * For usage, see {@link MessagesApi.deleteConversation}
+ */
 export interface DeleteConversationApi {
-  (
-    options: DeleteUserConversation | DeleteGroupConversation
-  ): Promise<DeleteConversationRes>;
+  (options: DeleteUserConversation | DeleteGroupConversation): Promise<string>;
 }
 
 const deleteConversationBuilder = (
   applozicClient: BaseClient
 ): DeleteConversationApi => {
   const deleteConversationApi: DeleteConversationApi = async options => {
-    const response: DeleteConversationRes = await applozicClient.makeApiCall(
+    const response: BaseResponse<string> = await applozicClient.makeApiCall(
       METHODS.GET,
       ENDPOINT,
       {
-        query: {...options},
+        query: { ...options },
         useAuth: true,
         json: false
       }
     );
-    return response;
+    return response.response;
   };
   return deleteConversationApi;
 };
