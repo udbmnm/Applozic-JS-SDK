@@ -5,16 +5,27 @@ import { SocketEventListener } from './socket-events';
 import { processMessage } from './message-handler';
 
 export interface ApplozicSocketOptions {
+  /** Applozic AppID */
   applicationId: string;
+  /** Result from login API */
   loginResult: LoginResult;
+  /** Callbacks for realtime events like new message, typing status etc. */
   events?: SocketEventListener;
 }
 
+/**
+ * This class handles the socket connection to the applozic server.
+ */
 export default class ApplozicSocket {
+  /** Internal stomp client */
   private stompClient: CompatClient;
+  /** WebSocket for the stomp client */
   private webSocket: WebSocket;
+  /** Promise to check if connection is initialized */
   public connectionPromise: Promise<CompatClient>;
+  /** Resolves initialization promise outside the initialization context */
   private connectionPromiseResolver: Function;
+  /** Socket options */
   private options: ApplozicSocketOptions;
 
   constructor(options: ApplozicSocketOptions) {
@@ -54,6 +65,11 @@ export default class ApplozicSocket {
     }
   };
 
+  /**
+   * Start connection to WebSocket server
+   * 
+   * @returns Promise that resolves when connection is established
+   */
   public connect = (): Promise<CompatClient> => {
     if (this.connectionPromise) {
       return this.connectionPromise;
@@ -84,6 +100,11 @@ export default class ApplozicSocket {
     }
   };
 
+  /**
+   * Subscribe to a topic
+   * @param topic Topic name
+   * @param callback Function to run on new message in topic
+   */
   public subscribe = async (
     topic: string,
     callback: { (stompMessage: Message): void }
@@ -93,6 +114,10 @@ export default class ApplozicSocket {
     stompClient.subscribe(topic, callback);
   };
 
+  /**
+   * Unsubscribe from a topic
+   * @param topic Topic name
+   */
   public unSubscribe = async (topic: string) => {
     const stompClient = this.getStompClient();
     await this.connectionPromise;
@@ -107,19 +132,30 @@ export default class ApplozicSocket {
     console.error('Socket closing', event);
   };
 
-  public sendStatus = (status: number) => {
+  /**
+   * Set current logged in user online status
+   * @param status 1 for online, 0 for offline
+   */
+  public sendStatus = (status: 0 | 1) => {
     const { token, deviceKey } = this.options.loginResult;
     const topic = '/topic/status-v2';
     const message = `${token},${deviceKey},${status}`;
     this.sendMessage(topic, message);
   };
 
+  /** Disconnect from the websocket */
   public disconnect = async () => {
     if (this.stompClient) {
       await this.stompClient.deactivate();
     }
   };
 
+  /**
+   * Send a message to the server via websocket
+   *
+   * @param topic WebSocket topic
+   * @param body message content
+   */
   public sendMessage = async (topic: string, body: string) => {
     const client = this.getStompClient();
     await this.connectionPromise;
