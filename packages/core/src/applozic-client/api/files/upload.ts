@@ -3,6 +3,9 @@ import FileMeta from '../../models/FileMeta';
 
 const GET_UPLOAD_URL_ENDPOINT = '/rest/ws/aws/file/url';
 
+/**
+ * For usage, see {@link FilesApi.upload}
+ */
 export interface UploadApi {
   (file: File): Promise<FileMeta>;
 }

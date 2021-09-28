@@ -1,8 +1,25 @@
 import BaseClient from '../../base';
-import uploadBuilder from './upload';
+import uploadBuilder, { UploadApi } from './upload';
 
-const messagesApiBuilder = (client: BaseClient) => ({
+export interface FilesApi {
+  /**
+   * This is a helper method to upload a file to Applozic server so that it can be used as an attachment.
+   *
+   * https://docs.applozic.com/reference/messages#send-message-with-attachment
+   *
+   * To send a message, see {@link MessagesApi.send}
+   *
+   * Sample usage:
+   * ```typescript
+   * const fileMeta = await applozicClient.files.upload(file);
+   * console.log({ updatedPasswordResult });
+   * ```
+   */
+  upload: UploadApi;
+}
+
+const filesApiBuilder = (client: BaseClient): FilesApi => ({
   upload: uploadBuilder(client)
 });
 
-export default messagesApiBuilder;
+export default filesApiBuilder;
