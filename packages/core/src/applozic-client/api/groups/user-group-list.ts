@@ -3,12 +3,14 @@ import BaseClient, { BaseResponse, METHODS } from '../../base';
 
 const ENDPOINT = '/rest/ws/group/v2/list';
 
-export interface IUserGroupList {
+/** For usage, see {@link GroupsApi.userGroupList} */
+export interface UserGroupListReq {
   updatedAt?: number;
 }
 
+/** For usage, see {@link GroupsApi.userGroupList} */
 export interface UserGroupListApi {
-  (data: IUserGroupList): Promise<BaseResponse<Group[]>>;
+  (data: UserGroupListReq): Promise<Group[]>;
 }
 
 const userGroupListBuilder = (applozicClient: BaseClient): UserGroupListApi => {
@@ -21,7 +23,7 @@ const userGroupListBuilder = (applozicClient: BaseClient): UserGroupListApi => {
         useAuth: true
       }
     );
-    return response;
+    return response.response;
   };
   return userGroupListApi;
 };

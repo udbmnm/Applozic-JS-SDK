@@ -1,31 +1,39 @@
-import BaseClient, { BaseResponse, METHODS } from "../../base";
+import BaseClient, { BaseResponse, METHODS } from '../../base';
 
-const ENDPOINT = "/rest/ws/group/user/update";
+const ENDPOINT = '/rest/ws/group/user/update';
 
-export interface IUpdateGroupUserDetailsRequest {
+/** For usage, see {@link GroupsApi.updateUserDetails} */
+export interface UpdateGroupUserDetailsReq {
   clientGroupId: string;
+  /**
+   * Time Interval in milliseconds upto which notification has to be disabled.
+   * Example : Suppose you want to disable it for 10 minutes then: You need to
+   * pass time exact value in milliSeconds not the difference value. Like UTC
+   * time Value: Mon Dec 30 2019 11:05:58 (1577703958271)
+   */
   notificationAfterTime: number;
 }
 
+/** For usage, see {@link GroupsApi.updateUserDetails} */
 export interface UpdateGroupUserDetailsApi {
-  (data: IUpdateGroupUserDetailsRequest): Promise<BaseResponse<string>>;
+  (data: UpdateGroupUserDetailsReq): Promise<string>;
 }
 
 const updateGroupUserDetailsBuilder = (
   applozicClient: BaseClient
 ): UpdateGroupUserDetailsApi => {
-  const userDetailsApi: UpdateGroupUserDetailsApi = async (data) => {
+  const updateUserDetailsApi: UpdateGroupUserDetailsApi = async data => {
     const response: BaseResponse<string> = await applozicClient.makeApiCall(
       METHODS.POST,
       ENDPOINT,
       {
         data,
-        useAuth: true,
+        useAuth: true
       }
     );
-    return response;
+    return response.response;
   };
-  return userDetailsApi;
+  return updateUserDetailsApi;
 };
 
 export default updateGroupUserDetailsBuilder;

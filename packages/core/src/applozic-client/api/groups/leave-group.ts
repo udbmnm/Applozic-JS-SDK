@@ -1,31 +1,37 @@
-import BaseClient, { BaseResponse, METHODS } from "../../base";
+import BaseClient, { BaseResponse, METHODS } from '../../base';
 
-const ENDPOINT = "/rest/ws/group/left";
+const ENDPOINT = '/rest/ws/group/left';
 
-export interface ILeaveGroupRequest {
+/**
+ * For usage, see {@link GroupsApi.leaveGroup}
+ */
+export interface LeaveGroupReq {
+  /** Group to leave */
   clientGroupId: string;
-  resetCount: boolean;
+  /** reset unread count of the logged in user */
+  resetCount?: boolean;
 }
 
+/**
+ * For usage, see {@link GroupsApi.leaveGroup}
+ */
 export interface LeaveGroupApi {
-  (data: ILeaveGroupRequest): Promise<BaseResponse<string>>;
+  (data: LeaveGroupReq): Promise<BaseResponse<string>>;
 }
 
-const leaveGroupBuilder = (
-  applozicClient: BaseClient
-): LeaveGroupApi => {
-  const userDetailsApi: LeaveGroupApi = async (data) => {
+const leaveGroupBuilder = (applozicClient: BaseClient): LeaveGroupApi => {
+  const leaveGroupApi: LeaveGroupApi = async data => {
     const response: BaseResponse<string> = await applozicClient.makeApiCall(
       METHODS.POST,
       ENDPOINT,
       {
         data,
-        useAuth: true,
+        useAuth: true
       }
     );
     return response;
   };
-  return userDetailsApi;
+  return leaveGroupApi;
 };
 
 export default leaveGroupBuilder;

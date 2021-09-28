@@ -3,23 +3,23 @@ import Group from '../../models/Group';
 
 const ENDPOINT = '/rest/ws/group/v2/channel';
 
-export interface IOpenGroupRequest {
+export interface OpenGroupReq {
   pageSize?: number;
   endTime?: number;
 }
 
-export interface IOpenGroupResponse {
+export interface OpenGroupRes {
   groupPxys: Group[];
   lastFetchTime: number;
 }
 
 export interface OpenGroupApi {
-  (data: IOpenGroupRequest): Promise<BaseResponse<IOpenGroupResponse>>;
+  (data: OpenGroupReq): Promise<OpenGroupRes>;
 }
 
 const openGroupBuilder = (applozicClient: BaseClient): OpenGroupApi => {
   const openGroupApi: OpenGroupApi = async data => {
-    const response: BaseResponse<IOpenGroupResponse> = await applozicClient.makeApiCall(
+    const response: BaseResponse<OpenGroupRes> = await applozicClient.makeApiCall(
       METHODS.GET,
       ENDPOINT,
       {
@@ -27,7 +27,7 @@ const openGroupBuilder = (applozicClient: BaseClient): OpenGroupApi => {
         useAuth: true
       }
     );
-    return response;
+    return response.response;
   };
   return openGroupApi;
 };

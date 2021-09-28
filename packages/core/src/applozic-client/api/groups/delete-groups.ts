@@ -3,13 +3,19 @@ import BaseClient, { BaseResponse, METHODS } from '../../base';
 
 const ENDPOINT = '/rest/ws/group/multiple/delete';
 
-export interface IDeleteGroups {
+/**
+ * For usage, see {@link GroupsApi.deleteGroups}
+ */
+export interface DeleteGroupsReq {
   groupIds?: number[];
   clientGroupIds?: string[];
 }
 
+/**
+ * For usage, see {@link GroupsApi.deleteGroups}
+ */
 export interface DeleteGroupsApi {
-  (data: IDeleteGroups): Promise<BaseResponse<string>>;
+  (data: DeleteGroupsReq): Promise<BaseResponse<string>>;
 }
 
 const deleteGroupsBuilder = (applozicClient: BaseClient): DeleteGroupsApi => {

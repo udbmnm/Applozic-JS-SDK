@@ -3,6 +3,9 @@ import Group from '../../models/Group';
 
 const ENDPOINT = '/rest/ws/group/v2/info';
 
+/**
+ * For usage, see {@link GroupsApi.groupInfo}
+ */
 export interface GroupInfoApi {
   (clientGroupId: string): Promise<Group>;
 }

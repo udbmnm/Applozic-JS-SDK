@@ -4,19 +4,27 @@ import getQueryStringFromData from '../../../utils/get-query-string-from-data';
 
 const ENDPOINT = '/rest/ws/group/user/count';
 
-// ?clientGroupIds=6689118&clientGroupIds=6686563
-export interface IUserCount {
+/** For usage, see {@link GroupsApi.userCount} */
+export interface UserCountReq {
   clientGroupIds: string[];
 }
 
+/** For usage, see {@link GroupsApi.userCount} */
+export interface UserCountResItem {
+  id: number;
+  clientGroupId: string;
+  userCount: number;
+}
+
+/** For usage, see {@link GroupsApi.userCount} */
 export interface UserCountApi {
-  (data: IUserCount): Promise<BaseResponse<Partial<Group>[]>>;
+  (data: UserCountReq): Promise<UserCountResItem[]>;
 }
 
 const userCountBuilder = (applozicClient: BaseClient): UserCountApi => {
   const userCountApi: UserCountApi = async data => {
     const response: BaseResponse<
-      Partial<Group>[]
+      UserCountResItem[]
     > = await applozicClient.makeApiCall(
       METHODS.GET,
       `${ENDPOINT}${getQueryStringFromData(data)}`,
@@ -24,7 +32,7 @@ const userCountBuilder = (applozicClient: BaseClient): UserCountApi => {
         useAuth: true
       }
     );
-    return response as any;
+    return response.response;
   };
   return userCountApi;
 };

@@ -1,27 +1,35 @@
-import BaseClient, { BaseResponse, METHODS } from "../../base";
+import BaseClient, { BaseResponse, METHODS } from '../../base';
 
-const ENDPOINT = "/rest/ws/group/check/user";
+const ENDPOINT = '/rest/ws/group/check/user';
 
-export interface IIsUserPresent {
+/**
+ * For usage, see {@link GroupsApi.isUserPresent}
+ */
+export interface IsUserPresentReq {
+  /** Group to check */
   clientGroupId: string;
+  /** User to check */
   userId: string;
 }
 
+/**
+ * For usage, see {@link GroupsApi.isUserPresent}
+ */
 export interface IsUserPresentApi {
-  (data: IIsUserPresent): Promise<BaseResponse<boolean>>;
+  (data: IsUserPresentReq): Promise<boolean>;
 }
 
 const isUserPresentBuilder = (applozicClient: BaseClient): IsUserPresentApi => {
-  const isUserPresentApi: IsUserPresentApi = async (data) => {
+  const isUserPresentApi: IsUserPresentApi = async data => {
     const response: BaseResponse<boolean> = await applozicClient.makeApiCall(
       METHODS.GET,
       ENDPOINT,
       {
-        query: {...data},
-        useAuth: true,
+        query: { ...data },
+        useAuth: true
       }
     );
-    return response;
+    return response.response;
   };
   return isUserPresentApi;
 };

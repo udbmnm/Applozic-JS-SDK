@@ -3,12 +3,18 @@ import BaseClient, { BaseResponse, METHODS } from '../../base';
 
 const ENDPOINT = (groupName: string) => `/rest/ws/group/${groupName}/get`;
 
-export interface IGetFriendList {
+/**
+ * For usage, see {@link GroupsApi.getFriendList}
+ */
+export interface GetFriendListReq {
   groupName: string;
 }
 
+/**
+ * For usage, see {@link GroupsApi.getFriendList}
+ */
 export interface GetFriendListApi {
-  (data: IGetFriendList): Promise<BaseResponse<Group>>;
+  (data: GetFriendListReq): Promise<BaseResponse<Group>>;
 }
 
 const getFriendListBuilder = (applozicClient: BaseClient): GetFriendListApi => {

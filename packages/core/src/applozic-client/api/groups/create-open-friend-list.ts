@@ -4,13 +4,19 @@ import BaseClient, { BaseResponse, METHODS } from '../../base';
 const ENDPOINT = (groupName: string) =>
   `/rest/ws/group/${groupName}/add/members`;
 
-export interface ICreateOpenFriendListRequest {
+/**
+ * For usage, see {@link GroupsApi.createOpenFriendList}
+ */
+export interface CreateOpenFriendListReq {
   groupName: string;
   groupMemberList: string[];
 }
 
+/**
+ * For usage, see {@link GroupsApi.createOpenFriendList}
+ */
 export interface CreateOpenFriendListApi {
-  (data: ICreateOpenFriendListRequest): Promise<BaseResponse<string>>;
+  (data: CreateOpenFriendListReq): Promise<string>;
 }
 
 const createOpenFriendListBuilder = (
@@ -28,7 +34,7 @@ const createOpenFriendListBuilder = (
         useAuth: true
       }
     );
-    return response;
+    return response.response;
   };
   return createOpenFriendListApi;
 };

@@ -4,7 +4,12 @@ import Group from '../../models/Group';
 
 const ENDPOINT = '/rest/ws/group/v2/create';
 
-export interface ICreateGroupRequest {
+/**
+ * Create group request
+ *
+ * For usage, see {@link GroupsApi.createGroup}
+ */
+export interface CreateGroupReq {
   groupName: string;
   groupMemberList: string[];
   metadata?: { [key: string]: string };
@@ -15,12 +20,15 @@ export interface ICreateGroupRequest {
   clientGroupId?: string;
 }
 
+/**
+ * For usage, see {@link GroupsApi.createGroup}
+ */
 export interface CreateGroupApi {
-  (data: ICreateGroupRequest): Promise<BaseResponse<Group>>;
+  (data: CreateGroupReq): Promise<BaseResponse<Group>>;
 }
 
 const createGroupBuilder = (applozicClient: BaseClient): CreateGroupApi => {
-  const userDetailsApi: CreateGroupApi = async data => {
+  const createGroupApi: CreateGroupApi = async data => {
     const response: BaseResponse<Group> = await applozicClient.makeApiCall(
       METHODS.POST,
       ENDPOINT,
@@ -31,7 +39,7 @@ const createGroupBuilder = (applozicClient: BaseClient): CreateGroupApi => {
     );
     return response;
   };
-  return userDetailsApi;
+  return createGroupApi;
 };
 
 export default createGroupBuilder;

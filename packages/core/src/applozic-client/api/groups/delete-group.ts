@@ -1,23 +1,29 @@
-import BaseClient, { BaseResponse, METHODS } from "../../base";
+import BaseClient, { BaseResponse, METHODS } from '../../base';
 
-const ENDPOINT = "/rest/ws/group/delete";
+const ENDPOINT = '/rest/ws/group/delete';
 
-export interface IDeleteGroup {
+/**
+ * For usage, see {@link GroupsApi.deleteGroup}
+ */
+export interface DeleteGroupReq {
   clientGroupId: string;
 }
 
+/**
+ * For usage, see {@link GroupsApi.deleteGroup}
+ */
 export interface DeleteGroupApi {
-  (data: IDeleteGroup): Promise<BaseResponse<string>>;
+  (data: DeleteGroupReq): Promise<BaseResponse<string>>;
 }
 
 const deleteGroupBuilder = (applozicClient: BaseClient): DeleteGroupApi => {
-  const deleteGroupApi: DeleteGroupApi = async (data) => {
+  const deleteGroupApi: DeleteGroupApi = async data => {
     const response: BaseResponse<string> = await applozicClient.makeApiCall(
       METHODS.GET,
       ENDPOINT,
       {
         query: { ...data },
-        useAuth: true,
+        useAuth: true
       }
     );
     return response;

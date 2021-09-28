@@ -1,30 +1,34 @@
-import BaseClient, { BaseResponse, METHODS } from "../../base";
+import BaseClient, { BaseResponse, METHODS } from '../../base';
 
-const ENDPOINT = "/rest/ws/user/remove/group/all";
+const ENDPOINT = '/rest/ws/user/remove/group/all';
 
-export interface IRemoveUserFromAllGroups {
+/**
+ * For usage, see {@link GroupsApi.removeUserFromAllGroups}
+ */
+export interface RemoveUserFromAllGroupsReq {
   userId: string;
 }
 
+/**
+ * For usage, see {@link GroupsApi.removeUserFromAllGroups}
+ */
 export interface RemoveUserFromAllGroupsApi {
-  (data: IRemoveUserFromAllGroups): Promise<BaseResponse<string>>;
+  (data: RemoveUserFromAllGroupsReq): Promise<string>;
 }
 
 const removeUserFromAllGroupsBuilder = (
   applozicClient: BaseClient
 ): RemoveUserFromAllGroupsApi => {
-  const removeUserFromAllGroupsApi: RemoveUserFromAllGroupsApi = async (
-    data
-  ) => {
+  const removeUserFromAllGroupsApi: RemoveUserFromAllGroupsApi = async data => {
     const response: BaseResponse<string> = await applozicClient.makeApiCall(
       METHODS.GET,
       ENDPOINT,
       {
         query: { ...data },
-        useAuth: true,
+        useAuth: true
       }
     );
-    return response;
+    return response.response;
   };
   return removeUserFromAllGroupsApi;
 };

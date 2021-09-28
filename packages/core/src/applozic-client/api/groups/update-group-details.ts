@@ -9,6 +9,7 @@ export interface IUpdateGroupUser {
   role: UserRoles;
 }
 
+/** For usage, see {@link GroupsApi.updateGroupInfo} */
 export interface IUpdateGroupDetailsRequest {
   groupId?: string;
   clientGroupId?: string;
@@ -18,6 +19,7 @@ export interface IUpdateGroupDetailsRequest {
   users?: IUpdateGroupUser[];
 }
 
+/** For usage, see {@link GroupsApi.updateGroupInfo} */
 export interface UpdateGroupDetailsApi {
   (data: IUpdateGroupDetailsRequest): Promise<BaseResponse<Group>>;
 }
@@ -25,7 +27,7 @@ export interface UpdateGroupDetailsApi {
 const updateGroupDetailsBuilder = (
   applozicClient: BaseClient
 ): UpdateGroupDetailsApi => {
-  const userDetailsApi: UpdateGroupDetailsApi = async data => {
+  const updateGroupDetailsApi: UpdateGroupDetailsApi = async data => {
     const response: BaseResponse<Group> = await applozicClient.makeApiCall(
       METHODS.POST,
       ENDPOINT,
@@ -36,7 +38,7 @@ const updateGroupDetailsBuilder = (
     );
     return response;
   };
-  return userDetailsApi;
+  return updateGroupDetailsApi;
 };
 
 export default updateGroupDetailsBuilder;

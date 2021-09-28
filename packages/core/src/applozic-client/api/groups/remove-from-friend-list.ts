@@ -3,22 +3,28 @@ import BaseClient, { BaseResponse, METHODS } from '../../base';
 
 const ENDPOINT = (groupName: string) => `/rest/ws/group/${groupName}/remove`;
 
-export interface IRemoveFromFriendList {
+/**
+ * For usage, see {@link GroupsApi.removeFromFriendList}
+ */
+export interface RemoveFromFriendListReq {
   groupName: string;
   userId: string;
   /** groupType required only for open list **/
   groupType?: GroupTypes;
 }
 
+/**
+ * For usage, see {@link GroupsApi.removeFromFriendList}
+ */
 export interface RemoveFromFriendListApi {
-  (data: IRemoveFromFriendList): Promise<BaseResponse<any>>;
+  (data: RemoveFromFriendListReq): Promise<string>;
 }
 
 const removeFromFriendListBuilder = (
   applozicClient: BaseClient
 ): RemoveFromFriendListApi => {
   const removeFromFriendListApi: RemoveFromFriendListApi = async data => {
-    const response: BaseResponse<any> = await applozicClient.makeApiCall(
+    const response: BaseResponse<string> = await applozicClient.makeApiCall(
       METHODS.GET,
       ENDPOINT(data.groupName),
       {
@@ -26,7 +32,7 @@ const removeFromFriendListBuilder = (
         useAuth: true
       }
     );
-    return response;
+    return response.response;
   };
   return removeFromFriendListApi;
 };

@@ -3,13 +3,19 @@ import BaseClient, { BaseResponse, METHODS } from '../../base';
 
 const ENDPOINT = (groupName: string) => `/rest/ws/group/${groupName}/delete`;
 
-export interface IDeleteFriendList {
+/**
+ * For usage, see {@link GroupsApi.deleteFriendList}
+ */
+export interface DeleteFriendListReq {
   groupName: string;
   groupType?: GroupTypes;
 }
 
+/**
+ * For usage, see {@link GroupsApi.deleteFriendList}
+ */
 export interface DeleteFriendListApi {
-  (data: IDeleteFriendList): Promise<BaseResponse<string>>;
+  (data: DeleteFriendListReq): Promise<string>;
 }
 
 const deleteFriendListBuilder = (
@@ -24,7 +30,7 @@ const deleteFriendListBuilder = (
         useAuth: true
       }
     );
-    return response;
+    return response.response;
   };
   return deleteFriendListApi;
 };
