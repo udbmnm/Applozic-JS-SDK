@@ -116,11 +116,41 @@ const applozicClient = new ApplozicClient('YOUR-APPLOZIC-APP-ID', {
 </html>
 ```
 
+### Login a user
+
+```TypeScript
+const loginResult = await applozicClient.login('userId', 'password')
+```
+
+### Logout a user
+
+```TypeScript
+await applozicClient.logout()
+```
+
+### Check if a user was logged in previously
+
+```TypeScript
+const isUserLoggedIn = async () => {
+  await applozicClient.init();
+  if (applozicClient.loginResult) {
+    console.log({ loginResult: applozicClient.loginResult });
+    return true;
+  }
+  return false;
+}
+```
+
 ## APIs
 
 Detailed documentation of the APIs can be found in the [Applozic Core SDK](https://websdk.applozic.com/docs/latest).
 
 ### [ApplozicClient](https://websdk.applozic.com/docs/latest/classes/ApplozicClient.html)
+
+- [init](https://websdk.applozic.com/docs/latest/classes/ApplozicClient.html#init)
+- [login](https://websdk.applozic.com/docs/latest/interfaces/LoginApi.html)
+- [logout](https://websdk.applozic.com/docs/latest/classes/ApplozicClient.html#logout)
+- [sendTypingStatus](https://websdk.applozic.com/docs/latest/classes/ApplozicClient.html#sendTypingStatus)
 
 ### [ContactsApi](https://websdk.applozic.com/docs/latest/interfaces/ContactsApi.html)
 
@@ -168,7 +198,3 @@ Detailed documentation of the APIs can be found in the [Applozic Core SDK](https
 - [deleteOlderThan](https://websdk.applozic.com/docs/latest/interfaces/MessagesApi.html#deleteOlderThan)
 - [list](https://websdk.applozic.com/docs/latest/interfaces/MessagesApi.html#list)
 - [send](https://websdk.applozic.com/docs/latest/interfaces/MessagesApi.html#send)
-
-### Conversation
-
-- [sendTypingStatus](https://websdk.applozic.com/docs/latest/classes/ApplozicClient.html#sendTypingStatus)

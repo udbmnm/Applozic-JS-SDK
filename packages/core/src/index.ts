@@ -164,6 +164,7 @@ import ApplozicSocket, {
   ApplozicSocketOptions
 } from './applozic-client/socket';
 import { SocketEventListener } from './applozic-client/socket/socket-events';
+import { LoginApi } from './applozic-client/api/login';
 
 export {
   BaseBlockListItemDetail,
@@ -266,7 +267,8 @@ export {
   ApplozicSocketOptions,
   ApplozicSocket,
   SocketEventListener,
-  ApplozicClient
+  ApplozicClient,
+  LoginApi
 };
 
 export default ApplozicClient;

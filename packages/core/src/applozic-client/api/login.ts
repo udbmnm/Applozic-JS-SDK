@@ -3,8 +3,17 @@ import LoginResult from '../models/LoginResult';
 
 const ENDPOINT = '/v2/tab/initialize.page';
 
+/**
+ * Sample usage:
+ * 
+ * ```typescript
+ * const loginResult = await applozicClient.login('user-id', 'password');
+ * ```
+ * 
+ * For client initialization, see {@link ApplozicClient}
+ */
 export interface LoginApi {
-  (email: string, password: string): Promise<LoginResult>;
+  (userId: string, password: string): Promise<LoginResult>;
 }
 
 // export interface PostLoginCallback {
