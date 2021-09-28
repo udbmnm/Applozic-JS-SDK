@@ -67,7 +67,7 @@ export default class ApplozicSocket {
 
   /**
    * Start connection to WebSocket server
-   * 
+   *
    * @returns Promise that resolves when connection is established
    */
   public connect = (): Promise<CompatClient> => {
@@ -93,7 +93,7 @@ export default class ApplozicSocket {
     if (this.connectionPromiseResolver) {
       this.connectionPromiseResolver(this.stompClient);
     }
-    this.sendStatus(1);
+    this.sendStatus(true);
     this.subscribe(`/topic/${this.options.loginResult.token}`, this.onMessage);
     if (this.options.events && this.options.events.onConnect) {
       this.options.events.onConnect();
@@ -134,12 +134,12 @@ export default class ApplozicSocket {
 
   /**
    * Set current logged in user online status
-   * @param status 1 for online, 0 for offline
+   * @param isOnline True if user is online, false otherwise
    */
-  public sendStatus = (status: 0 | 1) => {
+  public sendStatus = (isOnline: boolean) => {
     const { token, deviceKey } = this.options.loginResult;
     const topic = '/topic/status-v2';
-    const message = `${token},${deviceKey},${status}`;
+    const message = `${token},${deviceKey},${isOnline ? 1 : 0}`;
     this.sendMessage(topic, message);
   };
 

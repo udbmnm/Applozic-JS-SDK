@@ -88,7 +88,7 @@ function ChatMessagesWindow({
   };
   // const [typing, settyping] = useState(false);
   // useEffect(() => {
-  // client?.sendTypingStatus(chatItem.contactId, typing ? 1 : 0);
+  // client?.sendTypingStatus(chatItem.contactId, typing);
   // }, [typing]);
   console.log({ fileMeta, check: !!fileMeta });
   return (
@@ -131,7 +131,7 @@ function ChatMessagesWindow({
           console.log({ isTyping });
           setTimeout(
             () =>
-              client?.sendTypingStatus(chatItem.contactId, isTyping ? 1 : 0),
+              client?.sendTypingStatus(chatItem.contactId, isTyping),
             100
           );
           // settyping(isTyping);
@@ -152,7 +152,7 @@ function ChatMessagesWindow({
               metadata: { webUiKey: v4() }
             });
             setFileMeta(undefined);
-            client?.sendTypingStatus(chatItem.contactId, 0);
+            client?.sendTypingStatus(chatItem.contactId, false);
           }
         }}
         handleSendFile={async file => {
