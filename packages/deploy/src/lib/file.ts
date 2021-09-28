@@ -31,9 +31,21 @@ export const getFiles = async (directory: string) =>
     });
   });
 
-export const readFile = async (filepath: string): Promise<string> => {
+export const readFileBuffer = async (filepath: string): Promise<Buffer> => {
   return new Promise((resolve, reject) => {
-    fs.readFile(filepath, { encoding: 'utf-8' }, (err, data) => {
+    fs.readFile(filepath, (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+};
+
+export const readFileString = async (filepath: string): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    fs.readFile(filepath, { encoding: 'utf8' }, (err, data) => {
       if (err) {
         reject(err);
       } else {

@@ -5,9 +5,13 @@ const ENV = dotenv.config({
   path: path.join(__dirname, '../../../../.env')
 }).parsed;
 
-import UploadConfig from '../models/UploadConfig';
 import { upload } from '../lib/uploader';
-import { listObjectsByPrefix, deleteObjects, uploadFileToS3 } from '../lib/s3';
+import {
+  listObjectsByPrefix,
+  deleteObjects,
+  uploadFileToS3,
+  UploadConfig
+} from '../lib/s3';
 import { invalidateCloudfront } from '../lib/cloudfront';
 import { getStorybookHash } from '../utils/storybook';
 
@@ -15,7 +19,7 @@ const uiComponentsPath = path.join(__dirname, '../../../ui-components');
 
 const uploadConfig: UploadConfig = {
   name: 'storybook',
-  path: path.join(uiComponentsPath, 'storybook-build'),
+  directory: path.join(uiComponentsPath, 'storybook-build'),
   bucket: ENV?.S3_BUCKET ?? '',
   cfDistributionId: ENV?.STORYBOOK_DIST_ID ?? '',
   prefix: ENV?.STORYBOOK_PREFIX ?? ''
@@ -30,13 +34,13 @@ const deployStorybook = async () => {
   });
 
   await uploadFileToS3({
-    filepath: path.join(uploadConfig.path, 'index.html'),
+    filepath: path.join(uploadConfig.directory, 'index.html'),
     bucket: uploadConfig.bucket,
     key: `${uploadConfig.prefix}/versioned/${hash}/`,
     invalidateCF: false
   });
   await uploadFileToS3({
-    filepath: path.join(uploadConfig.path, 'index.html'),
+    filepath: path.join(uploadConfig.directory, 'index.html'),
     bucket: uploadConfig.bucket,
     key: `${uploadConfig.prefix}/versioned/${hash}`,
     invalidateCF: false
@@ -54,7 +58,9 @@ const deployStorybook = async () => {
     );
     if (keys && keys.length) {
       await deleteObjects(uploadConfig.bucket, keys);
-      await invalidateCloudfront(uploadConfig.cfDistributionId, keys);
+      if (uploadConfig.cfDistributionId) {
+        await invalidateCloudfront(uploadConfig.cfDistributionId, keys);
+      }
     }
   }
 

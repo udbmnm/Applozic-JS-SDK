@@ -6,7 +6,11 @@ const ENV = dotenv.config({
 }).parsed;
 
 import { upload } from './uploader';
-import { listObjectsByPrefix, deleteObjectsByPrefix, uploadFileToS3 } from './s3';
+import {
+  listObjectsByPrefix,
+  deleteObjectsByPrefix,
+  uploadFileToS3
+} from './s3';
 import { invalidateCloudfront } from './cloudfront';
 import { getStorybookHash } from '../utils/storybook';
 
@@ -14,11 +18,20 @@ const uiComponentsPath = path.join(__dirname, '../../../ui-components');
 
 const uploadConfig = {
   bucket: ENV?.S3_BUCKET ?? '',
-  prefix: ENV?.STORYBOOK_PREFIX ?? ''
+  prefix: ENV?.DOCS_PREFIX ?? ''
 };
 
 const deployStorybook = async () => {
-  await deleteObjectsByPrefix(uploadConfig.bucket, uploadConfig.prefix);
+  console.log({ prefix: uploadConfig.prefix, bucket: uploadConfig.bucket });
+  const keys = await deleteObjectsByPrefix(
+    uploadConfig.bucket,
+    uploadConfig.prefix
+  );
+  if (keys) {
+    const keysToInvalidate = keys.map(key => `/${key.replace('js/', '')}`);
+    console.log({ keysToInvalidate });
+    await invalidateCloudfront(ENV?.WEBSDK_CF_DIST_ID ?? '', keysToInvalidate);
+  }
   process.exit(0);
 };
 

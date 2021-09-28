@@ -1,5 +1,4 @@
-import { syncS3 } from './s3';
-import UploadConfig from '../models/UploadConfig';
+import { syncS3, UploadConfig } from './s3';
 
 export const upload = (uploadConfig: UploadConfig) => {
   if (!uploadConfig.bucket) {
@@ -10,10 +9,5 @@ export const upload = (uploadConfig: UploadConfig) => {
       `Prefix not found in .env file for package: ${uploadConfig.name}`
     );
   }
-  return syncS3(
-    uploadConfig.bucket,
-    uploadConfig.path,
-    uploadConfig.prefix,
-    uploadConfig.cfDistributionId
-  );
+  return syncS3(uploadConfig);
 };
