@@ -12,7 +12,7 @@ export interface FilesApi {
    * Sample usage:
    * ```typescript
    * const fileMeta = await applozicClient.files.upload(file);
-   * console.log({ updatedPasswordResult });
+   * console.log({ fileMeta });
    * ```
    */
   upload: UploadApi;
