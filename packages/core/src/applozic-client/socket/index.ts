@@ -4,7 +4,7 @@ import { IncomingMessage } from '../models/Message';
 import { SocketEventListener } from './socket-events';
 import { processMessage } from './message-handler';
 
-interface ApplozicSocketOptions {
+export interface ApplozicSocketOptions {
   applicationId: string;
   loginResult: LoginResult;
   events?: SocketEventListener;
