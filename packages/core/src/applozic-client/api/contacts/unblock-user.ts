@@ -3,16 +3,12 @@ import BaseClient, { BaseResponse, METHODS } from '../../base';
 const ENDPOINT = '/rest/ws/user/unblock';
 
 /**
- * Unblock a user
- *
- * https://docs.applozic.com/reference/contacts#unblock-user
- *
- * Sample usage:
- * ```typescript
- * const unblockUser = await applozicClient.contacts.unblockUser('some-user-id');
- * ```
+ * For usage, see {@link ContactsApi.unblockUser}
  */
 export interface UnblockUserApi {
+  /**
+   * @param userId The user id to unblock
+   */
   (userId: string): Promise<string>;
 }
 

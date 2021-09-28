@@ -3,14 +3,7 @@ import BaseClient, { BaseResponse, METHODS } from '../../base';
 const ENDPOINT = '/rest/ws/user/block';
 
 /**
- * Block a particular user
- * 
- * https://docs.applozic.com/reference/contacts#users-block-list-sync
- * 
- * Sample usage:
- * ```typescript
- * const blockResult = await applozicClient.contacts.blockUser('some-user-id');
- * ```
+ * For usage, see {@link ContactsApi.blockUser}.
  */
 export interface BlockUserApi {
   /**
@@ -20,7 +13,7 @@ export interface BlockUserApi {
 }
 
 const blockUserBuilder = (applozicClient: BaseClient): BlockUserApi => {
-  const blockUserApi: BlockUserApi = async (userId) => {
+  const blockUserApi: BlockUserApi = async userId => {
     const response: BaseResponse<string> = await applozicClient.makeApiCall(
       METHODS.GET,
       ENDPOINT,

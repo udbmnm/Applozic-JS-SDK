@@ -4,18 +4,7 @@ import BaseClient, { METHODS } from '../../base';
 const ENDPOINT = '/rest/ws/user/update/password';
 
 /**
- * Update details of currently logged in user
- *
- * https://docs.applozic.com/reference/contacts#update-user
- *
- * Sample usage:
- * ```typescript
- * const updatedPasswordResult = await applozicClient.contacts.updateUserDetails(
- *   'oldPassword',
- *   'newPassword'
- * );
- * console.log({ updatedPasswordResult });
- * ```
+ * For usage, see {@link ContactsApi.updateUserPassword}
  */
 export interface UpdateUserPasswordApi {
   /**

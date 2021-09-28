@@ -4,17 +4,12 @@ import BaseClient, { BaseResponse, METHODS } from '../../base';
 const ENDPOINT = '/rest/ws/user/v2/detail';
 
 /**
- * Get details of a user
- *
- * https://docs.applozic.com/reference/contacts#user-details
- *
- * Sample usage:
- * ```typescript
- * const contact = await applozicClient.contacts.getUserDetails(['some-user-id']);;
- * console.log({ contact });
- * ```
+ * For usage, see {@link ContactsApi.getUserDetails}
  */
 export interface UserDetailsApi {
+  /**
+   * @param userIdList List of user ids
+   */
   (userIdList: string[]): Promise<User[]>;
 }
 

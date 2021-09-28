@@ -17,19 +17,7 @@ export interface UpdateUserDetailsReq {
 }
 
 /**
- * Update details of currently logged in user
- *
- * https://docs.applozic.com/reference/contacts#update-user
- *
- * Sample usage:
- * ```typescript
- * const updatedUser = await applozicClient.contacts.updateUserDetails({
- *   email: 'new@email.com'
- *   displayName: 'New Name'
- *   imageLink: 'https://new.image.com/link.png'
- *   statusMessage: 'New status message'
- * });
- * ```
+ * For usage, see {@link ContactsApi.updateUserDetails}
  */
 export interface UpdateUserDetailsApi {
   /**

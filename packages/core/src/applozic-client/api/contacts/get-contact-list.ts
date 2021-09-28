@@ -34,22 +34,11 @@ export interface ContactListApiRes {
 }
 
 /**
- * Get the contact list of the logged in user
- *
- * https://docs.applozic.com/reference/contacts#contact-list
- *
- * Sample usage:
- * ```typescript
- * // Send latest timestamp
- * const page1 = await applozicClient.contacts.getContactList(Date.now());
- *
- * // Send timestamp of last fetch
- * const page2 = await applozicClient.contacts.getContactList(page1.lastFetchTime);
- * ```
+ * For usage, see {@link ContactsApi.getContactList}
  */
 export interface ContactListApi {
   /**
-   * Contact list fetch options
+   * @param options Contact list fetch options
    */
   (options?: ContactListApiReq): Promise<ContactListApiRes>;
 }

@@ -40,14 +40,7 @@ export interface BlockListSyncRes {
 }
 
 /**
- * Get the latest block list for the logged in user.
- *
- * https://docs.applozic.com/reference/contacts#users-block-list-sync
- *
- * Sample usage:
- * ```typescript
- * const blockList = await applozicClient.contacts.blockListSync();
- * ```
+ * For usage, see {@link ContactsApi.blockListSync}
  */
 export interface BlockListSyncApi {
   /**
