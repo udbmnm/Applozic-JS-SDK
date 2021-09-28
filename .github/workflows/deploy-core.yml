@@ -22,6 +22,9 @@ jobs:
       - name: Build monorepo
         run: lerna run build
 
+      - name: Build core-sdk docs
+        run: lerna run build:docs
+
       - name: Save .env file
         run: echo "$ENV_FILE" > .env
         env:
