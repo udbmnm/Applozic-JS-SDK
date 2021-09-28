@@ -12,7 +12,7 @@ function useBlockContact() {
   return useMutation(
     async ({ userId }: IBlockContact) => {
       const response = await client?.contacts.blockUser(userId);
-      return response?.response;
+      return response;
     },
     {
       onMutate: async (variables) => {

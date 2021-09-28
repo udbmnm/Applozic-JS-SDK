@@ -15,7 +15,7 @@ function useClearChat() {
   return useMutation(
     async (options: IBlockContact | IBlockGroup) => {
       const response = await client?.messages.deleteConversation(options);
-      return response?.response;
+      return response;
     },
     {
       onMutate: options => {
