@@ -6,16 +6,13 @@
 $ npm i @applozic/core-sdk
 ```
 
-## Importing (using npm import)
+## Initialize
+
+### 1. Using npm import
 
 ```TypeScript
 import ApplozicClient from '@applozic/core-sdk';
-```
-
-## Usage
-
-```TypeScript
-const client = new ApplozicClient('YOUR-APPLOZIC-APP-ID', {
+const applozicClient = new ApplozicClient('YOUR-APPLOZIC-APP-ID', {
   events: {
     onMessageReceived: ({ message }) => {
       console.log('onMessageReceived', { message });
@@ -59,167 +56,123 @@ const client = new ApplozicClient('YOUR-APPLOZIC-APP-ID', {
 });
 ```
 
+### 2. Using `script` tag
+
+# example html
+
+```html
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8" />
+  <title>Development</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script src="https://websdk.applozic.com/sdk.js"></script>
+  <script>
+    var applozicClient = new alClient('YOUR-APPLOZIC-APP-ID', {
+      events: {
+        onMessageReceived: ({ message }) => {
+          console.log('onMessageReceived', { message });
+        },
+        onMessageDelivered: ({ message }) => {
+          console.log('onMessageDelivered', { message });
+        },
+        onMessageRead: (contactId, messageKey) => {
+          console.log('onMessageRead', { contactId, messageKey });
+        },
+        onMessageSent: ({ message }) => {
+          console.log('onMessageSent', { message });
+        },
+        onMessageSentUpdate: message => {
+          console.log('onMessageSentUpdate', { sentMessageUpdate: message });
+        },
+        onMessageDeleted: (contactId, messageKey) => {
+          console.log('onMessageDeleted', { contactId, messageKey });
+        },
+        onConversationRead: userId => {
+          console.log('onConversationRead', { userId });
+        },
+
+        onConversationDeleted: contactId => {
+          console.log('onConversationDeleted', { contactId });
+        },
+
+        onUserActivated: message => {
+          console.log('onUserActivated', { onUserActivated: message });
+        },
+        onUserConnect: message => {
+          console.log('onUserConnect', { userConnected: message });
+        },
+        onUserOnlineStatus: (userId, isOnline, timestamp) => {
+          console.log('onUserOnlineStatus', { userId, isOnline, timestamp });
+        },
+        onTypingStatus: (userId, status) => {
+          console.log('onTypingStatus', { userId, status });
+        }
+      }
+    });
+  </script>
+</head>
+<html>
+  <body>
+    <h1>My First Heading</h1>
+    <p>My first paragraph.</p>
+  </body>
+</html>
+```
+
 ## APIs
 
-### Login a user
+Detailed documentation of the APIs can be found in the [Applozic Core SDK](https://websdk.applozic.com/docs/latest).
 
-```TypeScript
-client.login('email@id.com', 'user-password');
-```
+### [ApplozicClient](https://websdk.applozic.com/docs/latest/classes/ApplozicClient.html)
 
-### List most recent message of all conversations
+### [ContactsApi](https://websdk.applozic.com/docs/latest/interfaces/ContactsApi.html)
 
-```TypeScript
-const response = await client.messages.list({
-  mainPageSize: 50, // Number of conversations to load
-  endTime: TIME_STAMP_OF_FIRST_MESSAGE_IN_PREVIOUS_CALL_IF_ANY, // optional this is used for paginated response
-});
-```
+- [blockListSync](https://websdk.applozic.com/docs/latest/interfaces/ContactsApi.html#blockListSync)
+- [blockUser](https://websdk.applozic.com/docs/latest/interfaces/ContactsApi.html#blockUser)
+- [getContactList](https://websdk.applozic.com/docs/latest/interfaces/ContactsApi.html#getContactList)
+- [getUserDetails](https://websdk.applozic.com/docs/latest/interfaces/ContactsApi.html#getUserDetails)
+- [unblockUser](https://websdk.applozic.com/docs/latest/interfaces/ContactsApi.html#unblockUser)
+- [updateUserDetails](https://websdk.applozic.com/docs/latest/interfaces/ContactsApi.html#updateUserDetails)
+- [updateUserPassword](https://websdk.applozic.com/docs/latest/interfaces/ContactsApi.html#updateUserPassword)
 
-### List most recent message of a user
+### [FilesApi](https://websdk.applozic.com/docs/latest/interfaces/FilesApi.html)
 
-```TypeScript
-const response = await client.messages.list({
-  userId: 'userId of contact',
-  pageSize: 50,
-  endTime: TIME_STAMP_OF_FIRST_MESSAGE_IN_PREVIOUS_CALL_IF_ANY, // optional this is used for paginated response
-});
-```
+- [upload](https://websdk.applozic.com/docs/latest/interfaces/FilesApi.html#upload)
 
-### List most recent message of a group
+### [GroupsApi](https://websdk.applozic.com/docs/latest/interfaces/GroupsApi.html)
 
-```TypeScript
-const response = await client.messages.list({
-  groupId: 'groupId of group',
-  pageSize: 50,
-  endTime: TIME_STAMP_OF_FIRST_MESSAGE_IN_PREVIOUS_CALL_IF_ANY, // optional this is used for paginated response
-});
-```
+- [addUserToGroup](https://websdk.applozic.com/docs/latest/interfaces/GroupsApi.html#addUserToGroup)
+- [addUsersToGroups](https://websdk.applozic.com/docs/latest/interfaces/GroupsApi.html#addUsersToGroups)
+- [createGroup](https://websdk.applozic.com/docs/latest/interfaces/GroupsApi.html#createGroup)
+- [createOpenFriendList](https://websdk.applozic.com/docs/latest/interfaces/GroupsApi.html#createOpenFriendList)
+- [createUserFriendList](https://websdk.applozic.com/docs/latest/interfaces/GroupsApi.html#createUserFriendList)
+- [deleteFriendList](https://websdk.applozic.com/docs/latest/interfaces/GroupsApi.html#deleteFriendList)
+- [deleteGroup](https://websdk.applozic.com/docs/latest/interfaces/GroupsApi.html#deleteGroup)
+- [deleteGroups](https://websdk.applozic.com/docs/latest/interfaces/GroupsApi.html#deleteGroups)
+- [getFriendList](https://websdk.applozic.com/docs/latest/interfaces/GroupsApi.html#getFriendList)
+- [groupInfo](https://websdk.applozic.com/docs/latest/interfaces/GroupsApi.html#groupInfo)
+- [isUserPresent](https://websdk.applozic.com/docs/latest/interfaces/GroupsApi.html#isUserPresent)
+- [leaveGroup](https://websdk.applozic.com/docs/latest/interfaces/GroupsApi.html#leaveGroup)
+- [openGroup](https://websdk.applozic.com/docs/latest/interfaces/GroupsApi.html#openGroup)
+- [removeFromFriendList](https://websdk.applozic.com/docs/latest/interfaces/GroupsApi.html#removeFromFriendList)
+- [removeUserFromAllGroups](https://websdk.applozic.com/docs/latest/interfaces/GroupsApi.html#removeUserFromAllGroups)
+- [removeUserFromGroup](https://websdk.applozic.com/docs/latest/interfaces/GroupsApi.html#removeUserFromGroup)
+- [removeUsersFromGroups](https://websdk.applozic.com/docs/latest/interfaces/GroupsApi.html#removeUsersFromGroups)
+- [updateGroupInfo](https://websdk.applozic.com/docs/latest/interfaces/GroupsApi.html#updateGroupInfo)
+- [updateUserDetails](https://websdk.applozic.com/docs/latest/interfaces/GroupsApi.html#updateUserDetails)
+- [userCount](https://websdk.applozic.com/docs/latest/interfaces/GroupsApi.html#userCount)
+- [userGroupList](https://websdk.applozic.com/docs/latest/interfaces/GroupsApi.html#userGroupList)
 
-```TypeScript
-const response = await client.messages.list({
-  mainPageSize: 50, // Number of conversations to load
-  pageSize: 50,
-  endTime: TIME_STAMP_OF_FIRST_MESSAGE_IN_PREVIOUS_CALL_IF_ANY, // optional this is used for paginated response
-});
-```
+### [MessagesApi](https://websdk.applozic.com/docs/latest/interfaces/MessagesApi.html)
 
-```TypeScript
-const result = await client.messages.send({
-  to: 'user id of contact',
-  message: 'your message content'
-});
-```
+- [delete](https://websdk.applozic.com/docs/latest/interfaces/MessagesApi.html#delete)
+- [deleteAll](https://websdk.applozic.com/docs/latest/interfaces/MessagesApi.html#deleteAll)
+- [deleteConversation](https://websdk.applozic.com/docs/latest/interfaces/MessagesApi.html#deleteConversation)
+- [deleteOlderThan](https://websdk.applozic.com/docs/latest/interfaces/MessagesApi.html#deleteOlderThan)
+- [list](https://websdk.applozic.com/docs/latest/interfaces/MessagesApi.html#list)
+- [send](https://websdk.applozic.com/docs/latest/interfaces/MessagesApi.html#send)
 
-### Send Message to User
+### Conversation
 
-```TypeScript
-const result = await client.messages.send({
-  to: 'user id of contact',
-  message: 'your message content'
-});
-```
-
-### Send Message to Group
-
-```TypeScript
-const result = await client.messages.send({
-  clientGroupId: 'groupId of the group',
-  message: 'your message content'
-});
-```
-
-### Add attachment to messages
-
-```TypeScript
-const file = new File(); // Dummy code, use file picker to get a file object
-const fileResult = await client.files.upload(file);
-
-const result = await client.messages.send({
-  clientGroupId: 'groupId of the group',
-  message: 'your message content',
-  fileMeta: fileResult
-});
-```
-
-### Delete a message
-
-```TypeScript
-const deleteMessageForAll = true;
-
-const deleteOnlyForCurrentUser = false;
-
-const result = await client.messages.delete('MESSAGE_KEY', shouldDeleteMessageForAll);
-
-// or
-
-const result = await client.messages.delete('MESSAGE_KEY', deleteOnlyForCurrentUser);
-```
-
-### Delete conversation
-
-```TypeScript
-const result = await client.messages.deleteConversation({
-  userId: 'userId of contact',
-});
-
-const result = await client.messages.deleteConversation({
-  groupId: 'groupId of group',
-});
-```
-
-
-## Groups
-
-### Create group
-
-```TypeScript
-const result = await client.groups.create({
-  groupName: 'group name',
-  groupImage: 'group image url',
-  groupMembers: ['userId of contact', 'userId of contact'],
-});
-```
-
-### Add user to group
-
-```TypeScript
-const result = await client.groups.addUserToGroup({
-  userId: 'userId of contact',
-  clientGroupId: 'groupId of group',
-  role: 1, // 1 = ADMIN, 2 = MODERATOTR, 3 = MEMBER
-});
-```
-
-
-### Remove group member
-
-```TypeScript
-const result = await client.groups.removeUserFromGroup({
-  userId: 'userId of contact',
-  clientGroupId: 'groupId of group',
-});
-```
-
-### Leave group
-
-```TypeScript
-const result = await client.groups.leaveGroup({
-  clientGroupId: 'groupId of group to leave',
-});
-```
-
-### Delete group
-
-```TypeScript
-const result = await client.groups.deleteGroup({
-  clientGroupId: 'groupId of group to delete',
-});
-```
-
-
-### Send typing status to a contact
-
-```TypeScript
-client.sendTypingStatus('userId', 1); // 1 = typing, 0 = not typing
-```
+- [sendTypingStatus](https://websdk.applozic.com/docs/latest/classes/ApplozicClient.html#sendTypingStatus)
