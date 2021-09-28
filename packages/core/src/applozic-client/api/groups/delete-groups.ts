@@ -15,7 +15,7 @@ export interface DeleteGroupsReq {
  * For usage, see {@link GroupsApi.deleteGroups}
  */
 export interface DeleteGroupsApi {
-  (data: DeleteGroupsReq): Promise<BaseResponse<string>>;
+  (data: DeleteGroupsReq): Promise<string>;
 }
 
 const deleteGroupsBuilder = (applozicClient: BaseClient): DeleteGroupsApi => {
@@ -27,7 +27,7 @@ const deleteGroupsBuilder = (applozicClient: BaseClient): DeleteGroupsApi => {
         useAuth: true
       }
     );
-    return response;
+    return response.response;
   };
   return deleteGroupsApi;
 };

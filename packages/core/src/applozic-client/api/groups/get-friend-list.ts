@@ -14,7 +14,7 @@ export interface GetFriendListReq {
  * For usage, see {@link GroupsApi.getFriendList}
  */
 export interface GetFriendListApi {
-  (data: GetFriendListReq): Promise<BaseResponse<Group>>;
+  (data: GetFriendListReq): Promise<Group>;
 }
 
 const getFriendListBuilder = (applozicClient: BaseClient): GetFriendListApi => {
@@ -26,7 +26,7 @@ const getFriendListBuilder = (applozicClient: BaseClient): GetFriendListApi => {
         useAuth: true
       }
     );
-    return response;
+    return response.response;
   };
   return getFriendListApi;
 };

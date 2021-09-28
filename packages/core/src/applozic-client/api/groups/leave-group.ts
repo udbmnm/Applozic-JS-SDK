@@ -16,7 +16,7 @@ export interface LeaveGroupReq {
  * For usage, see {@link GroupsApi.leaveGroup}
  */
 export interface LeaveGroupApi {
-  (data: LeaveGroupReq): Promise<BaseResponse<string>>;
+  (data: LeaveGroupReq): Promise<string>;
 }
 
 const leaveGroupBuilder = (applozicClient: BaseClient): LeaveGroupApi => {
@@ -29,7 +29,7 @@ const leaveGroupBuilder = (applozicClient: BaseClient): LeaveGroupApi => {
         useAuth: true
       }
     );
-    return response;
+    return response.response;
   };
   return leaveGroupApi;
 };

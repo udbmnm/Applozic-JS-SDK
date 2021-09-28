@@ -21,7 +21,7 @@ export interface IUpdateGroupDetailsRequest {
 
 /** For usage, see {@link GroupsApi.updateGroupInfo} */
 export interface UpdateGroupDetailsApi {
-  (data: IUpdateGroupDetailsRequest): Promise<BaseResponse<Group>>;
+  (data: IUpdateGroupDetailsRequest): Promise<Group>;
 }
 
 const updateGroupDetailsBuilder = (
@@ -36,7 +36,7 @@ const updateGroupDetailsBuilder = (
         useAuth: true
       }
     );
-    return response;
+    return response.response;
   };
   return updateGroupDetailsApi;
 };

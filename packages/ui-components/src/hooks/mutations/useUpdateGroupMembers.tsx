@@ -1,6 +1,6 @@
-import { useMutation, useQueryClient } from "react-query";
-import { ChatType } from "../../models/chat";
-import { useApplozicClient } from "../../providers/useApplozicClient";
+import { useMutation, useQueryClient } from 'react-query';
+import { ChatType } from '../../models/chat';
+import { useApplozicClient } from '../../providers/useApplozicClient';
 
 export interface ModifyGroupMembers {
   userIds: string[];
@@ -15,22 +15,22 @@ function useUpdateGroupMembers() {
       if (loginResult?.userId) {
         const response = await client?.groups.addUsersToGroups({
           userIds,
-          clientGroupIds: [clientGroupId],
+          clientGroupIds: [clientGroupId]
         });
-        return response?.response;
+        return response;
       }
     },
     {
       // Always refetch after error or success:
       onSettled: (data, response, newMessage) => {
         //TODO: Move to setQueryData to avoid refetch
-        queryClient.invalidateQueries(["messages", newMessage?.clientGroupId]);
+        queryClient.invalidateQueries(['messages', newMessage?.clientGroupId]);
         queryClient.invalidateQueries([
-          "group",
+          'group',
           newMessage?.clientGroupId,
-          true,
+          true
         ]);
-      },
+      }
     }
   );
 }

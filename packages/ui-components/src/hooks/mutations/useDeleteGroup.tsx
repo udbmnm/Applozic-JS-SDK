@@ -1,6 +1,6 @@
-import { useMutation, useQueryClient } from "react-query";
-import { RecentChat } from "../../models/chat";
-import { useApplozicClient } from "../../providers/useApplozicClient";
+import { useMutation, useQueryClient } from 'react-query';
+import { RecentChat } from '../../models/chat';
+import { useApplozicClient } from '../../providers/useApplozicClient';
 
 function useDeleteGroup() {
   const { client, loginResult } = useApplozicClient();
@@ -9,24 +9,24 @@ function useDeleteGroup() {
     async (clientGroupId: string) => {
       if (loginResult?.userId) {
         const response = await client?.groups.deleteGroup({ clientGroupId });
-        return response?.response;
+        return response;
       }
     },
     {
-      onMutate: (clientGroupId) => {
+      onMutate: clientGroupId => {
         queryClient.setQueryData<RecentChat[] | undefined>(
-          ["recent-chats-local", loginResult?.userId],
-          (oldChats) => {
+          ['recent-chats-local', loginResult?.userId],
+          oldChats => {
             if (oldChats) {
               return oldChats?.filter(
-                (oldChat) => oldChat.contactId !== clientGroupId
+                oldChat => oldChat.contactId !== clientGroupId
               );
             } else {
               return undefined;
             }
           }
         );
-      },
+      }
     }
   );
 }

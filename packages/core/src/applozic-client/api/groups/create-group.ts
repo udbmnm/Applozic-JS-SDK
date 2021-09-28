@@ -24,7 +24,7 @@ export interface CreateGroupReq {
  * For usage, see {@link GroupsApi.createGroup}
  */
 export interface CreateGroupApi {
-  (data: CreateGroupReq): Promise<BaseResponse<Group>>;
+  (data: CreateGroupReq): Promise<Group>;
 }
 
 const createGroupBuilder = (applozicClient: BaseClient): CreateGroupApi => {
@@ -37,7 +37,7 @@ const createGroupBuilder = (applozicClient: BaseClient): CreateGroupApi => {
         useAuth: true
       }
     );
-    return response;
+    return response.response;
   };
   return createGroupApi;
 };

@@ -1,8 +1,8 @@
-import { useMutation, useQueryClient } from "react-query";
-import { useApplozicClient } from "../../providers/useApplozicClient";
-import { INewGroup, getRecentChatFromGroup } from "../../utils/parser";
-import { RecentChat } from "../../models/chat";
-import { mergeRecentChats } from "../../utils/recentChatsMerger";
+import { useMutation, useQueryClient } from 'react-query';
+import { useApplozicClient } from '../../providers/useApplozicClient';
+import { INewGroup, getRecentChatFromGroup } from '../../utils/parser';
+import { RecentChat } from '../../models/chat';
+import { mergeRecentChats } from '../../utils/recentChatsMerger';
 
 function useCreateGroup() {
   const { client, loginResult } = useApplozicClient();
@@ -17,31 +17,31 @@ function useCreateGroup() {
             ? [loginResult.userId, ...memberIds]
             : [loginResult.userId],
           imageUrl,
-          type,
+          type
         });
-        return response?.response;
+        return response;
       }
     },
     {
       // Always refetch after error or success:
-      onSettled: (data) => {
+      onSettled: data => {
         let currentRecentChats =
           queryClient.getQueryData<RecentChat[]>([
-            "recent-chats-local",
-            client?.loginResult?.userId,
+            'recent-chats-local',
+            client?.loginResult?.userId
           ]) ?? [];
         if (data) {
           const recentChat = data && getRecentChatFromGroup(data);
           currentRecentChats = mergeRecentChats(currentRecentChats, [
-            recentChat,
+            recentChat
           ]);
           queryClient.setQueryData<RecentChat[]>(
-            ["recent-chats-local", loginResult?.userId],
+            ['recent-chats-local', loginResult?.userId],
             currentRecentChats
           );
         }
-        queryClient.setQueryData(["group", data?.clientGroupId, true], data);
-      },
+        queryClient.setQueryData(['group', data?.clientGroupId, true], data);
+      }
     }
   );
 }

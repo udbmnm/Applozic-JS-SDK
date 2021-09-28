@@ -18,7 +18,7 @@ export interface IAddUsersToGroupsRequest {
  * For usage, see {@link GroupsApi.addUsersToGroups}
  */
 export interface AddUsersToGroupsApi {
-  (data: IAddUsersToGroupsRequest): Promise<BaseResponse<string>>;
+  (data: IAddUsersToGroupsRequest): Promise<string>;
 }
 
 const addUsersToGroupsBuilder = (
@@ -33,7 +33,7 @@ const addUsersToGroupsBuilder = (
         useAuth: true
       }
     );
-    return response;
+    return response.response;
   };
   return addUsersToGroupsApi;
 };
