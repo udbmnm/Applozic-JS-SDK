@@ -1,8 +1,18 @@
 import BaseClient from '../../base';
-import blockListSyncBuilder from './block-list-sync';
-import blockUserBuilder from './block-user';
-import getContactListBuilder from './get-contact-list';
-import getUserDetailsBuilder from './get-user-details';
+import blockListSyncBuilder, {
+  BaseBlockListItemDetail,
+  BlockedByListItemDetail,
+  BlockedToListItemDetail,
+  BlockListSyncApi,
+  BlockListSyncRes
+} from './block-list-sync';
+import blockUserBuilder, { BlockUserApi } from './block-user';
+import getContactListBuilder, {
+  ContactListApiReq,
+  ContactListApiRes,
+  ContactListApi
+} from './get-contact-list';
+import getUserDetailsBuilder, { UserDetailsApi } from './get-user-details';
 import unblockUserBuilder from './unblock-user';
 import updateUserDetailsBuilder from './update-user-details';
 import updateUserPasswordBuilder from './update-user-password';

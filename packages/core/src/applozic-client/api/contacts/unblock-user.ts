@@ -1,20 +1,24 @@
-import BaseClient, { METHODS } from '../../base';
+import BaseClient, { BaseResponse, METHODS } from '../../base';
 
 const ENDPOINT = '/rest/ws/user/unblock';
 
-interface UnblockUserRes {
-  status: string;
-  generatedAt: number;
-  response?: string;
-}
-
+/**
+ * Unblock a user
+ *
+ * https://docs.applozic.com/reference/contacts#unblock-user
+ *
+ * Sample usage:
+ * ```typescript
+ * const unblockUser = await applozicClient.contacts.unblockUser('some-user-id');
+ * ```
+ */
 export interface UnblockUserApi {
-  (userId: string): Promise<UnblockUserRes>;
+  (userId: string): Promise<string>;
 }
 
 const unblockUserBuilder = (applozicClient: BaseClient): UnblockUserApi => {
-  const unblockUserApi: UnblockUserApi = async (userId) => {
-    const response: UnblockUserRes = await applozicClient.makeApiCall(
+  const unblockUserApi: UnblockUserApi = async userId => {
+    const response: BaseResponse<string> = await applozicClient.makeApiCall(
       METHODS.GET,
       ENDPOINT,
       {
@@ -22,7 +26,7 @@ const unblockUserBuilder = (applozicClient: BaseClient): UnblockUserApi => {
         useAuth: true
       }
     );
-    return response;
+    return response.response;
   };
   return unblockUserApi;
 };

@@ -27,7 +27,7 @@
     "build": "rm -rf dist; rm -rf dist_web; yarn build:webpack; yarn build:node",
     "build-storybook": "yarn build",
     "watch": "webpack --watch",
-    "serve": "webpack serve --mode development",
+    "serve": "webpack serve --mode development --entry ./src/sandbox/test.ts",
     "sandbox": "ts-node ./src/sandbox/test.ts",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },

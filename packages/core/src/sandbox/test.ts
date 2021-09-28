@@ -12,20 +12,20 @@ const applozicClient = new ApplozicClient(APPLICATION_ID, {
 const main = async () => {
   try {
     const response = await applozicClient.login(
-      'some-email-4@applozic.com',
+      'some-email@applozic.com',
       'testing'
     );
     console.log('Auth Token', response.authToken);
     console.log('Token', response.token);
     console.log('device', response.deviceKey);
 
-    const getContactListResult = await applozicClient.contacts.getContactList();
-    console.log(
-      '\n\n\nFINAL RESULT\n\n',
-      JSON.stringify(getContactListResult, null, 2)
-    );
+    // const getContactListResult = await applozicClient.contacts.getContactList();
+    // console.log(
+    //   '\n\n\nFINAL RESULT\n\n',
+    //   JSON.stringify(getContactListResult, null, 2)
+    // );
 
-    const blockList = await applozicClient.contacts.blockListSync(0);
+    const blockList = await applozicClient.contacts.unblockUser('some-email-3@applozic.com');
     console.log({ blockList });
     // fs.writeFileSync('sample.json', JSON.stringify(getContactListResult));
 

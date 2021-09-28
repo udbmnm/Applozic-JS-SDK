@@ -9,10 +9,14 @@ export enum METHODS {
   POST = 'POST'
 }
 
-export interface BaseResponse<T> {
+export interface BaseResponse<ApiResponseType> {
+  /** Api status message */
   status: 'success' | 'error';
+  /** Timestamp from server */
   generatedAt: number;
-  response: T;
+  /** API response object */
+  response: ApiResponseType;
+  /** API Error details object */
   errorResponse?: {
     errorCode: string;
     description: string;
@@ -125,7 +129,7 @@ export default class BaseClient {
         }
         return response.text;
       } else {
-        console.error('Applozic: API call failed');
+        console.warn('Applozic: API call failed');
       }
     } catch (error) {
       console.error(error);

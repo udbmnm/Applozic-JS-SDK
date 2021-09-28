@@ -1,5 +1,4 @@
 import ApplozicClient from './applozic-client';
-import ApplozicApiClient from './applozic-client/base-with-api';
 import {
   IncomingMessage,
   Message,
@@ -46,7 +45,14 @@ import {
   ContactListApi
 } from './applozic-client/api/contacts/get-contact-list';
 
-import { UpdateUserDetailsReq } from './applozic-client/api/contacts/update-user-details';
+import {
+  UpdateUserDetailsReq,
+  UserDetailsApi
+} from './applozic-client/api/contacts/update-user-details';
+
+import BaseClient, { BaseResponse } from './applozic-client/base';
+import BaseClientWithApi from './applozic-client/base-with-api';
+import BaseClientWithStore from './applozic-client/base-with-store';
 
 export {
   BaseBlockListItemDetail,
@@ -58,7 +64,12 @@ export {
   ContactListApiReq,
   ContactListApiRes,
   ContactListApi,
-  ApplozicApiClient,
+  UpdateUserDetailsReq,
+  UserDetailsApi,
+  BaseClient,
+  BaseResponse,
+  BaseClientWithApi,
+  BaseClientWithStore,
   IncomingMessage,
   Message,
   MessageData,
@@ -81,8 +92,7 @@ export {
   User,
   getNameFromUser,
   IUpdateGroupDetailsRequest,
-  IUpdateGroupUser,
-  UpdateUserDetailsReq
+  IUpdateGroupUser
 };
 
 export default ApplozicClient;
