@@ -20,7 +20,6 @@
     "url": "git+https://github.com/AppLozic/Applozic-JS-SDK.git"
   },
   "scripts": {
-    "prepublish": "yarn build",
     "build:webpack": "webpack",
     "build:node": "tsc",
     "build:docs": "typedoc --preserveWatchOutput --hideGenerator --cleanOutputDir true --entryPointStrategy expand --gitRemote origin --includeVersion src/index.ts",
