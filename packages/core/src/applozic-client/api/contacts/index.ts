@@ -49,10 +49,10 @@ export interface ContactsApi {
    * Sample usage:
    * ```typescript
    * // Send latest timestamp
-   * const page1 = await applozicClient.contacts.getContactList(Date.now());
+   * const page1 = await applozicClient.contacts.getContactList({ startTime: Date.now() });
    *
    * // Send timestamp of last fetch
-   * const page2 = await applozicClient.contacts.getContactList(page1.lastFetchTime);
+   * const page2 = await applozicClient.contacts.getContactList({ startTime: page1.lastFetchTime });
    * ```
    */
   getContactList: ContactListApi;
