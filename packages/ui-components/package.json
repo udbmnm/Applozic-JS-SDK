@@ -7,7 +7,7 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "github-mkc:MKC-Tech/applozic-js-sdk.git"
+    "url": "git+https://github.com/AppLozic/Applozic-JS-SDK.git"
   },
   "files": [
     "dist",
