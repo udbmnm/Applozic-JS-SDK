@@ -36,13 +36,12 @@ export default class BaseClient {
     'UserId-Enabled': false
   };
   public loginResult: LoginResult | null = null;
-  public accessToken: string | null = null;
 
   constructor(applicationId: string) {
     this.applicationId = applicationId;
   }
 
-  private setAuthHeaders = (loginRes: LoginResult, accessToken: string) => {
+  private setAuthHeaders = (loginRes: LoginResult) => {
     this.authHeaders['Application-Key'] = this.applicationId;
     this.authHeaders['Device-Key'] = loginRes.deviceKey;
 
@@ -54,8 +53,6 @@ export default class BaseClient {
 
     this.authHeaders['X-Authorization'] = loginRes.authToken;
 
-    this.authHeaders['Access-Token'] = accessToken;
-    // this.authHeaders['App-Module-Name'] = ''; // TODO check about this header
     this.authHeaders['UserId-Enabled'] = true;
   };
 
@@ -68,19 +65,15 @@ export default class BaseClient {
     return request;
   };
 
-  async setAccessToken(accessToken: string) {
-    this.accessToken = accessToken;
-  }
+  async init() {}
 
-  async postLogin(loginRes: LoginResult, accessToken: string) {
+  async postLogin(loginRes: LoginResult) {
     this.loginResult = loginRes;
-    this.setAuthHeaders(loginRes, accessToken);
-    await this.setAccessToken(accessToken);
+    this.setAuthHeaders(loginRes);
   }
 
   async logout() {
     this.loginResult = null;
-    this.accessToken = null;
   }
 
   public makeApiCall = async (

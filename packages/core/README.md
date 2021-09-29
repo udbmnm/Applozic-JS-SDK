@@ -129,6 +129,7 @@ const isUserLoggedIn = async () => {
 const login = async (userId, password) => {
   if (await isUserLoggedIn()) {
     // User is already logged in
+    // loginResult = applozicClient.loginResult;
   } else {
       const loginResult = await applozicClient.login('userId', 'password')
   }

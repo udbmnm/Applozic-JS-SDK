@@ -2,7 +2,6 @@ export const CONFIG_STORE = {
   name: 'applozic-config',
   keys: {
     LOGIN_RESULT: 'loginResult',
-    ACCESS_TOKEN: 'accessToken',
     GRACEFUL_LOGOUT: 'gracefulLogout'
   }
 };

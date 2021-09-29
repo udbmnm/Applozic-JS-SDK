@@ -2,7 +2,7 @@ import ApplozicStore, { CONFIG_STORE } from '@applozic/local-store';
 import BaseClientWithApi from './base-with-api';
 import LoginResult from './models/LoginResult';
 
-const { LOGIN_RESULT, GRACEFUL_LOGOUT, ACCESS_TOKEN } = CONFIG_STORE.keys;
+const { LOGIN_RESULT, GRACEFUL_LOGOUT } = CONFIG_STORE.keys;
 
 export enum METHODS {
   GET = 'GET',
@@ -35,14 +35,8 @@ export default class BaseClientWithStore extends BaseClientWithApi {
     }
   }
 
-  async setAccessToken(accessToken: string) {
-    await super.setAccessToken(accessToken);
-    if (this.store) {
-      await this.store.setItem(ACCESS_TOKEN, accessToken);
-    }
-  }
-
   async init() {
+    await super.init();
     if (this.store === null) {
       return;
     }
@@ -58,9 +52,8 @@ export default class BaseClientWithStore extends BaseClientWithApi {
             await this.store.removeItem(GRACEFUL_LOGOUT);
           }
           const loginRes = await this.store.getItem<LoginResult>(LOGIN_RESULT);
-          const accessToken = await this.store.getItem<string>(ACCESS_TOKEN);
-          if (loginRes && accessToken) {
-            await this.postLogin(loginRes, accessToken);
+          if (loginRes) {
+            await this.postLogin(loginRes);
           } else {
             // clear the store if either is missing
             await this.store.clear();
@@ -72,12 +65,10 @@ export default class BaseClientWithStore extends BaseClientWithApi {
     return this.initializedPromise;
   }
 
-  async postLogin(loginRes: LoginResult, accessToken: string) {
-    await super.postLogin(loginRes, accessToken);
+  async postLogin(loginRes: LoginResult) {
+    await super.postLogin(loginRes);
     if (this.store) {
       await this.store.setItem(LOGIN_RESULT, loginRes);
-
-      await this.store.setItem(ACCESS_TOKEN, accessToken);
     }
   }
 

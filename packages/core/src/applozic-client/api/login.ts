@@ -16,12 +16,10 @@ export interface LoginApi {
   (userId: string, password: string): Promise<LoginResult>;
 }
 
-// export interface PostLoginCallback {
-//   (loginRes: LoginResult, accessToken: string): Promise<LoginResult>;
-// }
-
 const loginBuilder = (applozicClient: BaseClient): LoginApi => {
   const loginApi: LoginApi = async (email, password) => {
+    // Wait for the client to be initialized
+    await applozicClient.init();
     if (applozicClient.loginResult) {
       await applozicClient.logout(); // Logout first if already logged in
     }
@@ -43,7 +41,7 @@ const loginBuilder = (applozicClient: BaseClient): LoginApi => {
         throw new Error(`Login Failure: ${response}`);
       }
     } else {
-      await applozicClient.postLogin(response, password);
+      await applozicClient.postLogin(response);
       return response;
     }
   };

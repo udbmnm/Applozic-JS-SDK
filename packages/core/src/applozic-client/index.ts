@@ -138,8 +138,8 @@ export default class ApplozicClient extends BaseClientWithStore {
     this.options = options;
   }
 
-  async postLogin(loginRes: LoginResult, accessToken: string) {
-    await super.postLogin(loginRes, accessToken);
+  async postLogin(loginRes: LoginResult) {
+    await super.postLogin(loginRes);
     if (this.options?.useSocket !== false) {
       this.applozicSocket = new ApplozicSocket({
         applicationId: this.applicationId,
@@ -159,7 +159,8 @@ export default class ApplozicClient extends BaseClientWithStore {
    *
    * ```TypeScript
    * const login = async (userId, password) => {
-   *    let loginResult = await applozicClient.init();
+   *    await applozicClient.init();
+   *    let loginResult = applozicClient.loginResult;
    *    if (!loginResult) {
    *      loginResult = await applozicClient.login(userId, password);
    *    }
