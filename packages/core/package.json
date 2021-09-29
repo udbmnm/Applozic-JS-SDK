@@ -1,6 +1,6 @@
 {
   "name": "@applozic/core-sdk",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Applozic Core SDK",
   "author": "MKC Developer <developer@mkclabs.xyz>",
   "homepage": "",
@@ -35,7 +35,7 @@
     "typescript": "^4.1.2"
   },
   "dependencies": {
-    "@applozic/local-store": "0.0.4",
+    "@applozic/local-store": "0.0.5",
     "@stomp/stompjs": "^6.1.0",
     "base-64": "^1.0.0",
     "superagent": "^6.1.0"
