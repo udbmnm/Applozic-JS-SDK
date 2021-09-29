@@ -5,12 +5,12 @@ const ENDPOINT = '/v2/tab/initialize.page';
 
 /**
  * Sample usage:
- * 
+ *
  * ```typescript
  * const loginResult = await applozicClient.login('user-id', 'password');
  * ```
- * 
- * For client initialization, see {@link ApplozicClient}
+ *
+ * For client initialization, see {@link ApplozicClient.init}
  */
 export interface LoginApi {
   (userId: string, password: string): Promise<LoginResult>;
@@ -22,6 +22,9 @@ export interface LoginApi {
 
 const loginBuilder = (applozicClient: BaseClient): LoginApi => {
   const loginApi: LoginApi = async (email, password) => {
+    if (applozicClient.loginResult) {
+      await applozicClient.logout(); // Logout first if already logged in
+    }
     const response: LoginResult | string = await applozicClient.makeApiCall(
       METHODS.POST,
       ENDPOINT,

@@ -11,7 +11,9 @@ export default class BaseClientWithApi extends BaseClient {
     super(applicationId);
   }
 
-  public login = loginBuilder(this);
+  async login(userId: string, password: string) {
+    return loginBuilder(this)(userId, password);
+  }
 
   public contacts = contactsApiBuilder(this);
 

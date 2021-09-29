@@ -25,7 +25,6 @@ export interface BaseResponse<ApiResponseType> {
 }
 export default class BaseClient {
   public applicationId: string;
-  public isLoggedIn: boolean = false;
   public authHeaders = {
     'Application-Key': '',
     Authorization: '',
@@ -75,7 +74,6 @@ export default class BaseClient {
 
   async postLogin(loginRes: LoginResult, accessToken: string) {
     this.loginResult = loginRes;
-    this.isLoggedIn = true;
     this.setAuthHeaders(loginRes, accessToken);
     await this.setAccessToken(accessToken);
   }

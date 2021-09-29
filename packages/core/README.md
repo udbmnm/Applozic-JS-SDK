@@ -35,11 +35,9 @@ const applozicClient = new ApplozicClient('YOUR-APPLOZIC-APP-ID', {
     onConversationRead: userId => {
        console.log('onConversationRead', { userId });
     },
-
     onConversationDeleted: contactId => {
       console.log('onConversationDeleted', { contactId });
     },
-
     onUserActivated: message => {
       console.log('onUserActivated', { onUserActivated: message });
     },
@@ -116,29 +114,30 @@ const applozicClient = new ApplozicClient('YOUR-APPLOZIC-APP-ID', {
 </html>
 ```
 
-### Login a user
-
-```TypeScript
-const loginResult = await applozicClient.login('userId', 'password')
-```
-
-### Logout a user
-
-```TypeScript
-await applozicClient.logout()
-```
-
-### Check if a user was logged in previously
+### [Login a user](https://websdk.applozic.com/docs/latest/classes/ApplozicClient.html#login)
 
 ```TypeScript
 const isUserLoggedIn = async () => {
-  await applozicClient.init();
+  await applozicClient.init(); // Starts listening for events if user already logged in
   if (applozicClient.loginResult) {
     console.log({ loginResult: applozicClient.loginResult });
     return true;
   }
   return false;
 }
+
+const login = async (userId, password) => {
+  if (await isUserLoggedIn()) {
+    // User is already logged in
+  } else {
+      const loginResult = await applozicClient.login('userId', 'password')
+  }
+```
+
+### [Logout a user](https://websdk.applozic.com/docs/latest/classes/ApplozicClient.html#logout)
+
+```TypeScript
+await applozicClient.logout()
 ```
 
 ## APIs
@@ -148,7 +147,7 @@ Detailed documentation of the APIs can be found in the [Applozic Core SDK](https
 ### [ApplozicClient](https://websdk.applozic.com/docs/latest/classes/ApplozicClient.html)
 
 - [init](https://websdk.applozic.com/docs/latest/classes/ApplozicClient.html#init)
-- [login](https://websdk.applozic.com/docs/latest/interfaces/LoginApi.html)
+- [login](https://websdk.applozic.com/docs/latest/classes/ApplozicClient.html#login)
 - [logout](https://websdk.applozic.com/docs/latest/classes/ApplozicClient.html#logout)
 - [sendTypingStatus](https://websdk.applozic.com/docs/latest/classes/ApplozicClient.html#sendTypingStatus)
 
@@ -161,6 +160,15 @@ Detailed documentation of the APIs can be found in the [Applozic Core SDK](https
 - [unblockUser](https://websdk.applozic.com/docs/latest/interfaces/ContactsApi.html#unblockUser)
 - [updateUserDetails](https://websdk.applozic.com/docs/latest/interfaces/ContactsApi.html#updateUserDetails)
 - [updateUserPassword](https://websdk.applozic.com/docs/latest/interfaces/ContactsApi.html#updateUserPassword)
+
+### [MessagesApi](https://websdk.applozic.com/docs/latest/interfaces/MessagesApi.html)
+
+- [delete](https://websdk.applozic.com/docs/latest/interfaces/MessagesApi.html#delete)
+- [deleteAll](https://websdk.applozic.com/docs/latest/interfaces/MessagesApi.html#deleteAll)
+- [deleteConversation](https://websdk.applozic.com/docs/latest/interfaces/MessagesApi.html#deleteConversation)
+- [deleteOlderThan](https://websdk.applozic.com/docs/latest/interfaces/MessagesApi.html#deleteOlderThan)
+- [list](https://websdk.applozic.com/docs/latest/interfaces/MessagesApi.html#list)
+- [send](https://websdk.applozic.com/docs/latest/interfaces/MessagesApi.html#send)
 
 ### [FilesApi](https://websdk.applozic.com/docs/latest/interfaces/FilesApi.html)
 
@@ -189,12 +197,3 @@ Detailed documentation of the APIs can be found in the [Applozic Core SDK](https
 - [updateUserDetails](https://websdk.applozic.com/docs/latest/interfaces/GroupsApi.html#updateUserDetails)
 - [userCount](https://websdk.applozic.com/docs/latest/interfaces/GroupsApi.html#userCount)
 - [userGroupList](https://websdk.applozic.com/docs/latest/interfaces/GroupsApi.html#userGroupList)
-
-### [MessagesApi](https://websdk.applozic.com/docs/latest/interfaces/MessagesApi.html)
-
-- [delete](https://websdk.applozic.com/docs/latest/interfaces/MessagesApi.html#delete)
-- [deleteAll](https://websdk.applozic.com/docs/latest/interfaces/MessagesApi.html#deleteAll)
-- [deleteConversation](https://websdk.applozic.com/docs/latest/interfaces/MessagesApi.html#deleteConversation)
-- [deleteOlderThan](https://websdk.applozic.com/docs/latest/interfaces/MessagesApi.html#deleteOlderThan)
-- [list](https://websdk.applozic.com/docs/latest/interfaces/MessagesApi.html#list)
-- [send](https://websdk.applozic.com/docs/latest/interfaces/MessagesApi.html#send)

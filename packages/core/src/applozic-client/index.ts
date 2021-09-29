@@ -151,6 +151,57 @@ export default class ApplozicClient extends BaseClientWithStore {
     }
   }
 
+  /**
+   * Check if user was logged in previously and restart the socket connection
+   * if user is logged in
+   *
+   * Sample usage:
+   *
+   * ```TypeScript
+   * const login = async (userId, password) => {
+   *    let loginResult = await applozicClient.init();
+   *    if (!loginResult) {
+   *      loginResult = await applozicClient.login(userId, password);
+   *    }
+   * }
+   *
+   * await login(userId, password)
+   * ```
+   *
+   * @param userId User ID
+   * @param password Password for the user
+   */
+  async init() {
+    return super.init();
+  }
+
+  /**
+   * Login to the Applozic SDK
+   * Logs out previous user if any logged in already
+   *
+   * Sample usage:
+   *
+   * ```TypeScript
+   * await applozicClient.login('user-id', 'password');
+   * ```
+   * For client initialization, see {@link ApplozicClient.init}
+   *
+   * @param userId User ID
+   * @param password Password for the user
+   */
+  async login(userId: string, password: string) {
+    return super.login(userId, password);
+  }
+
+  /**
+   * Log out current user
+   *
+   * Sample usage:
+   *
+   * ```TypeScript
+   * await applozicClient.logout();
+   * ```
+   */
   async logout() {
     await super.logout();
     if (this.applozicSocket) {
