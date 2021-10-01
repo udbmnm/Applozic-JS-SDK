@@ -3,13 +3,13 @@ import { Meta } from "@storybook/react/types-6-0";
 import { Story } from "@storybook/react";
 import SharedMedia, { ISharedMediaView, TABS } from "./SharedMedia";
 
-export default {
-  title: "Components/Shared Media",
-  component: SharedMedia,
-  argTypes: {
-    backgroundColor: { control: "color" },
-  },
-} as Meta;
+// export default {
+//   title: "Components/Shared Media",
+//   component: SharedMedia,
+//   argTypes: {
+//     backgroundColor: { control: "color" },
+//   },
+// } as Meta;
 
 // Create a master template for mapping args to render the Button component
 const Template: Story<ISharedMediaView> = (args) => <SharedMedia {...args} />;

@@ -5,10 +5,10 @@ import { MessageStatus } from "../../models/chat";
 import ChatWindow from ".";
 import { ChatWindowProps } from "./ChatWindow";
 
-export default {
-  title: "Components/ChatWindow",
-  component: ChatWindow,
-} as Meta;
+// export default {
+//   title: "Components/ChatWindow",
+//   component: ChatWindow,
+// } as Meta;
 
 // Create a master template for mapping args to render the Button component
 const Template: Story<ChatWindowProps> = (args) => <ChatWindow {...args} />;

@@ -1,7 +1,7 @@
 import React from "react";
+import { ActiveFeatures } from "../../config";
 import useGetSelfDetails from "../../hooks/queries/useGetSelfDetails";
 import { useSidebar } from "../../providers/useSidebar";
-import { ActiveFeatures } from "../../views/FullView/FullView";
 import FeatureSidebar from "./FeatureSidebar";
 
 function FeatureSidebarWired() {

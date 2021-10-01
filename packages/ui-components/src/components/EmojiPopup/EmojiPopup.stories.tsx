@@ -4,10 +4,10 @@ import { Story } from '@storybook/react';
 import EmojiPopupComponent, { EmojiPopupProps } from './EmojiPopup';
 import { Center, Box } from '@chakra-ui/react';
 
-export default {
-  title: 'Components/EmojiPopup',
-  component: EmojiPopupComponent
-} as Meta;
+// export default {
+//   title: 'Components/EmojiPopup',
+//   component: EmojiPopupComponent
+// } as Meta;
 
 // Create a master template for mapping args to render the Button component
 const Template: Story<EmojiPopupProps> = args => (

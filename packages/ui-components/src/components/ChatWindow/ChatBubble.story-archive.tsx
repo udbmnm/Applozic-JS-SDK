@@ -1,16 +1,16 @@
-import React from 'react';
-import { Meta } from '@storybook/react/types-6-0';
-import { Story } from '@storybook/react';
-import ChatBubble, { ChatBubbleProps } from './ChatBubble';
-import { MessageStatus } from '../../models/chat';
+import React from "react";
+import { Meta } from "@storybook/react/types-6-0";
+import { Story } from "@storybook/react";
+import ChatBubble, { ChatBubbleProps } from "./ChatBubble";
+import { MessageStatus } from "../../models/chat";
 
-export default {
-  title: 'Components/ChatBubble',
-  component: ChatBubble
-} as Meta;
+// export default {
+//   title: 'Components/ChatBubble',
+//   component: ChatBubble
+// } as Meta;
 
 // Create a master template for mapping args to render the Button component
-const Template: Story<ChatBubbleProps> = args => <ChatBubble {...args} />;
+const Template: Story<ChatBubbleProps> = (args) => <ChatBubble {...args} />;
 
 // Reuse that template for creating different stories
 // export const PendingSentMessage = Template.bind({});

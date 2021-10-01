@@ -4,10 +4,10 @@ import { Story } from '@storybook/react';
 import SendMessage, { SendMessageProps } from './SendMessage';
 import { Box, Center } from '@chakra-ui/react';
 
-export default {
-  title: 'Components/SendMessage',
-  component: SendMessage
-} as Meta;
+// export default {
+//   title: 'Components/SendMessage',
+//   component: SendMessage
+// } as Meta;
 
 // Create a master template for mapping args to render the Button component
 const Template: Story<SendMessageProps> = args => (

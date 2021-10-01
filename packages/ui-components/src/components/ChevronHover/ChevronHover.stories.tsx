@@ -4,13 +4,13 @@ import { Story } from '@storybook/react';
 import ChevronHover, { ChevronHoverProps } from './ChevronHover';
 import { Box } from '@chakra-ui/react';
 
-export default {
-  title: 'Components/ChevronHover',
-  component: ChevronHover,
-  argTypes: {
-    backgroundColor: { control: 'color' }
-  }
-} as Meta;
+// export default {
+//   title: 'Components/ChevronHover',
+//   component: ChevronHover,
+//   argTypes: {
+//     backgroundColor: { control: 'color' }
+//   }
+// } as Meta;
 
 // Create a master template for mapping args to render the Button component
 const Template: Story<ChevronHoverProps> = args => (

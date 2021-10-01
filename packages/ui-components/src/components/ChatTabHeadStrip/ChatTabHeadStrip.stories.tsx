@@ -6,13 +6,13 @@ import ChatTabHeadStripComponent, {
 } from "./ChatTabHeadStrip";
 import { Box } from "@chakra-ui/react";
 
-export default {
-  title: "Components/ChatTabHeadStrip",
-  component: ChatTabHeadStripComponent,
-  argTypes: {
-    backgroundColor: { control: "color" },
-  },
-} as Meta;
+// export default {
+//   title: "Components/ChatTabHeadStrip",
+//   component: ChatTabHeadStripComponent,
+//   argTypes: {
+//     backgroundColor: { control: "color" },
+//   },
+// } as Meta;
 
 // Create a master template for mapping args to render the Button component
 const Template: Story<ChatTabHeadStripProps> = (args) => (

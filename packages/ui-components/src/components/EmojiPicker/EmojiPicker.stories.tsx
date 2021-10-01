@@ -7,14 +7,14 @@ import EmojiPicker, {
 } from './EmojiPicker';
 import { EMOJI_CATEGORY } from './SmileyCategoryStrip';
 
-export default {
-  title: 'Components/EmojiPicker',
-  component: EmojiPicker,
-  argTypes: {
-    backgroundColor: { control: 'color' },
-    defaultSearchText: { control: 'text' }
-  }
-} as Meta;
+// export default {
+//   title: 'Components/EmojiPicker',
+//   component: EmojiPicker,
+//   argTypes: {
+//     backgroundColor: { control: 'color' },
+//     defaultSearchText: { control: 'text' }
+//   }
+// } as Meta;
 
 // Create a master template for mapping args to render the Button component
 const Template: Story<EmojiPickerProps> = args => <EmojiPicker {...args} />;

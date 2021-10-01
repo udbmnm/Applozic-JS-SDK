@@ -4,13 +4,13 @@ import { Story } from '@storybook/react';
 import MapPicker, { MapPickerProps } from './';
 import { Box, Center } from '@chakra-ui/react';
 
-export default {
-  title: 'Components/MapPicker',
-  component: MapPicker,
-  argTypes: {
-    backgroundColor: { control: 'color' }
-  }
-} as Meta;
+// export default {
+//   title: 'Components/MapPicker',
+//   component: MapPicker,
+//   argTypes: {
+//     backgroundColor: { control: 'color' }
+//   }
+// } as Meta;
 
 // Create a master template for mapping args to render the Button component
 const Template: Story<MapPickerProps> = args => (

@@ -5,10 +5,10 @@ import Form, { FormProps } from "../Form/Form";
 import { ILoginForm } from "./LoginForm";
 import LoginFormWired from "./LoginFormWired";
 
-export default {
-  title: "Login",
-  component: LoginFormWired,
-} as Meta;
+// export default {
+//   title: "Login",
+//   component: LoginFormWired,
+// } as Meta;
 
 // Create a master template for mapping args to render the Button component
 const Template: Story< Omit<ILoginForm, "onSubmit">> = (args) => (

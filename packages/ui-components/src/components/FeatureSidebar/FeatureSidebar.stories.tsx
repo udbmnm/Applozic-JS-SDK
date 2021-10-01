@@ -3,10 +3,10 @@ import { Meta } from "@storybook/react/types-6-0";
 import { Story } from "@storybook/react";
 import FeatureSidebar, { IFeatureSidebar } from "./FeatureSidebar";
 
-export default {
-  title: "Components/FeatureSidebar",
-  component: FeatureSidebar,
-} as Meta;
+// export default {
+//   title: "Components/FeatureSidebar",
+//   component: FeatureSidebar,
+// } as Meta;
 
 // Create a master template for mapping args to render the Button component
 const Template: Story<IFeatureSidebar> = (args) => <FeatureSidebar {...args} />;

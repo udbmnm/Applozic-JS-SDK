@@ -4,10 +4,10 @@ import { Story } from "@storybook/react";
 import Form, { FormProps } from "../Form/Form";
 import { ILoginFormData } from "./LoginForm";
 
-export default {
-  title: "Components/Form",
-  component: Form,
-} as Meta;
+// export default {
+//   title: "Components/Form",
+//   component: Form,
+// } as Meta;
 
 // Create a master template for mapping args to render the Button component
 const Template: Story<FormProps<ILoginFormData>> = (args) => <Form {...args} />;

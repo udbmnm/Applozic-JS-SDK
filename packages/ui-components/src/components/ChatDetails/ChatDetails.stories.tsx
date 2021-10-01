@@ -13,13 +13,13 @@ import PrivacyAndSupportComponent, {
 } from "./PrivacyAndSupport";
 import { MessageStatus } from "../../models/chat";
 
-export default {
-  title: "Components/Chat Details",
-  component: ChatDetails,
-  argTypes: {
-    backgroundColor: { control: "color" },
-  },
-} as Meta;
+// export default {
+//   title: "Components/Chat Details",
+//   component: ChatDetails,
+//   argTypes: {
+//     backgroundColor: { control: "color" },
+//   },
+// } as Meta;
 
 // Create a master template for mapping args to render the Button component
 const Template: Story<ChatDetailProps> = (args) => <ChatDetails {...args} />;

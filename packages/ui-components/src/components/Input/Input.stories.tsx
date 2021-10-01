@@ -3,10 +3,10 @@ import { Meta } from '@storybook/react/types-6-0';
 import { Story } from '@storybook/react';
 import Input, { InputProps } from './Input';
 
-export default {
-  title: 'Components/Input',
-  component: Input
-} as Meta;
+// export default {
+//   title: 'Components/Input',
+//   component: Input
+// } as Meta;
 
 // Create a master template for mapping args to render the Button component
 const Template: Story<InputProps> = args => <Input {...args} />;

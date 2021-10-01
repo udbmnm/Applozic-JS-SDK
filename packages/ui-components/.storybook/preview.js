@@ -59,7 +59,9 @@ const StoryComponent = ({ StoryFn, context }) => {
 const withChakra = (StoryFn, context) => {
   return (
     <QueryClientProvider client={applozicQueryClient}>
-      <ChakraProvider theme={theme}>
+      <ChakraProvider
+        theme={theme({ useSystemColorMode: false, initialColorMode: "light" })}
+      >
         <StoryComponent StoryFn={StoryFn} context={context} />
       </ChakraProvider>
       <ReactQueryDevtools initialIsOpen={false} />
