@@ -1,5 +1,4 @@
-import { useColorMode } from "@applozic/ui-components";
-import { useEffect } from "react";
+import { ProvideChakra } from "@applozic/ui-components";
 
 export const parameters = {
   // layout: "fullscreen",
@@ -27,8 +26,10 @@ export const globalTypes = {
   },
 };
 
-const withColorMode = (StoryFn, context) => {
-  return <StoryFn initialColorMode={context.globals.theme} />;
-};
-
-export const decorators = [withColorMode];
+export const decorators = [
+  (Story) => (
+    <ProvideChakra>
+      <Story />
+    </ProvideChakra>
+  ),
+];
