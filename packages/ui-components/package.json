@@ -15,7 +15,6 @@
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "module": "dist/index.js",
   "directories": {
     "src": "src",
     "test": "__tests__"
