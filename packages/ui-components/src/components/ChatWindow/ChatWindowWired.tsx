@@ -32,26 +32,38 @@ import { useSidebar } from "../../providers/useSidebar";
 import MotionBox from "../MotionBox";
 import useDeleteMesssage from "../../hooks/mutations/useDeleteMessage";
 import SelfDetailsWired from "../ChatDetails/SelfDetailsWired";
-import ActiveChat from "../../models/chat/ActiveChat";
+import ActiveChat, { getIdFromActiveChat } from "../../models/chat/ActiveChat";
+import { INewMessage } from "../../utils/parser";
+import useActiveChats from "../../hooks/useActiveChats";
 
 interface ChatMessageWindowProps {
   activeChat: ActiveChat;
   giphyApiKey?: string;
   gMapsApiKey?: string;
+  deleteMessage: (
+    messageKey: string,
+    contactId: string | undefined,
+    deleteForAll?: boolean
+  ) => void | Promise<void>;
+  sendMessage: (newMessage: INewMessage) => void | Promise<void>;
+  getUploadResult: (file: File) => Promise<FileMeta>;
+  sendTypingStatus: (userId: string | undefined, isTyping: boolean) => void;
 }
 
 function ChatMessagesWindow({
   activeChat,
   giphyApiKey,
   gMapsApiKey,
+  deleteMessage,
+  sendMessage,
+  getUploadResult,
+  sendTypingStatus,
 }: ChatMessageWindowProps) {
   const toast = useToast();
 
   // useGetMessages(chatItem.chatType, chatItem.group?.clientGroupId ?? activeChat.user?.userId);
   const [fileMeta, setFileMeta] = useState<FileMeta | undefined>();
-  const { mutate: deleteMessageMutation } = useDeleteMesssage();
-  const { client } = useApplozicClient();
-  const { mutate: sendMessage } = useSendUserMessage();
+
   const { data: messages = [] } = useQuery<Message[]>([
     "messages-local",
     activeChat.group?.clientGroupId ?? activeChat.user?.userId,
@@ -77,19 +89,10 @@ function ChatMessagesWindow({
 
   const imageUrl = user?.imageLink || group?.imageUrl;
 
-  const getUploadResult = async (file: File) => {
-    if (client) {
-      const x = toast({ description: "Uploading..." });
-      const result = await client.files.upload(file);
-      toast.close(x as ToastId);
-      return result;
-    }
-  };
   // const [typing, settyping] = useState(false);
   // useEffect(() => {
   // client?.sendTypingStatus(chatItem.group?.clientGroupId ?? activeChat.user?.userId, typing);
   // }, [typing]);
-  console.log({ fileMeta, check: !!fileMeta });
   return (
     <MotionBox
       padding={0}
@@ -112,15 +115,12 @@ function ChatMessagesWindow({
         contactName={name}
         contactImageUrl={imageUrl}
         onMessageDelete={async (message, deleteForAll) => {
-          if (client) {
-            // await client.messages.delete(message.key);
-            deleteMessageMutation({
-              messageKey: message.key,
-              contactId:
-                activeChat.group?.clientGroupId ?? activeChat.user?.userId,
-              deleteForAll,
-            });
-          }
+          // await client.messages.delete(message.key);
+          deleteMessage(
+            message.key,
+            activeChat.group?.clientGroupId ?? activeChat.user?.userId,
+            deleteForAll
+          );
         }}
       />
       <SendMessage
@@ -128,13 +128,8 @@ function ChatMessagesWindow({
         gMapsApiKey={gMapsApiKey}
         attachment={fileMeta}
         handleTyping={(isTyping) => {
-          console.log({ isTyping });
           setTimeout(
-            () =>
-              client?.sendTypingStatus(
-                activeChat.group?.clientGroupId ?? activeChat.user?.userId,
-                isTyping
-              ),
+            () => sendTypingStatus(getIdFromActiveChat(activeChat), isTyping),
             100
           );
           // settyping(isTyping);
@@ -142,50 +137,31 @@ function ChatMessagesWindow({
         handleSend={(text) => {
           if (sendMessage) {
             sendMessage({
-              to:
-                activeChat.chatType === ChatType.USER
-                  ? activeChat.group?.clientGroupId ?? activeChat.user?.userId
-                  : undefined,
-              clientGroupId:
-                activeChat.chatType === ChatType.GROUP
-                  ? activeChat.group?.clientGroupId ?? activeChat.user?.userId
-                  : undefined,
+              to: getIdFromActiveChat(activeChat),
+              clientGroupId: getIdFromActiveChat(activeChat),
               message: text,
               fileMeta,
               metadata: { webUiKey: v4() },
             });
             setFileMeta(undefined);
-            client?.sendTypingStatus(
-              activeChat.group?.clientGroupId ?? activeChat.user?.userId,
-              false
-            );
+            sendTypingStatus(getIdFromActiveChat(activeChat), false);
           }
         }}
         handleSendFile={async (file) => {
-          if (client) {
-            const result = await getUploadResult(file);
-            if (result) {
-              sendMessage({
-                to:
-                  activeChat.chatType === ChatType.USER
-                    ? activeChat.group?.clientGroupId ?? activeChat.user?.userId
-                    : undefined,
-                clientGroupId:
-                  activeChat.chatType === ChatType.GROUP
-                    ? activeChat.group?.clientGroupId ?? activeChat.user?.userId
-                    : undefined,
-                message: "",
-                fileMeta: result,
-                metadata: { webUiKey: v4() },
-              });
-            }
+          const result = await getUploadResult(file);
+          if (result) {
+            sendMessage({
+              to: getIdFromActiveChat(activeChat),
+              clientGroupId: getIdFromActiveChat(activeChat),
+              message: "",
+              fileMeta: result,
+              metadata: { webUiKey: v4() },
+            });
           }
         }}
         onFileSelected={async (file) => {
-          if (client) {
-            const result = await getUploadResult(file);
-            setFileMeta(result);
-          }
+          const result = await getUploadResult(file);
+          setFileMeta(result);
         }}
         onFileDiscarded={() => {
           setFileMeta(undefined);
@@ -193,14 +169,8 @@ function ChatMessagesWindow({
         onSendLocation={(position) => {
           if (sendMessage) {
             sendMessage({
-              to:
-                activeChat.chatType === ChatType.USER
-                  ? activeChat.group?.clientGroupId ?? activeChat.user?.userId
-                  : undefined,
-              clientGroupId:
-                activeChat.chatType === ChatType.GROUP
-                  ? activeChat.group?.clientGroupId ?? activeChat.user?.userId
-                  : undefined,
+              to: getIdFromActiveChat(activeChat),
+              clientGroupId: getIdFromActiveChat(activeChat),
               message: JSON.stringify({ lat: position.lat, lon: position.lng }),
               metadata: { webUiKey: v4() },
               contentType: MessageContentType.LOCATION,
@@ -219,16 +189,18 @@ interface ChatWindowWiredProps {
 
 function ChatWindowWired({ giphyApiKey, gMapsApiKey }: ChatWindowWiredProps) {
   const { loginResult } = useApplozicClient();
-  const { chats, openIndex, detailIndex } = useActiveChats();
+  const { activeChats, openIndex, detailOpenIndex } = useActiveChats();
   const { isCollapsed, showUserDetails, setShowUserDetails } = useSidebar();
-  const fullyOpen = isCollapsed && detailIndex < 0 && !showUserDetails;
-  const onlyDetailOpen = isCollapsed && (detailIndex >= 0 || showUserDetails);
-  const onlySidebarOpen = !isCollapsed && detailIndex < 0 && !showUserDetails;
+  const fullyOpen = isCollapsed && detailOpenIndex < 0 && !showUserDetails;
+  const onlyDetailOpen =
+    isCollapsed && (detailOpenIndex >= 0 || showUserDetails);
+  const onlySidebarOpen =
+    !isCollapsed && detailOpenIndex < 0 && !showUserDetails;
   useEffect(() => {
-    if (detailIndex > -1) {
+    if (detailOpenIndex > -1) {
       setShowUserDetails && setShowUserDetails(false);
     }
-  }, [detailIndex]);
+  }, [detailOpenIndex]);
   return (
     <MotionBox
       display="flex"
@@ -245,34 +217,33 @@ function ChatWindowWired({ giphyApiKey, gMapsApiKey }: ChatWindowWiredProps) {
           : "460px"
       })`}
     >
-      {chats.length === 0 || openIndex < 0 ? (
+      {activeChats.length === 0 || openIndex < 0 ? (
         <NoChatSelected />
       ) : (
         <Tabs
           isFitted
           variant="enclosed"
-          width={`calc(100% - ${detailIndex > -1 ? "350px" : "12px"})`}
+          width={`calc(100% - ${detailOpenIndex > -1 ? "350px" : "12px"})`}
           height="full"
           index={openIndex}
         >
           <ChatTabHeadStripWired />
           <ChatMessagesWindow
-            activeChat={chats[openIndex]}
+            activeChat={activeChats[openIndex]}
             giphyApiKey={giphyApiKey}
             gMapsApiKey={gMapsApiKey}
           />
         </Tabs>
       )}
       <AnimatePresence>
-        {detailIndex > -1 && (
+        {detailOpenIndex > -1 && (
           <ChatDetailsWired
             activeChat={
               showUserDetails
                 ? {
-                    contactId: loginResult?.userId as string,
-                    type: ChatType.SELF,
+                    user: loginResult?.newUser,
                   }
-                : chats[detailIndex]
+                : activeChats[detailOpenIndex]
             }
           />
         )}

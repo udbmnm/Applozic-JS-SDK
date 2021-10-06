@@ -68,9 +68,9 @@ function useActiveChats() {
   };
 
   return {
-    activeChats,
-    openIndex,
-    detailOpenIndex,
+    activeChats: activeChats ?? [],
+    openIndex: openIndex ?? -1,
+    detailOpenIndex: detailOpenIndex ?? -1,
     setActiveChat,
     removeActiveChat: removeActiveChat,
     showChatDetail,

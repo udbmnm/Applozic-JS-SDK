@@ -17,7 +17,7 @@ import useUpdateGroupInfo from "../../hooks/mutations/useUpdateGroupInfo";
 import { useApplozicClient } from "../../providers/useApplozicClient";
 import useLeaveGroup from "../../hooks/mutations/useLeaveGroup";
 import useDeleteGroup from "../../hooks/mutations/useDeleteGroup";
-import ActiveChat from "../../models/chat/ActiveChat";
+import ActiveChat, { getIdFromActiveChat } from "../../models/chat/ActiveChat";
 import useActiveChats from "../../hooks/useActiveChats";
 
 export interface ChatDetailWiredProps {
@@ -25,10 +25,7 @@ export interface ChatDetailWiredProps {
 }
 
 const ChatDetailsWired = ({ activeChat }: ChatDetailWiredProps) => {
-  useGetMessages(
-    activeChat.chatType,
-    activeChat.group?.clientGroupId ?? activeChat.user?.userId
-  );
+  useGetMessages(activeChat);
   useGetUserContacts();
 
   const { data: messages = [] } = useQuery<Message[]>([
