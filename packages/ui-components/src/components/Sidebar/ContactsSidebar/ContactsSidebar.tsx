@@ -1,9 +1,7 @@
 import React from "react";
-import { Flex, VStack } from "@chakra-ui/react";
+import { VStack } from "@chakra-ui/react";
 import { User } from "@applozic/core-sdk";
 import { useSidebar } from "../../../providers/useSidebar";
-import ScrollArea from "../../ScrollArea";
-import AddContact from "../RecentChatsSidebar/AddContact";
 import ContactItem from "./ContactItem";
 
 export interface IRecentChats {

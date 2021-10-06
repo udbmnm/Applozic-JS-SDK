@@ -1,5 +1,4 @@
 import React from "react";
-import { ActiveChat, useActiveChats } from "../../providers/useActiveChats";
 import ChatDetails from "./ChatDetails";
 import {
   getNameFromGroup,
@@ -9,8 +8,6 @@ import {
 } from "@applozic/core-sdk";
 import { ChatType, Message } from "../../models/chat";
 import useUpdateGroupMembers from "../../hooks/mutations/useUpdateGroupMembers";
-import useGetUserInfo from "../../hooks/queries/useGetUserInfo";
-import useGetGroupInfo from "../../hooks/queries/useGetGroupInfo";
 import useGetMessages from "../../hooks/queries/useGetUserMessages";
 import { useQuery } from "react-query";
 import useGetUserContacts from "../../hooks/queries/useGetContacts";
@@ -20,35 +17,32 @@ import useUpdateGroupInfo from "../../hooks/mutations/useUpdateGroupInfo";
 import { useApplozicClient } from "../../providers/useApplozicClient";
 import useLeaveGroup from "../../hooks/mutations/useLeaveGroup";
 import useDeleteGroup from "../../hooks/mutations/useDeleteGroup";
+import ActiveChat from "../../models/chat/ActiveChat";
+import useActiveChats from "../../hooks/useActiveChats";
 
 export interface ChatDetailWiredProps {
-  chatItem: ActiveChat;
+  activeChat: ActiveChat;
 }
 
-const ChatDetailsWired = ({ chatItem }: ChatDetailWiredProps) => {
-  useGetMessages(chatItem.type, chatItem.contactId);
+const ChatDetailsWired = ({ activeChat }: ChatDetailWiredProps) => {
+  useGetMessages(
+    activeChat.chatType,
+    activeChat.group?.clientGroupId ?? activeChat.user?.userId
+  );
   useGetUserContacts();
-
-  const { data: user } = useGetUserInfo(
-    chatItem.contactId,
-    chatItem.type === ChatType.USER
-  );
-
-  const { data: group } = useGetGroupInfo(
-    chatItem.contactId,
-    chatItem.type === ChatType.GROUP
-  );
 
   const { data: messages = [] } = useQuery<Message[]>([
     "messages-local",
-    chatItem.contactId,
+    activeChat.group?.clientGroupId ?? activeChat.user?.userId,
   ]);
+  const { user, group } = activeChat;
+
   const { data: { users } = {} } = useQuery<{
     users: User[];
     groups: Group[];
   }>(["contacts-local"]);
   const { loginResult } = useApplozicClient();
-  const { setActiveContactInfo, removeContact } = useActiveChats();
+  const { hideChatDetail, removeActiveChat: removeContact } = useActiveChats();
   const { mutate: updateGroupMembers } = useUpdateGroupMembers();
   const { mutate: blockContact } = useBlockContact();
   const { mutate: clearChat } = useClearChat();
@@ -58,20 +52,26 @@ const ChatDetailsWired = ({ chatItem }: ChatDetailWiredProps) => {
 
   return (
     <ChatDetails
-      title={user ? getNameFromUser(user) : group ? getNameFromGroup(group) : ""}
+      title={
+        user ? getNameFromUser(user) : group ? getNameFromGroup(group) : ""
+      }
       imageUrl={
         user?.imageLink ? user.imageLink : group?.imageUrl ? group.imageUrl : ""
       }
-      type={chatItem.type}
+      type={activeChat.chatType}
       messages={messages}
       userContacts={users}
       group={group}
-      isBlocked={chatItem.type == ChatType.USER && user?.blockedByThis}
+      isBlocked={activeChat.chatType == ChatType.USER && user?.blockedByThis}
       isAdmin={
-        chatItem.type == ChatType.GROUP && group?.adminId == loginResult?.userId
+        activeChat.chatType == ChatType.GROUP &&
+        group?.adminId == loginResult?.userId
       }
       updateGroupInfo={(options) =>
-        updateGroupInfo({ clientGroupId: chatItem.contactId, ...options })
+        updateGroupInfo({
+          clientGroupId: activeChat.group?.clientGroupId,
+          ...options,
+        })
       }
       updateMemberList={(userIds, onSuccess) =>
         group &&
@@ -85,25 +85,30 @@ const ChatDetailsWired = ({ chatItem }: ChatDetailWiredProps) => {
           }
         )
       }
-      onCloseClicked={() =>
-        setActiveContactInfo(chatItem.type, chatItem.contactId, false)
+      onCloseClicked={() => hideChatDetail()}
+      onBlockClicked={() =>
+        activeChat.user && blockContact({ userId: activeChat.user.userId })
       }
-      onBlockClicked={() => blockContact({ userId: chatItem.contactId })}
-      onChatClearClicked={() =>
-        clearChat(
-          chatItem.type === ChatType.GROUP
-            ? { groupId: chatItem.contactId }
-            : { userId: chatItem.contactId }
-        )
-      }
+      onChatClearClicked={() => {
+        const toDelete = activeChat.group
+          ? { groupId: activeChat.group.clientGroupId }
+          : activeChat.user
+          ? { userId: activeChat.user.userId }
+          : undefined;
+        if (toDelete) {
+          clearChat(toDelete);
+        }
+      }}
       onDeleteGroupClicked={() =>
-        deleteGroup(chatItem.contactId, {
-          onSuccess: () => removeContact(chatItem.contactId),
+        activeChat.group &&
+        deleteGroup(activeChat.group.clientGroupId, {
+          onSuccess: () => removeContact(activeChat),
         })
       }
       onLeaveGroupClicked={() =>
-        leaveGroup(chatItem.contactId, {
-          onSuccess: () => removeContact(chatItem.contactId),
+        activeChat.group &&
+        leaveGroup(activeChat.group.clientGroupId, {
+          onSuccess: () => removeContact(activeChat),
         })
       }
     />

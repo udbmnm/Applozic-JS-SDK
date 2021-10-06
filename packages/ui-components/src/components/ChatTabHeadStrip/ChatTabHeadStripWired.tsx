@@ -1,36 +1,28 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useActiveChats } from "../../providers/useActiveChats";
-import { ChatType } from "../../models/chat";
-import RecentChat from "../../models/chat/RecentChat";
-import ChatTabHeadStrip, { ChatTabHeadStripItem } from "./ChatTabHeadStrip";
-import { useQueryClient } from "react-query";
+import React from "react";
+import ChatTabHeadStrip from "./ChatTabHeadStrip";
+import useActiveChats from "../../hooks/useActiveChats";
 
 const ChatTabHeadStripWired = () => {
   const {
-    chats,
+    activeChats,
     openIndex,
-    setActiveContactInfo,
-    removeContact,
+    setActiveChat,
+    removeActiveChat: removeContact,
+    showChatDetail,
   } = useActiveChats();
-  const activeTab = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    activeTab?.current && activeTab?.current.scrollIntoView();
-  }, [chats]);
 
   return (
     <ChatTabHeadStrip
-      ref={activeTab}
-      chats={chats}
+      activeChats={activeChats}
       openIndex={openIndex}
       onItemClick={(index) => {
-        setActiveContactInfo(chats[index].type, chats[index].contactId);
+        activeChats && setActiveChat(activeChats[index]);
       }}
       onCloseClick={(index) => {
-        removeContact(chats[index].contactId);
+        activeChats && removeContact(activeChats[index]);
       }}
       onDetailsClick={(index) => {
-        setActiveContactInfo(chats[index].type, chats[index].contactId, true);
+        showChatDetail(index);
       }}
     />
   );

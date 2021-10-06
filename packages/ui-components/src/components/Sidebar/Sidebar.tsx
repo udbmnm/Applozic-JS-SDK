@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useActiveChats } from "../../providers/useActiveChats";
 import { ChatType, RecentChat } from "../../models/chat";
 import withSidebar from "./withSidebar";
 import RecentChatsSidebar from "./RecentChatsSidebar";
@@ -12,6 +11,7 @@ import { INewGroup } from "../../utils/parser";
 import CreateContact from "./RecentChatsSidebar/CreateContact";
 import ContactsSidebar from "./ContactsSidebar/ContactsSidebar";
 import { User } from "@applozic/core-sdk";
+import ActiveChat from "../../models/chat/ActiveChat";
 
 export interface ISidebar {
   type: Feature;
@@ -19,10 +19,8 @@ export interface ISidebar {
   users: User[] | undefined;
   onCreateGroup: (newGroup: INewGroup) => void | Promise<void>;
   onCreateContact: (contactName: string) => void | Promise<void>;
-  onClearConversation: (
-    type: ChatType,
-    contactId: string
-  ) => void | Promise<void>;
+  onClearConversation: (activeChat: ActiveChat) => void | Promise<void>;
+  handleClick: (type: ChatType, contactId: string) => void | Promise<void>;
 }
 
 function Sidebar({
@@ -32,17 +30,10 @@ function Sidebar({
   onCreateGroup: onClickCreateGroup,
   onCreateContact: onClickCreateContact,
   onClearConversation: onClickClearConversation,
+  handleClick,
 }: ISidebar) {
-  const { setActiveContactInfo } = useActiveChats();
   const [showAddGroup, setShowAddGroup] = useState(false);
   const [showAddContact, setShowAddContact] = useState(false);
-  const handleClick = (type: ChatType, contactId: string) => {
-    setActiveContactInfo(type, contactId);
-  };
-
-  const handleClickContact = (contactId: string) => {
-    setActiveContactInfo(ChatType.USER, contactId);
-  };
 
   switch (type) {
     case Feature.RECENT_CHATS:
@@ -89,7 +80,7 @@ function Sidebar({
     case Feature.CONTACTS:
       return withSidebar(ContactsSidebar)({
         users,
-        onClickContact: handleClickContact,
+        onClickContact: (contactId) => handleClick(ChatType.USER, contactId),
         showOverlay: showAddContact,
         OverlayComponent: (
           <CreateContact

@@ -7,7 +7,6 @@ import RecentChatItem from "../RecentChatsSidebar/RecentChatItem";
 import AddGroup from "./AddGroup";
 import { useQueryClient } from "react-query";
 import { getNameFromGroup, Group } from "@applozic/core-sdk";
-import ScrollArea from "../../ScrollArea";
 
 export interface IGroups {
   recentChats: RecentChat[];

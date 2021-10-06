@@ -1,11 +1,9 @@
 import React, { useEffect } from "react";
-import { Flex, VStack } from "@chakra-ui/react";
+import { VStack } from "@chakra-ui/react";
 import { useSidebar } from "../../../providers/useSidebar";
 import { ChatType } from "../../../models/chat";
 import { RecentChat } from "../../../models/chat";
 import RecentChatItem from "./RecentChatItem";
-import AddContact from "./AddContact";
-import ScrollArea from "../../ScrollArea";
 import { useInView } from "react-intersection-observer";
 import { useQueryClient } from "react-query";
 import {
@@ -14,15 +12,13 @@ import {
   getNameFromGroup,
   getNameFromUser,
 } from "@applozic/core-sdk";
+import ActiveChat from "../../../models/chat/ActiveChat";
 
 export interface IRecentChats {
   recentChats: RecentChat[] | undefined;
   onClickContact: (type: ChatType, contactId: string) => void | Promise<void>;
   onClickAddContact: () => void | Promise<void>;
-  onClearConversation: (
-    type: ChatType,
-    contactId: string
-  ) => void | Promise<void>;
+  onClearConversation: (activeChat: ActiveChat) => void | Promise<void>;
 }
 
 const hasSubString = (a: string, b: string) =>

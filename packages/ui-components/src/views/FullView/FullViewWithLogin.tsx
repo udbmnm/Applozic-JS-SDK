@@ -30,11 +30,9 @@ function FullViewAppWithLogin({
     return <div>Loading...</div>;
   }
   return user ? (
-    <ProvideActiveChats>
-      <ProvideSidebar defaultCollapsed={true}>
-        <FullViewApp giphyApiKey={giphyApiKey} gMapsApiKey={gMapsApiKey} />
-      </ProvideSidebar>
-    </ProvideActiveChats>
+    <ProvideSidebar defaultCollapsed={true}>
+      <FullViewApp giphyApiKey={giphyApiKey} gMapsApiKey={gMapsApiKey} />
+    </ProvideSidebar>
   ) : (
     <LoginPage
       applicationId={applicationId}

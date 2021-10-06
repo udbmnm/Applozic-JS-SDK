@@ -1,16 +1,15 @@
 import React from "react";
 import { useEffect } from "react";
-import Feature from "../../models/Feature";
 import { useApplozicClient } from "../../providers/useApplozicClient";
 import { ChatType, RecentChat } from "../../models/chat";
 import Sidebar from "./Sidebar";
 import useCreateGroup from "../../hooks/mutations/useCreateGroup";
-import { useActiveChats } from "../../providers/useActiveChats";
-import useCreateNewContact from "../../hooks/mutations/useCreateNewContact";
+// import useCreateNewContact from "../../hooks/mutations/useCreateNewContact";
 import { useQuery, useQueryClient } from "react-query";
 import { Group, User } from "@applozic/core-sdk";
 import useClearChat from "../../hooks/mutations/useClearChat";
 import { useSidebar } from "../../providers/useSidebar";
+import useActiveChats from "../../hooks/useActiveChats";
 
 function SidebarWired() {
   const { activeFeature: type } = useSidebar();
@@ -30,7 +29,7 @@ function SidebarWired() {
     "recent-chats-local",
     loginResult?.userId,
   ]);
-  const { setActiveContactInfo } = useActiveChats();
+  const { setActiveChat } = useActiveChats();
 
   const chats = chatQueryResult ?? [];
   const users = contacts?.users ?? [];
@@ -79,9 +78,41 @@ function SidebarWired() {
   }, []);
 
   const { mutate: mutateNewGroup } = useCreateGroup();
-  const { mutate: mutateNewContact } = useCreateNewContact();
+  // const { mutate: mutateNewContact } = useCreateNewContact();
+
   return (
     <Sidebar
+      handleClick={(type, contactId) => {
+        let user: User | undefined, group: Group | undefined;
+        if (type == ChatType.GROUP) {
+          group = queryClient.getQueryData(["group", contactId, true]);
+          if (!group) {
+            if (client) {
+              client.groups.groupInfo(contactId).then((group) => {
+                queryClient.setQueryData(["group", contactId, true], group);
+                setActiveChat({ group });
+              });
+            }
+          } else {
+            setActiveChat({ group });
+          }
+        }
+        if (type == ChatType.USER) {
+          user = queryClient.getQueryData(["user", contactId, true]);
+          if (!user) {
+            if (client) {
+              client.contacts.getUserDetails([contactId]).then((users) => {
+                if (users && users.length > 0) {
+                  queryClient.setQueryData(["user", contactId, true], users[0]);
+                  setActiveChat({ user: users[0] });
+                }
+              });
+            }
+          } else {
+            setActiveChat({ user });
+          }
+        }
+      }}
       type={type}
       recentChats={chats}
       users={users}
@@ -90,26 +121,26 @@ function SidebarWired() {
           mutateNewGroup(newGroup, {
             onSuccess: (response) => {
               if (response) {
-                setActiveContactInfo(ChatType.GROUP, response.clientGroupId);
+                setActiveChat({ group: response });
               }
             },
           });
         }
       }}
       onCreateContact={async (contactName) => {
-        mutateNewContact(contactName, {
-          onSuccess: (response) => {
-            if (response) {
-              setActiveContactInfo(ChatType.USER, response);
-            }
-          },
-        });
+        // mutateNewContact(contactName, {
+        //   onSuccess: (response) => {
+        //     if (response) {
+        //       setActiveContactInfo(ChatType.USER, response);
+        //     }
+        //   },
+        // });
       }}
-      onClearConversation={(type, contactId) => {
-        if (type === ChatType.GROUP) {
-          clearChat({ groupId: contactId });
-        } else if (type === ChatType.USER) {
-          clearChat({ userId: contactId });
+      onClearConversation={(activeChat) => {
+        if (activeChat.group) {
+          clearChat({ groupId: activeChat.group.clientGroupId });
+        } else if (activeChat.user) {
+          clearChat({ userId: activeChat.user.userId });
         }
       }}
     />
