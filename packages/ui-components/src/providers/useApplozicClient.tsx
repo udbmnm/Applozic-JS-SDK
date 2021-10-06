@@ -17,23 +17,34 @@ import { IPresence } from "../hooks/usePresence";
 import { IUnreadCount } from "../hooks/queries/useGetUnreadCount";
 import { mergeRecentChats } from "../utils/recentChatsMerger";
 import useDeleteMesssage from "../hooks/mutations/useDeleteMessage";
-// import { updateLastMessage } from "../hooks/useGetRecentChats";
+
+import { ChakraProvider } from "@chakra-ui/react";
+import { QueryClientProvider, QueryClient } from "react-query";
+import theme from "../theme";
+
+const applozicQueryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+    },
+  },
+});
 
 interface IApplozicClient {
   client: ApplozicClient | undefined;
   loginResult: LoginResult | null | undefined;
-  contacts: any | undefined;
   isClientLoaded: boolean;
 }
 
 const ApplozicClientContext = createContext<IApplozicClient>({
   client: undefined,
   loginResult: null,
-  contacts: undefined,
   isClientLoaded: false,
 });
 
-const useGetApplogicClient = (applicationId?: string) => {
+const useGetApplogicClient = (applicationId: string) => {
   const [client, setClient] = useState<ApplozicClient | undefined>();
   const { mutate: deleteMessageMutation } = useDeleteMesssage();
   const [isClientLoaded, setIsClientLoaded] = useState(false);
@@ -200,7 +211,6 @@ const useGetApplogicClient = (applicationId?: string) => {
   return {
     client,
     loginResult: client?.loginResult,
-    contacts: client?.contacts,
     isClientLoaded,
   };
 };
@@ -208,14 +218,26 @@ const useGetApplogicClient = (applicationId?: string) => {
 export function ProvideApplozicClient({
   children,
   applicationId,
+  colorMode = "light",
+  useSystemColorMode = false,
 }: {
   children: React.ReactNode;
-  applicationId?: string;
+  applicationId: string;
+  colorMode: "light" | "dark";
+  useSystemColorMode: boolean;
 }) {
   return (
-    <ApplozicClientContext.Provider value={useGetApplogicClient(applicationId)}>
-      {children}
-    </ApplozicClientContext.Provider>
+    <QueryClientProvider client={applozicQueryClient}>
+      <ChakraProvider
+        theme={theme({ initialColorMode: colorMode, useSystemColorMode })}
+      >
+        <ApplozicClientContext.Provider
+          value={useGetApplogicClient(applicationId)}
+        >
+          {children}
+        </ApplozicClientContext.Provider>
+      </ChakraProvider>
+    </QueryClientProvider>
   );
 }
 

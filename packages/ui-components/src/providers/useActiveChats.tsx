@@ -40,9 +40,6 @@ const useGetActiveChats = (): ActiveChatInfo => {
     const index = activeChats.chats.findIndex(
       (chat) => chat.contactId === contactId
     );
-    console.log({
-      showDetail,
-    });
     if (index > -1) {
       console.log({
         detailIndexExisting:

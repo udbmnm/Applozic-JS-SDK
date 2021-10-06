@@ -1,8 +1,8 @@
 import "@fontsource/roboto";
 
 // Components
-import { Message, MessageStatus } from "./models/chat";
-import FullView from "./views/FullView";
+import { ChatType, Message, MessageStatus } from "./models/chat";
+import { FullViewProps, FullView } from "./views/FullView";
 
 import { useColorMode } from "@chakra-ui/react";
 import Feature from "./models/Feature";
@@ -18,28 +18,56 @@ import MapPickerPopup, {
   MapPickerPopupProps,
 } from "./components/MapPickerPopup";
 import SendMessage, { SendMessageProps } from "./components/SendMessage";
+import { ChatDetails, ChatDetailProps } from "./components/ChatDetails";
+import ChatDetailsMeta, {
+  ChatDetailsMetaProps,
+} from "./components/ChatDetails/ChatDetailsMeta";
+import PictureAndName, {
+  PictureAndNameProps,
+} from "./components/ChatDetails/PictureAndName";
+import PrivacyAndSupport, {
+  PrivacyAndSupportProps,
+} from "./components/ChatDetails/PrivacyAndSupport";
+import ChatStatusBar, { ChatStatusBarProps } from "./components/ChatStatusBar";
+import ChatTabHeadStrip, {
+  ChatTabHeadStripProps,
+} from "./components/ChatTabHeadStrip";
 
 export {
+  MessageStatus,
+  Feature,
+  ChatType,
+  useColorMode,
+  ProvideChakra,
   Button,
   Icon,
   Input,
-  FullView,
-  MessageStatus,
-  Feature,
-  useColorMode,
-  ProvideChakra,
   MapPicker,
   MapPickerPopup,
   SendMessage,
+  PictureAndName,
+  ChatDetailsMeta,
+  PrivacyAndSupport,
+  ChatDetails,
+  FullView,
+  ChatStatusBar,
+  ChatTabHeadStrip,
 };
 
 // Models
 export type {
-  Message,
   ButtonProps,
   IconProps,
+  Message,
   InputProps,
   MapPickerProps,
   MapPickerPopupProps,
   SendMessageProps,
+  ChatDetailProps,
+  ChatDetailsMetaProps,
+  PictureAndNameProps,
+  PrivacyAndSupportProps,
+  FullViewProps,
+  ChatStatusBarProps,
+  ChatTabHeadStripProps,
 };

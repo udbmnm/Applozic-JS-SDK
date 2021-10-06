@@ -1,6 +1,14 @@
-
 export enum ChatType {
-  USER = 'user',
-  GROUP = 'group',
-  SELF = 'self'
+  /**
+   * a one on one chat
+   */
+  USER = "user",
+  /**
+   * a group chat
+   */
+  GROUP = "group",
+  /**
+   * chat with own account
+   */
+  SELF = "self",
 }

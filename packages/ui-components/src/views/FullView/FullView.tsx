@@ -1,32 +1,35 @@
 import React from "react";
-import { ChakraProvider } from "@chakra-ui/react";
-import theme, { ITheme } from "../../theme";
-import { QueryClientProvider, QueryClient } from "react-query";
-import FullViewBare, { IFullViewBare } from "./FullViewBare";
+import { ProvideApplozicClient } from "../../providers/useApplozicClient";
+import FullViewAppWithLogin, {
+  FullViewWithLoginProps,
+} from "./FullViewWithLogin";
 
-const applozicQueryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-    },
-  },
-});
-
-interface IFullView extends IFullViewBare, ITheme {}
+export interface FullViewProps extends FullViewWithLoginProps {
+  /**
+   * The colorMode of the UI Application
+   */
+  colorMode?: "light" | "dark";
+  /**
+   * Decide if the user's system color mode is being used fo the Application UI
+   */
+  useSystemColorMode?: boolean;
+}
 
 const FullView = ({
-  initialColorMode,
-  useSystemColorMode,
+  applicationId,
+  colorMode = "light",
+  useSystemColorMode = false,
   ...rest
-}: IFullView) => {
+}: FullViewProps) => {
   return (
-    <QueryClientProvider client={applozicQueryClient}>
-      <ChakraProvider theme={theme({ initialColorMode, useSystemColorMode })}>
-        <FullViewBare {...rest} />
-      </ChakraProvider>
-    </QueryClientProvider>
+    <ProvideApplozicClient
+      applicationId={applicationId}
+      colorMode={colorMode}
+      useSystemColorMode={useSystemColorMode}
+    >
+      <FullViewAppWithLogin applicationId={applicationId} {...rest} />
+    </ProvideApplozicClient>
   );
 };
+
 export default FullView;

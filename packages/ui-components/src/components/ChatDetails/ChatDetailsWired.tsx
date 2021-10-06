@@ -1,5 +1,4 @@
-import React, { useMemo, useState } from "react";
-import type { ISharedMedia } from "../SharedMedia/SharedMedia";
+import React from "react";
 import { ActiveChat, useActiveChats } from "../../providers/useActiveChats";
 import ChatDetails from "./ChatDetails";
 import {
@@ -44,7 +43,7 @@ const ChatDetailsWired = ({ chatItem }: ChatDetailWiredProps) => {
     "messages-local",
     chatItem.contactId,
   ]);
-  const { data: { users, groups } = {} } = useQuery<{
+  const { data: { users } = {} } = useQuery<{
     users: User[];
     groups: Group[];
   }>(["contacts-local"]);
@@ -57,45 +56,35 @@ const ChatDetailsWired = ({ chatItem }: ChatDetailWiredProps) => {
   const { mutate: leaveGroup } = useLeaveGroup();
   const { mutate: deleteGroup } = useDeleteGroup();
 
-  const downloadFileFromUrl = (url: string, filename: string) => {
-    console.log({ url, filename });
-    const tempLink = document.createElement("a");
-    tempLink.href = url;
-    tempLink.setAttribute("download", filename);
-    tempLink.click();
-  };
-
-  const sharedMedia = useMemo(() => {
-    const sharedMedia: ISharedMedia = {
-      photosProps: {
-        photosList: [],
-        onPhotoClick: (photo) => downloadFileFromUrl(photo.src, photo.id),
-      },
-      docsProps: { docs: [] },
-    };
-    messages?.forEach((message) => {
-      if (message.file) {
-        if (message.file?.thumbnailUrl) {
-          sharedMedia?.photosProps?.photosList?.push({
-            id: message.key,
-            src: message.file.thumbnailUrl,
-          });
-        } else {
-          if (message.file) {
-            sharedMedia?.docsProps?.docs?.push({ ...message.file });
-          }
-        }
-      }
-    });
-    return sharedMedia;
-  }, [messages]);
-
   return (
     <ChatDetails
-      onFileClick={downloadFileFromUrl}
+      title={user ? getNameFromUser(user) : group ? getNameFromGroup(group) : ""}
+      imageUrl={
+        user?.imageLink ? user.imageLink : group?.imageUrl ? group.imageUrl : ""
+      }
       type={chatItem.type}
+      messages={messages}
+      userContacts={users}
       group={group}
       isBlocked={chatItem.type == ChatType.USER && user?.blockedByThis}
+      isAdmin={
+        chatItem.type == ChatType.GROUP && group?.adminId == loginResult?.userId
+      }
+      updateGroupInfo={(options) =>
+        updateGroupInfo({ clientGroupId: chatItem.contactId, ...options })
+      }
+      updateMemberList={(userIds, onSuccess) =>
+        group &&
+        updateGroupMembers(
+          {
+            userIds,
+            clientGroupId: group.clientGroupId,
+          },
+          {
+            onSuccess,
+          }
+        )
+      }
       onCloseClicked={() =>
         setActiveContactInfo(chatItem.type, chatItem.contactId, false)
       }
@@ -116,30 +105,6 @@ const ChatDetailsWired = ({ chatItem }: ChatDetailWiredProps) => {
         leaveGroup(chatItem.contactId, {
           onSuccess: () => removeContact(chatItem.contactId),
         })
-      }
-      isAdmin={
-        chatItem.type == ChatType.GROUP && group?.adminId == loginResult?.userId
-      }
-      updateGroupInfo={(options) =>
-        updateGroupInfo({ clientGroupId: chatItem.contactId, ...options })
-      }
-      updateMemberList={(userIds, onSuccess) =>
-        group &&
-        updateGroupMembers(
-          {
-            userIds,
-            clientGroupId: group.clientGroupId,
-          },
-          {
-            onSuccess,
-          }
-        )
-      }
-      sharedMedia={sharedMedia}
-      userContacts={users}
-      name={user ? getNameFromUser(user) : group ? getNameFromGroup(group) : ""}
-      imageUrl={
-        user?.imageLink ? user.imageLink : group?.imageUrl ? group.imageUrl : ""
       }
     />
   );

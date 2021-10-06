@@ -1,8 +1,12 @@
 import React from "react";
 import { Meta } from "@storybook/react/types-6-0";
 import { Story } from "@storybook/react";
-import FullView, { IFullViewBare } from "./FullViewBare";
-import { APPLICATION_ID, GIPHY_APP_ID, GOOGLE_MAPS_API_KEY } from "../../config";
+import FullView, { FullViewProps } from "./FullView";
+import {
+  APPLICATION_ID,
+  GIPHY_APP_ID,
+  GOOGLE_MAPS_API_KEY,
+} from "../../config";
 
 export default {
   title: "Views/FullView",
@@ -10,7 +14,7 @@ export default {
 } as Meta;
 
 // Create a master template for mapping args to render the Button component
-const Template: Story<IFullViewBare> = (args) => <FullView {...args} />;
+const Template: Story<FullViewProps> = (args) => <FullView {...args} />;
 
 // Reuse that template for creating different stories
 export const Default = Template.bind({});
