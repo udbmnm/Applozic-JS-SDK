@@ -92,7 +92,6 @@ const ChatDetails = ({
   isAdmin,
 }: ChatDetailProps) => {
   const downloadFileFromUrl = (url: string, filename: string) => {
-    console.log({ url, filename });
     const tempLink = document.createElement("a");
     tempLink.href = url;
     tempLink.setAttribute("download", filename);

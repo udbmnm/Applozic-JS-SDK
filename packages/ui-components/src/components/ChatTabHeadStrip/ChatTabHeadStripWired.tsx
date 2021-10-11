@@ -9,10 +9,12 @@ const ChatTabHeadStripWired = () => {
     setActiveChat,
     removeActiveChat: removeContact,
     showChatDetail,
+    detailOpenIndex,
   } = useActiveChats();
 
   return (
     <ChatTabHeadStrip
+      detailOpenIndex={detailOpenIndex}
       activeChats={activeChats}
       openIndex={openIndex}
       onItemClick={(index) => {

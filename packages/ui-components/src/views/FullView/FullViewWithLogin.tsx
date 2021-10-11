@@ -1,12 +1,11 @@
 import React from "react";
 import LoginPage from "../../components/LoginPage";
 import useGetSelfDetails from "../../hooks/queries/useGetSelfDetails";
-import { ProvideActiveChats } from "../../providers/useActiveChats";
 import { ProvideSidebar } from "../../providers/useSidebar";
 import { useApplozicClient } from "../../providers/useApplozicClient";
-import FullViewApp, { FullViewAppProps } from "./FullViewApp";
+import FullViewApp from "./FullViewApp";
 
-export interface FullViewWithLoginProps extends FullViewAppProps {
+export interface FullViewWithLoginProps {
   applicationId: string;
   /** Login page customization */
   loginPage: {
@@ -19,8 +18,6 @@ export interface FullViewWithLoginProps extends FullViewAppProps {
 
 function FullViewAppWithLogin({
   applicationId,
-  giphyApiKey,
-  gMapsApiKey,
   loginPage,
 }: FullViewWithLoginProps) {
   const { isClientLoaded } = useApplozicClient();
@@ -31,7 +28,7 @@ function FullViewAppWithLogin({
   }
   return user ? (
     <ProvideSidebar defaultCollapsed={true}>
-      <FullViewApp giphyApiKey={giphyApiKey} gMapsApiKey={gMapsApiKey} />
+      <FullViewApp />
     </ProvideSidebar>
   ) : (
     <LoginPage

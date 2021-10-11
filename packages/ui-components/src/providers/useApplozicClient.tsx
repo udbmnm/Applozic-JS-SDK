@@ -36,6 +36,8 @@ interface IApplozicClient {
   client: ApplozicClient | undefined;
   loginResult: LoginResult | null | undefined;
   isClientLoaded: boolean;
+  giphyApiKey?: string;
+  gMapsApiKey?: string;
 }
 
 const ApplozicClientContext = createContext<IApplozicClient>({
@@ -44,7 +46,11 @@ const ApplozicClientContext = createContext<IApplozicClient>({
   isClientLoaded: false,
 });
 
-const useGetApplogicClient = (applicationId: string) => {
+const useGetApplogicClient = (
+  applicationId: string,
+  giphyApiKey?: string,
+  gMapsApiKey?: string
+) => {
   const [client, setClient] = useState<ApplozicClient | undefined>();
   const { mutate: deleteMessageMutation } = useDeleteMesssage();
   const [isClientLoaded, setIsClientLoaded] = useState(false);
@@ -208,10 +214,13 @@ const useGetApplogicClient = (applicationId: string) => {
     };
     initSdk();
   }, [applicationId]);
+  
   return {
     client,
     loginResult: client?.loginResult,
     isClientLoaded,
+    giphyApiKey,
+    gMapsApiKey,
   };
 };
 
@@ -220,11 +229,15 @@ export function ProvideApplozicClient({
   applicationId,
   colorMode = "light",
   useSystemColorMode = false,
+  giphyApiKey,
+  gMapsApiKey,
 }: {
   children: React.ReactNode;
   applicationId: string;
   colorMode: "light" | "dark";
   useSystemColorMode: boolean;
+  giphyApiKey?: string;
+  gMapsApiKey?: string;
 }) {
   return (
     <QueryClientProvider client={applozicQueryClient}>
@@ -232,7 +245,7 @@ export function ProvideApplozicClient({
         theme={theme({ initialColorMode: colorMode, useSystemColorMode })}
       >
         <ApplozicClientContext.Provider
-          value={useGetApplogicClient(applicationId)}
+          value={useGetApplogicClient(applicationId, giphyApiKey, gMapsApiKey)}
         >
           {children}
         </ApplozicClientContext.Provider>

@@ -13,12 +13,18 @@ export interface FullViewProps extends FullViewWithLoginProps {
    * Decide if the user's system color mode is being used fo the Application UI
    */
   useSystemColorMode?: boolean;
+  /** GIPHY API Key */
+  giphyApiKey?: string;
+  /** Google Maps API Key */
+  gMapsApiKey?: string;
 }
 
 const FullView = ({
   applicationId,
   colorMode = "light",
   useSystemColorMode = false,
+  giphyApiKey,
+  gMapsApiKey,
   ...rest
 }: FullViewProps) => {
   return (
@@ -26,6 +32,8 @@ const FullView = ({
       applicationId={applicationId}
       colorMode={colorMode}
       useSystemColorMode={useSystemColorMode}
+      giphyApiKey={giphyApiKey}
+      gMapsApiKey={gMapsApiKey}
     >
       <FullViewAppWithLogin applicationId={applicationId} {...rest} />
     </ProvideApplozicClient>

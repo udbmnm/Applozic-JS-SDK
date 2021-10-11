@@ -5,7 +5,7 @@ import { User, Group } from "@applozic/core-sdk";
 import useGetUserContacts from "../hooks/queries/useGetContacts";
 import useGetRecentChats from "../hooks/queries/useGetRecentChats";
 import { RecentChat } from "../models/chat";
-import Feature from "../models/Feature";
+import Tabs from "../models/Feature";
 
 export interface ISidebar {
   searchValue: string;
@@ -13,8 +13,8 @@ export interface ISidebar {
   isCollapsed: boolean;
   setCollapsed?: React.Dispatch<React.SetStateAction<boolean>>;
   controls?: AnimationControls;
-  activeFeature: Feature;
-  setActiveFeature?: React.Dispatch<React.SetStateAction<Feature>>;
+  activeFeature: Tabs;
+  setActiveFeature?: React.Dispatch<React.SetStateAction<Tabs>>;
   showUserDetails: boolean;
   setShowUserDetails?: React.Dispatch<React.SetStateAction<boolean>>;
   isFetchingNextContactsPage: boolean;
@@ -49,7 +49,7 @@ export interface ISidebar {
 const SidebarContext = createContext<ISidebar>({
   searchValue: "",
   isCollapsed: false,
-  activeFeature: Feature.RECENT_CHATS,
+  activeFeature: Tabs.RECENT_CHATS,
   isFetchingNextContactsPage: false,
   isFetchingNextRecentChatsPage: false,
   showUserDetails: false,
@@ -57,9 +57,7 @@ const SidebarContext = createContext<ISidebar>({
 
 const getSidebar = (defaultCollapsed: boolean) => {
   const [searchValue, setSearchValue] = useState("");
-  const [activeFeature, setActiveFeature] = useState<Feature>(
-    Feature.RECENT_CHATS
-  );
+  const [activeFeature, setActiveFeature] = useState<Tabs>(Tabs.RECENT_CHATS);
 
   const [showUserDetails, setShowUserDetails] = useState(false);
 
@@ -73,6 +71,7 @@ const getSidebar = (defaultCollapsed: boolean) => {
   } = useGetRecentChats();
   const [isCollapsed, setCollapsed] = useState(!!defaultCollapsed);
   const controls = useAnimation();
+
   useEffect(() => {
     controls.start(isCollapsed ? "closed" : "open");
   }, [isCollapsed, controls]);

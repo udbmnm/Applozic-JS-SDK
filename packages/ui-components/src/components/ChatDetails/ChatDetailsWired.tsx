@@ -55,15 +55,12 @@ const ChatDetailsWired = ({ activeChat }: ChatDetailWiredProps) => {
       imageUrl={
         user?.imageLink ? user.imageLink : group?.imageUrl ? group.imageUrl : ""
       }
-      type={activeChat.chatType}
+      type={group ? ChatType.GROUP : ChatType.USER}
       messages={messages}
       userContacts={users}
       group={group}
-      isBlocked={activeChat.chatType == ChatType.USER && user?.blockedByThis}
-      isAdmin={
-        activeChat.chatType == ChatType.GROUP &&
-        group?.adminId == loginResult?.userId
-      }
+      isBlocked={user && user?.blockedByThis}
+      isAdmin={!!group && group?.adminId == loginResult?.userId}
       updateGroupInfo={(options) =>
         updateGroupInfo({
           clientGroupId: activeChat.group?.clientGroupId,

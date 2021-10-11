@@ -9,6 +9,7 @@ import {
   useStyles,
   useTab,
   TabProps,
+  Tabs,
 } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
 import { getNameFromUser, getNameFromGroup } from "@applozic/core-sdk";
@@ -25,6 +26,7 @@ export interface ChatTabHeadStripProps {
   onItemClick?: (index: number) => void;
   onCloseClick?: (index: number) => void;
   onDetailsClick?: (index: number) => void;
+  detailOpenIndex: number;
 }
 
 interface IChatTab extends TabProps {
@@ -38,6 +40,7 @@ const ChatTabHeadStrip = ({
   onItemClick,
   onCloseClick,
   onDetailsClick,
+  detailOpenIndex,
 }: ChatTabHeadStripProps) => {
   const handleClick = (index: number) => {
     if (onItemClick) {
@@ -137,29 +140,37 @@ const ChatTabHeadStrip = ({
   };
 
   return (
-    <TabList
-      w={"full"}
-      overflowX="auto"
-      border="none"
-      sx={{
-        "&::-webkit-scrollbar": {
-          display: "none",
-        },
-      }}
+    <Tabs
+      isFitted
+      variant="enclosed"
+      width={`calc(100% - ${detailOpenIndex > -1 ? "350px" : "12px"})`}
+      height="full"
+      index={openIndex}
     >
-      {activeChats?.map((chat, index) => {
-        return (
-          <ChatTab
-            borderTopLeftRadius={15}
-            borderTopRightRadius={15}
-            borderColor="#E9E9E9"
-            activeChat={chat}
-            index={index}
-            isSelected={openIndex === index}
-          />
-        );
-      })}
-    </TabList>
+      <TabList
+        w={"full"}
+        overflowX="auto"
+        border="none"
+        sx={{
+          "&::-webkit-scrollbar": {
+            display: "none",
+          },
+        }}
+      >
+        {activeChats?.map((chat, index) => {
+          return (
+            <ChatTab
+              borderTopLeftRadius={15}
+              borderTopRightRadius={15}
+              borderColor="#E9E9E9"
+              activeChat={chat}
+              index={index}
+              isSelected={openIndex === index}
+            />
+          );
+        })}
+      </TabList>
+    </Tabs>
   );
 };
 

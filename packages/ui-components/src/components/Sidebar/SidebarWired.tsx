@@ -6,18 +6,20 @@ import Sidebar from "./Sidebar";
 import useCreateGroup from "../../hooks/mutations/useCreateGroup";
 // import useCreateNewContact from "../../hooks/mutations/useCreateNewContact";
 import { useQuery, useQueryClient } from "react-query";
-import { Group, User } from "@applozic/core-sdk";
+import { getNameFromUser, Group, User } from "@applozic/core-sdk";
 import useClearChat from "../../hooks/mutations/useClearChat";
 import { useSidebar } from "../../providers/useSidebar";
 import useActiveChats from "../../hooks/useActiveChats";
+import useUpdateSelfInfo from "../../hooks/mutations/useUpdateUserInfo";
+import useUserLogout from "../../hooks/mutations/useUserLogout";
+import useGetSelfDetails from "../../hooks/queries/useGetSelfDetails";
 
 function SidebarWired() {
-  const { activeFeature: type } = useSidebar();
+  const { activeFeature: type, setShowUserDetails } = useSidebar();
+  const { setActiveChat } = useActiveChats();
 
   const queryClient = useQueryClient();
   const { mutate: clearChat } = useClearChat();
-  // useGetContacts();
-  // useGetRecentChats();
 
   const { client, loginResult } = useApplozicClient();
   const { data: contacts } = useQuery<{
@@ -29,7 +31,6 @@ function SidebarWired() {
     "recent-chats-local",
     loginResult?.userId,
   ]);
-  const { setActiveChat } = useActiveChats();
 
   const chats = chatQueryResult ?? [];
   const users = contacts?.users ?? [];
@@ -79,6 +80,9 @@ function SidebarWired() {
 
   const { mutate: mutateNewGroup } = useCreateGroup();
   // const { mutate: mutateNewContact } = useCreateNewContact();
+  const self = useGetSelfDetails();
+  const { mutate: updateSelf } = useUpdateSelfInfo();
+  const { mutate: logoutUser } = useUserLogout();
 
   return (
     <Sidebar
@@ -113,7 +117,7 @@ function SidebarWired() {
           }
         }
       }}
-      type={type}
+      tabs={type}
       recentChats={chats}
       users={users}
       onCreateGroup={async (newGroup) => {
@@ -142,6 +146,18 @@ function SidebarWired() {
         } else if (activeChat.user) {
           clearChat({ userId: activeChat.user.userId });
         }
+      }}
+      selfDetails={{
+        name: self ? getNameFromUser(self) : "",
+        imageUrl: self?.imageLink,
+        onCloseClicked: () => setShowUserDetails && setShowUserDetails(false),
+        onLogOutClicked: () =>
+          logoutUser(undefined, {
+            onSuccess: () => setShowUserDetails && setShowUserDetails(false),
+          }),
+        onUpdateValue: (key, value) => {
+          updateSelf({ [key]: value });
+        },
       }}
     />
   );

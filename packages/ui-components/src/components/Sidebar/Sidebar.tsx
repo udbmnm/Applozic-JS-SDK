@@ -3,7 +3,7 @@ import { ChatType, RecentChat } from "../../models/chat";
 import withSidebar from "./withSidebar";
 import RecentChatsSidebar from "./RecentChatsSidebar";
 import { Box } from "@chakra-ui/react";
-import Feature from "../../models/Feature";
+import Tabs from "../../models/Feature";
 import GroupsSidebar from "./GroupsSidebar";
 import CreateGroup from "./GroupsSidebar/CreateGroup";
 import { GroupTypes } from "@applozic/core-sdk";
@@ -12,31 +12,36 @@ import CreateContact from "./RecentChatsSidebar/CreateContact";
 import ContactsSidebar from "./ContactsSidebar/ContactsSidebar";
 import { User } from "@applozic/core-sdk";
 import ActiveChat from "../../models/chat/ActiveChat";
+import SelfDetails, { SelfDetailProps } from "../ChatDetails/SelfDetails";
 
 export interface ISidebar {
-  type: Feature;
+  tabs: Tabs;
   recentChats: RecentChat[] | undefined;
   users: User[] | undefined;
   onCreateGroup: (newGroup: INewGroup) => void | Promise<void>;
   onCreateContact: (contactName: string) => void | Promise<void>;
   onClearConversation: (activeChat: ActiveChat) => void | Promise<void>;
   handleClick: (type: ChatType, contactId: string) => void | Promise<void>;
+  selfDetails: SelfDetailProps;
 }
 
 function Sidebar({
-  type,
+  tabs,
   recentChats,
   users,
   onCreateGroup: onClickCreateGroup,
   onCreateContact: onClickCreateContact,
   onClearConversation: onClickClearConversation,
   handleClick,
+  selfDetails,
 }: ISidebar) {
   const [showAddGroup, setShowAddGroup] = useState(false);
   const [showAddContact, setShowAddContact] = useState(false);
 
-  switch (type) {
-    case Feature.RECENT_CHATS:
+  switch (tabs) {
+    case Tabs.USER:
+      return <SelfDetails {...selfDetails} />;
+    case Tabs.RECENT_CHATS:
       return withSidebar(RecentChatsSidebar)({
         recentChats,
         onClickContact: handleClick,
@@ -54,7 +59,7 @@ function Sidebar({
         onClearConversation: onClickClearConversation,
       });
 
-    case Feature.GROUPS:
+    case Tabs.GROUPS:
       return withSidebar(GroupsSidebar)({
         showOverlay: showAddGroup,
         OverlayComponent: (
@@ -77,7 +82,7 @@ function Sidebar({
         onClickRecentChat: handleClick,
         onClickAddGroup: () => setShowAddGroup(true),
       });
-    case Feature.CONTACTS:
+    case Tabs.CONTACTS:
       return withSidebar(ContactsSidebar)({
         users,
         onClickContact: (contactId) => handleClick(ChatType.USER, contactId),
