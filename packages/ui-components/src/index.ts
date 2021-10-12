@@ -5,7 +5,7 @@ import { ChatType, Message, MessageStatus } from "./models/chat";
 import { FullViewProps, FullView } from "./views/FullView";
 
 import { useColorMode } from "@chakra-ui/react";
-import Tabs from "./models/Feature";
+import FeatureTab from "./models/Feature";
 import Button from "./components/Button";
 import { ButtonProps } from "./components/Button/Button";
 import Icon from "./components/Icon";
@@ -35,7 +35,7 @@ import ChatTabHeadStrip, {
 
 export {
   MessageStatus,
-  Tabs,
+  FeatureTab as Tabs,
   ChatType,
   useColorMode,
   ProvideChakra,

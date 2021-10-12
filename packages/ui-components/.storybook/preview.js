@@ -1,12 +1,7 @@
 import { ChakraProvider, useColorMode } from "@chakra-ui/react";
 import theme from "../src/theme";
-import { useEffect, useState } from "react";
-import {
-  ProvideApplozicClient,
-  useApplozicClient,
-} from "../src/providers/useApplozicClient";
+import { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
 
 const applozicQueryClient = new QueryClient({
   defaultOptions: {
@@ -64,7 +59,6 @@ const withChakra = (StoryFn, context) => {
       >
         <StoryComponent StoryFn={StoryFn} context={context} />
       </ChakraProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 };

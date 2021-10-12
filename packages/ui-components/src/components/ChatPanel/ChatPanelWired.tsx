@@ -7,18 +7,15 @@ import useGetMessages from "../../hooks/queries/useGetUserMessages";
 import { useQuery, useQueryClient } from "react-query";
 import useGetSelfDetails from "../../hooks/queries/useGetSelfDetails";
 import ChatPanel from "./ChatPanel";
-import useActiveChats from "../../hooks/useActiveChats";
 import useDeleteMesssage from "../../hooks/mutations/useDeleteMessage";
 import { useApplozicClient } from "../../providers/useApplozicClient";
 import useSendUserMessage from "../../hooks/mutations/useSendUserMessage";
-import { getIdFromActiveChat } from "../../models/chat/ActiveChat";
+import ActiveChat, { getIdFromActiveChat } from "../../models/chat/ActiveChat";
 import { v4 } from "uuid";
 
-function ChatPanelWired() {
+function ChatPanelWired({ activeChat }: { activeChat: ActiveChat }) {
   const toast = useToast();
   const { client } = useApplozicClient();
-  const { activeChats, openIndex } = useActiveChats();
-  const activeChat = activeChats[openIndex];
   const contactId = getIdFromActiveChat(activeChat);
   const { fetchNextPage, isFetchingNextPage, hasNextPage } = useGetMessages(
     activeChat
@@ -86,6 +83,7 @@ function ChatPanelWired() {
         }
       }}
       onFileSelected={async (file) => {
+        console.log({ onFileSelected: file });
         const result = await getUploadResult(file);
         setFileMeta(result);
       }}
@@ -124,6 +122,7 @@ function ChatPanelWired() {
         }
       }}
       fetchNextPage={() => {
+        console.log("fetching more");
         fetchNextPage();
       }}
       isFetchingNextPage={isFetchingNextPage}

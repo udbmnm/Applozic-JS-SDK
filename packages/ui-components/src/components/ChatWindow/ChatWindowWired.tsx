@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Tabs } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useApplozicClient } from "../../providers/useApplozicClient";
 import NoChatSelected from "./NoChatSelected";
@@ -6,27 +6,18 @@ import NoChatSelected from "./NoChatSelected";
 import ChatDetailsWired from "../ChatDetails/ChatDetailsWired";
 import ChatTabHeadStripWired from "../ChatTabHeadStrip/ChatTabHeadStripWired";
 import { AnimatePresence } from "framer-motion";
-import { useSidebar } from "../../providers/useSidebar";
 import MotionBox from "../MotionBox";
 import useActiveChats from "../../hooks/useActiveChats";
-import ChatPanel from "../ChatPanel";
 import ChatPanelWired from "../ChatPanel/ChatPanelWired";
+import useSidebar from "../../hooks/useSidebar";
 
 function ChatWindowWired() {
   const { activeChats, openIndex, detailOpenIndex } = useActiveChats();
-  const { isCollapsed, showUserDetails, setShowUserDetails } = useSidebar();
-  const fullyOpen = isCollapsed && detailOpenIndex < 0 && !showUserDetails;
-  const onlyDetailOpen =
-    isCollapsed && (detailOpenIndex >= 0 || showUserDetails);
-  const onlySidebarOpen =
-    !isCollapsed && detailOpenIndex < 0 && !showUserDetails;
-
-  useEffect(() => {
-    if (detailOpenIndex > -1) {
-      setShowUserDetails && setShowUserDetails(false);
-    }
-  }, [detailOpenIndex]);
-
+  const { sidebarCollapsed } = useSidebar();
+  const fullyOpen = sidebarCollapsed && detailOpenIndex < 0;
+  const onlyDetailOpen = sidebarCollapsed && detailOpenIndex >= 0;
+  const onlySidebarOpen = !sidebarCollapsed && detailOpenIndex < 0;
+  const activeChat = activeChats[openIndex];
   return (
     <MotionBox
       display="flex"
@@ -46,15 +37,19 @@ function ChatWindowWired() {
       {activeChats.length === 0 || openIndex < 0 ? (
         <NoChatSelected />
       ) : (
-        <Box>
+        <Tabs
+          isFitted
+          variant="enclosed"
+          width={`calc(100% - ${detailOpenIndex > -1 ? "350px" : "12px"})`}
+          height="full"
+          index={openIndex}
+        >
           <ChatTabHeadStripWired />
-          <ChatPanelWired />
-        </Box>
+          <ChatPanelWired activeChat={activeChat} />
+        </Tabs>
       )}
       <AnimatePresence>
-        {detailOpenIndex > -1 && (
-          <ChatDetailsWired activeChat={activeChats[detailOpenIndex]} />
-        )}
+        {detailOpenIndex > -1 && <ChatDetailsWired activeChat={activeChat} />}
       </AnimatePresence>
     </MotionBox>
   );

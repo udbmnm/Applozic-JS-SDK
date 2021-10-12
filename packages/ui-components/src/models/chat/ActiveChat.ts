@@ -4,6 +4,7 @@ import {
   Group,
   User,
 } from "@applozic/core-sdk";
+import { ChatType } from ".";
 
 interface ActiveChat {
   user?: User;
@@ -16,6 +17,9 @@ export const isSameActiveChat = (a: ActiveChat, b: ActiveChat) =>
 
 export const getIdFromActiveChat = (a: ActiveChat) =>
   a.group ? a.group.clientGroupId : a.user ? a.user.userId : undefined;
+
+export const getChatTypeFromActiveChat = (a: ActiveChat) =>
+  a.group ? ChatType.GROUP : ChatType.USER;
 
 export const getContactNameAndImageFromActiveChat = (a: ActiveChat) => {
   const contactName = a.user

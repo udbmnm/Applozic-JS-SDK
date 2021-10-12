@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import { useApplozicClient } from "../../providers/useApplozicClient";
 import { ChatType, RecentChat } from "../../models/chat";
@@ -6,38 +6,117 @@ import Sidebar from "./Sidebar";
 import useCreateGroup from "../../hooks/mutations/useCreateGroup";
 // import useCreateNewContact from "../../hooks/mutations/useCreateNewContact";
 import { useQuery, useQueryClient } from "react-query";
-import { getNameFromUser, Group, User } from "@applozic/core-sdk";
+import {
+  getNameFromGroup,
+  getNameFromUser,
+  Group,
+  User,
+} from "@applozic/core-sdk";
 import useClearChat from "../../hooks/mutations/useClearChat";
-import { useSidebar } from "../../providers/useSidebar";
 import useActiveChats from "../../hooks/useActiveChats";
 import useUpdateSelfInfo from "../../hooks/mutations/useUpdateUserInfo";
 import useUserLogout from "../../hooks/mutations/useUserLogout";
 import useGetSelfDetails from "../../hooks/queries/useGetSelfDetails";
+import useSidebar from "../../hooks/useSidebar";
+import FeatureTab from "../../models/Feature";
+import useGetUserContacts from "../../hooks/queries/useGetContacts";
+import useGetRecentChats from "../../hooks/queries/useGetRecentChats";
+import { useAnimation } from "framer-motion";
+
+const hasSubString = (a: string, b: string) =>
+  a.toLowerCase().indexOf(b.toLowerCase()) >= 0;
+
+const findSearchTermInGroup = (query: string, group: Group) => {
+  return (
+    hasSubString(getNameFromGroup(group), query) ||
+    hasSubString(group.clientGroupId, query)
+  );
+};
+const findSearchTermInUser = (query: string, user: User) => {
+  return (
+    hasSubString(getNameFromUser(user), query) ||
+    hasSubString(user.userId, query)
+  );
+};
 
 function SidebarWired() {
-  const { activeFeature: type, setShowUserDetails } = useSidebar();
+  const { client, loginResult } = useApplozicClient();
+  const queryClient = useQueryClient();
+  const self = useGetSelfDetails();
+  const {
+    activeTab,
+    setActiveTab,
+    searchQuery,
+    setSearchQuery,
+    setSidebarCollapsed,
+    sidebarCollapsed,
+  } = useSidebar();
+
+  const { status: contactsStatus } = useGetUserContacts();
+  const {
+    status: recentChatStatus,
+    fetchNextPage: fetchNextRecentChats,
+    isFetchingNextPage: isFetchingNextRecentChatsPage,
+  } = useGetRecentChats();
+
+  const [recentChats, setRecentChats] = useState<RecentChat[]>();
+  const [users, setUsers] = useState<User[] | undefined>();
+
   const { setActiveChat } = useActiveChats();
 
-  const queryClient = useQueryClient();
-  const { mutate: clearChat } = useClearChat();
-
-  const { client, loginResult } = useApplozicClient();
-  const { data: contacts } = useQuery<{
-    users: User[];
-    groups: Group[];
-  }>(["contacts-local"]);
-
-  const { data: chatQueryResult } = useQuery<RecentChat[]>([
-    "recent-chats-local",
-    loginResult?.userId,
-  ]);
-
-  const chats = chatQueryResult ?? [];
-  const users = contacts?.users ?? [];
-  const groups = contacts?.groups ?? [];
+  useEffect(() => {
+    if (
+      contactsStatus === "success" ||
+      contactsStatus === "idle" ||
+      recentChatStatus === "success" ||
+      recentChatStatus === "idle"
+    ) {
+      const contacts = queryClient.getQueryData<{
+        users: User[];
+        groups: Group[];
+      }>(["contacts-local"]);
+      setUsers(contacts?.users);
+      setRecentChats(
+        queryClient.getQueryData<RecentChat[]>([
+          "recent-chats-local",
+          loginResult?.userId,
+        ])
+      );
+    }
+  }, [contactsStatus, recentChatStatus]);
 
   useEffect(() => {
-    const missingUserInfoIds = chats
+    if (searchQuery && searchQuery.length > 0) {
+      setRecentChats(
+        recentChats?.filter((recentChat) => {
+          if (recentChat.chatType == ChatType.USER) {
+            const user = queryClient.getQueryData<User>([
+              "user",
+              recentChat.contactId,
+              true,
+            ]);
+            return user && findSearchTermInUser(searchQuery, user);
+          } else {
+            const group = queryClient.getQueryData<Group>([
+              "group",
+              recentChat.contactId,
+              true,
+            ]);
+            return group && findSearchTermInGroup(searchQuery, group);
+          }
+        })
+      );
+      setUsers(
+        users?.filter((user) => findSearchTermInUser(searchQuery, user))
+      );
+    } else {
+      setRecentChats(recentChats);
+      setUsers(users);
+    }
+  }, [searchQuery]);
+
+  useEffect(() => {
+    const missingUserInfoIds = recentChats
       ?.filter((chat) => chat.chatType === ChatType.USER)
       .filter((chat) => {
         const queryUser = queryClient.getQueryData([
@@ -57,7 +136,7 @@ function SidebarWired() {
       });
     }
 
-    const missingGroupInfoIds = chats
+    const missingGroupInfoIds = recentChats
       ?.filter((chat) => chat.chatType === ChatType.GROUP)
       .filter((chat) => {
         const queryUser = queryClient.getQueryData([
@@ -78,15 +157,31 @@ function SidebarWired() {
     });
   }, []);
 
+  const { mutate: clearChat } = useClearChat();
   const { mutate: mutateNewGroup } = useCreateGroup();
   // const { mutate: mutateNewContact } = useCreateNewContact();
-  const self = useGetSelfDetails();
   const { mutate: updateSelf } = useUpdateSelfInfo();
   const { mutate: logoutUser } = useUserLogout();
+  const controls = useAnimation();
+  useEffect(() => {
+    controls.start(sidebarCollapsed ? "closed" : "open");
+  }, [sidebarCollapsed]);
 
   return (
     <Sidebar
-      handleClick={(type, contactId) => {
+      fetchNextRecentChats={() => fetchNextRecentChats()}
+      isFetchingNextRecentChatsPage={isFetchingNextRecentChatsPage}
+      selectedFeatureTab={activeTab}
+      controls={controls}
+      recentChats={recentChats}
+      users={users}
+      search={{
+        searchValue: searchQuery,
+        setSearchValue: setSearchQuery,
+        setCollapsed: setSidebarCollapsed,
+        isCollapsed: sidebarCollapsed,
+      }}
+      handleItemClick={(type, contactId) => {
         let user: User | undefined, group: Group | undefined;
         if (type == ChatType.GROUP) {
           group = queryClient.getQueryData(["group", contactId, true]);
@@ -117,9 +212,6 @@ function SidebarWired() {
           }
         }
       }}
-      tabs={type}
-      recentChats={chats}
-      users={users}
       onCreateGroup={async (newGroup) => {
         if (client && loginResult?.userId) {
           mutateNewGroup(newGroup, {
@@ -131,29 +223,29 @@ function SidebarWired() {
           });
         }
       }}
-      onCreateContact={async (contactName) => {
-        // mutateNewContact(contactName, {
-        //   onSuccess: (response) => {
-        //     if (response) {
-        //       setActiveContactInfo(ChatType.USER, response);
-        //     }
-        //   },
-        // });
-      }}
-      onClearConversation={(activeChat) => {
-        if (activeChat.group) {
-          clearChat({ groupId: activeChat.group.clientGroupId });
-        } else if (activeChat.user) {
-          clearChat({ userId: activeChat.user.userId });
+      // onCreateContact={async (contactName) => {
+      //   mutateNewContact(contactName, {
+      //     onSuccess: (response) => {
+      //       if (response) {
+      //         setActiveContactInfo(ChatType.USER, response);
+      //       }
+      //     },
+      //   });
+      // }}
+      onClearConversation={(chatType, contactId) => {
+        if (chatType == ChatType.GROUP) {
+          clearChat({ groupId: contactId });
+        } else if (chatType == ChatType.USER) {
+          clearChat({ userId: contactId });
         }
       }}
       selfDetails={{
         name: self ? getNameFromUser(self) : "",
         imageUrl: self?.imageLink,
-        onCloseClicked: () => setShowUserDetails && setShowUserDetails(false),
+        onCloseClicked: () => setActiveTab(FeatureTab.RECENT_CHATS),
         onLogOutClicked: () =>
           logoutUser(undefined, {
-            onSuccess: () => setShowUserDetails && setShowUserDetails(false),
+            onSuccess: () => setActiveTab(FeatureTab.RECENT_CHATS),
           }),
         onUpdateValue: (key, value) => {
           updateSelf({ [key]: value });

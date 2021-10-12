@@ -18,7 +18,6 @@ import { useInView } from "react-intersection-observer";
 import { getMonthName } from "../../time-utils";
 import ActiveChat, {
   getContactNameAndImageFromActiveChat,
-  getIdFromActiveChat,
 } from "../../models/chat/ActiveChat";
 import { User } from "@applozic/core-sdk";
 

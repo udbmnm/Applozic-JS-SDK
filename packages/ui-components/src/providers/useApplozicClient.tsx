@@ -21,6 +21,7 @@ import useDeleteMesssage from "../hooks/mutations/useDeleteMessage";
 import { ChakraProvider } from "@chakra-ui/react";
 import { QueryClientProvider, QueryClient } from "react-query";
 import theme from "../theme";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 const applozicQueryClient = new QueryClient({
   defaultOptions: {
@@ -98,7 +99,7 @@ const useGetApplogicClient = (
 
   useEffect(() => {
     const initSdk = async () => {
-      const client = new ApplozicClient(applicationId ?? "", {
+      const client = new ApplozicClient(applicationId, {
         useSocket: true,
         events: {
           onMessageReceived: ({ message }) => {
@@ -212,9 +213,10 @@ const useGetApplogicClient = (
       (window as any).alClient = client;
       setIsClientLoaded(true);
     };
+    console.log("calling init");
     initSdk();
-  }, [applicationId]);
-  
+  }, []);
+
   return {
     client,
     loginResult: client?.loginResult,
@@ -249,6 +251,7 @@ export function ProvideApplozicClient({
         >
           {children}
         </ApplozicClientContext.Provider>
+        <ReactQueryDevtools initialIsOpen={false} />
       </ChakraProvider>
     </QueryClientProvider>
   );

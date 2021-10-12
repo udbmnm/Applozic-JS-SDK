@@ -7,7 +7,10 @@ import { getUIMessageFromClientMessage } from "../../utils/parser";
 import { mergeRecentChats } from "../../utils/recentChatsMerger";
 
 import { User, Group } from "@applozic/core-sdk";
-import ActiveChat, { getIdFromActiveChat } from "../../models/chat/ActiveChat";
+import ActiveChat, {
+  getChatTypeFromActiveChat,
+  getIdFromActiveChat,
+} from "../../models/chat/ActiveChat";
 // import { updateLastMessage } from "./useGetRecentChats";
 
 const PAGE_SIZE = 50;
@@ -74,7 +77,7 @@ function useGetMessages(activeChat: ActiveChat) {
             [
               {
                 contactId: activeChatId,
-                chatType: type,
+                chatType: getChatTypeFromActiveChat(activeChat),
                 imageUrl,
                 lastMessageKey: "randomase123ase",
                 lastMessageTime: messages[0].timeStamp.getTime(),

@@ -140,37 +140,29 @@ const ChatTabHeadStrip = ({
   };
 
   return (
-    <Tabs
-      isFitted
-      variant="enclosed"
-      width={`calc(100% - ${detailOpenIndex > -1 ? "350px" : "12px"})`}
-      height="full"
-      index={openIndex}
+    <TabList
+      w={"full"}
+      overflowX="auto"
+      border="none"
+      sx={{
+        "&::-webkit-scrollbar": {
+          display: "none",
+        },
+      }}
     >
-      <TabList
-        w={"full"}
-        overflowX="auto"
-        border="none"
-        sx={{
-          "&::-webkit-scrollbar": {
-            display: "none",
-          },
-        }}
-      >
-        {activeChats?.map((chat, index) => {
-          return (
-            <ChatTab
-              borderTopLeftRadius={15}
-              borderTopRightRadius={15}
-              borderColor="#E9E9E9"
-              activeChat={chat}
-              index={index}
-              isSelected={openIndex === index}
-            />
-          );
-        })}
-      </TabList>
-    </Tabs>
+      {activeChats?.map((chat, index) => {
+        return (
+          <ChatTab
+            borderTopLeftRadius={15}
+            borderTopRightRadius={15}
+            borderColor="#E9E9E9"
+            activeChat={chat}
+            index={index}
+            isSelected={openIndex === index}
+          />
+        );
+      })}
+    </TabList>
   );
 };
 

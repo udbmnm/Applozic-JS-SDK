@@ -36,7 +36,7 @@ export interface ChatDetailProps {
   isBlocked?: boolean;
   isAdmin: boolean;
 
-  messages: Message[];
+  messages: Message[] | undefined;
   metaProps?: ChatDetailsMetaProps;
   group?: Group;
   groupMembers?: User[];

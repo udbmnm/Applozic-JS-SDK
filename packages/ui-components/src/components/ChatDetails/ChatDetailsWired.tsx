@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ChatDetails from "./ChatDetails";
 import {
   getNameFromGroup,
@@ -9,7 +9,7 @@ import {
 import { ChatType, Message } from "../../models/chat";
 import useUpdateGroupMembers from "../../hooks/mutations/useUpdateGroupMembers";
 import useGetMessages from "../../hooks/queries/useGetUserMessages";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import useGetUserContacts from "../../hooks/queries/useGetContacts";
 import useBlockContact from "../../hooks/mutations/useBlockContact";
 import useClearChat from "../../hooks/mutations/useClearChat";
@@ -25,21 +25,41 @@ export interface ChatDetailWiredProps {
 }
 
 const ChatDetailsWired = ({ activeChat }: ChatDetailWiredProps) => {
-  useGetMessages(activeChat);
-  useGetUserContacts();
-
-  const { data: messages = [] } = useQuery<Message[]>([
-    "messages-local",
-    activeChat.group?.clientGroupId ?? activeChat.user?.userId,
-  ]);
   const { user, group } = activeChat;
-
-  const { data: { users } = {} } = useQuery<{
-    users: User[];
-    groups: Group[];
-  }>(["contacts-local"]);
+  const queryClient = useQueryClient();
   const { loginResult } = useApplozicClient();
   const { hideChatDetail, removeActiveChat: removeContact } = useActiveChats();
+
+  const { status: messagesStatus } = useGetMessages(activeChat);
+  const [messages, setMessages] = useState<Message[]>();
+  const [contacts, setContacts] = useState<{
+    users: User[];
+    groups: Group[];
+  }>();
+
+  const { status: contactsStatus } = useGetUserContacts();
+  useEffect(() => {
+    if (messagesStatus == "idle" || messagesStatus == "success") {
+      setMessages(
+        queryClient.getQueryData<Message[]>([
+          "messages-local",
+          getIdFromActiveChat(activeChat),
+        ])
+      );
+    }
+  }, [messagesStatus]);
+
+  useEffect(() => {
+    if (contactsStatus == "idle" || contactsStatus == "success") {
+      setContacts(
+        queryClient.getQueryData<{
+          users: User[];
+          groups: Group[];
+        }>(["contacts-local"])
+      );
+    }
+  }, [contactsStatus]);
+
   const { mutate: updateGroupMembers } = useUpdateGroupMembers();
   const { mutate: blockContact } = useBlockContact();
   const { mutate: clearChat } = useClearChat();
@@ -57,7 +77,7 @@ const ChatDetailsWired = ({ activeChat }: ChatDetailWiredProps) => {
       }
       type={group ? ChatType.GROUP : ChatType.USER}
       messages={messages}
-      userContacts={users}
+      userContacts={contacts?.users}
       group={group}
       isBlocked={user && user?.blockedByThis}
       isAdmin={!!group && group?.adminId == loginResult?.userId}

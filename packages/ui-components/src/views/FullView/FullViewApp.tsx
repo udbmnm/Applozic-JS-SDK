@@ -2,7 +2,7 @@ import { Container, HStack, useColorModeValue as mode } from "@chakra-ui/react";
 import React from "react";
 import ChatWindowWired from "../../components/ChatWindow/ChatWindowWired";
 import SidebarWired from "../../components/Sidebar/SidebarWired";
-import FeatureSidebarWired from "../../components/FeatureSidebar/FeatureSidebarWired";
+import FeatureSidebarWired from "../../components/FeatureTabs/FeatureTabsWired";
 
 const FullViewApp = () => {
   return (

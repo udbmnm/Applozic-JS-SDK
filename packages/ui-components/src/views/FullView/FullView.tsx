@@ -6,6 +6,10 @@ import FullViewAppWithLogin, {
 
 export interface FullViewProps extends FullViewWithLoginProps {
   /**
+   * The Applozic Application ID as provided after onboarding
+   */
+  applicationId: string;
+  /**
    * The colorMode of the UI Application
    */
   colorMode?: "light" | "dark";
@@ -35,7 +39,7 @@ const FullView = ({
       giphyApiKey={giphyApiKey}
       gMapsApiKey={gMapsApiKey}
     >
-      <FullViewAppWithLogin applicationId={applicationId} {...rest} />
+      <FullViewAppWithLogin {...rest} />
     </ProvideApplozicClient>
   );
 };

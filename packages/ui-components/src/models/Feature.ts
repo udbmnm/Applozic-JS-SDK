@@ -1,4 +1,4 @@
-enum Tabs {
+enum FeatureTab {
   USER = "user",
   RECENT_CHATS = "recent_chats",
   GROUPS = "groups",
@@ -6,4 +6,4 @@ enum Tabs {
   BROADCAST = "broadcast",
 }
 
-export default Tabs;
+export default FeatureTab;
