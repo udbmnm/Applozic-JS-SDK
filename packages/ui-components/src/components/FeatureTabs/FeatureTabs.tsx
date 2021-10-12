@@ -1,0 +1,62 @@
+import { TabList, Tabs, Divider, chakra } from "@chakra-ui/react";
+import React from "react";
+import FeatureTabEnum from "../../models/Feature";
+import FeatureTab from "./FeatureTab";
+
+export interface FeatureSidebarProps {
+  featureTabs: FeatureTabEnum[];
+  onChange: (index: number) => void;
+  userName: string;
+  userImageUrl?: string;
+}
+
+function FeatureSidebar({
+  featureTabs,
+  onChange,
+  userName,
+  userImageUrl,
+}: FeatureSidebarProps) {
+  const StyledTab = chakra("button", { themeKey: "Tabs.Tab" } as any);
+
+  const getCustomTab = (featureTab: FeatureTabEnum) => {
+    switch (featureTab) {
+      case FeatureTabEnum.USER:
+        return (
+          <>
+            <FeatureTab
+              StyledTab={StyledTab}
+              imageUrl={userImageUrl}
+              title={userName}
+            />
+            <Divider />
+          </>
+        );
+      case FeatureTabEnum.RECENT_CHATS:
+        return <FeatureTab StyledTab={StyledTab} icon={"chat"} title="Chats" />;
+      case FeatureTabEnum.CONTACTS:
+        return (
+          <FeatureTab StyledTab={StyledTab} icon={"user"} title="Contacts" />
+        );
+      case FeatureTabEnum.GROUPS:
+        return (
+          <FeatureTab StyledTab={StyledTab} icon={"group"} title="Groups" />
+        );
+    }
+  };
+  console.log({ featureTabs });
+  return (
+    <Tabs
+      orientation="vertical"
+      onChange={(index) => onChange(index)}
+      overflowY="auto"
+      height="full"
+      defaultIndex={1}
+    >
+      <TabList borderWidth={0} overflowY="auto" height="full" width="64px">
+        {featureTabs.map((tab) => getCustomTab(tab))}
+      </TabList>
+    </Tabs>
+  );
+}
+
+export default FeatureSidebar;
