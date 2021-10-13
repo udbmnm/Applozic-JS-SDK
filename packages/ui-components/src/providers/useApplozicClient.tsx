@@ -203,6 +203,7 @@ const useGetApplogicClient = (
       });
       await client.init();
       setClient(client);
+      console.log({ isLoggedIn: client.loginResult });
       if (client.loginResult) {
         const response = await client?.contacts.getUserDetails([
           client.loginResult.userId,

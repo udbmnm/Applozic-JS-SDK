@@ -29,8 +29,10 @@ const getUserFromLoginResult = (
 
 function useGetSelfDetails() {
   const { loginResult } = useApplozicClient();
+  const user = getUserFromLoginResult(loginResult);
+  console.log({ user });
   return useQuery<User | null>(["self"], {
-    placeholderData: getUserFromLoginResult(loginResult),
+    initialData: user,
   }).data;
 }
 

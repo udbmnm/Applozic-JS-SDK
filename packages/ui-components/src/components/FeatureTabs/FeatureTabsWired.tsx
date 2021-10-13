@@ -1,13 +1,18 @@
 import React from "react";
-import { ActiveFeatures } from "../../config";
 import useGetSelfDetails from "../../hooks/queries/useGetSelfDetails";
 import useSidebar from "../../hooks/useSidebar";
+import FeatureTab from "../../models/Feature";
 import FeatureSidebar from "./FeatureTabs";
 
 function FeatureSidebarWired() {
   const user = useGetSelfDetails();
+  const ActiveFeatures = [
+    FeatureTab.USER,
+    FeatureTab.RECENT_CHATS,
+    FeatureTab.CONTACTS,
+    FeatureTab.GROUPS,
+  ];
   const { setActiveTab } = useSidebar();
-  console.log("something changed", { user });
   return (
     <FeatureSidebar
       featureTabs={ActiveFeatures}

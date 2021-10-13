@@ -1,12 +1,11 @@
 import React from "react";
 import { Meta } from "@storybook/react/types-6-0";
 import { Story } from "@storybook/react";
-import FullView, { FullViewProps } from "./FullView";
-import {
-  APPLICATION_ID,
-  GIPHY_APP_ID,
-  GOOGLE_MAPS_API_KEY,
-} from "../../config";
+import FullView, { FullViewProps } from ".";
+
+const GOOGLE_MAPS_API_KEY = "AIzaSyBXW2LRG4ysc1Tt7i_Agj4RRCn2jScxox0";
+const APPLICATION_ID = "applozic-sample-app";
+const GIPHY_APP_ID = "CBATnkyl4HPNGTSyBTN6PcFQTVozxLpM";
 
 export default {
   title: "Views/FullView",

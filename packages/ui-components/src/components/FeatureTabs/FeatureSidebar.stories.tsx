@@ -2,6 +2,7 @@ import React from "react";
 import { Meta } from "@storybook/react/types-6-0";
 import { Story } from "@storybook/react";
 import FeatureSidebar, { FeatureSidebarProps } from "./FeatureTabs";
+import FeatureTab from "../../models/Feature";
 
 export default {
   title: "Components/FeatureSidebar",
@@ -15,4 +16,11 @@ const Template: Story<FeatureSidebarProps> = (args) => (
 
 // Reuse that template for creating different stories
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+  featureTabs: [
+    FeatureTab.USER,
+    FeatureTab.RECENT_CHATS,
+    FeatureTab.CONTACTS,
+    FeatureTab.GROUPS,
+  ],
+};

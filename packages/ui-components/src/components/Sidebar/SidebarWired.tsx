@@ -65,6 +65,13 @@ function SidebarWired() {
   const { setActiveChat } = useActiveChats();
 
   useEffect(() => {
+    console.log({
+      status:
+        contactsStatus === "success" ||
+        contactsStatus === "idle" ||
+        recentChatStatus === "success" ||
+        recentChatStatus === "idle",
+    });
     if (
       contactsStatus === "success" ||
       contactsStatus === "idle" ||
@@ -75,6 +82,7 @@ function SidebarWired() {
         users: User[];
         groups: Group[];
       }>(["contacts-local"]);
+      console.log({ fetchedContacts: contacts });
       setUsers(contacts?.users);
       setRecentChats(
         queryClient.getQueryData<RecentChat[]>([
@@ -109,10 +117,11 @@ function SidebarWired() {
       setUsers(
         users?.filter((user) => findSearchTermInUser(searchQuery, user))
       );
-    } else {
-      setRecentChats(recentChats);
-      setUsers(users);
     }
+    // else {
+    //   setRecentChats(recentChats);
+    //   setUsers(users);
+    // }
   }, [searchQuery]);
 
   useEffect(() => {
@@ -157,6 +166,7 @@ function SidebarWired() {
     });
   }, []);
 
+  console.log({ recentChats, users });
   const { mutate: clearChat } = useClearChat();
   const { mutate: mutateNewGroup } = useCreateGroup();
   // const { mutate: mutateNewContact } = useCreateNewContact();

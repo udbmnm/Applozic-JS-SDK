@@ -8,6 +8,7 @@ import {
   Text,
   Avatar,
   useColorModeValue as mode,
+  ChakraComponent,
 } from "@chakra-ui/react";
 import React from "react";
 import Icon from "../Icon";

@@ -2,7 +2,7 @@ import "@fontsource/roboto";
 
 // Components
 import { ChatType, Message, MessageStatus } from "./models/chat";
-import { FullViewProps, FullView } from "./views/FullView";
+import FullView, { FullViewProps } from "./views/FullView";
 
 import { useColorMode } from "@chakra-ui/react";
 import FeatureTab from "./models/Feature";
