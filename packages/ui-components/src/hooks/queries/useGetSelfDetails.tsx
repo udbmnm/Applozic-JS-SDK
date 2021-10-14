@@ -28,11 +28,19 @@ const getUserFromLoginResult = (
 };
 
 function useGetSelfDetails() {
-  const { loginResult } = useApplozicClient();
-  const user = getUserFromLoginResult(loginResult);
-  console.log({ user });
-  return useQuery<User | null>(["self"], {
-    initialData: user,
+  const { client, loginResult } = useApplozicClient();
+  // const user = getUserFromLoginResult(loginResult);
+  // console.log({ user });
+  return useQuery<User | null>(["self", loginResult?.userId], async () => {
+    if (loginResult?.userId) {
+      const response = await client?.contacts.getUserDetails([
+        loginResult.userId,
+      ]);
+      const user = response && response?.length > 0 ? response[0] : undefined;
+      return user ? user : null;
+    } else {
+      return null;
+    }
   }).data;
 }
 

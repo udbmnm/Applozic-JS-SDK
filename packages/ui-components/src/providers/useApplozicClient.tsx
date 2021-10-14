@@ -72,10 +72,7 @@ const useGetApplogicClient = (
       mergeMessages([uiMessage], messagesLocal)
     );
     let currentRecentChats =
-      queryClient.getQueryData<RecentChat[]>([
-        "recent-chats-local",
-        client?.loginResult?.userId,
-      ]) ?? [];
+      queryClient.getQueryData<RecentChat[]>(["recent-chats-local"]) ?? [];
 
     currentRecentChats = mergeRecentChats(currentRecentChats, [
       {
@@ -88,7 +85,7 @@ const useGetApplogicClient = (
       },
     ]);
     queryClient.setQueryData<RecentChat[]>(
-      ["recent-chats-local", client?.loginResult?.userId],
+      ["recent-chats-local"],
       currentRecentChats
     );
   };
@@ -205,11 +202,7 @@ const useGetApplogicClient = (
       setClient(client);
       console.log({ isLoggedIn: client.loginResult });
       if (client.loginResult) {
-        const response = await client?.contacts.getUserDetails([
-          client.loginResult.userId,
-        ]);
-        const user = response && response?.length > 0 ? response[0] : undefined;
-        queryClient.setQueryData<User | undefined>(["self"], user);
+        queryClient.invalidateQueries(["self", client.loginResult.userId]);
       }
       (window as any).alClient = client;
       setIsClientLoaded(true);

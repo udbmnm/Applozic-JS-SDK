@@ -27,20 +27,16 @@ function useCreateNewContact() {
         // Snapshot the previous value
         const previousChats = queryClient.getQueryData<RecentChat[]>([
           "recent-chats-local",
-          loginResult?.userId,
         ]);
         const recentChat = getRecentChatFromNewContact(newContact);
 
         let currentRecentChats =
-          queryClient.getQueryData<RecentChat[]>([
-            "recent-chats-local",
-            loginResult?.userId,
-          ]) ?? [];
+          queryClient.getQueryData<RecentChat[]>(["recent-chats-local"]) ?? [];
 
         currentRecentChats = mergeRecentChats(currentRecentChats, [recentChat]);
         // Optimistically update to the new value
         queryClient.setQueryData<RecentChat[]>(
-          ["recent-chats-local", loginResult?.userId],
+          ["recent-chats-local"],
           currentRecentChats
         );
         queryClient.setQueryData<Partial<User>>(["user", newContact, true], {

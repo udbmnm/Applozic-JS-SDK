@@ -52,7 +52,6 @@ function useGetMessages(activeChat: ActiveChat) {
         );
         const recentChatsLocal = queryClient.getQueryData<RecentChat[]>([
           "recent-chats-local",
-          loginResult?.userId,
         ]);
         let imageUrl: string | undefined;
         if (activeChat.user) {
@@ -72,7 +71,7 @@ function useGetMessages(activeChat: ActiveChat) {
           imageUrl = groupInfo?.imageUrl;
         }
         queryClient.setQueryData<RecentChat[]>(
-          ["recent-chats-local", loginResult?.userId],
+          ["recent-chats-local"],
           mergeRecentChats(
             [
               {

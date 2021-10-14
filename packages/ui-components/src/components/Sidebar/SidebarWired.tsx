@@ -65,33 +65,22 @@ function SidebarWired() {
   const { setActiveChat } = useActiveChats();
 
   useEffect(() => {
-    console.log({
-      status:
-        contactsStatus === "success" ||
-        contactsStatus === "idle" ||
-        recentChatStatus === "success" ||
-        recentChatStatus === "idle",
-    });
-    if (
-      contactsStatus === "success" ||
-      contactsStatus === "idle" ||
-      recentChatStatus === "success" ||
-      recentChatStatus === "idle"
-    ) {
+    if (recentChatStatus === "success" || recentChatStatus === "idle") {
+      setRecentChats(
+        queryClient.getQueryData<RecentChat[]>(["recent-chats-local"])
+      );
+    }
+  }, [recentChatStatus]);
+
+  useEffect(() => {
+    if (contactsStatus === "success" || contactsStatus === "idle") {
       const contacts = queryClient.getQueryData<{
         users: User[];
         groups: Group[];
       }>(["contacts-local"]);
-      console.log({ fetchedContacts: contacts });
       setUsers(contacts?.users);
-      setRecentChats(
-        queryClient.getQueryData<RecentChat[]>([
-          "recent-chats-local",
-          loginResult?.userId,
-        ])
-      );
     }
-  }, [contactsStatus, recentChatStatus]);
+  }, [contactsStatus]);
 
   useEffect(() => {
     if (searchQuery && searchQuery.length > 0) {
@@ -176,6 +165,7 @@ function SidebarWired() {
   useEffect(() => {
     controls.start(sidebarCollapsed ? "closed" : "open");
   }, [sidebarCollapsed]);
+  console.log({ self });
 
   return (
     <Sidebar

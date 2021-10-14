@@ -85,14 +85,11 @@ function useGetRecentChats() {
       );
 
       let currentRecentChats =
-        queryClient.getQueryData<RecentChat[]>([
-          "recent-chats-local",
-          client?.loginResult?.userId,
-        ]) ?? [];
+        queryClient.getQueryData<RecentChat[]>(["recent-chats-local"]) ?? [];
 
       currentRecentChats = mergeRecentChats(currentRecentChats, recentChats);
       queryClient.setQueryData<RecentChat[]>(
-        ["recent-chats-local", client?.loginResult?.userId],
+        ["recent-chats-local"],
         currentRecentChats
       );
       return {

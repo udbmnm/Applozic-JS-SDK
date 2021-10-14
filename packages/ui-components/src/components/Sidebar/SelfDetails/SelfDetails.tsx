@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   VStack,
   Box,
@@ -54,13 +54,13 @@ const SelfDetails = ({
       height="full"
       padding={0}
       width="350px"
-      exit={{ x: "101%" }}
+      exit={{ x: "-101%" }}
       transition={{
         type: "tween",
       }}
       ml={2}
       animate={{ x: 0 }}
-      initial={{ x: "101%" }}
+      initial={{ x: "-101%" }}
       borderRadius={15}
       borderWidth={mode(1, 0)}
       borderColor="#E9E9E9"
