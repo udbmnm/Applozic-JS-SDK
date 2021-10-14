@@ -1,5 +1,5 @@
 import { TabList, Tabs, Divider, chakra } from "@chakra-ui/react";
-import React from "react";
+import React, { useMemo } from "react";
 import FeatureTabEnum from "../../models/Feature";
 import FeatureTab from "./FeatureTab";
 
@@ -18,7 +18,11 @@ function FeatureSidebar({
 }: FeatureSidebarProps) {
   const StyledTab = chakra("button", { themeKey: "Tabs.Tab" } as any);
 
-  const getCustomTab = (featureTab: FeatureTabEnum) => {
+  const getCustomTab = (
+    featureTab: FeatureTabEnum,
+    userName: string,
+    userImageUrl: string | undefined
+  ) => {
     switch (featureTab) {
       case FeatureTabEnum.USER:
         return (
@@ -43,7 +47,6 @@ function FeatureSidebar({
         );
     }
   };
-  console.log({ featureTabs });
   return (
     <Tabs
       orientation="vertical"
@@ -52,8 +55,16 @@ function FeatureSidebar({
       height="full"
       defaultIndex={1}
     >
-      <TabList borderWidth={0} overflowY="auto" height="full" width="64px">
-        {featureTabs.map((tab) => getCustomTab(tab))}
+      <TabList
+        borderWidth={0}
+        overflowY="auto"
+        height="full"
+        width="64px"
+        alignItems="center"
+      >
+        {featureTabs.map((tab) =>
+          useMemo(() => getCustomTab(tab, userName, userImageUrl), [])
+        )}
       </TabList>
     </Tabs>
   );

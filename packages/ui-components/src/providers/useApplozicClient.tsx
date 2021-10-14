@@ -1,3 +1,6 @@
+import "@fontsource/roboto";
+import "focus-visible/dist/focus-visible";
+
 import React, { createContext, useContext, useEffect, useState } from "react";
 import ApplozicClient, {
   LoginResult,
@@ -22,6 +25,18 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { QueryClientProvider, QueryClient } from "react-query";
 import theme from "../theme";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { Global, css } from "@emotion/core";
+
+const GlobalStyles = css`
+  /*
+    This will hide the focus indicator if the element receives focus    via the mouse,
+    but it will still show up on keyboard focus.
+  */
+  .js-focus-visible :focus:not([data-focus-visible-added]) {
+    outline: none;
+    box-shadow: none;
+  }
+`;
 
 const applozicQueryClient = new QueryClient({
   defaultOptions: {
@@ -240,6 +255,7 @@ export function ProvideApplozicClient({
       <ChakraProvider
         theme={theme({ initialColorMode: colorMode, useSystemColorMode })}
       >
+        <Global styles={GlobalStyles} />
         <ApplozicClientContext.Provider
           value={useGetApplogicClient(applicationId, giphyApiKey, gMapsApiKey)}
         >

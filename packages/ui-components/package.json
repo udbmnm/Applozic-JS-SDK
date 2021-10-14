@@ -41,6 +41,7 @@
     "@giphy/js-fetch-api": "^4.1.1",
     "@giphy/react-components": "^4.0.1",
     "babel-loader": "^8.2.2",
+    "focus-visible": "^5.2.0",
     "formik": "^2.2.9",
     "framer-motion": "^4",
     "get-blob-duration": "^1.2.0",

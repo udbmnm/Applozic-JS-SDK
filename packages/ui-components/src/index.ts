@@ -1,4 +1,5 @@
 import "@fontsource/roboto";
+import "focus-visible/dist/focus-visible";
 
 // Components
 import { ChatType, Message, MessageStatus } from "./models/chat";

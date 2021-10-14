@@ -32,8 +32,14 @@ const FeatureTab = ({
   const styles = useStyles();
   const activeColor = mode("#FFF", "#FFF");
   const inActiveColor = mode("#6B6776", "#ABABAD");
+  console.log({ avatarUrl: imageUrl });
   return (
-    <StyledTab __css={styles.tab} {...tabProps} borderWidth={0}>
+    <StyledTab
+      __css={styles.tab}
+      {...tabProps}
+      borderWidth={0}
+      style={{ width: 64 }}
+    >
       <VStack spacing={0}>
         {icon ? (
           <Box

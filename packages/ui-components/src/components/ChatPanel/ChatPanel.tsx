@@ -45,7 +45,7 @@ function ChatPanel({
       borderWidth={mode(1, 0)}
       borderColor="#E9E9E9"
       flexDirection="column"
-      height="calc(100vh - 63px)"
+      height="full"
       backgroundColor={mode("#FFFFFF", "#1B191D")}
     >
       {activeChat.user && (
