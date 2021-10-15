@@ -3,19 +3,19 @@ import React, { useMemo } from "react";
 import FeatureTabEnum from "../../models/Feature";
 import FeatureTab from "./FeatureTab";
 
-export interface FeatureSidebarProps {
+export interface FeatureTabsProps {
   featureTabs: FeatureTabEnum[];
   onChange: (index: number) => void;
   userName: string;
   userImageUrl?: string;
 }
 
-function FeatureSidebar({
+function FeatureTabs({
   featureTabs,
   onChange,
   userName,
   userImageUrl,
-}: FeatureSidebarProps) {
+}: FeatureTabsProps) {
   const StyledTab = chakra("button", { themeKey: "Tabs.Tab" } as any);
 
   const getCustomTab = (
@@ -70,4 +70,4 @@ function FeatureSidebar({
   );
 }
 
-export default FeatureSidebar;
+export default FeatureTabs;

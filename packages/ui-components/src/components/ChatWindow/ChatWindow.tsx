@@ -27,7 +27,7 @@ export interface ChatWindowProps {
   fetchNextPage: () => void;
   isFetchingNextPage: boolean;
   hasNextPage: boolean | undefined;
-
+  clearUnreadNotifications: () => void;
   hasAttachment?: boolean;
   messages?: Message[];
   giphyApiKey?: string;
@@ -36,17 +36,22 @@ export interface ChatWindowProps {
 }
 
 function ChatWindow({
-  hasAttachment,
+  self,
   activeChat,
   messages,
   gMapsApiKey,
-  onMessageDelete,
-  self,
-  fetchNextPage,
-  isFetchingNextPage,
+  hasAttachment,
   hasNextPage,
+  isFetchingNextPage,
+  clearUnreadNotifications,
+  onMessageDelete,
+  fetchNextPage,
 }: ChatWindowProps) {
   const elementRef = useRef<null | HTMLDivElement>(null);
+
+  useEffect(() => {
+    clearUnreadNotifications();
+  }, []);
 
   const { contactName, contactImageUrl } = getContactNameAndImageFromActiveChat(
     activeChat

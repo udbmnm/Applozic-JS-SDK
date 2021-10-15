@@ -25,10 +25,10 @@ export interface SendMessageProps {
   gMapsApiKey?: string;
   isSending?: boolean;
   attachment?: FileMeta;
-  handleSend: (text: string) => void;
+  handleSend?: (text: string) => void;
   handleSendFile?: (file: File) => void;
   handleTyping?: (isTyping: boolean) => void;
-  onFileSelected?: (file: File) => void | Promise<void>;
+  onFileSelected?: (file: File) => Promise<FileMeta | undefined>;
   onFileDiscarded?: () => void | Promise<void>;
   onSendLocation?: (location: Coords) => void | Promise<void>;
 }

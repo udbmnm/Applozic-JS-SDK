@@ -2,7 +2,7 @@ import { Container, HStack, useColorModeValue as mode } from "@chakra-ui/react";
 import React from "react";
 import ChatWindowWired from "../../components/ChatWindow/ChatWindowWired";
 import SidebarWired from "../../components/Sidebar/SidebarWired";
-import FeatureSidebarWired from "../../components/FeatureTabs/FeatureTabsWired";
+import FeatureTabsWired from "../../components/FeatureTabs/FeatureTabsWired";
 
 const FullViewApp = () => {
   return (
@@ -15,7 +15,7 @@ const FullViewApp = () => {
       backgroundColor={mode("background.light", "background.dark")}
     >
       <HStack maxWidth="full" height="full">
-        <FeatureSidebarWired />
+        <FeatureTabsWired />
         <SidebarWired />
         <ChatWindowWired />
       </HStack>

@@ -22,7 +22,7 @@ function ChatWindowWired() {
     <MotionBox
       display="flex"
       flex={1}
-      height="full"
+      height="calc(100vh - 63px)"
       flexDirection="row"
       w={`calc(100% - ${
         fullyOpen

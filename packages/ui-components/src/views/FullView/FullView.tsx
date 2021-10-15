@@ -1,46 +1,27 @@
 import React from "react";
-import { ProvideApplozicClient } from "../../providers/useApplozicClient";
-import FullViewAppWithLogin, {
-  FullViewWithLoginProps,
-} from "./FullViewWithLogin";
+import { ProvideBase } from "../..";
+import { BaseProps } from "../../providers/useBase";
 
-export interface FullViewProps extends FullViewWithLoginProps {
-  /**
-   * The Applozic Application ID as provided after onboarding
-   */
-  applicationId: string;
-  /**
-   * The colorMode of the UI Application
-   */
-  colorMode?: "light" | "dark";
-  /**
-   * Decide if the user's system color mode is being used fo the Application UI
-   */
-  useSystemColorMode?: boolean;
-  /** GIPHY API Key */
-  giphyApiKey?: string;
-  /** Google Maps API Key */
-  gMapsApiKey?: string;
-}
+import FullViewWithoutBase, {
+  FullViewWithoutBaseProps,
+} from "./FullViewWithoutBase";
+
+export interface FullViewProps extends FullViewWithoutBaseProps, BaseProps {}
 
 const FullView = ({
-  applicationId,
-  colorMode = "light",
-  useSystemColorMode = false,
-  giphyApiKey,
-  gMapsApiKey,
+  colorMode,
+  useSystemColorMode,
+  environment,
   ...rest
 }: FullViewProps) => {
   return (
-    <ProvideApplozicClient
-      applicationId={applicationId}
+    <ProvideBase
       colorMode={colorMode}
       useSystemColorMode={useSystemColorMode}
-      giphyApiKey={giphyApiKey}
-      gMapsApiKey={gMapsApiKey}
+      environment={environment}
     >
-      <FullViewAppWithLogin {...rest} />
-    </ProvideApplozicClient>
+      <FullViewWithoutBase {...rest} />
+    </ProvideBase>
   );
 };
 

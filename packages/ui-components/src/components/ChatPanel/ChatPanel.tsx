@@ -1,5 +1,5 @@
 import { useColorModeValue as mode, Box } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import SendMessage, { SendMessageProps } from "../SendMessage";
 import ChatWindow, { ChatWindowProps } from "../ChatWindow";
 import { FileMeta } from "@applozic/core-sdk";
@@ -7,33 +7,38 @@ import { FileMeta } from "@applozic/core-sdk";
 import MotionBox from "../MotionBox";
 import ChatStatusBar, { ChatStatusBarProps } from "../ChatStatusBar";
 
-interface ChatPanelProps {
-  clearUnreadNotifications: () => void | Promise<void>;
-  fileMeta: FileMeta | undefined;
+export interface ChatPanelProps
+  extends ChatWindowProps,
+    Omit<SendMessageProps, "handleSend">,
+    ChatStatusBarProps {
+  handleSendFileAndText: (
+    text: string,
+    fileMeta?: FileMeta | undefined
+  ) => void;
 }
 
 function ChatPanel({
-  clearUnreadNotifications,
+  self,
   activeChat,
   messages,
-  giphyApiKey,
-  gMapsApiKey,
-  fetchNextPage,
-  isFetchingNextPage,
-  self,
-  handleSend,
-  handleSendFile,
-  hasNextPage,
   isOnline,
   lastSeen,
   isTyping,
+  giphyApiKey,
+  gMapsApiKey,
+  hasNextPage,
+  isFetchingNextPage,
+  fetchNextPage,
+  clearUnreadNotifications,
+  handleSendFileAndText,
+  handleSendFile,
   handleTyping,
-  fileMeta,
   onMessageDelete,
-  onFileDiscarded,
   onFileSelected,
   onSendLocation,
 }: ChatPanelProps & ChatWindowProps & ChatStatusBarProps & SendMessageProps) {
+  const [fileMeta, setFileMeta] = useState<FileMeta | undefined>();
+
   useEffect(() => {
     clearUnreadNotifications();
   }, []);
@@ -57,6 +62,7 @@ function ChatPanel({
       )}
       <Box h={3} />
       <ChatWindow
+        clearUnreadNotifications={clearUnreadNotifications}
         activeChat={activeChat}
         self={self}
         fetchNextPage={fetchNextPage}
@@ -72,10 +78,19 @@ function ChatPanel({
         gMapsApiKey={gMapsApiKey}
         attachment={fileMeta}
         handleTyping={handleTyping}
-        handleSend={handleSend}
+        handleSend={(text) => {
+          handleSendFileAndText(text, fileMeta);
+          setFileMeta(undefined);
+        }}
         handleSendFile={handleSendFile}
-        onFileSelected={onFileSelected}
-        onFileDiscarded={onFileDiscarded}
+        onFileSelected={async (file) => {
+          if (onFileSelected) {
+            const fileMeta = await onFileSelected(file);
+            setFileMeta(fileMeta);
+            return fileMeta;
+          }
+        }}
+        onFileDiscarded={() => setFileMeta(undefined)}
         onSendLocation={onSendLocation}
       />
     </MotionBox>

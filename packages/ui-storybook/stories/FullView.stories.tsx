@@ -1,7 +1,10 @@
 import React from "react";
 import { Meta } from "@storybook/react/types-6-0";
 import { Story } from "@storybook/react";
-import FullView, { FullViewProps } from "@applozic/ui-components";
+import {
+  FullViewWithoutBase as FullView,
+  FullViewWithoutBaseProps as FullViewProps,
+} from "@applozic/ui-components";
 import { APPLICATION_ID, GIPHY_APP_ID, GOOGLE_MAPS_API_KEY } from "../config";
 
 export default {

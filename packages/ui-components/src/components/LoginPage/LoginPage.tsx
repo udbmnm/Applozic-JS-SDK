@@ -7,12 +7,12 @@ import {
 import * as React from "react";
 import LoginFormWired from "../LoginForm/LoginFormWired";
 
-interface ILoginPage {
+export interface LoginPageProps {
   topHeader: string;
   topSubHeader: string;
 }
 
-const LoginPage: React.FC<ILoginPage> = ({ topHeader, topSubHeader }) => {
+const LoginPage: React.FC<LoginPageProps> = ({ topHeader, topSubHeader }) => {
   return (
     <Box minH="100vh" bg={{ md: mode("gray.100", "inherit") }}>
       <Box

@@ -20,33 +20,7 @@ import { IPresence } from "../hooks/usePresence";
 import { IUnreadCount } from "../hooks/queries/useGetUnreadCount";
 import { mergeRecentChats } from "../utils/recentChatsMerger";
 import useDeleteMesssage from "../hooks/mutations/useDeleteMessage";
-
-import { ChakraProvider } from "@chakra-ui/react";
-import { QueryClientProvider, QueryClient } from "react-query";
-import theme from "../theme";
-import { ReactQueryDevtools } from "react-query/devtools";
-import { Global, css } from "@emotion/core";
-
-const GlobalStyles = css`
-  /*
-    This will hide the focus indicator if the element receives focus    via the mouse,
-    but it will still show up on keyboard focus.
-  */
-  .js-focus-visible :focus:not([data-focus-visible-added]) {
-    outline: none;
-    box-shadow: none;
-  }
-`;
-
-const applozicQueryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-    },
-  },
-});
+import { FullViewProps } from "../views/FullView";
 
 interface IApplozicClient {
   client: ApplozicClient | undefined;
@@ -62,7 +36,7 @@ const ApplozicClientContext = createContext<IApplozicClient>({
   isClientLoaded: false,
 });
 
-const useGetApplogicClient = (
+const useGetApplozicClient = (
   applicationId: string,
   giphyApiKey?: string,
   gMapsApiKey?: string
@@ -215,14 +189,12 @@ const useGetApplogicClient = (
       });
       await client.init();
       setClient(client);
-      console.log({ isLoggedIn: client.loginResult });
       if (client.loginResult) {
         queryClient.invalidateQueries(["self", client.loginResult.userId]);
       }
       (window as any).alClient = client;
       setIsClientLoaded(true);
     };
-    console.log("calling init");
     initSdk();
   }, []);
 
@@ -235,35 +207,23 @@ const useGetApplogicClient = (
   };
 };
 
+export interface ProvideApplozicClientProps
+  extends Omit<FullViewProps, "loginPage"> {
+  children: React.ReactNode;
+}
+
 export function ProvideApplozicClient({
   children,
   applicationId,
-  colorMode = "light",
-  useSystemColorMode = false,
   giphyApiKey,
   gMapsApiKey,
-}: {
-  children: React.ReactNode;
-  applicationId: string;
-  colorMode: "light" | "dark";
-  useSystemColorMode: boolean;
-  giphyApiKey?: string;
-  gMapsApiKey?: string;
-}) {
+}: ProvideApplozicClientProps) {
   return (
-    <QueryClientProvider client={applozicQueryClient}>
-      <ChakraProvider
-        theme={theme({ initialColorMode: colorMode, useSystemColorMode })}
-      >
-        <Global styles={GlobalStyles} />
-        <ApplozicClientContext.Provider
-          value={useGetApplogicClient(applicationId, giphyApiKey, gMapsApiKey)}
-        >
-          {children}
-        </ApplozicClientContext.Provider>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </ChakraProvider>
-    </QueryClientProvider>
+    <ApplozicClientContext.Provider
+      value={useGetApplozicClient(applicationId, giphyApiKey, gMapsApiKey)}
+    >
+      {children}
+    </ApplozicClientContext.Provider>
   );
 }
 

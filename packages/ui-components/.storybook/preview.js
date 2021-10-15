@@ -1,18 +1,6 @@
-import { ChakraProvider, useColorMode } from "@chakra-ui/react";
-import theme from "../src/theme";
+import { useColorMode } from "@chakra-ui/react";
 import { useEffect } from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
-
-const applozicQueryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      staleTime: Infinity,
-    },
-  },
-});
+import { ProvideBase } from "../src/providers/useBase";
 
 export const parameters = {
   // layout: "fullscreen",
@@ -40,26 +28,15 @@ export const globalTypes = {
   },
 };
 
-const StoryComponent = ({ StoryFn, context }) => {
-  const { toggleColorMode, colorMode } = useColorMode();
-  useEffect(() => {
-    if (colorMode !== context.globals.theme) {
-      toggleColorMode();
-    }
-  }, [context.globals.theme]);
-
-  return <StoryFn />;
-};
-
 const withChakra = (StoryFn, context) => {
   return (
-    <QueryClientProvider client={applozicQueryClient}>
-      <ChakraProvider
-        theme={theme({ useSystemColorMode: false, initialColorMode: "light" })}
-      >
-        <StoryComponent StoryFn={StoryFn} context={context} />
-      </ChakraProvider>
-    </QueryClientProvider>
+    <ProvideBase
+      useSystemColorMode={false}
+      colorMode={context.globals.theme}
+      environment="development"
+    >
+      <StoryFn />
+    </ProvideBase>
   );
 };
 

@@ -2,9 +2,9 @@ import React from "react";
 import useGetSelfDetails from "../../hooks/queries/useGetSelfDetails";
 import useSidebar from "../../hooks/useSidebar";
 import FeatureTab from "../../models/Feature";
-import FeatureSidebar from "./FeatureTabs";
+import FeatureTabs from "./FeatureTabs";
 
-function FeatureSidebarWired() {
+function FeatureTabsWired() {
   const user = useGetSelfDetails();
   const ActiveFeatures = [
     FeatureTab.USER,
@@ -14,7 +14,7 @@ function FeatureSidebarWired() {
   ];
   const { setActiveTab } = useSidebar();
   return (
-    <FeatureSidebar
+    <FeatureTabs
       featureTabs={ActiveFeatures}
       onChange={(index) => setActiveTab(ActiveFeatures[index])}
       userName={user?.displayName ?? user?.email ?? user?.userId ?? ""}
@@ -23,4 +23,4 @@ function FeatureSidebarWired() {
   );
 }
 
-export default FeatureSidebarWired;
+export default FeatureTabsWired;

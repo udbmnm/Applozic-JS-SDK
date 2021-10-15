@@ -1,6 +1,6 @@
 import { useToast, ToastId } from "@chakra-ui/react";
-import React, { useCallback, useState } from "react";
-import { FileMeta, MessageContentType } from "@applozic/core-sdk";
+import React from "react";
+import { MessageContentType } from "@applozic/core-sdk";
 import { Message } from "../../models/chat";
 
 import useGetMessages from "../../hooks/queries/useGetUserMessages";
@@ -42,17 +42,18 @@ function ChatPanelWired({ activeChat }: { activeChat: ActiveChat }) {
   };
 
   const { mutate: sendMessage } = useSendUserMessage();
-  const [fileMeta, setFileMeta] = useState<FileMeta | undefined>();
 
-  const handleTyping = useCallback((typing: boolean) => {
-    setTimeout(
-      () => contactId && client?.sendTypingStatus(contactId, typing),
-      100
-    );
-  }, []);
   return (
     <ChatPanel
-      fileMeta={fileMeta}
+      self={self}
+      messages={messages}
+      activeChat={activeChat}
+      handleTyping={(typing) => {
+        setTimeout(
+          () => contactId && client?.sendTypingStatus(contactId, typing),
+          100
+        );
+      }}
       clearUnreadNotifications={() => {
         queryClient.setQueryData(
           [
@@ -63,13 +64,6 @@ function ChatPanelWired({ activeChat }: { activeChat: ActiveChat }) {
             unreadCount: 0,
           }
         );
-      }}
-      self={self}
-      messages={messages}
-      activeChat={activeChat}
-      handleTyping={handleTyping}
-      onFileDiscarded={() => {
-        setFileMeta(undefined);
       }}
       onSendLocation={(position) => {
         if (sendMessage) {
@@ -82,11 +76,12 @@ function ChatPanelWired({ activeChat }: { activeChat: ActiveChat }) {
           });
         }
       }}
-      onFileSelected={async (file) => {
-        console.log({ onFileSelected: file });
-        const result = await getUploadResult(file);
-        setFileMeta(result);
+      onFileSelected={getUploadResult}
+      fetchNextPage={() => {
+        fetchNextPage();
       }}
+      isFetchingNextPage={isFetchingNextPage}
+      hasNextPage={hasNextPage}
       handleSendFile={async (file) => {
         const result = await getUploadResult(file);
         if (result) {
@@ -108,25 +103,16 @@ function ChatPanelWired({ activeChat }: { activeChat: ActiveChat }) {
           });
         }
       }}
-      handleSend={(text) => {
-        if (sendMessage) {
-          sendMessage({
-            to: getIdFromActiveChat(activeChat),
-            clientGroupId: getIdFromActiveChat(activeChat),
-            message: text,
-            fileMeta,
-            metadata: { webUiKey: v4() },
-          });
-          contactId && client?.sendTypingStatus(contactId, false);
-          setFileMeta(undefined);
-        }
+      handleSendFileAndText={(text, fileMeta) => {
+        sendMessage({
+          to: getIdFromActiveChat(activeChat),
+          clientGroupId: getIdFromActiveChat(activeChat),
+          message: text,
+          fileMeta,
+          metadata: { webUiKey: v4() },
+        });
+        contactId && client?.sendTypingStatus(contactId, false);
       }}
-      fetchNextPage={() => {
-        console.log("fetching more");
-        fetchNextPage();
-      }}
-      isFetchingNextPage={isFetchingNextPage}
-      hasNextPage={hasNextPage}
     />
   );
 }
