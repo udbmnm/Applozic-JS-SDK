@@ -22,12 +22,9 @@
   },
   "scripts": {
     "cleanbuild": "rm -r node_modules && npm install && tsc",
-    "storybook": "start-storybook -p 6006",
-    "build:storybook": "build-storybook -o ./storybook-build",
     "build:webpack": "webpack",
     "build:docs": "typedoc --preserveWatchOutput --hideGenerator --cleanOutputDir true --entryPointStrategy expand --gitRemote origin --includeVersion src/index.ts",
-    "build": "rm -rf dist && yarn build:webpack",
-    "deploy-storybook": "yarn build-storybook && firebase deploy"
+    "build": "rm -rf dist && yarn build:webpack"
   },
   "dependencies": {
     "@applozic/core-sdk": "0.0.12",
@@ -67,11 +64,6 @@
     "@rollup/plugin-image": "^2.1.1",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
-    "@storybook/addon-actions": "^6.3.4",
-    "@storybook/addon-essentials": "^6.3.4",
-    "@storybook/addon-knobs": "^6.3.1",
-    "@storybook/addon-links": "^6.3.4",
-    "@storybook/react": "^6.3.8",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",

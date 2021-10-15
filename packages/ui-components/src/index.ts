@@ -33,6 +33,26 @@ import ChatPanel, {
 import FeatureTabsWired from "./components/FeatureTabs/FeatureTabsWired";
 import ActiveChat from "./models/chat/ActiveChat";
 import LoginPage, { LoginPageProps } from "./components/LoginPage";
+import ChatWindow, { ChatWindowProps } from "./components/ChatWindow";
+import ChatBubble, {
+  ChatBubbleProps,
+} from "./components/ChatWindow/ChatBubble";
+import ChevronHover from "./components/ChevronHover";
+import { ChevronHoverProps } from "./components/ChevronHover/ChevronHover";
+import LoginForm from "./components/LoginForm";
+import LoginFormWired from "./components/LoginForm/LoginFormWired";
+import { LoginFormProps } from "./components/LoginForm/LoginForm";
+import ChatDetailsMeta, {
+  ChatDetailsMetaProps,
+} from "./components/ChatDetails/ChatDetailsMeta";
+import PictureAndName, {
+  PictureAndNameProps,
+} from "./components/ChatDetails/PictureAndName";
+import PrivacyAndSupport, {
+  PrivacyAndSupportProps,
+} from "./components/ChatDetails/PrivacyAndSupport";
+import Form from "./components/Form";
+import { FormProps } from "./components/Form/Form";
 
 export {
   // ENUMs
@@ -48,12 +68,21 @@ export {
   Input,
   MapPicker,
   MapPickerPopup,
+  ChevronHover,
+  Form,
   // Chat Components
+  ChatBubble,
+  ChatWindow,
   ChatDetails,
+  ChatDetailsMeta,
+  PictureAndName,
+  PrivacyAndSupport,
   FeatureTabs,
   ChatPanel,
   SendMessage,
+  LoginForm,
   // Chat Components Wired
+  LoginFormWired,
   LoginPage,
   FeatureTabsWired,
   ChatPanelWired,
@@ -75,13 +104,21 @@ export type {
   InputProps,
   MapPickerProps,
   MapPickerPopupProps,
+  ChevronHoverProps,
+  FormProps,
   // Chat component Properties
-  SendMessageProps,
-  ChatDetailProps,
-  ChatTabHeadStripProps,
-  FeatureTabsProps,
-  ChatPanelProps,
+  LoginFormProps,
   LoginPageProps,
+  FeatureTabsProps,
+  ChatBubbleProps,
+  ChatWindowProps,
+  SendMessageProps,
+  ChatTabHeadStripProps,
+  ChatPanelProps,
+  ChatDetailsMetaProps,
+  PrivacyAndSupportProps,
+  PictureAndNameProps,
+  ChatDetailProps,
   // Full View props
   FullViewWithoutBaseProps,
   FullViewProps,

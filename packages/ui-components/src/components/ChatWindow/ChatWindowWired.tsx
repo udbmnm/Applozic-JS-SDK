@@ -1,6 +1,5 @@
-import { Box, Tabs } from "@chakra-ui/react";
-import React, { useEffect } from "react";
-import { useApplozicClient } from "../../providers/useApplozicClient";
+import { Tabs } from "@chakra-ui/react";
+import React from "react";
 import NoChatSelected from "./NoChatSelected";
 
 import ChatDetailsWired from "../ChatDetails/ChatDetailsWired";
