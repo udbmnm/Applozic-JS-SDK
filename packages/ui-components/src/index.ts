@@ -53,6 +53,9 @@ import PrivacyAndSupport, {
 } from "./components/ChatDetails/PrivacyAndSupport";
 import Form from "./components/Form";
 import { FormProps } from "./components/Form/Form";
+import { Sidebar } from "./components/Sidebar";
+import { SidebarProps } from "./components/Sidebar/Sidebar";
+import SidebarWired from "./components/Sidebar/SidebarWired";
 
 export {
   // ENUMs
@@ -78,6 +81,7 @@ export {
   PictureAndName,
   PrivacyAndSupport,
   FeatureTabs,
+  Sidebar,
   ChatPanel,
   SendMessage,
   LoginForm,
@@ -85,6 +89,7 @@ export {
   LoginFormWired,
   LoginPage,
   FeatureTabsWired,
+  SidebarWired,
   ChatPanelWired,
   ChatDetailsWired,
   // Component to be used in storybook
@@ -110,6 +115,7 @@ export type {
   LoginFormProps,
   LoginPageProps,
   FeatureTabsProps,
+  SidebarProps,
   ChatBubbleProps,
   ChatWindowProps,
   SendMessageProps,

@@ -4,7 +4,7 @@ import { Story } from "@storybook/react";
 import {
   LoginPage,
   LoginPageProps,
-  ProvideBase,
+  ProvideApplozicClient,
 } from "@applozic/ui-components";
 import { APPLICATION_ID, GOOGLE_MAPS_API_KEY, GIPHY_API_KEY } from "../config";
 
@@ -15,13 +15,13 @@ export default {
 
 // Create a master template for mapping args to render the Button component
 const Template: Story<LoginPageProps> = (args) => (
-  <ProvideBase
+  <ProvideApplozicClient
     applicationId={APPLICATION_ID}
     gMapsApiKey={GOOGLE_MAPS_API_KEY}
     giphyApiKey={GIPHY_API_KEY}
   >
     <LoginPage {...args} />
-  </ProvideBase>
+  </ProvideApplozicClient>
 );
 
 // Reuse that template for creating different stories

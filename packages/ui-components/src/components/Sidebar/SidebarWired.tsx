@@ -155,7 +155,6 @@ function SidebarWired() {
     });
   }, []);
 
-  console.log({ recentChats, users });
   const { mutate: clearChat } = useClearChat();
   const { mutate: mutateNewGroup } = useCreateGroup();
   // const { mutate: mutateNewContact } = useCreateNewContact();
@@ -165,12 +164,21 @@ function SidebarWired() {
   useEffect(() => {
     controls.start(sidebarCollapsed ? "closed" : "open");
   }, [sidebarCollapsed]);
-  console.log({ self });
 
   return (
     <Sidebar
-      fetchNextRecentChats={() => fetchNextRecentChats()}
-      isFetchingNextRecentChatsPage={isFetchingNextRecentChatsPage}
+      selfDetails={{
+        name: self ? getNameFromUser(self) : "",
+        imageUrl: self?.imageLink,
+        onCloseClicked: () => setActiveTab(FeatureTab.RECENT_CHATS),
+        onLogOutClicked: () =>
+          logoutUser(undefined, {
+            onSuccess: () => setActiveTab(FeatureTab.RECENT_CHATS),
+          }),
+        onUpdateValue: (key, value) => {
+          updateSelf({ [key]: value });
+        },
+      }}
       selectedFeatureTab={activeTab}
       controls={controls}
       recentChats={recentChats}
@@ -181,6 +189,8 @@ function SidebarWired() {
         setCollapsed: setSidebarCollapsed,
         isCollapsed: sidebarCollapsed,
       }}
+      isFetchingNextRecentChatsPage={isFetchingNextRecentChatsPage}
+      fetchNextRecentChats={() => fetchNextRecentChats()}
       handleItemClick={(type, contactId) => {
         let user: User | undefined, group: Group | undefined;
         if (type == ChatType.GROUP) {
@@ -238,18 +248,6 @@ function SidebarWired() {
         } else if (chatType == ChatType.USER) {
           clearChat({ userId: contactId });
         }
-      }}
-      selfDetails={{
-        name: self ? getNameFromUser(self) : "",
-        imageUrl: self?.imageLink,
-        onCloseClicked: () => setActiveTab(FeatureTab.RECENT_CHATS),
-        onLogOutClicked: () =>
-          logoutUser(undefined, {
-            onSuccess: () => setActiveTab(FeatureTab.RECENT_CHATS),
-          }),
-        onUpdateValue: (key, value) => {
-          updateSelf({ [key]: value });
-        },
       }}
     />
   );

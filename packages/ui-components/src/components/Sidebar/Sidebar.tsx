@@ -30,10 +30,10 @@ export interface SidebarProps {
     contactId: string
   ) => void | Promise<void>;
   handleItemClick: (type: ChatType, contactId: string) => void | Promise<void>;
-  controls?: AnimationControls;
   fetchNextRecentChats: () => void;
   isFetchingNextRecentChatsPage: boolean;
   onCreateContact?: (contactName: string) => void | Promise<void>;
+  controls?: AnimationControls;
 }
 
 function Sidebar({
@@ -42,13 +42,13 @@ function Sidebar({
   selfDetails,
   recentChats,
   users,
+  isFetchingNextRecentChatsPage,
+  controls,
   onCreateGroup: onClickCreateGroup,
   onCreateContact: onClickCreateContact,
   onClearConversation: onClickClearConversation,
   fetchNextRecentChats,
-  isFetchingNextRecentChatsPage,
   handleItemClick,
-  controls,
 }: SidebarProps) {
   const [showAddGroup, setShowAddGroup] = useState(false);
   const [showAddContact, setShowAddContact] = useState(false);
