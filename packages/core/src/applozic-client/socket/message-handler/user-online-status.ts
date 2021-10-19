@@ -5,11 +5,9 @@ const processUserOnlineStatus: MessageHandler = async (
 ) => {
   const { events, messageData } = data;
   if (events && events.onUserOnlineStatus) {
-    let [
-      userId,
-      status,
-      timestampString
-    ] = (messageData.message as string).split(',');
+    const [userId, status, timestampString] = (
+      messageData.message as string
+    ).split(',');
 
     const isOnline = status === '1';
     const timestamp = parseInt(timestampString);

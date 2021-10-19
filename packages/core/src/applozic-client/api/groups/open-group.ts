@@ -19,14 +19,11 @@ export interface OpenGroupApi {
 
 const openGroupBuilder = (applozicClient: BaseClient): OpenGroupApi => {
   const openGroupApi: OpenGroupApi = async data => {
-    const response: BaseResponse<OpenGroupRes> = await applozicClient.makeApiCall(
-      METHODS.GET,
-      ENDPOINT,
-      {
+    const response: BaseResponse<OpenGroupRes> =
+      await applozicClient.makeApiCall(METHODS.GET, ENDPOINT, {
         query: { ...data },
         useAuth: true
-      }
-    );
+      });
     return response.response;
   };
   return openGroupApi;

@@ -24,7 +24,7 @@ export default class ApplozicSocket {
   /** Promise to check if connection is initialized */
   public connectionPromise: Promise<CompatClient>;
   /** Resolves initialization promise outside the initialization context */
-  private connectionPromiseResolver: Function;
+  private connectionPromiseResolver: { (client: CompatClient): void };
   /** Socket options */
   private options: ApplozicSocketOptions;
 
@@ -52,6 +52,7 @@ export default class ApplozicSocket {
     this.stompClient.heartbeat.outgoing = 10000;
     this.stompClient.heartbeat.incoming = 0;
     this.stompClient.reconnect_delay = 30000;
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     this.stompClient.debug = () => {}; // Disable stomp debug messages
     return this.stompClient;
   };

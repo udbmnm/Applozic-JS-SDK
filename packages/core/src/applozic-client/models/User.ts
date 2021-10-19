@@ -13,7 +13,7 @@ export default interface User {
   lastSeenAtTime: number;
   /** sent only in message list API {userDetails} */
   lastMessageAtTime?: number;
-  metadata: Object;
+  metadata: any;
   roleKey: string;
   roleType: number;
   status: number;
@@ -27,4 +27,4 @@ export default interface User {
 }
 
 export const getNameFromUser = (user: User) =>
-  user.displayName ?? user.email ?? user.userName ?? user.userId ?? "";
+  user.displayName ?? user.email ?? user.userName ?? user.userId ?? '';

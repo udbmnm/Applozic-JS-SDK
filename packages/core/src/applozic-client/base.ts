@@ -65,7 +65,7 @@ export default class BaseClient {
     return request;
   };
 
-  async init() {}
+  async init() {} // eslint-disable-line @typescript-eslint/no-empty-function
 
   async postLogin(loginRes: LoginResult) {
     this.loginResult = loginRes;

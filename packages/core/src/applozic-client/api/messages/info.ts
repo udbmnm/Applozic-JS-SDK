@@ -18,12 +18,11 @@ export interface MessageInfoApi {
 
 const messageInfoBuilder = (applozicClient: BaseClient): MessageInfoApi => {
   const messageInfoApi: MessageInfoApi = async key => {
-    const response: BaseResponse<
-      MessageInfoItem[]
-    > = await applozicClient.makeApiCall(METHODS.GET, ENDPOINT, {
-      query: { key },
-      useAuth: true
-    });
+    const response: BaseResponse<MessageInfoItem[]> =
+      await applozicClient.makeApiCall(METHODS.GET, ENDPOINT, {
+        query: { key },
+        useAuth: true
+      });
     return response.response;
   };
   return messageInfoApi;
