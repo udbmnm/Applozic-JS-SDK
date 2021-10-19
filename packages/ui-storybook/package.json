@@ -1,5 +1,5 @@
 {
-  "name": "ui-storybook",
+  "name": "@applozic/ui-storybook",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -14,7 +14,7 @@
   },
   "scripts": {
     "storybook": "start-storybook -p 6006",
-    "build:storybook": "build-storybook -o ./storybook-build",
+    "build": "build-storybook -o ./storybook-build",
     "deploy-storybook": "yarn build-storybook && firebase deploy"
   },
   "dependencies": {
