@@ -1,6 +1,6 @@
-import React from "react";
-import { Story } from "@storybook/react";
-import { LoginFormWired } from "../src";
+import React from 'react';
+import { Story } from '@storybook/react';
+import { LoginFormWired } from '../src';
 
 // export default {
 //   title: "Login",
@@ -8,7 +8,7 @@ import { LoginFormWired } from "../src";
 // } as Meta;
 
 // Create a master template for mapping args to render the Button component
-const Template: Story = (args) => <LoginFormWired />;
+const Template: Story = args => <LoginFormWired />;
 
 // Reuse that template for creating different stories
 export const Login = Template.bind({});

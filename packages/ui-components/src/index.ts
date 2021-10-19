@@ -59,6 +59,14 @@ import SidebarWired from './components/Sidebar/SidebarWired';
 import ChatStatusBar, {
   ChatStatusBarProps
 } from './components/ChatStatusBar/ChatStatusBar';
+import EmojiPicker, {
+  BOTTOM_CATEGORIES,
+  EmojiPickerProps
+} from './components/EmojiPicker/EmojiPicker';
+import { EMOJI_CATEGORY } from './components/EmojiPicker/SmileyCategoryStrip';
+import EmojiPopup, {
+  EmojiPopupProps
+} from './components/EmojiPopup/EmojiPopup';
 
 export {
   // ENUMs
@@ -72,6 +80,10 @@ export {
   Button,
   Icon,
   Input,
+  EmojiPicker,
+  EmojiPopup,
+  BOTTOM_CATEGORIES,
+  EMOJI_CATEGORY,
   MapPicker,
   MapPickerPopup,
   ChevronHover,
@@ -111,6 +123,8 @@ export type {
   ButtonProps,
   IconProps,
   InputProps,
+  EmojiPickerProps,
+  EmojiPopupProps,
   MapPickerProps,
   MapPickerPopupProps,
   ChevronHoverProps,
