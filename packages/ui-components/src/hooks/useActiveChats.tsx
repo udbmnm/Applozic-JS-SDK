@@ -1,41 +1,41 @@
-import { useQuery, useQueryClient } from "react-query";
-import ActiveChat, { isSameActiveChat } from "../models/chat/ActiveChat";
+import { useQuery, useQueryClient } from 'react-query';
+import ActiveChat, { isSameActiveChat } from '../models/chat/ActiveChat';
 
 function useActiveChats() {
   const queryClient = useQueryClient();
-  const { data: activeChats } = useQuery<ActiveChat[]>(["active_chats"]);
-  const { data: openIndex } = useQuery<number>(["open_index"]);
-  const { data: detailOpenIndex } = useQuery<number>(["detail_open_index"]);
+  const { data: activeChats } = useQuery<ActiveChat[]>(['active_chats']);
+  const { data: openIndex } = useQuery<number>(['open_index']);
+  const { data: detailOpenIndex } = useQuery<number>(['detail_open_index']);
 
   const setActiveChat = (activeChat: ActiveChat) => {
-    const index = (activeChats ?? []).findIndex((chat) =>
+    const index = (activeChats ?? []).findIndex(chat =>
       isSameActiveChat(chat, activeChat)
     );
     if (index > -1) {
-      queryClient.setQueryData<number>(["open_index"], index);
+      queryClient.setQueryData<number>(['open_index'], index);
     } else {
       queryClient.setQueryData<ActiveChat[]>(
-        ["active_chats"],
+        ['active_chats'],
         [...(activeChats ?? []), activeChat]
       );
       queryClient.setQueryData<number>(
-        ["open_index"],
+        ['open_index'],
         (activeChats ?? []).length
       );
     }
   };
 
   const showChatDetail = (index: number) => {
-    queryClient.setQueryData<number>(["detail_open_index"], index);
+    queryClient.setQueryData<number>(['detail_open_index'], index);
   };
 
   const hideChatDetail = () => {
-    queryClient.setQueryData<number>(["detail_open_index"], -1);
+    queryClient.setQueryData<number>(['detail_open_index'], -1);
   };
 
   const removeActiveChat = (activeChat: ActiveChat) => {
     const currentLength = (activeChats ?? []).length;
-    const removeIndex = (activeChats ?? []).findIndex((chat) =>
+    const removeIndex = (activeChats ?? []).findIndex(chat =>
       isSameActiveChat(chat, activeChat)
     );
 
@@ -52,7 +52,7 @@ function useActiveChats() {
     if (currentLength > 0 && openIndex !== undefined) {
       if (removeIndex > -1) {
         let filteredChats = (activeChats ?? []).filter(
-          (chat) => !isSameActiveChat(chat, activeChat)
+          chat => !isSameActiveChat(chat, activeChat)
         );
         console.log({ filteredChats });
         if (filteredChats.length == 1) {
@@ -62,9 +62,9 @@ function useActiveChats() {
           }
         }
         console.log({ filteredChats });
-        queryClient.setQueryData<ActiveChat[]>(["active_chats"], filteredChats);
+        queryClient.setQueryData<ActiveChat[]>(['active_chats'], filteredChats);
         if (removeIndex <= openIndex) {
-          queryClient.setQueryData<number>(["open_index"], openIndex - 1);
+          queryClient.setQueryData<number>(['open_index'], openIndex - 1);
         }
       }
     }
@@ -77,7 +77,7 @@ function useActiveChats() {
     setActiveChat,
     removeActiveChat: removeActiveChat,
     showChatDetail,
-    hideChatDetail,
+    hideChatDetail
   };
 }
 

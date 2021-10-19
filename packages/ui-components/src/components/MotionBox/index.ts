@@ -1,1 +1,1 @@
-export { default } from "./MotionBox";
+export { default } from './MotionBox';

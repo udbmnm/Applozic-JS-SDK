@@ -1,10 +1,10 @@
-import React from "react";
-import { ProvideBase } from "../..";
-import { BaseProps } from "../../providers/useBase";
+import React from 'react';
+import { ProvideBase } from '../..';
+import { BaseProps } from '../../providers/useBase';
 
 import FullViewWithoutBase, {
-  FullViewWithoutBaseProps,
-} from "./FullViewWithoutBase";
+  FullViewWithoutBaseProps
+} from './FullViewWithoutBase';
 
 export interface FullViewProps extends FullViewWithoutBaseProps, BaseProps {}
 

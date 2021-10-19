@@ -1,7 +1,7 @@
-import { Center, Tag, VStack } from "@chakra-ui/react";
-import React from "react";
-import EditableImage from "../EditableImage";
-import { EditableText } from "./EditableText";
+import { Center, Tag, VStack } from '@chakra-ui/react';
+import React from 'react';
+import EditableImage from '../EditableImage';
+import { EditableText } from './EditableText';
 
 export interface PictureAndNameProps {
   photoKey: string;
@@ -23,29 +23,29 @@ const PictureAndName = ({
   name,
   isBlocked,
   onUpdateValue,
-  isEditable,
+  isEditable
 }: PictureAndNameProps) => {
   return (
     <VStack width="100%" minWidth="200px" spacing={4} align="stretch">
       <EditableImage
         isEditable={isEditable}
         previewImage={photoUrl}
-        onFileUploaded={(fileMeta) =>
+        onFileUploaded={fileMeta =>
           onUpdateValue(photoKey, fileMeta.thumbnailUrl)
         }
       />
-      <Center width="100%" style={{ marginTop: "20px" }}>
+      <Center width="100%" style={{ marginTop: '20px' }}>
         <EditableText
           disabled={!isEditable}
           defaultValue={name}
-          onSubmit={(nextValue) => {
+          onSubmit={nextValue => {
             onUpdateValue(nameKey, nextValue);
           }}
         />
       </Center>
       {isBlocked && (
         <Center width="100%" mt={3}>
-          <Tag size={"md"} variant="solid" colorScheme="red">
+          <Tag size={'md'} variant="solid" colorScheme="red">
             Blocked by you
           </Tag>
         </Center>

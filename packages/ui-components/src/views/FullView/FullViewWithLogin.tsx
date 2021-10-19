@@ -1,8 +1,8 @@
-import React from "react";
-import LoginPage from "../../components/LoginPage";
-import useGetSelfDetails from "../../hooks/queries/useGetSelfDetails";
-import { useApplozicClient } from "../../providers/useApplozicClient";
-import FullViewApp from "./FullViewApp";
+import React from 'react';
+import LoginPage from '../../components/LoginPage';
+import useGetSelfDetails from '../../hooks/queries/useGetSelfDetails';
+import { useApplozicClient } from '../../providers/useApplozicClient';
+import FullViewApp from './FullViewApp';
 
 export interface FullViewWithLoginProps {
   /** Login page customization */

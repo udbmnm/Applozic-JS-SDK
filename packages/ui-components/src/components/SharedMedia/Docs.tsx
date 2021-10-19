@@ -1,8 +1,8 @@
-import React from "react";
-import { FileMeta } from "@applozic/core-sdk";
-import { Text, VStack, Box } from "@chakra-ui/react";
-import DocDownloadItem, { VARIANTS } from "../DocDownloadItem";
-import { contentTypeToFileType } from "../../utils/file";
+import React from 'react';
+import { FileMeta } from '@applozic/core-sdk';
+import { Text, VStack, Box } from '@chakra-ui/react';
+import DocDownloadItem, { VARIANTS } from '../DocDownloadItem';
+import { contentTypeToFileType } from '../../utils/file';
 export interface DocsProps {
   docs?: FileMeta[];
 }
@@ -21,7 +21,7 @@ const Docs = ({ docs }: DocsProps) => {
       >
         <DocDownloadItem doc={doc} variant={VARIANTS.ACCENTED} />
 
-        <Box style={{ marginLeft: "20px" }} w={"full"}>
+        <Box style={{ marginLeft: '20px' }} w={'full'}>
           {contentTypeToFileType[doc.contentType] && (
             <Text
               fontSize="10px"

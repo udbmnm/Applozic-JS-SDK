@@ -1,6 +1,6 @@
-import { FileMeta, MessageContentType } from "@applozic/core-sdk";
-import MessageStatus from "./MessageStatus";
-import Reaction from "./Reaction";
+import { FileMeta, MessageContentType } from '@applozic/core-sdk';
+import MessageStatus from './MessageStatus';
+import Reaction from './Reaction';
 
 interface Message {
   /**

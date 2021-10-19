@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Box,
   Center,
@@ -6,9 +6,9 @@ import {
   Spacer,
   Square,
   Text,
-  useColorModeValue as mode,
-} from "@chakra-ui/react";
-import { SearchIcon } from "@chakra-ui/icons";
+  useColorModeValue as mode
+} from '@chakra-ui/react';
+import { SearchIcon } from '@chakra-ui/icons';
 import {
   getAmPm,
   getMinutesAgo,
@@ -17,8 +17,8 @@ import {
   getReadableMinutes,
   isToday,
   wasInLastHour,
-  wasInThisYear,
-} from "../../time-utils";
+  wasInThisYear
+} from '../../time-utils';
 
 export interface ChatStatusBarProps {
   isOnline?: boolean;
@@ -44,25 +44,25 @@ const getTimeString = (lastSeen: Date) => {
 const ChatStatusBar = ({
   isOnline,
   isTyping,
-  lastSeen,
+  lastSeen
 }: ChatStatusBarProps) => {
   return (
     <HStack
       width="100%"
       borderColor="#E9E9E9"
       borderBottomWidth={1}
-      backgroundColor={mode("#fff", "#1B191D")}
+      backgroundColor={mode('#fff', '#1B191D')}
       paddingLeft={4}
       paddingTop={3}
       paddingBottom={3}
-      h={"48px"}
+      h={'48px'}
     >
       {isOnline !== undefined && (
         <Center>
           <Square
             size="6px"
             borderRadius="full"
-            bg={isOnline ? "green.500" : "grey"}
+            bg={isOnline ? 'green.500' : 'grey'}
           ></Square>
         </Center>
       )}

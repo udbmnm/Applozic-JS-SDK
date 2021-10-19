@@ -1,15 +1,15 @@
-import { useColorModeValue as mode, Box } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import SendMessage, { SendMessageProps } from "../SendMessage";
-import ChatWindow, { ChatWindowProps } from "../ChatWindow";
-import { FileMeta } from "@applozic/core-sdk";
+import { useColorModeValue as mode, Box } from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react';
+import SendMessage, { SendMessageProps } from '../SendMessage';
+import ChatWindow, { ChatWindowProps } from '../ChatWindow';
+import { FileMeta } from '@applozic/core-sdk';
 
-import MotionBox from "../MotionBox";
-import ChatStatusBar, { ChatStatusBarProps } from "../ChatStatusBar";
+import MotionBox from '../MotionBox';
+import ChatStatusBar, { ChatStatusBarProps } from '../ChatStatusBar';
 
 export interface ChatPanelProps
   extends ChatWindowProps,
-    Omit<SendMessageProps, "handleSend">,
+    Omit<SendMessageProps, 'handleSend'>,
     ChatStatusBarProps {
   handleSendFileAndText: (
     text: string,
@@ -35,7 +35,7 @@ function ChatPanel({
   handleTyping,
   onMessageDelete,
   onFileSelected,
-  onSendLocation,
+  onSendLocation
 }: ChatPanelProps & ChatWindowProps & ChatStatusBarProps & SendMessageProps) {
   const [fileMeta, setFileMeta] = useState<FileMeta | undefined>();
 
@@ -51,7 +51,7 @@ function ChatPanel({
       borderColor="#E9E9E9"
       flexDirection="column"
       height="full"
-      backgroundColor={mode("#FFFFFF", "#1B191D")}
+      backgroundColor={mode('#FFFFFF', '#1B191D')}
     >
       {activeChat.user && (
         <ChatStatusBar
@@ -78,12 +78,12 @@ function ChatPanel({
         gMapsApiKey={gMapsApiKey}
         attachment={fileMeta}
         handleTyping={handleTyping}
-        handleSend={(text) => {
+        handleSend={text => {
           handleSendFileAndText(text, fileMeta);
           setFileMeta(undefined);
         }}
         handleSendFile={handleSendFile}
-        onFileSelected={async (file) => {
+        onFileSelected={async file => {
           if (onFileSelected) {
             const fileMeta = await onFileSelected(file);
             setFileMeta(fileMeta);

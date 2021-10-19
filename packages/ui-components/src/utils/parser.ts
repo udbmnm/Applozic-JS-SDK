@@ -5,15 +5,15 @@ import {
   MessageContentType,
   MessageType,
   User,
-  FileMeta,
-} from "@applozic/core-sdk";
+  FileMeta
+} from '@applozic/core-sdk';
 import {
   MessageStatus,
   Message as UIMessage,
-  RecentChat,
-} from "../models/chat";
-import { SidebarMeta } from "../models/sidebar";
-import { ChatType } from "../models/chat";
+  RecentChat
+} from '../models/chat';
+import { SidebarMeta } from '../models/sidebar';
+import { ChatType } from '../models/chat';
 
 export interface INewMessage {
   metadata: { [key: string]: string };
@@ -71,7 +71,7 @@ export const getUIMessageFromClientMessage = (message: Message) => {
     isReply: message.type === MessageType.MINE,
     file: message.fileMeta,
     metadata: message.metadata,
-    contentType: message.contentType,
+    contentType: message.contentType
   } as UIMessage;
 };
 
@@ -82,23 +82,23 @@ export const getUIMessageFromNewMessage = (
   return {
     key: key,
     messageText: message,
-    fromUserId: to ?? clientGroupId ?? "",
+    fromUserId: to ?? clientGroupId ?? '',
     timeStamp: new Date(),
     isReply: true,
     file: fileMeta,
     status: MessageStatus.PENDING,
     metadata,
-    contentType,
+    contentType
   };
 };
 export const getRecentChatFromGroup = (group: Group): RecentChat => {
   return {
     /** Name to display in contact list pance. Either user or group name */
     contactId: group.clientGroupId,
-    lastMessageKey: "Start a conversation",
+    lastMessageKey: 'Start a conversation',
     imageUrl: group.imageUrl,
     lastMessageTime: Date.now(),
-    chatType: ChatType.GROUP,
+    chatType: ChatType.GROUP
   };
 };
 
@@ -108,9 +108,9 @@ export const getRecentChatFromNewContact = (
   return {
     /** Name to display in contact list pance. Either user or group name */
     contactId: contactName,
-    lastMessageKey: "Start a conversation",
+    lastMessageKey: 'Start a conversation',
     lastMessageTime: Date.now(),
-    chatType: ChatType.USER,
+    chatType: ChatType.USER
   };
 };
 
@@ -134,7 +134,7 @@ export const getSidebarMeta = (
       name: contact.displayName ?? contact.email ?? (contact.userId as string),
       isOnline: contact.connected,
       lastSeenAt: new Date(contact.lastSeenAtTime),
-      unreadCount: contact.unreadCount,
+      unreadCount: contact.unreadCount
     };
   }
   if (group) {
@@ -142,18 +142,18 @@ export const getSidebarMeta = (
       imageUrl: group.imageUrl,
       name: group.name ?? (group.clientGroupId as string),
       lastSeenAt: new Date(group.updatedAtTime as number),
-      unreadCount: group.unreadCount,
+      unreadCount: group.unreadCount
     };
   }
   return {
     ...(interactionInfo as InteractionInfo),
-    lastMessageText: message?.message ?? message?.fileMeta?.name ?? "",
+    lastMessageText: message?.message ?? message?.fileMeta?.name ?? '',
     isLastMessageReply: message?.type === MessageType.MINE,
     lastMessageStatus: message
       ? getMessageStatusFromMessage(message)
       : MessageStatus.UNKONWN,
     lastMessageDate: message?.createdAtTime
       ? new Date(message.createdAtTime)
-      : new Date(),
+      : new Date()
   };
 };

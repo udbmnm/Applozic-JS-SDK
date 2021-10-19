@@ -23,12 +23,8 @@ const MapPickerPopup = ({
   gMapsApiKey,
   onLocationSelected
 }: MapPickerPopupProps) => {
-  const {
-    position,
-    positionError,
-    clearPositionError,
-    getCurrentPosition
-  } = useLocation();
+  const { position, positionError, clearPositionError, getCurrentPosition } =
+    useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   const close = () => setIsOpen(false);

@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 import {
   Input as ChakraInput,
-  InputProps as ChakraInputProps,
-} from "@chakra-ui/react";
+  InputProps as ChakraInputProps
+} from '@chakra-ui/react';
 
-export interface InputProps extends ChakraInputProps {}
+export type InputProps = ChakraInputProps;
 
 const Input = (props: InputProps) => {
   return <ChakraInput {...props} />;

@@ -9,30 +9,30 @@ import {
   HStack,
   Checkbox,
   Avatar,
-  Text,
-} from "@chakra-ui/react";
-import React, { useState } from "react";
-import { User } from "@applozic/core-sdk";
-import Icon from "../../Icon";
+  Text
+} from '@chakra-ui/react';
+import React, { useState } from 'react';
+import { User } from '@applozic/core-sdk';
+import Icon from '../../Icon';
 
 function MemberList({
   contacts,
   currentMembers,
-  onSelectMembers,
+  onSelectMembers
 }: {
   contacts?: User[];
   currentMembers?: string[];
   onSelectMembers: (members: string[]) => void | Promise<void>;
 }) {
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
   return (
     <Flex
       flex={1}
       flexShrink={1}
       width="full"
       padding={3}
-      flexDirection={"column"}
-      overflowX={"clip"}
+      flexDirection={'column'}
+      overflowX={'clip'}
     >
       <Box padding={2} width="full">
         <InputGroup width="full">
@@ -43,7 +43,7 @@ function MemberList({
             type="text"
             placeholder="Search"
             value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value.toString())}
+            onChange={e => setSearchValue(e.target.value.toString())}
           />
         </InputGroup>
       </Box>
@@ -55,13 +55,13 @@ function MemberList({
         <VStack alignItems="align-start" width="full">
           {contacts
             ?.filter(
-              (user) =>
+              user =>
                 (user?.userName ?? user?.email ?? user?.userId)
                   .toLowerCase()
                   .indexOf(searchValue.toLowerCase()) >= 0
             )
-            .map((user) => (
-              <HStack alignItems="center">
+            .map((user, key) => (
+              <HStack key={key} alignItems="center">
                 <Checkbox value={user.userId} />
                 <Avatar
                   src={user.imageLink}

@@ -1,6 +1,6 @@
-import React from "react";
-import { usePresence } from "../../hooks/usePresence";
-import ChatStatusBar from "./ChatStatusBar";
+import React from 'react';
+import { usePresence } from '../../hooks/usePresence';
+import ChatStatusBar from './ChatStatusBar';
 
 const ChatStatusBarWithPresence = ({ userId }: { userId: string }) => {
   const presenceData = usePresence(userId);

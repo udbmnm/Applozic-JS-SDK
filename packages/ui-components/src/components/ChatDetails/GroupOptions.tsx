@@ -4,10 +4,10 @@ import {
   Image,
   Text,
   useColorModeValue,
-  VStack,
-} from "@chakra-ui/react";
-import React from "react";
-import Icon from "../Icon";
+  VStack
+} from '@chakra-ui/react';
+import React from 'react';
+import Icon from '../Icon';
 
 export interface GroupOptionsProps {
   onLeaveGroup?: () => void | Promise<void>;
@@ -20,7 +20,7 @@ const GroupOptions = ({
   onLeaveGroup,
   onDeleteGroup,
   onClearChat,
-  isAdmin,
+  isAdmin
 }: GroupOptionsProps) => {
   const clearChat = () => {
     if (onClearChat) {
@@ -42,7 +42,7 @@ const GroupOptions = ({
     <VStack minWidth="200px" spacing={4} align="stretch">
       <Box>
         <Text fontSize="14px" fontWeight="400" color="textHeader.500">
-          {"Privacy & Support"}
+          {'Privacy & Support'}
         </Text>
       </Box>
       <HStack onClick={leaveGroup}>
@@ -50,14 +50,14 @@ const GroupOptions = ({
           icon="cancel"
           size={16}
           style={{ opacity: 0.6 }}
-          color={useColorModeValue("#09021A", "#FFF")}
+          color={useColorModeValue('#09021A', '#FFF')}
         />
 
         <Text
           color="textMain.700"
           fontSize="16px"
           fontWeight="400"
-          style={{ marginLeft: "16px" }}
+          style={{ marginLeft: '16px' }}
         >
           Exit Group
         </Text>
@@ -68,14 +68,14 @@ const GroupOptions = ({
             icon="delete"
             size={16}
             style={{ opacity: 0.6 }}
-            color={useColorModeValue("#09021A", "#FFF")}
+            color={useColorModeValue('#09021A', '#FFF')}
           />
 
           <Text
             color="textMain.700"
             fontSize="16px"
             fontWeight="400"
-            style={{ marginLeft: "16px" }}
+            style={{ marginLeft: '16px' }}
           >
             Delete Group
           </Text>

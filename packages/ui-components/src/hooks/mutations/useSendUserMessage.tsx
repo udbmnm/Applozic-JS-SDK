@@ -1,11 +1,11 @@
-import { useMutation, useQueryClient } from "react-query";
-import { BaseSendMessageReq, Group, User } from "@applozic/core-sdk";
-import { useApplozicClient } from "../../providers/useApplozicClient";
-import { INewMessage, getUIMessageFromNewMessage } from "../../utils/parser";
-import { v4 } from "uuid";
-import { ChatType, Message, RecentChat } from "../../models/chat";
-import { mergeMessages } from "../../utils/messagesMerger";
-import { mergeRecentChats } from "../../utils/recentChatsMerger";
+import { useMutation, useQueryClient } from 'react-query';
+import { BaseSendMessageReq, Group, User } from '@applozic/core-sdk';
+import { useApplozicClient } from '../../providers/useApplozicClient';
+import { INewMessage, getUIMessageFromNewMessage } from '../../utils/parser';
+import { v4 } from 'uuid';
+import { ChatType, Message, RecentChat } from '../../models/chat';
+import { mergeMessages } from '../../utils/messagesMerger';
+import { mergeRecentChats } from '../../utils/recentChatsMerger';
 
 function useSendUserMessage() {
   const { client } = useApplozicClient();
@@ -17,13 +17,13 @@ function useSendUserMessage() {
       message,
       fileMeta,
       metadata,
-      contentType,
+      contentType
     }: INewMessage) => {
       const baseMessage: BaseSendMessageReq = {
         message,
         fileMeta,
         metadata,
-        contentType,
+        contentType
       };
       if (to) {
         const response = await client?.messages.send({
@@ -31,7 +31,7 @@ function useSendUserMessage() {
           message,
           fileMeta,
           metadata,
-          contentType,
+          contentType
         });
         return response?.messageKey;
       } else if (clientGroupId) {
@@ -40,22 +40,22 @@ function useSendUserMessage() {
           message,
           fileMeta,
           metadata,
-          contentType,
+          contentType
         });
         return response?.messageKey;
       }
     },
     {
-      onMutate: async (newMessage) => {
+      onMutate: async newMessage => {
         // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
         const contactId = newMessage.clientGroupId ?? newMessage.to ?? v4();
         const type = newMessage.clientGroupId ? ChatType.GROUP : ChatType.USER;
-        await queryClient.cancelQueries(["messages", type, contactId]);
+        await queryClient.cancelQueries(['messages', type, contactId]);
 
         // Snapshot the previous value
         const previousMessages = queryClient.getQueryData([
-          "messages-local",
-          contactId,
+          'messages-local',
+          contactId
         ]);
 
         const uiMessage = getUIMessageFromNewMessage(
@@ -64,8 +64,8 @@ function useSendUserMessage() {
         );
         // Optimistically update to the new value
         queryClient.setQueryData<Message[]>(
-          ["messages-local", contactId],
-          (old) => {
+          ['messages-local', contactId],
+          old => {
             if (!old) {
               return [uiMessage];
             }
@@ -74,26 +74,26 @@ function useSendUserMessage() {
         );
 
         let currentRecentChats =
-          queryClient.getQueryData<RecentChat[]>(["recent-chats-local"]) ?? [];
+          queryClient.getQueryData<RecentChat[]>(['recent-chats-local']) ?? [];
 
-        let imageUrl = "";
+        let imageUrl = '';
         if (newMessage.clientGroupId) {
           const group = queryClient.getQueryData<Group>([
-            "group",
+            'group',
             newMessage.clientGroupId,
-            true,
+            true
           ]);
           if (group) {
-            imageUrl = group.imageUrl ?? "";
+            imageUrl = group.imageUrl ?? '';
           }
         } else {
           const user = queryClient.getQueryData<User>([
-            "user",
+            'user',
             newMessage.to,
-            true,
+            true
           ]);
           if (user) {
-            imageUrl = user.imageLink ?? "";
+            imageUrl = user.imageLink ?? '';
           }
         }
 
@@ -103,11 +103,11 @@ function useSendUserMessage() {
             chatType: newMessage.clientGroupId ? ChatType.GROUP : ChatType.USER,
             imageUrl,
             lastMessageKey: newMessage.metadata.webUiKey,
-            lastMessageTime: Date.now(),
-          },
+            lastMessageTime: Date.now()
+          }
         ]);
         queryClient.setQueryData<RecentChat[]>(
-          ["recent-chats-local"],
+          ['recent-chats-local'],
           currentRecentChats
         );
 
@@ -116,12 +116,12 @@ function useSendUserMessage() {
       },
       // If the mutation fails, use the context returned from onMutate to roll back
       onError: (err, newMessage, context) => {
-        console.error("Send Message Error", err);
+        console.error('Send Message Error', err);
         queryClient.setQueryData(
-          ["messages", newMessage.to],
+          ['messages', newMessage.to],
           (context as any).previousMessages
         );
-      },
+      }
       // TODO: Check if this is needed at all
       // onSettled: (data, response, newMessage) => {
       //   queryClient.invalidateQueries([

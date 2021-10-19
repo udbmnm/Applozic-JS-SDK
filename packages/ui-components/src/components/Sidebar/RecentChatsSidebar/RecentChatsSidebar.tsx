@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
-import { VStack } from "@chakra-ui/react";
-import { ChatType } from "../../../models/chat";
-import { RecentChat } from "../../../models/chat";
-import RecentChatItem from "./RecentChatItem";
-import { useInView } from "react-intersection-observer";
-import { AnimationControls } from "framer-motion";
+import React, { useEffect } from 'react';
+import { VStack } from '@chakra-ui/react';
+import { ChatType } from '../../../models/chat';
+import { RecentChat } from '../../../models/chat';
+import RecentChatItem from './RecentChatItem';
+import { useInView } from 'react-intersection-observer';
+import { AnimationControls } from 'framer-motion';
 
 export interface IRecentChats {
   recentChats: RecentChat[] | undefined;
@@ -26,7 +26,7 @@ const RecentChatsSidebar = ({
   onClearConversation,
   fetchNextRecentChats,
   isFetchingNextRecentChatsPage,
-  controls,
+  controls
 }: IRecentChats) => {
   const handleClick = (type: ChatType, contactId: string) => () => {
     if (onClickContact) {
@@ -36,7 +36,7 @@ const RecentChatsSidebar = ({
 
   const { ref: oldestChat, inView } = useInView({
     threshold: 0,
-    initialInView: false,
+    initialInView: false
   });
   useEffect(() => {
     if (!isFetchingNextRecentChatsPage && inView && fetchNextRecentChats) {
@@ -45,11 +45,12 @@ const RecentChatsSidebar = ({
   }, [inView]);
 
   return (
-    <VStack width={"full"} height={"full"}>
+    <VStack width={'full'} height={'full'}>
       {recentChats &&
         recentChats?.length > 0 &&
-        recentChats.map((recentChat) => (
+        recentChats.map((recentChat, key) => (
           <RecentChatItem
+            key={key}
             ref={oldestChat}
             recentChat={recentChat}
             controls={controls}

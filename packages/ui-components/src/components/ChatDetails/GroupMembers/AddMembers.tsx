@@ -1,4 +1,4 @@
-import { CloseIcon } from "@chakra-ui/icons";
+import { CloseIcon } from '@chakra-ui/icons';
 import {
   VStack,
   HStack,
@@ -10,20 +10,20 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  Box,
-} from "@chakra-ui/react";
-import React, { useState } from "react";
-import { User } from "@applozic/core-sdk";
-import ScrollArea from "../../ScrollArea";
-import Button from "../../Button";
-import Icon from "../../Icon";
-import MemberList from "./MemberList";
+  Box
+} from '@chakra-ui/react';
+import React, { useState } from 'react';
+import { User } from '@applozic/core-sdk';
+import ScrollArea from '../../ScrollArea';
+import Button from '../../Button';
+import Icon from '../../Icon';
+import MemberList from './MemberList';
 
 function AddMembers({
   onClickCloseAddMembers,
   userContacts,
   currentMembers,
-  updateMemberList,
+  updateMemberList
 }: {
   onClickCloseAddMembers: () => void;
   userContacts?: User[];
@@ -37,11 +37,11 @@ function AddMembers({
       <VStack height="full" width="full">
         <HStack
           position="absolute"
-          top={"0"}
+          top={'0'}
           zIndex="1"
           justifyContent="space-between"
-          width={"full"}
-          boxShadow={"0px 4px 4px rgba(0, 0, 0, 0.08)"}
+          width={'full'}
+          boxShadow={'0px 4px 4px rgba(0, 0, 0, 0.08)'}
           pt={3}
           pb={3}
           pl={6}
@@ -60,17 +60,15 @@ function AddMembers({
         <Button
           width="full"
           position="absolute"
-          bottom={"0"}
+          bottom={'0'}
           flexGrow={0}
           borderRadius={0}
           flexShrink={0}
           h={12}
           bgColor="primary.500"
           color="white"
-          label={"Add Members"}
-          onClick={() =>
-            updateMemberList(selectedUsers.map((a) => a.toString()))
-          }
+          label={'Add Members'}
+          onClick={() => updateMemberList(selectedUsers.map(a => a.toString()))}
         />
       </VStack>
     </ScrollArea>

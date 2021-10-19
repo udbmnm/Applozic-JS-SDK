@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 // Hook
 interface ScriptPromiseMap {
@@ -13,7 +13,7 @@ const useScript = (src: string) => {
   const [state, setState] = useState({
     loading: true,
     loaded: false,
-    error: false,
+    error: false
   });
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const useScript = (src: string) => {
     } else {
       scriptLoadPromise = scriptPromiseMap[src] = new Promise(
         (resolve, reject) => {
-          const script = document.createElement("script");
+          const script = document.createElement('script');
           script.src = src;
           script.async = true;
           script.onload = () => {
@@ -43,14 +43,14 @@ const useScript = (src: string) => {
           setState({
             loading: false,
             loaded: true,
-            error: false,
+            error: false
           });
         })
         .catch(() => {
           setState({
             loading: false,
             loaded: true,
-            error: true,
+            error: true
           });
 
           delete scriptPromiseMap[src]; // Allow try loading again

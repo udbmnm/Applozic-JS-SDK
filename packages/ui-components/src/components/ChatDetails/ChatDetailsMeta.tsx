@@ -1,5 +1,5 @@
-import { Box, Text, VStack } from "@chakra-ui/react";
-import React from "react";
+import { Box, Text, VStack } from '@chakra-ui/react';
+import React from 'react';
 
 interface ChatMetaItem {
   header: string;
@@ -11,9 +11,9 @@ export interface ChatDetailsMetaProps {
 }
 
 const ChatDetailsMeta = ({ items }: ChatDetailsMetaProps) => {
-  const list = (items || []).map((item) => {
+  const list = (items || []).map((item, key) => {
     return (
-      <VStack alignItems="self-start" spacing={0}>
+      <VStack key={key} alignItems="self-start" spacing={0}>
         <Text color="textHeader.500" fontSize="14px">
           {item.header}
         </Text>

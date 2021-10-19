@@ -70,8 +70,8 @@ function AddMembers({
                       .toLowerCase()
                       .indexOf(searchValue.toLowerCase()) >= 0
                 )
-                .map(user => (
-                  <HStack alignItems="center">
+                .map((user, key) => (
+                  <HStack key={key} alignItems="center">
                     <Checkbox value={user.userId} />
                     <Avatar
                       src={user.imageLink}

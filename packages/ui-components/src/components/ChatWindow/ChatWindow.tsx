@@ -8,18 +8,18 @@ import {
   Spinner,
   HStack,
   Box,
-  AvatarGroup,
-} from "@chakra-ui/react";
-import React, { useEffect, useRef } from "react";
-import { ChatType, Message } from "../../models/chat";
-import ScrollArea from "../ScrollArea";
-import ChatBubble from "./ChatBubble";
-import { useInView } from "react-intersection-observer";
-import { getMonthName } from "../../time-utils";
+  AvatarGroup
+} from '@chakra-ui/react';
+import React, { useEffect, useRef } from 'react';
+import { ChatType, Message } from '../../models/chat';
+import ScrollArea from '../ScrollArea';
+import ChatBubble from './ChatBubble';
+import { useInView } from 'react-intersection-observer';
+import { getMonthName } from '../../time-utils';
 import ActiveChat, {
-  getContactNameAndImageFromActiveChat,
-} from "../../models/chat/ActiveChat";
-import { User } from "@applozic/core-sdk";
+  getContactNameAndImageFromActiveChat
+} from '../../models/chat/ActiveChat';
+import { User } from '@applozic/core-sdk';
 
 export interface ChatWindowProps {
   activeChat: ActiveChat;
@@ -45,7 +45,7 @@ function ChatWindow({
   isFetchingNextPage,
   clearUnreadNotifications,
   onMessageDelete,
-  fetchNextPage,
+  fetchNextPage
 }: ChatWindowProps) {
   const elementRef = useRef<null | HTMLDivElement>(null);
 
@@ -53,22 +53,25 @@ function ChatWindow({
     clearUnreadNotifications();
   }, []);
 
-  const { contactName, contactImageUrl } = getContactNameAndImageFromActiveChat(
-    activeChat
-  );
+  const { contactName, contactImageUrl } =
+    getContactNameAndImageFromActiveChat(activeChat);
 
   useEffect(() => {
     if (elementRef?.current) {
       elementRef.current.scrollIntoView({
-        block: "nearest",
-        inline: "nearest",
+        block: 'nearest',
+        inline: 'nearest'
       });
     }
   }, [elementRef, messages]);
-  const { ref: oldestMessage, inView, entry } = useInView({
+  const {
+    ref: oldestMessage,
+    inView,
+    entry
+  } = useInView({
     /* Optional options */
     threshold: 0,
-    initialInView: false,
+    initialInView: false
   });
   useEffect(() => {
     if (!isFetchingNextPage && inView && fetchNextPage) {
@@ -84,10 +87,10 @@ function ChatWindow({
       flexBasis={0}
       h={`calc(100% - ${
         activeChat?.user
-          ? `${hasAttachment ? "183px" : "115px"}`
-          : `${hasAttachment ? "135px" : "67px"}`
+          ? `${hasAttachment ? '183px' : '115px'}`
+          : `${hasAttachment ? '135px' : '67px'}`
       })`}
-      backgroundColor={mode("#FFFFFF", "#1B191D")}
+      backgroundColor={mode('#FFFFFF', '#1B191D')}
     >
       {messages && messages.length > 0 ? (
         <ScrollArea pr={3} pl={3}>
@@ -117,12 +120,12 @@ function ChatWindow({
                     borderRadius="4px"
                   >
                     <Text color="textMain.300" fontSize="11px">
-                      {message.timeStamp.getDate()}{" "}
+                      {message.timeStamp.getDate()}{' '}
                       {getMonthName(message.timeStamp)}
                       {message.timeStamp.getFullYear() !==
                       new Date().getFullYear()
-                        ? " " + message.timeStamp.getFullYear()
-                        : ""}
+                        ? ' ' + message.timeStamp.getFullYear()
+                        : ''}
                     </Text>
                   </Box>
                 )}
@@ -140,7 +143,7 @@ function ChatWindow({
                   }
                   message={message}
                   showUserInfo={false}
-                  onMessageDelete={(deleteForAll) => {
+                  onMessageDelete={deleteForAll => {
                     if (onMessageDelete) {
                       onMessageDelete(message, deleteForAll);
                     }

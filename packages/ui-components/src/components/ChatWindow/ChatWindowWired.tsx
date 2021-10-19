@@ -1,14 +1,14 @@
-import { Tabs } from "@chakra-ui/react";
-import React from "react";
-import NoChatSelected from "./NoChatSelected";
+import { Tabs } from '@chakra-ui/react';
+import React from 'react';
+import NoChatSelected from './NoChatSelected';
 
-import ChatDetailsWired from "../ChatDetails/ChatDetailsWired";
-import ChatTabHeadStripWired from "../ChatTabHeadStrip/ChatTabHeadStripWired";
-import { AnimatePresence } from "framer-motion";
-import MotionBox from "../MotionBox";
-import useActiveChats from "../../hooks/useActiveChats";
-import ChatPanelWired from "../ChatPanel/ChatPanelWired";
-import useSidebar from "../../hooks/useSidebar";
+import ChatDetailsWired from '../ChatDetails/ChatDetailsWired';
+import ChatTabHeadStripWired from '../ChatTabHeadStrip/ChatTabHeadStripWired';
+import { AnimatePresence } from 'framer-motion';
+import MotionBox from '../MotionBox';
+import useActiveChats from '../../hooks/useActiveChats';
+import ChatPanelWired from '../ChatPanel/ChatPanelWired';
+import useSidebar from '../../hooks/useSidebar';
 
 function ChatWindowWired() {
   const { activeChats, openIndex, detailOpenIndex } = useActiveChats();
@@ -25,12 +25,12 @@ function ChatWindowWired() {
       flexDirection="row"
       w={`calc(100% - ${
         fullyOpen
-          ? "200px"
+          ? '200px'
           : onlySidebarOpen
-          ? "420px"
+          ? '420px'
           : onlyDetailOpen
-          ? "200px"
-          : "460px"
+          ? '200px'
+          : '460px'
       })`}
     >
       {activeChats.length === 0 || openIndex < 0 ? (
@@ -39,7 +39,7 @@ function ChatWindowWired() {
         <Tabs
           isFitted
           variant="enclosed"
-          width={`calc(100% - ${detailOpenIndex > -1 ? "350px" : "12px"})`}
+          width={`calc(100% - ${detailOpenIndex > -1 ? '350px' : '12px'})`}
           height="full"
           index={openIndex}
         >

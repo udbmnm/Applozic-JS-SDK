@@ -1,14 +1,14 @@
-import { WarningIcon } from "@chakra-ui/icons";
-import { HStack, VStack, Spacer, Box, Text, Avatar } from "@chakra-ui/react";
-import { AnimationControls } from "framer-motion";
-import React from "react";
-import MotionBox from "../../MotionBox";
-import { User } from "@applozic/core-sdk";
+import { WarningIcon } from '@chakra-ui/icons';
+import { HStack, VStack, Spacer, Box, Text, Avatar } from '@chakra-ui/react';
+import { AnimationControls } from 'framer-motion';
+import React from 'react';
+import MotionBox from '../../MotionBox';
+import { User } from '@applozic/core-sdk';
 
 const ContactItem = ({
   user,
   onClick,
-  controls,
+  controls
 }: {
   user: User;
   onClick: () => void;
@@ -18,9 +18,9 @@ const ContactItem = ({
     <HStack
       key={user.userId}
       cursor="pointer"
-      width={"100%"}
+      width={'100%'}
       onClick={onClick}
-      display={"flex"}
+      display={'flex'}
       alignItems="center"
       mb={2}
       justifyContent="center"
@@ -34,12 +34,12 @@ const ContactItem = ({
       <MotionBox
         animate={controls}
         variants={{
-          open: { opacity: 1, visibility: "initial" },
-          closed: { opacity: 0, visibility: "hidden" },
+          open: { opacity: 1, visibility: 'initial' },
+          closed: { opacity: 0, visibility: 'hidden' }
         }}
-        transition={{ type: "tween" }}
+        transition={{ type: 'tween' }}
         flex={1}
-        display={"flex"}
+        display={'flex'}
         ml={2}
       >
         <VStack spacing={0} alignItems="flex-start">

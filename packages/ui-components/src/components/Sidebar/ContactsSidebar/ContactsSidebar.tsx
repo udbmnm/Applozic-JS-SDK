@@ -1,8 +1,8 @@
-import React from "react";
-import { VStack } from "@chakra-ui/react";
-import { User } from "@applozic/core-sdk";
-import ContactItem from "./ContactItem";
-import { AnimationControls } from "framer-motion";
+import React from 'react';
+import { VStack } from '@chakra-ui/react';
+import { User } from '@applozic/core-sdk';
+import ContactItem from './ContactItem';
+import { AnimationControls } from 'framer-motion';
 
 export interface IRecentChats {
   users?: User[];
@@ -15,7 +15,7 @@ const ContactsSidebar = ({
   users,
   onClickContact,
   onClickAddContact,
-  controls,
+  controls
 }: IRecentChats) => {
   const handleClick = (contactId: string) => () => {
     if (onClickContact) {
@@ -24,10 +24,11 @@ const ContactsSidebar = ({
   };
 
   return (
-    <VStack width={"full"} height="full">
+    <VStack width={'full'} height="full">
       {/* <AddContact onClick={onClickAddContact} /> */}
-      {users?.map((user) => (
+      {users?.map((user, key) => (
         <ContactItem
+          key={key}
           user={user}
           controls={controls}
           onClick={handleClick(user.userId)}

@@ -1,5 +1,5 @@
-import React from "react";
-import { Box, Grid, Image } from "@chakra-ui/react";
+import React from 'react';
+import { Box, Grid, Image } from '@chakra-ui/react';
 
 export interface PhotoItem {
   id: string;
@@ -24,7 +24,7 @@ const Photos = ({ photosList, onPhotoClick }: PhotosProps) => {
         w="100%"
         h="88px"
         onClick={() => onClick(photo)}
-        cursor={"pointer"}
+        cursor={'pointer'}
       >
         <Image src={photo.src} borderRadius="6px" />
       </Box>

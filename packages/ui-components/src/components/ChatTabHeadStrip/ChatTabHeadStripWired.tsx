@@ -1,6 +1,6 @@
-import React from "react";
-import ChatTabHeadStrip from "./ChatTabHeadStrip";
-import useActiveChats from "../../hooks/useActiveChats";
+import React from 'react';
+import ChatTabHeadStrip from './ChatTabHeadStrip';
+import useActiveChats from '../../hooks/useActiveChats';
 
 const ChatTabHeadStripWired = () => {
   const {
@@ -9,7 +9,7 @@ const ChatTabHeadStripWired = () => {
     setActiveChat,
     removeActiveChat: removeContact,
     showChatDetail,
-    detailOpenIndex,
+    detailOpenIndex
   } = useActiveChats();
 
   return (
@@ -17,13 +17,13 @@ const ChatTabHeadStripWired = () => {
       detailOpenIndex={detailOpenIndex}
       activeChats={activeChats}
       openIndex={openIndex}
-      onItemClick={(index) => {
+      onItemClick={index => {
         activeChats && setActiveChat(activeChats[index]);
       }}
-      onCloseClick={(index) => {
+      onCloseClick={index => {
         activeChats && removeContact(activeChats[index]);
       }}
-      onDetailsClick={(index) => {
+      onDetailsClick={index => {
         showChatDetail(index);
       }}
     />

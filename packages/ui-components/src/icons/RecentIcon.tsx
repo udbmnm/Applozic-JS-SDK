@@ -1,9 +1,9 @@
-import React from "react";
-import { createIcon } from "@chakra-ui/react";
+import React from 'react';
+import { createIcon } from '@chakra-ui/react';
 
 const RecentIcon = createIcon({
-  displayName: "BinIcon",
-  viewBox: "0 0 20 20",
+  displayName: 'BinIcon',
+  viewBox: '0 0 20 20',
   path: (
     <>
       <path
@@ -27,7 +27,7 @@ const RecentIcon = createIcon({
         fill="accent.500"
       />
     </>
-  ),
+  )
 });
 
 export default RecentIcon;

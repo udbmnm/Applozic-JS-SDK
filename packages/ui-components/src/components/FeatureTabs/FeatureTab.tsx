@@ -8,13 +8,13 @@ import {
   Text,
   Avatar,
   useColorModeValue as mode,
-  ChakraComponent,
-} from "@chakra-ui/react";
-import React from "react";
-import Icon from "../Icon";
+  ChakraComponent
+} from '@chakra-ui/react';
+import React from 'react';
+import Icon from '../Icon';
 
 interface FeatureTabProps extends TabProps {
-  StyledTab: ChakraComponent<"button", {}>;
+  StyledTab: ChakraComponent<'button', any>;
   icon?: string;
   imageUrl?: string;
   title: string;
@@ -28,10 +28,10 @@ const FeatureTab = ({
   ...rest
 }: FeatureTabProps) => {
   const tabProps = useTab(rest);
-  const isSelected = !!tabProps["aria-selected"];
+  const isSelected = !!tabProps['aria-selected'];
   const styles = useStyles();
-  const activeColor = mode("#FFF", "#FFF");
-  const inActiveColor = mode("#6B6776", "#ABABAD");
+  const activeColor = mode('#FFF', '#FFF');
+  const inActiveColor = mode('#6B6776', '#ABABAD');
   console.log({ avatarUrl: imageUrl });
   return (
     <StyledTab
@@ -44,7 +44,7 @@ const FeatureTab = ({
         {icon ? (
           <Box
             backgroundColor={
-              isSelected ? "#6139C0" : mode("#E6E4EC", "#4A484B")
+              isSelected ? '#6139C0' : mode('#E6E4EC', '#4A484B')
             }
             pt={2}
             pb={2}

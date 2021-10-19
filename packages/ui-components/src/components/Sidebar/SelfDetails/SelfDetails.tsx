@@ -1,21 +1,21 @@
-import React from "react";
+import React from 'react';
 import {
   VStack,
   Box,
   Flex,
   Spacer,
   Divider,
-  useColorModeValue as mode,
-} from "@chakra-ui/react";
+  useColorModeValue as mode
+} from '@chakra-ui/react';
 import ChatDetailsMeta, {
-  ChatDetailsMetaProps,
-} from "../../ChatDetails/ChatDetailsMeta";
-import { CloseLight } from "../../../icons/Close";
-import PictureAndName from "../../ChatDetails/PictureAndName";
-import MotionBox from "../../MotionBox";
+  ChatDetailsMetaProps
+} from '../../ChatDetails/ChatDetailsMeta';
+import { CloseLight } from '../../../icons/Close';
+import PictureAndName from '../../ChatDetails/PictureAndName';
+import MotionBox from '../../MotionBox';
 
-import ScrollArea from "../../ScrollArea";
-import SelfOptions from "./SelfOptions";
+import ScrollArea from '../../ScrollArea';
+import SelfOptions from './SelfOptions';
 
 export interface SelfDetailProps {
   name: string;
@@ -36,7 +36,7 @@ const SelfDetails = ({
   metaProps,
   onCloseClicked,
   onLogOutClicked,
-  onUpdateValue,
+  onUpdateValue
 }: SelfDetailProps) => {
   const onClose = () => {
     if (onCloseClicked) {
@@ -54,19 +54,19 @@ const SelfDetails = ({
       height="full"
       padding={0}
       width="350px"
-      exit={{ x: "-101%" }}
+      exit={{ x: '-101%' }}
       transition={{
-        type: "tween",
+        type: 'tween'
       }}
       ml={2}
       animate={{ x: 0 }}
-      initial={{ x: "-101%" }}
+      initial={{ x: '-101%' }}
       borderRadius={15}
       borderWidth={mode(1, 0)}
       borderColor="#E9E9E9"
-      backgroundColor={mode("#FFFFFF", "#272528")}
+      backgroundColor={mode('#FFFFFF', '#272528')}
     >
-      <ScrollArea padding={5} width={"full"}>
+      <ScrollArea padding={5} width={'full'}>
         <VStack>
           <Flex width="100%">
             <Spacer />
@@ -75,9 +75,9 @@ const SelfDetails = ({
             </Box>
           </Flex>
 
-          <Box style={{ marginTop: "38px" }}>
+          <Box style={{ marginTop: '38px' }}>
             <PictureAndName
-              photoKey={"imageLink"}
+              photoKey={'imageLink'}
               nameKey="displayName"
               photoUrl={imageUrl}
               name={name}
@@ -87,20 +87,20 @@ const SelfDetails = ({
             />
           </Box>
 
-          <Divider color="#e9e9e9" style={{ marginTop: "20px" }} />
+          <Divider color="#e9e9e9" style={{ marginTop: '20px' }} />
 
           {metaProps && (
             <>
-              <Box width="100%" style={{ marginTop: "30px" }}>
+              <Box width="100%" style={{ marginTop: '30px' }}>
                 <ChatDetailsMeta
                   items={metaProps?.items ? metaProps.items : []}
                 />
               </Box>
-              <Divider color="#e9e9e9" style={{ marginTop: "20px" }} />
+              <Divider color="#e9e9e9" style={{ marginTop: '20px' }} />
             </>
           )}
           <Spacer />
-          <Box width="100%" style={{ marginTop: "20px" }}>
+          <Box width="100%" style={{ marginTop: '20px' }}>
             <SelfOptions onLogOut={onLogOut} />
           </Box>
         </VStack>

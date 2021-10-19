@@ -1,3 +1,3 @@
-import SidebarMeta from "./SidebarMeta";
+import SidebarMeta from './SidebarMeta';
 
 export type { SidebarMeta };

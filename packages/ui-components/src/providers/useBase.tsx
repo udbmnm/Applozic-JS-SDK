@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import theme from "../theme";
-import { ChakraProvider } from "@chakra-ui/react";
-import { Dict } from "@chakra-ui/utils";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { Global, css } from "@emotion/core";
-import { ReactQueryDevtools } from "react-query/devtools";
+import React, { useEffect, useState } from 'react';
+import theme from '../theme';
+import { ChakraProvider } from '@chakra-ui/react';
+import { Dict } from '@chakra-ui/utils';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { Global, css } from '@emotion/core';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 const GlobalStyles = css`
   /*
@@ -23,23 +23,23 @@ const applozicQueryClient = new QueryClient({
       refetchOnWindowFocus: false,
       refetchOnMount: false,
       refetchOnReconnect: false,
-      staleTime: Infinity,
-    },
-  },
+      staleTime: Infinity
+    }
+  }
 });
 
 export interface BaseProps {
   /**
    * The colorMode of the UI Application
    */
-  colorMode?: "light" | "dark";
+  colorMode?: 'light' | 'dark';
   /**
    * Decide if the user's system color mode is being used fo the Application UI
    */
   useSystemColorMode?: boolean;
 
   /** The envrionment in which to initialize the FullView */
-  environment?: "development" | "production";
+  environment?: 'development' | 'production';
 }
 
 interface BaseProviderProps extends BaseProps {
@@ -50,17 +50,17 @@ function ProvideBase({
   children,
   colorMode,
   useSystemColorMode = false,
-  environment,
+  environment
 }: BaseProviderProps) {
-  const [initialColorMode, setinitialColorMode] = useState<"light" | "dark">(
-    "light"
+  const [initialColorMode, setinitialColorMode] = useState<'light' | 'dark'>(
+    'light'
   );
   const [_useSystemColorMode, setuseSystemColorMode] = useState<boolean>(false);
 
   const [themeDict, setthemeDict] = useState<Dict<any>>(
     theme({
       initialColorMode,
-      useSystemColorMode,
+      useSystemColorMode
     })
   );
 
@@ -80,7 +80,7 @@ function ProvideBase({
     setthemeDict(
       theme({
         initialColorMode,
-        useSystemColorMode: _useSystemColorMode,
+        useSystemColorMode: _useSystemColorMode
       })
     );
   }, [initialColorMode, _useSystemColorMode]);

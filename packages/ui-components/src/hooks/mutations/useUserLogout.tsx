@@ -1,5 +1,5 @@
-import { useMutation, useQueryClient } from "react-query";
-import { useApplozicClient } from "../../providers/useApplozicClient";
+import { useMutation, useQueryClient } from 'react-query';
+import { useApplozicClient } from '../../providers/useApplozicClient';
 
 function useUserLogout() {
   const { client, loginResult } = useApplozicClient();
@@ -12,9 +12,9 @@ function useUserLogout() {
     },
     {
       onSuccess: () => {
-        queryClient.setQueryData(["self", loginResult?.userId], null);
+        queryClient.setQueryData(['self', loginResult?.userId], null);
         queryClient.clear();
-      },
+      }
     }
   );
 }

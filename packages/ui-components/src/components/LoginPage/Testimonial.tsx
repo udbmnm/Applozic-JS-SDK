@@ -4,9 +4,9 @@ import {
   HStack,
   Img,
   Text,
-  useColorModeValue as mode,
-} from "@chakra-ui/react";
-import * as React from "react";
+  useColorModeValue as mode
+} from '@chakra-ui/react';
+import * as React from 'react';
 // import { ImQuotesLeft } from "react-icons/im";
 
 export function Testimonial() {
@@ -35,7 +35,7 @@ export function Testimonial() {
             <Text as="cite" fontStyle="normal" fontWeight="medium">
               Kunle Panther
             </Text>
-            <Text color={mode("gray.600", "gray.400")}>
+            <Text color={mode('gray.600', 'gray.400')}>
               VP, Product and Engineering @ Wakanda
             </Text>
           </Box>

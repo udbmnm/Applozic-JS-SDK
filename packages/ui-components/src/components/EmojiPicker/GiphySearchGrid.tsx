@@ -11,7 +11,7 @@ export interface GiphyGridOptions {
 }
 
 const getGifUrl = (gif: IGif): string => {
-  let images = Object.keys(gif.images).map(
+  const images = Object.keys(gif.images).map(
     key => JSON.parse(JSON.stringify((gif.images as any)[key])) as IImage
   );
 
