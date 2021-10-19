@@ -1,7 +1,4 @@
-import { useState, useEffect } from "react";
-import { ProvideBase } from "@applozic/ui-components";
-import { addons } from "@storybook/addons";
-import { FORCE_RE_RENDER } from "@storybook/core-events";
+import { ProvideBase } from "../src";
 
 export const parameters = {
   // layout: "fullscreen",

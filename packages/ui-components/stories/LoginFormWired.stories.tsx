@@ -1,6 +1,6 @@
 import React from "react";
 import { Story } from "@storybook/react";
-import { LoginFormWired } from "@applozic/ui-components";
+import { LoginFormWired } from "../src";
 
 // export default {
 //   title: "Login",

@@ -6,7 +6,7 @@ import {
   MapPickerProps,
   MapPickerPopup,
   MapPickerPopupProps,
-} from "@applozic/ui-components";
+} from "../src";
 import { Box, Center } from "@chakra-ui/react";
 
 export default {

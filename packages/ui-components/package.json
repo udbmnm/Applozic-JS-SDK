@@ -24,7 +24,9 @@
     "cleanbuild": "rm -r node_modules && npm install && tsc",
     "build:webpack": "webpack",
     "build:docs": "typedoc --preserveWatchOutput --hideGenerator --cleanOutputDir true --entryPointStrategy expand --gitRemote origin --includeVersion src/index.ts",
-    "build": "rm -rf dist && yarn build:webpack"
+    "build": "rm -rf dist && yarn build:webpack",
+    "storybook": "start-storybook -p 6006",
+    "build:storybook": "build-storybook -o ./storybook-build"
   },
   "dependencies": {
     "@applozic/core-sdk": "0.0.12",
@@ -57,6 +59,12 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^6.3.4",
+    "@storybook/addon-essentials": "^6.3.4",
+    "@storybook/addon-knobs": "^6.3.1",
+    "@storybook/addon-links": "^6.3.4",
+    "@storybook/react": "^6.3.8",
+    "react-docgen-typescript-plugin": "^1.0.0",
     "@babel/core": "^7.15.5",
     "@babel/preset-env": "^7.15.4",
     "@babel/preset-react": "^7.14.5",

@@ -1,7 +1,7 @@
 import React from "react";
 import { Meta } from "@storybook/react/types-6-0";
 import { Story } from "@storybook/react";
-import { ChevronHover, ChevronHoverProps } from "@applozic/ui-components";
+import { ChevronHover, ChevronHoverProps } from "../src";
 import { Box } from "@chakra-ui/react";
 
 export default {

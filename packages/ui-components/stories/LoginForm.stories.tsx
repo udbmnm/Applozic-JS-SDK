@@ -1,7 +1,7 @@
 import React from "react";
 import { Meta } from "@storybook/react/types-6-0";
 import { Story } from "@storybook/react";
-import { Form, FormProps, LoginFormProps } from "@applozic/ui-components";
+import { Form, FormProps, LoginFormProps } from "../src";
 
 // export default {
 //   title: "Components/Form",

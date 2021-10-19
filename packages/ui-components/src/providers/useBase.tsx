@@ -91,9 +91,9 @@ function ProvideBase({
         <Global styles={GlobalStyles} />
         {children}
       </ChakraProvider>
-      {environment === "development" && (
+      {/* {environment === "development" && (
         <ReactQueryDevtools initialIsOpen={false} />
-      )}
+      )} */}
     </QueryClientProvider>
   );
 }

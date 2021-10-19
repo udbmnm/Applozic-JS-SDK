@@ -1,7 +1,7 @@
 import React from "react";
 import { Meta } from "@storybook/react/types-6-0";
 import { Story } from "@storybook/react";
-import { Input, InputProps } from "@applozic/ui-components";
+import { Input, InputProps } from "../src";
 
 export default {
   title: "Core/Input",

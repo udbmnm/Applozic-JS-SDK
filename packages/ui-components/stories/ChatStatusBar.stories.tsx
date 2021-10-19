@@ -1,7 +1,7 @@
 import React from "react";
 import { Meta } from "@storybook/react/types-6-0";
 import { Story } from "@storybook/react";
-import { ChatStatusBar, ChatStatusBarProps } from "@applozic/ui-components";
+import { ChatStatusBar, ChatStatusBarProps } from "../src";
 export default {
   title: "Components/ChatStatusBar",
   component: ChatStatusBar,

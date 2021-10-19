@@ -5,7 +5,7 @@ import {
   FeatureTab,
   FeatureTabs,
   FeatureTabsProps,
-} from "@applozic/ui-components";
+} from "../src";
 
 export default {
   title: "Components/FeatureTabs",
