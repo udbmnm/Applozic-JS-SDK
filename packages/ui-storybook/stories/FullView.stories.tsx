@@ -5,7 +5,7 @@ import {
   FullViewWithoutBase as FullView,
   FullViewWithoutBaseProps as FullViewProps,
 } from "@applozic/ui-components";
-import { APPLICATION_ID, GIPHY_APP_ID, GOOGLE_MAPS_API_KEY } from "../config";
+import { APPLICATION_ID, GIPHY_API_KEY, GOOGLE_MAPS_API_KEY } from "../config";
 
 export default {
   title: "Views/FullView",
@@ -19,7 +19,7 @@ const Template: Story<FullViewProps> = (args) => <FullView {...args} />;
 export const Default = Template.bind({});
 Default.args = {
   applicationId: APPLICATION_ID,
-  giphyApiKey: GIPHY_APP_ID,
+  giphyApiKey: GIPHY_API_KEY,
   gMapsApiKey: GOOGLE_MAPS_API_KEY,
   loginPage: {
     topHeader: "Applozic",

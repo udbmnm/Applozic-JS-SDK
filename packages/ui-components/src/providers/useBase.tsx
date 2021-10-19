@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import theme from "../theme";
 import { ChakraProvider } from "@chakra-ui/react";
+import { Dict } from "@chakra-ui/utils";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Global, css } from "@emotion/core";
 import { ReactQueryDevtools } from "react-query/devtools";
@@ -47,18 +48,46 @@ interface BaseProviderProps extends BaseProps {
 
 function ProvideBase({
   children,
-  colorMode: initialColorMode = "light",
+  colorMode,
   useSystemColorMode = false,
   environment,
 }: BaseProviderProps) {
+  const [initialColorMode, setinitialColorMode] = useState<"light" | "dark">(
+    "light"
+  );
+  const [_useSystemColorMode, setuseSystemColorMode] = useState<boolean>(false);
+
+  const [themeDict, setthemeDict] = useState<Dict<any>>(
+    theme({
+      initialColorMode,
+      useSystemColorMode,
+    })
+  );
+
+  useEffect(() => {
+    if (colorMode) {
+      setinitialColorMode(colorMode);
+    }
+  }, [colorMode]);
+
+  useEffect(() => {
+    if (useSystemColorMode) {
+      setuseSystemColorMode(useSystemColorMode);
+    }
+  }, [useSystemColorMode]);
+
+  useEffect(() => {
+    setthemeDict(
+      theme({
+        initialColorMode,
+        useSystemColorMode: _useSystemColorMode,
+      })
+    );
+  }, [initialColorMode, _useSystemColorMode]);
+
   return (
     <QueryClientProvider client={applozicQueryClient}>
-      <ChakraProvider
-        theme={theme({
-          initialColorMode,
-          useSystemColorMode,
-        })}
-      >
+      <ChakraProvider theme={themeDict}>
         <Global styles={GlobalStyles} />
         {children}
       </ChakraProvider>

@@ -29,5 +29,5 @@ Default.args = {
   onChange: (index) =>
     console.log({ title: "Clicked Tab", description: featureTabs[index] }),
   userName: "T`Challa",
-  userImageUrl: "https://joeschmoe.io/api/v1/random",
+  userImageUrl: "https://joeschmoe.io/api/v1/random/jess",
 };

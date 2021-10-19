@@ -43,14 +43,10 @@ export const globalTypes = {
 
 export const decorators = [
   (Story, context) => {
-    useEffect(() => {
-      addons.getChannel().emit(FORCE_RE_RENDER);
-    }, [context.globals.theme]);
-
     return (
       <ProvideBase
         useSystemColorMode={false}
-        colorMode={'light'}
+        colorMode={context.globals.theme}
         environment={context.globals.environment}
       >
         <Story />
