@@ -1,0 +1,23 @@
+{
+  "name": "@applozic/ui-storybook",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@applozic/ui-components": "0.0.10",
+    "@babel/core": "^7.15.5",
+    "@storybook/addon-actions": "^6.3.9",
+    "@storybook/addon-essentials": "^6.3.9",
+    "@storybook/addon-links": "^6.3.9",
+    "@storybook/react": "^6.3.9",
+    "babel-loader": "^8.2.2"
+  },
+  "scripts": {
+    "storybook": "start-storybook -p 6006",
+    "build": "build-storybook -o ./storybook-build",
+    "deploy-storybook": "yarn build-storybook && firebase deploy"
+  },
+  "dependencies": {
+    "react-docgen-typescript-plugin": "^1.0.0"
+  }
+}

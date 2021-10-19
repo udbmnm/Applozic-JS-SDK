@@ -8,43 +8,54 @@ import {
   Spinner,
   HStack,
   Box,
-  AvatarGroup
-} from '@chakra-ui/react';
-import React, { useEffect, useRef } from 'react';
-import { ChatType, Message } from '../../models/chat';
-import ScrollArea from '../ScrollArea';
-import ChatBubble from './ChatBubble';
-import { useInView } from 'react-intersection-observer';
-import useGetMessages from '../../hooks/queries/useGetUserMessages';
-import { ActiveChat } from '../../providers/useActiveChats';
-import { getMonthName } from '../../time-utils';
-import useGetSelfDetails from '../../hooks/queries/useGetSelfDetails';
+  AvatarGroup,
+} from "@chakra-ui/react";
+import React, { useEffect, useRef } from "react";
+import { ChatType, Message } from "../../models/chat";
+import ScrollArea from "../ScrollArea";
+import ChatBubble from "./ChatBubble";
+import { useInView } from "react-intersection-observer";
+import { getMonthName } from "../../time-utils";
+import ActiveChat, {
+  getContactNameAndImageFromActiveChat,
+} from "../../models/chat/ActiveChat";
+import { User } from "@applozic/core-sdk";
 
 export interface ChatWindowProps {
+  activeChat: ActiveChat;
+  self: User | null | undefined;
+  fetchNextPage: () => void;
+  isFetchingNextPage: boolean;
+  hasNextPage: boolean | undefined;
+  clearUnreadNotifications: () => void;
   hasAttachment?: boolean;
-  chatItem: ActiveChat;
   messages?: Message[];
-  contactName: string;
-  contactImageUrl?: string;
+  giphyApiKey?: string;
   gMapsApiKey?: string;
   onMessageDelete?: (message: Message, deleteForAll?: boolean) => void;
 }
 
 function ChatWindow({
-  hasAttachment,
-  chatItem,
+  self,
+  activeChat,
   messages,
-  contactName,
-  contactImageUrl,
   gMapsApiKey,
-  onMessageDelete
+  hasAttachment,
+  hasNextPage,
+  isFetchingNextPage,
+  clearUnreadNotifications,
+  onMessageDelete,
+  fetchNextPage,
 }: ChatWindowProps) {
-  const user = useGetSelfDetails();
-  const { fetchNextPage, isFetchingNextPage, hasNextPage } = useGetMessages(
-    chatItem.type,
-    chatItem.contactId
-  );
   const elementRef = useRef<null | HTMLDivElement>(null);
+
+  useEffect(() => {
+    clearUnreadNotifications();
+  }, []);
+
+  const { contactName, contactImageUrl } = getContactNameAndImageFromActiveChat(
+    activeChat
+  );
 
   useEffect(() => {
     if (elementRef?.current) {
@@ -57,7 +68,7 @@ function ChatWindow({
   const { ref: oldestMessage, inView, entry } = useInView({
     /* Optional options */
     threshold: 0,
-    initialInView: false
+    initialInView: false,
   });
   useEffect(() => {
     if (!isFetchingNextPage && inView && fetchNextPage) {
@@ -72,11 +83,11 @@ function ChatWindow({
       flexGrow={1}
       flexBasis={0}
       h={`calc(100% - ${
-        chatItem.type == ChatType.USER
-          ? `${hasAttachment ? '183px' : '115px'}`
-          : `${hasAttachment ? '135px' : '67px'}`
+        activeChat?.user
+          ? `${hasAttachment ? "183px" : "115px"}`
+          : `${hasAttachment ? "135px" : "67px"}`
       })`}
-      backgroundColor={mode('#FFFFFF', '#1B191D')}
+      backgroundColor={mode("#FFFFFF", "#1B191D")}
     >
       {messages && messages.length > 0 ? (
         <ScrollArea pr={3} pl={3}>
@@ -106,18 +117,18 @@ function ChatWindow({
                     borderRadius="4px"
                   >
                     <Text color="textMain.300" fontSize="11px">
-                      {message.timeStamp.getDate()}{' '}
+                      {message.timeStamp.getDate()}{" "}
                       {getMonthName(message.timeStamp)}
                       {message.timeStamp.getFullYear() !==
                       new Date().getFullYear()
-                        ? ' ' + message.timeStamp.getFullYear()
-                        : ''}
+                        ? " " + message.timeStamp.getFullYear()
+                        : ""}
                     </Text>
                   </Box>
                 )}
                 <ChatBubble
                   gMapsApiKey={gMapsApiKey}
-                  chatType={chatItem.type}
+                  chatType={activeChat.user ? ChatType.USER : ChatType.GROUP}
                   ref={index == 0 ? oldestMessage : null}
                   showTime={
                     index === 0 ||
@@ -129,7 +140,7 @@ function ChatWindow({
                   }
                   message={message}
                   showUserInfo={false}
-                  onMessageDelete={deleteForAll => {
+                  onMessageDelete={(deleteForAll) => {
                     if (onMessageDelete) {
                       onMessageDelete(message, deleteForAll);
                     }
@@ -147,8 +158,8 @@ function ChatWindow({
             <AvatarGroup size="md" max={2}>
               <Avatar src={contactImageUrl} name={contactName} />
               <Avatar
-                src={user?.imageLink}
-                name={user?.displayName ?? user?.email ?? user?.userId}
+                src={self?.imageLink}
+                name={self?.displayName ?? self?.email ?? self?.userId}
               />
             </AvatarGroup>
             <Text>Start your conversation with</Text>

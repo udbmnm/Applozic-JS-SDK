@@ -15,11 +15,11 @@ import {
 import { invalidateCloudfront } from '../lib/cloudfront';
 import { getStorybookHash } from '../utils/storybook';
 
-const uiComponentsPath = path.join(__dirname, '../../../ui-components');
+const uiStorybookPath = path.join(__dirname, '../../../ui-storybook');
 
 const uploadConfig: UploadConfig = {
   name: 'storybook',
-  directory: path.join(uiComponentsPath, 'storybook-build'),
+  directory: path.join(uiStorybookPath, 'storybook-build'),
   bucket: ENV?.S3_BUCKET ?? '',
   cfDistributionId: ENV?.STORYBOOK_DIST_ID ?? '',
   prefix: ENV?.STORYBOOK_PREFIX ?? ''

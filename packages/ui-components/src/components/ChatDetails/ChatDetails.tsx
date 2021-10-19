@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
-  Center,
   VStack,
   Box,
   Flex,
   Spacer,
-  Text,
   Divider,
   useColorModeValue as mode,
-  Checkbox,
 } from "@chakra-ui/react";
 import ChatDetailsMeta, { ChatDetailsMetaProps } from "./ChatDetailsMeta";
 import SharedMedia from "../SharedMedia";
@@ -16,34 +13,35 @@ import { CloseLight } from "../../icons/Close";
 import PictureAndName from "./PictureAndName";
 import PrivacyAndSupport from "./PrivacyAndSupport";
 import MotionBox from "../MotionBox";
-import { Message } from "../../models/chat";
 import { IUpdateGroupDetailsRequest, Group, User } from "@applozic/core-sdk";
-import { ChatType } from "../../models/chat";
+import { ChatType, Message } from "../../models/chat";
 import ScrollArea from "../ScrollArea";
 import GroupMembers from "./GroupMembers";
 import { AnimatePresence } from "framer-motion";
 import AddMembers from "./GroupMembers/AddMembers";
-import { useQueryClient } from "react-query";
 import { ModifyGroupMembers } from "../../hooks/mutations/useUpdateGroupMembers";
 import GroupOptions from "./GroupOptions";
 import { ISharedMedia } from "../SharedMedia/SharedMedia";
 
 export interface ChatDetailProps {
+  /**
+   * The associate ChatType eg: user, group, self
+   */
   type: ChatType;
-  sharedMedia: ISharedMedia | undefined;
-  name: string;
+  /**
+   * title of chat details
+   */
+  title: string;
   imageUrl: string;
-
-  onCloseClicked: () => void | Promise<void>;
-  onChatClearClicked: () => void | Promise<void>;
-  onBlockClicked: () => void | Promise<void>;
-  // onReportClicked: () => void | Promise<void>;
-  // onNotificationToggle: (value: boolean) => void | Promise<void>;
-
   isBlocked?: boolean;
+  isAdmin: boolean;
+
+  messages: Message[] | undefined;
   metaProps?: ChatDetailsMetaProps;
   group?: Group;
+  groupMembers?: User[];
   userContacts?: User[];
+
   updateMemberList?: (
     userIds: string[],
     onSuccess:
@@ -65,18 +63,22 @@ export interface ChatDetailProps {
         ) => void | Promise<unknown>)
       | undefined
   ) => void | Promise<void>;
-  isAdmin: boolean;
   onLeaveGroupClicked: () => void;
   onDeleteGroupClicked: () => void;
-  onFileClick: (url: string, filename: string) => void;
+  onCloseClicked: () => void | Promise<void>;
+  onChatClearClicked: () => void | Promise<void>;
+  onBlockClicked: () => void | Promise<void>;
+  // onReportClicked: () => void | Promise<void>;
+  // onNotificationToggle: (value: boolean) => void | Promise<void>;
 }
 
 const ChatDetails = ({
   type,
   group,
+  groupMembers,
   userContacts,
-  sharedMedia,
-  name,
+  messages,
+  title: name,
   imageUrl,
   isBlocked,
   metaProps,
@@ -88,9 +90,38 @@ const ChatDetails = ({
   onLeaveGroupClicked,
   onDeleteGroupClicked,
   isAdmin,
-  onFileClick,
 }: ChatDetailProps) => {
-  const queryClient = useQueryClient();
+  const downloadFileFromUrl = (url: string, filename: string) => {
+    const tempLink = document.createElement("a");
+    tempLink.href = url;
+    tempLink.setAttribute("download", filename);
+    tempLink.click();
+  };
+
+  const sharedMedia = useMemo(() => {
+    const sharedMedia: ISharedMedia = {
+      photosProps: {
+        photosList: [],
+        onPhotoClick: (photo) => downloadFileFromUrl(photo.src, photo.id),
+      },
+      docsProps: { docs: [] },
+    };
+    messages?.forEach((message) => {
+      if (message.file) {
+        if (message.file?.thumbnailUrl) {
+          sharedMedia?.photosProps?.photosList?.push({
+            id: message.key,
+            src: message.file.thumbnailUrl,
+          });
+        } else {
+          if (message.file) {
+            sharedMedia?.docsProps?.docs?.push({ ...message.file });
+          }
+        }
+      }
+    });
+    return sharedMedia;
+  }, [messages]);
   const onClose = () => {
     if (onCloseClicked) {
       onCloseClicked();
@@ -245,14 +276,7 @@ const ChatDetails = ({
                 <Box width="100%" style={{ marginTop: "20px" }}>
                   <GroupMembers
                     adminId={group?.adminId as string}
-                    members={group?.groupUsers?.map((u) => {
-                      const user = queryClient.getQueryData<User>([
-                        "user",
-                        u.userId,
-                        true,
-                      ]);
-                      return user as User;
-                    })}
+                    members={groupMembers}
                     numberOfMembers={group?.userCount}
                     addNewMember={() => setaddMembers(true)}
                   />

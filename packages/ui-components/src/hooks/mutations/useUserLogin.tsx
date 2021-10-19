@@ -1,8 +1,6 @@
 import { useMutation, useQueryClient } from "react-query";
 import { useApplozicClient } from "../../providers/useApplozicClient";
-import { LoginResult, User } from "@applozic/core-sdk";
 import { useToast } from "@chakra-ui/react";
-import useGetUserInfo from "../queries/useGetUserInfo";
 
 function useUserLogin() {
   const { client, loginResult } = useApplozicClient();
@@ -14,16 +12,16 @@ function useUserLogin() {
     },
     {
       onSuccess: async (data) => {
-        console.log({ data });
+        console.log({ onSuccess: data });
         if ((data as any) === "INVALID_APPID") {
-          queryClient.setQueryData<LoginResult | null>(["self"], null);
+          queryClient.setQueryData(["self", loginResult?.userId], null);
           toast({
             title: "Error logging in",
             description: (data as any).toString(),
             status: "error",
           });
         } else if ((data as any) === "INVALID_PASSWORD") {
-          queryClient.setQueryData<LoginResult | null>(["self"], null);
+          queryClient.setQueryData(["self", loginResult?.userId], null);
           toast({
             title: "Wrong password please try again",
             description: (data as any).toString(),
@@ -36,7 +34,7 @@ function useUserLogin() {
             ]);
             const user =
               response && response?.length > 0 ? response[0] : undefined;
-            queryClient.setQueryData<User | undefined>(["self"], user);
+            queryClient.setQueryData(["self", loginResult?.userId], user);
           }
         }
       },

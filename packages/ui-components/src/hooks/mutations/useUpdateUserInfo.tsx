@@ -15,7 +15,7 @@ function useUpdateSelfInfo() {
     {
       // Always refetch after error or success:
       onSettled: (data, response, updateReq) => {
-        queryClient.setQueryData<User | undefined>(["self"], (oldSelf) => {
+        queryClient.setQueryData<User | undefined>(["self", loginResult?.userId], (oldSelf) => {
           if (oldSelf) {
             return {
               ...oldSelf,

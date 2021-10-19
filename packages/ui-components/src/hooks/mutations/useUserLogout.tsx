@@ -12,7 +12,7 @@ function useUserLogout() {
     },
     {
       onSuccess: () => {
-        queryClient.setQueryData(["self"], null);
+        queryClient.setQueryData(["self", loginResult?.userId], null);
         queryClient.clear();
       },
     }

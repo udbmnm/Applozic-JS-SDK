@@ -7,7 +7,7 @@ export interface ILoginFormData {
   password: string;
 }
 
-export interface ILoginForm {
+export interface LoginFormProps {
   initialValues?: ILoginFormData;
   disabled?: boolean;
   onSubmit: ((
@@ -17,7 +17,7 @@ export interface ILoginForm {
     ((values: ILoginFormData, actions: FormikHelpers<ILoginFormData>) => void);
 }
 
-function LoginForm({ disabled, initialValues, onSubmit }: ILoginForm) {
+function LoginForm({ disabled, initialValues, onSubmit }: LoginFormProps) {
   return (
     <Form
       initialValues={

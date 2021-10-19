@@ -1,32 +1,28 @@
 import React from "react";
-import { ChakraProvider } from "@chakra-ui/react";
-import theme, { ITheme } from "../../theme";
-import { QueryClientProvider, QueryClient } from "react-query";
-import FullViewBare, { IFullViewBare } from "./FullViewBare";
+import { ProvideBase } from "../..";
+import { BaseProps } from "../../providers/useBase";
 
-const applozicQueryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-    },
-  },
-});
+import FullViewWithoutBase, {
+  FullViewWithoutBaseProps,
+} from "./FullViewWithoutBase";
 
-interface IFullView extends IFullViewBare, ITheme {}
+export interface FullViewProps extends FullViewWithoutBaseProps, BaseProps {}
 
 const FullView = ({
-  initialColorMode,
+  colorMode,
   useSystemColorMode,
+  environment,
   ...rest
-}: IFullView) => {
+}: FullViewProps) => {
   return (
-    <QueryClientProvider client={applozicQueryClient}>
-      <ChakraProvider theme={theme({ initialColorMode, useSystemColorMode })}>
-        <FullViewBare {...rest} />
-      </ChakraProvider>
-    </QueryClientProvider>
+    <ProvideBase
+      colorMode={colorMode}
+      useSystemColorMode={useSystemColorMode}
+      environment={environment}
+    >
+      <FullViewWithoutBase {...rest} />
+    </ProvideBase>
   );
 };
+
 export default FullView;

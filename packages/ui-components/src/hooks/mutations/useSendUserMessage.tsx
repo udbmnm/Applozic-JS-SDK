@@ -74,10 +74,7 @@ function useSendUserMessage() {
         );
 
         let currentRecentChats =
-          queryClient.getQueryData<RecentChat[]>([
-            "recent-chats-local",
-            client?.loginResult?.userId,
-          ]) ?? [];
+          queryClient.getQueryData<RecentChat[]>(["recent-chats-local"]) ?? [];
 
         let imageUrl = "";
         if (newMessage.clientGroupId) {
@@ -110,7 +107,7 @@ function useSendUserMessage() {
           },
         ]);
         queryClient.setQueryData<RecentChat[]>(
-          ["recent-chats-local", client?.loginResult?.userId],
+          ["recent-chats-local"],
           currentRecentChats
         );
 

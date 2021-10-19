@@ -1,16 +1,14 @@
 import React from "react";
 import useUserLogin from "../../hooks/mutations/useUserLogin";
-import LoginForm, { ILoginForm } from "./LoginForm";
+import useGetSelfDetails from "../../hooks/queries/useGetSelfDetails";
+import LoginForm from "./LoginForm";
 
-function LoginFormWired({
-  initialValues,
-  disabled,
-}: Omit<ILoginForm, "onSubmit">) {
+function LoginFormWired() {
   const { mutate: login } = useUserLogin();
+  const self = useGetSelfDetails();
   return (
     <LoginForm
-      disabled={disabled}
-      initialValues={initialValues}
+      disabled={!!self}
       onSubmit={(values) => login && login(values)}
     />
   );

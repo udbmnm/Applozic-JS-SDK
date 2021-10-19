@@ -8,19 +8,22 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import MotionBox from "../MotionBox";
-import { useSidebar } from "../../providers/useSidebar";
 import { AnimatePresence } from "framer-motion";
 import Icon from "../Icon";
 
-export interface ISearch {}
+export interface SearchProps {
+  searchValue: string | undefined;
+  setSearchValue: (query: string) => void;
+  setCollapsed: (state: boolean) => void;
+  isCollapsed: boolean;
+}
 
-function Search({}: ISearch) {
-  const {
-    searchValue,
-    setSearchValue,
-    setCollapsed,
-    isCollapsed,
-  } = useSidebar();
+function Search({
+  searchValue,
+  setSearchValue,
+  setCollapsed,
+  isCollapsed,
+}: SearchProps) {
   return (
     <HStack alignItems="center" justifyContent="center" width="full">
       <HamburgerIcon

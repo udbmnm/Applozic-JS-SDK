@@ -2,7 +2,7 @@ import React from "react";
 import IcoMoon from "react-icomoon";
 import icoMoonConfig from "./selection";
 
-interface IIcon {
+export interface IconProps {
   [name: string]: any;
   iconSet?: any;
   icon: string;
@@ -12,7 +12,7 @@ interface IIcon {
   style?: React.CSSProperties | undefined;
 }
 
-const Icon = ({ ...props }: IIcon) => {
+const Icon = ({ ...props }: IconProps) => {
   return <IcoMoon size={11} {...props} iconSet={icoMoonConfig} />;
 };
 

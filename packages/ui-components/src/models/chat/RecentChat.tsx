@@ -1,3 +1,4 @@
+import ActiveChat from "./ActiveChat";
 import { ChatType } from "./ChatType";
 
 interface RecentChat {

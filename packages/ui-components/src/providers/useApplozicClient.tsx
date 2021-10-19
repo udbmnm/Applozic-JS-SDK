@@ -1,3 +1,6 @@
+import "@fontsource/roboto";
+import "focus-visible/dist/focus-visible";
+
 import React, { createContext, useContext, useEffect, useState } from "react";
 import ApplozicClient, {
   LoginResult,
@@ -17,23 +20,27 @@ import { IPresence } from "../hooks/usePresence";
 import { IUnreadCount } from "../hooks/queries/useGetUnreadCount";
 import { mergeRecentChats } from "../utils/recentChatsMerger";
 import useDeleteMesssage from "../hooks/mutations/useDeleteMessage";
-// import { updateLastMessage } from "../hooks/useGetRecentChats";
+import { FullViewProps } from "../views/FullView";
 
 interface IApplozicClient {
   client: ApplozicClient | undefined;
   loginResult: LoginResult | null | undefined;
-  contacts: any | undefined;
   isClientLoaded: boolean;
+  giphyApiKey?: string;
+  gMapsApiKey?: string;
 }
 
 const ApplozicClientContext = createContext<IApplozicClient>({
   client: undefined,
   loginResult: null,
-  contacts: undefined,
   isClientLoaded: false,
 });
 
-const useGetApplogicClient = (applicationId?: string) => {
+const useGetApplozicClient = (
+  applicationId: string,
+  giphyApiKey?: string,
+  gMapsApiKey?: string
+) => {
   const [client, setClient] = useState<ApplozicClient | undefined>();
   const { mutate: deleteMessageMutation } = useDeleteMesssage();
   const [isClientLoaded, setIsClientLoaded] = useState(false);
@@ -54,10 +61,7 @@ const useGetApplogicClient = (applicationId?: string) => {
       mergeMessages([uiMessage], messagesLocal)
     );
     let currentRecentChats =
-      queryClient.getQueryData<RecentChat[]>([
-        "recent-chats-local",
-        client?.loginResult?.userId,
-      ]) ?? [];
+      queryClient.getQueryData<RecentChat[]>(["recent-chats-local"]) ?? [];
 
     currentRecentChats = mergeRecentChats(currentRecentChats, [
       {
@@ -70,7 +74,7 @@ const useGetApplogicClient = (applicationId?: string) => {
       },
     ]);
     queryClient.setQueryData<RecentChat[]>(
-      ["recent-chats-local", client?.loginResult?.userId],
+      ["recent-chats-local"],
       currentRecentChats
     );
   };
@@ -81,7 +85,7 @@ const useGetApplogicClient = (applicationId?: string) => {
 
   useEffect(() => {
     const initSdk = async () => {
-      const client = new ApplozicClient(applicationId ?? "", {
+      const client = new ApplozicClient(applicationId, {
         useSocket: true,
         events: {
           onMessageReceived: ({ message }) => {
@@ -186,34 +190,38 @@ const useGetApplogicClient = (applicationId?: string) => {
       await client.init();
       setClient(client);
       if (client.loginResult) {
-        const response = await client?.contacts.getUserDetails([
-          client.loginResult.userId,
-        ]);
-        const user = response && response?.length > 0 ? response[0] : undefined;
-        queryClient.setQueryData<User | undefined>(["self"], user);
+        queryClient.invalidateQueries(["self", client.loginResult.userId]);
       }
       (window as any).alClient = client;
       setIsClientLoaded(true);
     };
     initSdk();
-  }, [applicationId]);
+  }, []);
+
   return {
     client,
     loginResult: client?.loginResult,
-    contacts: client?.contacts,
     isClientLoaded,
+    giphyApiKey,
+    gMapsApiKey,
   };
 };
+
+export interface ProvideApplozicClientProps
+  extends Omit<FullViewProps, "loginPage"> {
+  children: React.ReactNode;
+}
 
 export function ProvideApplozicClient({
   children,
   applicationId,
-}: {
-  children: React.ReactNode;
-  applicationId?: string;
-}) {
+  giphyApiKey,
+  gMapsApiKey,
+}: ProvideApplozicClientProps) {
   return (
-    <ApplozicClientContext.Provider value={useGetApplogicClient(applicationId)}>
+    <ApplozicClientContext.Provider
+      value={useGetApplozicClient(applicationId, giphyApiKey, gMapsApiKey)}
+    >
       {children}
     </ApplozicClientContext.Provider>
   );
