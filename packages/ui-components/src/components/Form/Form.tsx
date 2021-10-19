@@ -48,10 +48,9 @@ function Form<T>({
       {({ errors, touched, isSubmitting }) => (
         <FormikForm>
           {fields.map((field, key) => (
-            <Field key={key} name={field.id.toString()}>
+            <Field key={key} name={field.id}>
               {({ field, form }: { field: any; form: any }) => (
                 <FormControl
-                  key={field.id.toString()}
                   isInvalid={
                     form.errors[field.id] && (form.touched[field.id] as boolean)
                   }
@@ -61,7 +60,7 @@ function Form<T>({
                     disabled={field.disabled}
                     {...field}
                     type={field.type}
-                    id={field.id.toString()}
+                    id={field.id}
                     placeholder={field.placeholder}
                   />
                   <FormErrorMessage>{form.errors[field.id]}</FormErrorMessage>
