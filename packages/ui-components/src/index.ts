@@ -56,6 +56,9 @@ import { FormProps } from "./components/Form/Form";
 import { Sidebar } from "./components/Sidebar";
 import { SidebarProps } from "./components/Sidebar/Sidebar";
 import SidebarWired from "./components/Sidebar/SidebarWired";
+import ChatStatusBar, {
+  ChatStatusBarProps
+} from './components/ChatStatusBar/ChatStatusBar';
 
 export {
   // ENUMs
@@ -77,6 +80,7 @@ export {
   ChatBubble,
   ChatWindow,
   ChatDetails,
+  ChatStatusBar,
   ChatDetailsMeta,
   PictureAndName,
   PrivacyAndSupport,
@@ -118,6 +122,7 @@ export type {
   SidebarProps,
   ChatBubbleProps,
   ChatWindowProps,
+  ChatStatusBarProps,
   SendMessageProps,
   ChatTabHeadStripProps,
   ChatPanelProps,
