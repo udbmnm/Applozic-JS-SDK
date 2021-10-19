@@ -20,11 +20,8 @@ jobs:
       - name: Run lerna bootstrap
         run: lerna bootstrap
 
-      - name: Build monorepo
+      - name: Build all packages
         run: lerna run build
-
-      - name: Build storybook
-        run: lerna run build:storybook
 
       - name: Save .env file
         run: echo "$ENV_FILE" > .env
