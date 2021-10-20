@@ -15,7 +15,7 @@ import {
 import { invalidateCloudfront } from '../lib/cloudfront';
 import { getStorybookHash } from '../utils/storybook';
 
-const uiStorybookPath = path.join(__dirname, '../../../ui-storybook');
+const uiStorybookPath = path.join(__dirname, '../../../ui-components');
 
 const uploadConfig: UploadConfig = {
   name: 'storybook',
