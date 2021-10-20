@@ -1,13 +1,8 @@
-import React from 'react';
-import { Meta } from '@storybook/react/types-6-0';
-import { Story } from '@storybook/react';
-import {
-  MapPicker,
-  MapPickerProps,
-  MapPickerPopup,
-  MapPickerPopupProps
-} from '../src';
 import { Box, Center } from '@chakra-ui/react';
+import { Story } from '@storybook/react';
+import { Meta } from '@storybook/react/types-6-0';
+import React from 'react';
+import { MapPicker, MapPickerProps } from '../src';
 
 export default {
   title: 'Core/MapPicker',
@@ -28,17 +23,8 @@ export const Primary = Template.bind({});
 Primary.args = {
   gMapsApiKey: 'AIzaSyBXW2LRG4ysc1Tt7i_Agj4RRCn2jScxox0',
   defaultCenter: { lat: 37.7749, lng: -122.4194 },
-  defaultZoom: 13
+  defaultZoom: 13,
+  onPositionSelect: pos => {
+    alert(`You selected ${JSON.stringify(pos)}`);
+  }
 };
-
-const PopupTemplate: Story<MapPickerPopupProps> = args => (
-  <Box height="100vh" width="100%">
-    <Center height="100%">
-      <MapPickerPopup {...args} />
-    </Center>
-  </Box>
-);
-
-// Reuse that template for creating different stories
-export const Popup = PopupTemplate.bind({});
-Popup.args = { gMapsApiKey: 'AIzaSyBXW2LRG4ysc1Tt7i_Agj4RRCn2jScxox0' };

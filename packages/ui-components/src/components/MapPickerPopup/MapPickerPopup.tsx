@@ -15,16 +15,19 @@ import Icon from '../Icon/';
 import { MessageStatus } from '../../models/chat';
 
 export interface MapPickerPopupProps {
+  /** Google Maps API Key */
   gMapsApiKey: string;
-  onLocationSelected?: (pos: Coords) => void;
+  /** On Position select callback */
+  onPositionSelect?: (pos: Coords) => void;
 }
 
 const MapPickerPopup = ({
   gMapsApiKey,
-  onLocationSelected
+  onPositionSelect: onLocationSelected
 }: MapPickerPopupProps) => {
   const { position, positionError, clearPositionError, getCurrentPosition } =
     useLocation();
+  const [center, setCenter] = useState({ lat: 37.7749, lng: -122.4194 });
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   const close = () => setIsOpen(false);
@@ -45,8 +48,6 @@ const MapPickerPopup = ({
     }
     clearPositionError();
   }, [positionError]);
-
-  const [center, setCenter] = useState({ lat: 37.7749, lng: -122.4194 });
 
   useEffect(() => {
     if (isOpen) {

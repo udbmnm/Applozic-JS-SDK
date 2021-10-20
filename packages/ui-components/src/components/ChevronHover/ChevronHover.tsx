@@ -11,14 +11,18 @@ import Icon from '../Icon';
 import MotionBox from '../MotionBox';
 
 interface ChevronItem {
+  /** Label text */
   label: string;
+  /** On click callback */
   onClick: () => void;
   textColor?: string;
 }
 
 export interface ChevronHoverProps {
+  /** Label color */
   color?: string;
   items?: ChevronItem[];
+  /** Set true to open */
   hovered?: boolean;
 }
 

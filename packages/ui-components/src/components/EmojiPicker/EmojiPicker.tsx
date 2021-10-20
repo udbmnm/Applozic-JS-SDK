@@ -31,11 +31,17 @@ export enum BOTTOM_CATEGORIES {
 }
 
 export interface EmojiPickerProps {
+  /** GIPHY API Key */
   giphyApiKey?: string;
+  /** Default search text value */
   defaultSearchText?: string;
+  /** Default Emoji Category */
   defaultCategory?: EMOJI_CATEGORY;
+  /** Default Bottom Category */
   defaultBottomCategory?: BOTTOM_CATEGORIES;
+  /** Emoji selected callback */
   onEmojiSelected?: (emoji: EmojiData) => void;
+  /** Gif selected callback */
   onGifSelected?: (gif: File) => void;
 }
 
@@ -87,11 +93,7 @@ const EmojiPicker = ({
       <GiphySearchGrid
         giphyApiKey={giphyApiKey}
         searchText={searchText}
-        onGifClick={gif => {
-          if (onGifSelected) {
-            onGifSelected(gif);
-          }
-        }}
+        onGifClick={onGifClick}
       />
     );
   }

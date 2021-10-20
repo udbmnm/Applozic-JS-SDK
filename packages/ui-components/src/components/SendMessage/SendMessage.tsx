@@ -316,7 +316,7 @@ function SendMessage({
             {gMapsApiKey && (
               <MapPickerPopup
                 gMapsApiKey={gMapsApiKey}
-                onLocationSelected={handleLocationSend}
+                onPositionSelect={handleLocationSend}
               />
             )}
           </>

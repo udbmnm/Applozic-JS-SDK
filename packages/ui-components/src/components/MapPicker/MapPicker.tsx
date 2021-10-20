@@ -10,9 +10,13 @@ export interface Coords {
 }
 
 export interface MapPickerProps {
+  /** Google Maps API Key */
   gMapsApiKey: string;
+  /** Default center, eg { lat: 0, lng: 0 } */
   defaultCenter: Coords;
+  /** Default zoom */
   defaultZoom: number;
+  /** On position click callback */
   onPositionSelect?: (pos: Coords) => void | Promise<void>;
 }
 
