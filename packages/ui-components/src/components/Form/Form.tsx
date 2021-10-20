@@ -1,11 +1,11 @@
-import React from 'react';
 import {
   FormControl,
   FormErrorMessage,
   FormLabel,
   Input
 } from '@chakra-ui/react';
-import { Formik, Form as FormikForm, FormikHelpers, Field } from 'formik';
+import { Field, Form as FormikForm, Formik, FormikHelpers } from 'formik';
+import React from 'react';
 import Button from '../Button';
 
 export interface FormProps<T> {
@@ -45,25 +45,28 @@ function Form<T>({
       validationSchema={validationSchema}
       onSubmit={onSubmit}
     >
-      {({ errors, touched, isSubmitting }) => (
+      {() => (
         <FormikForm>
-          {fields.map((field, key) => (
-            <Field key={key} name={field.id}>
+          {fields.map(formField => (
+            <Field key={formField.id} name={formField.id}>
               {({ field, form }: { field: any; form: any }) => (
                 <FormControl
                   isInvalid={
-                    form.errors[field.id] && (form.touched[field.id] as boolean)
+                    form.errors[formField.id] &&
+                    (form.touched[formField.id] as boolean)
                   }
                 >
-                  <FormLabel>{field.label}</FormLabel>
+                  <FormLabel>{formField.label}</FormLabel>
                   <Input
-                    disabled={field.disabled}
+                    disabled={formField.disabled}
                     {...field}
-                    type={field.type}
-                    id={field.id}
-                    placeholder={field.placeholder}
+                    type={formField.type}
+                    id={formField.id}
+                    placeholder={formField.placeholder}
                   />
-                  <FormErrorMessage>{form.errors[field.id]}</FormErrorMessage>
+                  <FormErrorMessage>
+                    {form.errors[formField.id]}
+                  </FormErrorMessage>
                 </FormControl>
               )}
             </Field>
