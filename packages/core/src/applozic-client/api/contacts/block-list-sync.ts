@@ -60,7 +60,6 @@ const blockListSyncBuilder = (applozicClient: BaseClient): BlockListSyncApi => {
         json: false
       }
     );
-    console.log(response);
     try {
       const result = JSON.parse(response) as BaseResponse<BlockListSyncRes>;
       return result.response;

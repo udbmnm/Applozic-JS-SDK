@@ -132,7 +132,7 @@ const useGetApplozicClient = (
             messageUpdateHandler(message as MessageData);
           },
           onMessageSentUpdate: message => {
-            console.log({ sentMessageUpdate: message });
+            // TODO: handle this
           },
           onMessageDeleted: deleteMessage,
           onConversationRead: userId => {
@@ -161,10 +161,10 @@ const useGetApplozicClient = (
           },
 
           onUserActivated: message => {
-            console.log({ onUserActivated: message });
+            // TODO: handle this
           },
           onUserConnect: message => {
-            console.log({ userConnected: message });
+            // TODO: handle this
           },
           onUserOnlineStatus: (userId, isOnline, timestamp) => {
             const user = queryClient.getQueryData<User>(['user', userId, true]);

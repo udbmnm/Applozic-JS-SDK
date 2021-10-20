@@ -12,7 +12,6 @@ function useUserLogin() {
     },
     {
       onSuccess: async data => {
-        console.log({ onSuccess: data });
         if ((data as any) === 'INVALID_APPID') {
           queryClient.setQueryData(['self', loginResult?.userId], null);
           toast({

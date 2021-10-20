@@ -32,7 +32,6 @@ const FeatureTab = ({
   const styles = useStyles();
   const activeColor = mode('#FFF', '#FFF');
   const inActiveColor = mode('#6B6776', '#ABABAD');
-  console.log({ avatarUrl: imageUrl });
   return (
     <StyledTab
       __css={styles.tab}

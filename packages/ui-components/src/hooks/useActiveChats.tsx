@@ -48,20 +48,16 @@ function useActiveChats() {
     //      filter active chats
     //      found index =< open index
     //          decrease open by 1
-    console.log({ activeChats, removeIndex, openIndex });
     if (currentLength > 0 && openIndex !== undefined) {
       if (removeIndex > -1) {
         let filteredChats = (activeChats ?? []).filter(
           chat => !isSameActiveChat(chat, activeChat)
         );
-        console.log({ filteredChats });
         if (filteredChats.length == 1) {
-          console.log({ filtered: filteredChats[0], activeChat });
           if (isSameActiveChat(filteredChats[0], activeChat)) {
             filteredChats = [];
           }
         }
-        console.log({ filteredChats });
         queryClient.setQueryData<ActiveChat[]>(['active_chats'], filteredChats);
         if (removeIndex <= openIndex) {
           queryClient.setQueryData<number>(['open_index'], openIndex - 1);

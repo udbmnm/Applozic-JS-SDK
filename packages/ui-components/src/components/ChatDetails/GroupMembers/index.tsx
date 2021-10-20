@@ -31,7 +31,6 @@ function GroupMembers({
   members?: User[];
   addNewMember: () => void | Promise<void>;
 }) {
-  console.log({ members });
   return (
     <VStack width="full">
       <HStack width="full" justifyContent="space-between">

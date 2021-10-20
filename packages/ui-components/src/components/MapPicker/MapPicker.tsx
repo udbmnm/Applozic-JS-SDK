@@ -38,7 +38,6 @@ const MapPicker = ({
   const [inputId] = useState(v4());
 
   const handleOnPositionSelect = () => {
-    console.log('pos', markerPos);
     if (onPositionSelect) {
       onPositionSelect(markerPos);
     }
@@ -86,7 +85,6 @@ const MapPicker = ({
 
       searchBox.addListener('places_changed', () => {
         const places = searchBox.getPlaces();
-        // console.log({ places: places[0].geometry. });
         if (places.length === 0) {
           return;
         }

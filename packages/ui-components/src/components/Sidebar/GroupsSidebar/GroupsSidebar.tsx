@@ -34,7 +34,7 @@ const GroupsSidebar = ({
       {recentChats.map((recentChat, key) => (
         <RecentChatItem
           key={key}
-          onClearChat={() => console.log('{ object }')}
+          onClearChat={() => {}} // eslint-disable-line
           recentChat={recentChat}
           controls={controls}
           onClick={handleClick(recentChat.chatType, recentChat.contactId)}

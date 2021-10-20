@@ -53,8 +53,6 @@ const GriphySearchGrid = ({
         onGifClick(file);
       }
     } catch (e) {}
-
-    console.log('GIPHY Result', gif);
   };
   return (
     <div>

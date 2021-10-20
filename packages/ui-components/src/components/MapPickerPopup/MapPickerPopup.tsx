@@ -32,8 +32,6 @@ const MapPickerPopup = ({
 
   useEffect(() => {
     if (positionError) {
-      // console.log('eefef', positionError);
-
       toast({
         title: 'Permission Error',
         description:
