@@ -5,8 +5,8 @@ import {
   LoginPage,
   LoginPageProps,
   ProvideApplozicClient,
-} from "@applozic/ui-components";
-import { APPLICATION_ID, GOOGLE_MAPS_API_KEY, GIPHY_API_KEY } from "../config";
+} from "../src";
+import { APPLICATION_ID, GOOGLE_MAPS_API_KEY, GIPHY_API_KEY } from "./config";
 
 export default {
   title: "WiredComponents/LoginPage",

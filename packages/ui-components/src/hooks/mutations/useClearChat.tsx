@@ -1,5 +1,5 @@
-import { useMutation, useQueryClient } from "react-query";
-import { useApplozicClient } from "../../providers/useApplozicClient";
+import { useMutation, useQueryClient } from 'react-query';
+import { useApplozicClient } from '../../providers/useApplozicClient';
 
 interface IClearContact {
   userId: string;
@@ -18,21 +18,21 @@ function useClearChat() {
       return response;
     },
     {
-      onMutate: (options) => {
+      onMutate: options => {
         queryClient.cancelQueries([
-          "messages",
+          'messages',
           (options as IClearContact)?.userId ??
-            (options as IClearGroup)?.groupId,
+            (options as IClearGroup)?.groupId
         ]);
         queryClient.setQueryData(
           [
-            "messages-local",
+            'messages-local',
             (options as IClearContact)?.userId ??
-              (options as IClearGroup)?.groupId,
+              (options as IClearGroup)?.groupId
           ],
           []
         );
-      },
+      }
     }
   );
 }

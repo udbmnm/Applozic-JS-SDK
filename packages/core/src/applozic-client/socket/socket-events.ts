@@ -22,7 +22,7 @@ interface ConversationUpdateEvent {
 
 /**
  * Define callbacks for realtime events.
- * 
+ *
  * For usage, see {@link ApplozicClient}
  */
 export interface SocketEventListener {

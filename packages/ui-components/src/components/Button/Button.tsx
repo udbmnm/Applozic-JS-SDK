@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 import {
   Button as ChakraButton,
-  ButtonProps as ChakraButtonProps,
-} from "@chakra-ui/react";
+  ButtonProps as ChakraButtonProps
+} from '@chakra-ui/react';
 
-export interface ButtonProps extends Omit<ChakraButtonProps, "children"> {
+export interface ButtonProps extends Omit<ChakraButtonProps, 'children'> {
   /**
    * Is this the principal call to action on the page?
    */

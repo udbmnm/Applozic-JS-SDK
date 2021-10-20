@@ -1,6 +1,6 @@
-import { useMutation, useQueryClient } from "react-query";
-import { useApplozicClient } from "../../providers/useApplozicClient";
-import { User } from "@applozic/core-sdk";
+import { useMutation, useQueryClient } from 'react-query';
+import { useApplozicClient } from '../../providers/useApplozicClient';
+import { User } from '@applozic/core-sdk';
 
 interface IBlockContact {
   userId: string;
@@ -15,26 +15,26 @@ function useBlockContact() {
       return response;
     },
     {
-      onMutate: async (variables) => {
+      onMutate: async variables => {
         // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
-        await queryClient.cancelQueries(["user", variables.userId, true]);
+        await queryClient.cancelQueries(['user', variables.userId, true]);
 
         // Snapshot the previous value
         const previousUser = queryClient.getQueryData<User>([
-          "user",
+          'user',
           variables.userId,
-          true,
+          true
         ]);
 
         // Optimistically update to the new value
         if (previousUser) {
           queryClient.setQueryData<User>(
-            ["user", variables.userId, true],
-            (oldUser) => {
+            ['user', variables.userId, true],
+            oldUser => {
               return oldUser
                 ? {
                     ...oldUser,
-                    blockedByThis: true,
+                    blockedByThis: true
                   }
                 : previousUser;
             }
@@ -45,15 +45,15 @@ function useBlockContact() {
         return previousUser;
       },
       onError: (err, variables, context) => {
-        console.error("Send Message Error", err);
+        console.error('Send Message Error', err);
         queryClient.setQueryData(
-          ["user", variables.userId, true],
+          ['user', variables.userId, true],
           (context as any).previousUser
         );
       },
       onSettled: (data, err, variables) => {
-        queryClient.invalidateQueries(["user", variables.userId, true]);
-      },
+        queryClient.invalidateQueries(['user', variables.userId, true]);
+      }
     }
   );
 }

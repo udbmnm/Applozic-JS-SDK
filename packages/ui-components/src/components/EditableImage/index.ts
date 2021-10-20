@@ -1,1 +1,1 @@
-export { default } from "./EditableImage";
+export { default } from './EditableImage';

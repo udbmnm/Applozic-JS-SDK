@@ -1,6 +1,6 @@
-import { useMutation, useQueryClient } from "react-query";
-import { useApplozicClient } from "../../providers/useApplozicClient";
-import { useToast } from "@chakra-ui/react";
+import { useMutation, useQueryClient } from 'react-query';
+import { useApplozicClient } from '../../providers/useApplozicClient';
+import { useToast } from '@chakra-ui/react';
 
 function useUserLogin() {
   const { client, loginResult } = useApplozicClient();
@@ -11,33 +11,33 @@ function useUserLogin() {
       return await client?.login(email, password);
     },
     {
-      onSuccess: async (data) => {
+      onSuccess: async data => {
         console.log({ onSuccess: data });
-        if ((data as any) === "INVALID_APPID") {
-          queryClient.setQueryData(["self", loginResult?.userId], null);
+        if ((data as any) === 'INVALID_APPID') {
+          queryClient.setQueryData(['self', loginResult?.userId], null);
           toast({
-            title: "Error logging in",
+            title: 'Error logging in',
             description: (data as any).toString(),
-            status: "error",
+            status: 'error'
           });
-        } else if ((data as any) === "INVALID_PASSWORD") {
-          queryClient.setQueryData(["self", loginResult?.userId], null);
+        } else if ((data as any) === 'INVALID_PASSWORD') {
+          queryClient.setQueryData(['self', loginResult?.userId], null);
           toast({
-            title: "Wrong password please try again",
+            title: 'Wrong password please try again',
             description: (data as any).toString(),
-            status: "error",
+            status: 'error'
           });
         } else {
           if (data) {
             const response = await client?.contacts.getUserDetails([
-              data.userId,
+              data.userId
             ]);
             const user =
               response && response?.length > 0 ? response[0] : undefined;
-            queryClient.setQueryData(["self", loginResult?.userId], user);
+            queryClient.setQueryData(['self', loginResult?.userId], user);
           }
         }
-      },
+      }
     }
   );
 }

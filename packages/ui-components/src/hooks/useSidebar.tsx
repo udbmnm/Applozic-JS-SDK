@@ -1,22 +1,22 @@
-import { useQuery, useQueryClient } from "react-query";
-import FeatureTab from "../models/Feature";
+import { useQuery, useQueryClient } from 'react-query';
+import FeatureTab from '../models/Feature';
 
 function useSidebar() {
   const queryClient = useQueryClient();
-  const { data: activeTab } = useQuery<FeatureTab>(["active_tab"]);
-  const { data: searchQuery } = useQuery<string>(["search_query"]);
-  const { data: sidebarCollapsed } = useQuery<boolean>(["sidebar_collapsed"]);
+  const { data: activeTab } = useQuery<FeatureTab>(['active_tab']);
+  const { data: searchQuery } = useQuery<string>(['search_query']);
+  const { data: sidebarCollapsed } = useQuery<boolean>(['sidebar_collapsed']);
 
   const setSidebarCollapsed = (state: boolean) => {
-    queryClient.setQueryData<boolean>(["sidebar_collapsed"], state);
+    queryClient.setQueryData<boolean>(['sidebar_collapsed'], state);
   };
 
   const setSearchQuery = (query: string) => {
-    queryClient.setQueryData<string>(["search_query"], query);
+    queryClient.setQueryData<string>(['search_query'], query);
   };
 
   const setActiveTab = (tab: FeatureTab) => {
-    queryClient.setQueryData<FeatureTab>(["active_tab"], tab);
+    queryClient.setQueryData<FeatureTab>(['active_tab'], tab);
   };
 
   return {
@@ -25,7 +25,7 @@ function useSidebar() {
     sidebarCollapsed: sidebarCollapsed ?? false,
     setSidebarCollapsed,
     setSearchQuery,
-    setActiveTab,
+    setActiveTab
   };
 }
 

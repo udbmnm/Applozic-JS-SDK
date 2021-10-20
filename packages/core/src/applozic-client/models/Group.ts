@@ -1,4 +1,4 @@
-import User from "./User";
+import User from './User';
 
 export enum GroupTypes {
   PRIVATE = 1 as number,
@@ -7,7 +7,7 @@ export enum GroupTypes {
   OPEN = 6 as number,
   ONE_ON_ONE = 7 as number,
   CONTACTS = 9 as number,
-  SUPPORT = 10 as number,
+  SUPPORT = 10 as number
 }
 
 export enum UserRoles {
@@ -16,7 +16,7 @@ export enum UserRoles {
   // Add/remove users, Group Info update
   MODERATOR = 2,
   // Group Info update
-  MEMBER = 3,
+  MEMBER = 3
 }
 
 export default interface Group {
@@ -47,4 +47,4 @@ export default interface Group {
 }
 
 export const getNameFromGroup = (group: Group) =>
-  group.name ?? group.clientGroupId ?? "";
+  group.name ?? group.clientGroupId ?? '';

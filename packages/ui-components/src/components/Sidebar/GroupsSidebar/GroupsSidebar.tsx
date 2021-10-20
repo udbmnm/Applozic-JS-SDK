@@ -1,10 +1,10 @@
-import React from "react";
-import { VStack } from "@chakra-ui/react";
-import { ChatType } from "../../../models/chat";
-import { RecentChat } from "../../../models/chat";
-import RecentChatItem from "../RecentChatsSidebar/RecentChatItem";
-import AddGroup from "./AddGroup";
-import { AnimationControls } from "framer-motion";
+import React from 'react';
+import { VStack } from '@chakra-ui/react';
+import { ChatType } from '../../../models/chat';
+import { RecentChat } from '../../../models/chat';
+import RecentChatItem from '../RecentChatsSidebar/RecentChatItem';
+import AddGroup from './AddGroup';
+import { AnimationControls } from 'framer-motion';
 
 export interface IGroups {
   recentChats: RecentChat[];
@@ -20,7 +20,7 @@ const GroupsSidebar = ({
   recentChats,
   onClickRecentChat,
   onClickAddGroup,
-  controls,
+  controls
 }: IGroups) => {
   const handleClick = (type: ChatType, contactId: string) => () => {
     if (onClickRecentChat) {
@@ -29,11 +29,12 @@ const GroupsSidebar = ({
   };
 
   return (
-    <VStack height="full" width={"full"}>
+    <VStack height="full" width={'full'}>
       <AddGroup onClick={onClickAddGroup} />
-      {recentChats.map((recentChat) => (
+      {recentChats.map((recentChat, key) => (
         <RecentChatItem
-          onClearChat={() => console.log("{ object }")}
+          key={key}
+          onClearChat={() => console.log('{ object }')}
           recentChat={recentChat}
           controls={controls}
           onClick={handleClick(recentChat.chatType, recentChat.contactId)}

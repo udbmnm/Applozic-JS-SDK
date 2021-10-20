@@ -1,8 +1,8 @@
-import React from "react";
-import useGetSelfDetails from "../../hooks/queries/useGetSelfDetails";
-import useSidebar from "../../hooks/useSidebar";
-import FeatureTab from "../../models/Feature";
-import FeatureTabs from "./FeatureTabs";
+import React from 'react';
+import useGetSelfDetails from '../../hooks/queries/useGetSelfDetails';
+import useSidebar from '../../hooks/useSidebar';
+import FeatureTab from '../../models/Feature';
+import FeatureTabs from './FeatureTabs';
 
 function FeatureTabsWired() {
   const user = useGetSelfDetails();
@@ -10,14 +10,14 @@ function FeatureTabsWired() {
     FeatureTab.USER,
     FeatureTab.RECENT_CHATS,
     FeatureTab.CONTACTS,
-    FeatureTab.GROUPS,
+    FeatureTab.GROUPS
   ];
   const { setActiveTab } = useSidebar();
   return (
     <FeatureTabs
       featureTabs={ActiveFeatures}
-      onChange={(index) => setActiveTab(ActiveFeatures[index])}
-      userName={user?.displayName ?? user?.email ?? user?.userId ?? ""}
+      onChange={index => setActiveTab(ActiveFeatures[index])}
+      userName={user?.displayName ?? user?.email ?? user?.userId ?? ''}
       userImageUrl={user?.imageLink}
     />
   );

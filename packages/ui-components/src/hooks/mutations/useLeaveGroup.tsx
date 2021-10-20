@@ -1,6 +1,6 @@
-import { useMutation, useQueryClient } from "react-query";
-import { RecentChat } from "../../models/chat";
-import { useApplozicClient } from "../../providers/useApplozicClient";
+import { useMutation, useQueryClient } from 'react-query';
+import { RecentChat } from '../../models/chat';
+import { useApplozicClient } from '../../providers/useApplozicClient';
 
 function useLeaveGroup() {
   const { client, loginResult } = useApplozicClient();
@@ -10,28 +10,26 @@ function useLeaveGroup() {
       if (loginResult?.userId) {
         const response = await client?.groups.leaveGroup({
           clientGroupId,
-          resetCount: true,
+          resetCount: true
         });
         return response;
       }
     },
     {
-      onMutate: (clientGroupId) => {
+      onMutate: clientGroupId => {
         queryClient.setQueryData<RecentChat[] | undefined>(
-          ["recent-chats-local"],
-          (oldChats) => {
+          ['recent-chats-local'],
+          oldChats => {
             if (oldChats) {
               return oldChats?.filter(
-                (oldChat) => oldChat.contactId !== clientGroupId
+                oldChat => oldChat.contactId !== clientGroupId
               );
             } else {
               return undefined;
             }
           }
         );
-      },
-      // Always refetch after error or success:
-      onSettled: (data, response, newMessage) => {},
+      }
     }
   );
 }

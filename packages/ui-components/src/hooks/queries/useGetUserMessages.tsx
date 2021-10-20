@@ -1,16 +1,16 @@
-import { useInfiniteQuery, useQuery, useQueryClient } from "react-query";
-import { useApplozicClient } from "../../providers/useApplozicClient";
-import { ChatType, RecentChat } from "../../models/chat";
-import { Message as UIMessage } from "../../models/chat";
-import { mergeMessages } from "../../utils/messagesMerger";
-import { getUIMessageFromClientMessage } from "../../utils/parser";
-import { mergeRecentChats } from "../../utils/recentChatsMerger";
+import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query';
+import { useApplozicClient } from '../../providers/useApplozicClient';
+import { ChatType, RecentChat } from '../../models/chat';
+import { Message as UIMessage } from '../../models/chat';
+import { mergeMessages } from '../../utils/messagesMerger';
+import { getUIMessageFromClientMessage } from '../../utils/parser';
+import { mergeRecentChats } from '../../utils/recentChatsMerger';
 
-import { User, Group } from "@applozic/core-sdk";
+import { User, Group } from '@applozic/core-sdk';
 import ActiveChat, {
   getChatTypeFromActiveChat,
-  getIdFromActiveChat,
-} from "../../models/chat/ActiveChat";
+  getIdFromActiveChat
+} from '../../models/chat/ActiveChat';
 // import { updateLastMessage } from "./useGetRecentChats";
 
 const PAGE_SIZE = 50;
@@ -21,7 +21,7 @@ function useGetMessages(activeChat: ActiveChat) {
   const queryClient = useQueryClient();
   const activeChatId = getIdFromActiveChat(activeChat);
   return useInfiniteQuery(
-    ["messages", activeChatId],
+    ['messages', activeChatId],
     async ({ pageParam = Date.now() }) => {
       if (activeChatId) {
         const response = await client?.messages.list({
@@ -31,14 +31,14 @@ function useGetMessages(activeChat: ActiveChat) {
             : undefined,
           endTime: pageParam,
           mainPageSize: 50,
-          pageSize: PAGE_SIZE,
+          pageSize: PAGE_SIZE
           // startIndex: 0,
         });
         const messageResponse = response?.message.reverse() ?? [];
         const messagesLocal =
           queryClient.getQueryData<UIMessage[]>([
-            "messages-local",
-            activeChatId,
+            'messages-local',
+            activeChatId
           ]) ?? [];
 
         const messages = mergeMessages(
@@ -47,40 +47,40 @@ function useGetMessages(activeChat: ActiveChat) {
         );
 
         queryClient.setQueryData<UIMessage[]>(
-          ["messages-local", activeChatId],
+          ['messages-local', activeChatId],
           messages
         );
         const recentChatsLocal = queryClient.getQueryData<RecentChat[]>([
-          "recent-chats-local",
+          'recent-chats-local'
         ]);
         let imageUrl: string | undefined;
         if (activeChat.user) {
           const user = queryClient.getQueryData<User>([
-            "user",
+            'user',
             activeChatId,
-            true,
+            true
           ]);
           imageUrl = user?.imageLink;
         }
         if (activeChat.group) {
           const groupInfo = queryClient.getQueryData<Group>([
-            "group",
+            'group',
             activeChatId,
-            true,
+            true
           ]);
           imageUrl = groupInfo?.imageUrl;
         }
         queryClient.setQueryData<RecentChat[]>(
-          ["recent-chats-local"],
+          ['recent-chats-local'],
           mergeRecentChats(
             [
               {
                 contactId: activeChatId,
                 chatType: getChatTypeFromActiveChat(activeChat),
                 imageUrl,
-                lastMessageKey: "randomase123ase",
-                lastMessageTime: messages[0].timeStamp.getTime(),
-              },
+                lastMessageKey: 'randomase123ase',
+                lastMessageTime: messages[0].timeStamp.getTime()
+              }
             ],
             recentChatsLocal ?? []
           )
@@ -91,19 +91,19 @@ function useGetMessages(activeChat: ActiveChat) {
           hasNext: !(
             response?.message?.length && response?.message?.length < PAGE_SIZE
           ),
-          nextCursor: response?.message[0].createdAtTime,
+          nextCursor: response?.message[0].createdAtTime
         };
       } else {
         return {
           messages: [],
           hasNext: false,
-          nextCursor: undefined,
+          nextCursor: undefined
         };
       }
     },
     {
-      getNextPageParam: (lastPage) =>
-        lastPage.hasNext ? lastPage.nextCursor : undefined,
+      getNextPageParam: lastPage =>
+        lastPage.hasNext ? lastPage.nextCursor : undefined
     }
   );
 }

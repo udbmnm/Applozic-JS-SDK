@@ -133,7 +133,7 @@ const useRecorder = (
       //   file: audioFile,
       //   durationSeconds: 0
       // });
-      let audioFileDurationInMs = 0;
+      const audioFileDurationInMs = 0;
 
       const audio = document.createElement('audio');
       audio.src = URL.createObjectURL(audioFile);

@@ -1,7 +1,7 @@
 import React from "react";
 import { Meta } from "@storybook/react/types-6-0";
 import { Story } from "@storybook/react";
-import { ChatPanelWired, ActiveChat } from "@applozic/ui-components";
+import { ChatPanelWired, ActiveChat } from "../src";
 
 export default {
   title: "WiredComponents/ChatPanel",

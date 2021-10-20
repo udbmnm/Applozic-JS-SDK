@@ -1,7 +1,7 @@
-import React from "react";
-import { Meta } from "@storybook/react/types-6-0";
-import { Story } from "@storybook/react";
-import SharedMedia, { ISharedMediaView, TABS } from "./SharedMedia";
+import React from 'react';
+import { Meta } from '@storybook/react/types-6-0';
+import { Story } from '@storybook/react';
+import SharedMedia, { ISharedMediaView, TABS } from './SharedMedia';
 
 // export default {
 //   title: "Components/Shared Media",
@@ -12,7 +12,7 @@ import SharedMedia, { ISharedMediaView, TABS } from "./SharedMedia";
 // } as Meta;
 
 // Create a master template for mapping args to render the Button component
-const Template: Story<ISharedMediaView> = (args) => <SharedMedia {...args} />;
+const Template: Story<ISharedMediaView> = args => <SharedMedia {...args} />;
 
 // Reuse that template for creating different stories
 export const Photos = Template.bind({});
@@ -20,54 +20,54 @@ Photos.args = {
   photosProps: {
     photosList: [
       {
-        src: "rectangle778",
-        id: "rectangle-778",
+        src: 'rectangle778',
+        id: 'rectangle-778'
       },
       {
-        src: "rectangle779",
-        id: "rectangle-779",
+        src: 'rectangle779',
+        id: 'rectangle-779'
       },
       {
-        src: "rectangle780",
-        id: "rectangle-780",
+        src: 'rectangle780',
+        id: 'rectangle-780'
       },
       {
-        src: "rectangle781",
-        id: "rectangle-781",
+        src: 'rectangle781',
+        id: 'rectangle-781'
       },
       {
-        src: "rectangle782",
-        id: "rectangle-782",
+        src: 'rectangle782',
+        id: 'rectangle-782'
       },
       {
-        src: "rectangle783",
-        id: "rectangle-783",
+        src: 'rectangle783',
+        id: 'rectangle-783'
       },
       {
-        src: "rectangle778",
-        id: "rectangle-778",
+        src: 'rectangle778',
+        id: 'rectangle-778'
       },
       {
-        src: "rectangle779",
-        id: "rectangle-779",
+        src: 'rectangle779',
+        id: 'rectangle-779'
       },
       {
-        src: "rectangle780",
-        id: "rectangle-780",
+        src: 'rectangle780',
+        id: 'rectangle-780'
       },
       {
-        src: "rectangle781",
-        id: "rectangle-781",
+        src: 'rectangle781',
+        id: 'rectangle-781'
       },
       {
-        src: "rectangle782",
-        id: "rectangle-782",
+        src: 'rectangle782',
+        id: 'rectangle-782'
       },
       {
-        src: "rectangle783",
-        id: "rectangle-783",
-      },
-    ],
+        src: 'rectangle783',
+        id: 'rectangle-783'
+      }
+    ]
   },
   // linksProps: {
   //   links: [
@@ -104,29 +104,29 @@ Photos.args = {
   docsProps: {
     docs: [
       {
-        name: "abbnn",
-        contentType: "application/pdf",
+        name: 'abbnn',
+        contentType: 'application/pdf',
         size: 13545138,
-        blobKey: "",
+        blobKey: ''
       },
       {
-        name: "abbnn",
-        contentType: "application/pdf",
+        name: 'abbnn',
+        contentType: 'application/pdf',
         size: 13545138,
-        blobKey: "",
-      },
-    ],
-  },
+        blobKey: ''
+      }
+    ]
+  }
 };
 
 export const Links = Template.bind({});
 Links.args = {
   ...Photos.args,
-  defaultTab: TABS.LINKS,
+  defaultTab: TABS.LINKS
 };
 
 export const Docs = Template.bind({});
 Docs.args = {
   ...Photos.args,
-  defaultTab: TABS.DOCS,
+  defaultTab: TABS.DOCS
 };

@@ -23,15 +23,14 @@ export interface UserCountApi {
 
 const userCountBuilder = (applozicClient: BaseClient): UserCountApi => {
   const userCountApi: UserCountApi = async data => {
-    const response: BaseResponse<
-      UserCountResItem[]
-    > = await applozicClient.makeApiCall(
-      METHODS.GET,
-      `${ENDPOINT}${getQueryStringFromData(data)}`,
-      {
-        useAuth: true
-      }
-    );
+    const response: BaseResponse<UserCountResItem[]> =
+      await applozicClient.makeApiCall(
+        METHODS.GET,
+        `${ENDPOINT}${getQueryStringFromData(data)}`,
+        {
+          useAuth: true
+        }
+      );
     return response.response;
   };
   return userCountApi;

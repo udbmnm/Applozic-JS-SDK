@@ -5,7 +5,7 @@ import {
   MessageStatus,
   ChatWindow,
   ChatWindowProps,
-} from "@applozic/ui-components";
+} from "../src";
 
 // export default {
 //   title: "Components/ChatWindow",

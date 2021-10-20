@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { ChatType, RecentChat } from "../../models/chat";
-import RecentChatsSidebar from "./RecentChatsSidebar";
-import { Box } from "@chakra-ui/react";
-import FeatureTab from "../../models/Feature";
-import GroupsSidebar from "./GroupsSidebar";
-import CreateGroup from "./GroupsSidebar/CreateGroup";
-import { GroupTypes } from "@applozic/core-sdk";
-import { INewGroup } from "../../utils/parser";
-import CreateContact from "./RecentChatsSidebar/CreateContact";
-import ContactsSidebar from "./ContactsSidebar/ContactsSidebar";
-import { User } from "@applozic/core-sdk";
-import SelfDetails, { SelfDetailProps } from "./SelfDetails/SelfDetails";
-import { Divider, useColorModeValue as mode } from "@chakra-ui/react";
-import { AnimatePresence } from "framer-motion";
-import MotionBox from "../MotionBox";
-import ScrollArea from "../ScrollArea";
-import Search, { SearchProps } from "./Search";
-import { AnimationControls } from "framer-motion";
+import React, { useEffect, useState } from 'react';
+import { ChatType, RecentChat } from '../../models/chat';
+import RecentChatsSidebar from './RecentChatsSidebar';
+import { Box } from '@chakra-ui/react';
+import FeatureTab from '../../models/Feature';
+import GroupsSidebar from './GroupsSidebar';
+import CreateGroup from './GroupsSidebar/CreateGroup';
+import { GroupTypes } from '@applozic/core-sdk';
+import { INewGroup } from '../../utils/parser';
+import CreateContact from './RecentChatsSidebar/CreateContact';
+import ContactsSidebar from './ContactsSidebar/ContactsSidebar';
+import { User } from '@applozic/core-sdk';
+import SelfDetails, { SelfDetailProps } from './SelfDetails/SelfDetails';
+import { Divider, useColorModeValue as mode } from '@chakra-ui/react';
+import { AnimatePresence } from 'framer-motion';
+import MotionBox from '../MotionBox';
+import ScrollArea from '../ScrollArea';
+import Search, { SearchProps } from './Search';
+import { AnimationControls } from 'framer-motion';
 
 export interface SidebarProps {
   selectedFeatureTab: FeatureTab;
@@ -48,7 +48,7 @@ function Sidebar({
   onCreateContact: onClickCreateContact,
   onClearConversation: onClickClearConversation,
   fetchNextRecentChats,
-  handleItemClick,
+  handleItemClick
 }: SidebarProps) {
   const [showAddGroup, setShowAddGroup] = useState(false);
   const [showAddContact, setShowAddContact] = useState(false);
@@ -66,7 +66,7 @@ function Sidebar({
       return (
         <CreateContact
           onClickCloseCreateContact={() => setShowAddContact(false)}
-          onClickCreateContact={(contactName) => {
+          onClickCreateContact={contactName => {
             setShowAddContact(false);
             onClickCreateContact && onClickCreateContact(contactName);
           }}
@@ -83,7 +83,7 @@ function Sidebar({
             groupName,
             imageUrl,
             type: GroupTypes.PRIVATE,
-            memberIds,
+            memberIds
           });
         }}
       />;
@@ -109,8 +109,7 @@ function Sidebar({
           <GroupsSidebar
             controls={controls}
             recentChats={
-              recentChats?.filter((chat) => chat.chatType == ChatType.GROUP) ??
-              []
+              recentChats?.filter(chat => chat.chatType == ChatType.GROUP) ?? []
             }
             onClickAddGroup={() => setShowAddContact(true)}
             onClickRecentChat={handleItemClick}
@@ -122,7 +121,7 @@ function Sidebar({
             controls={controls}
             users={users}
             onClickAddContact={() => setShowAddContact(true)}
-            onClickContact={(contactId) =>
+            onClickContact={contactId =>
               handleItemClick(ChatType.USER, contactId)
             }
           />
@@ -135,26 +134,26 @@ function Sidebar({
   return (
     <MotionBox
       borderWidth={mode(1, 0)}
-      width={"350px"}
+      width={'350px'}
       m="0"
       borderColor="#E9E9E9"
       borderRadius={15}
       height="full"
       animate={controls}
       initial="open"
-      variants={{ open: { width: "350px" }, closed: { width: "100px" } }}
-      transition={{ type: "tween" }}
-      backgroundColor={mode("#FFFFFF", "#1B191D")}
+      variants={{ open: { width: '350px' }, closed: { width: '100px' } }}
+      transition={{ type: 'tween' }}
+      backgroundColor={mode('#FFFFFF', '#1B191D')}
     >
       <AnimatePresence>
         {(showAddGroup || showAddContact) && (
           <MotionBox
-            width={"full"}
+            width={'full'}
             height="full"
-            initial={{ y: "101%", opacity: 0 }}
-            transition={{ type: "tween" }}
+            initial={{ y: '101%', opacity: 0 }}
+            transition={{ type: 'tween' }}
             animate={{ y: 0, opacity: 1 }}
-            exit={{ y: "101%", opacity: 0 }}
+            exit={{ y: '101%', opacity: 0 }}
           >
             {getOverlayComponent()}
           </MotionBox>
@@ -166,18 +165,18 @@ function Sidebar({
             paddingX={6}
             paddingTop={6}
             flexFlow="column"
-            display={"flex"}
+            display={'flex'}
             flex={1}
             height="full"
             width="full"
-            initial={{ x: "101%", opacity: 0 }}
-            transition={{ type: "tween" }}
+            initial={{ x: '101%', opacity: 0 }}
+            transition={{ type: 'tween' }}
             animate={{ x: 0, opacity: 1 }}
-            exit={{ x: "101%", opacity: 0 }}
+            exit={{ x: '101%', opacity: 0 }}
           >
             <Search {...search} />
             <Divider mt={1.5} mb={1.5} />
-            <ScrollArea width={"full"} hideScrollbar={true} overflowX="hidden">
+            <ScrollArea width={'full'} hideScrollbar={true} overflowX="hidden">
               {getComponent()}
             </ScrollArea>
           </MotionBox>

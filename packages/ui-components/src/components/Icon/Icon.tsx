@@ -1,6 +1,6 @@
-import React from "react";
-import IcoMoon from "react-icomoon";
-import icoMoonConfig from "./selection";
+import React from 'react';
+import IcoMoon from 'react-icomoon';
+import icoMoonConfig from './selection';
 
 export interface IconProps {
   [name: string]: any;

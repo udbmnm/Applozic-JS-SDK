@@ -60,9 +60,10 @@ const BottomCategoryTabs = ({
   activeCategory,
   onCategoryClick
 }: BottomCategeoryTabsProps) => {
-  const categoryBoxes = categories.map(category => {
+  const categoryBoxes = categories.map((category, key) => {
     return (
       <GetCategoryBox
+        key={key}
         category={category}
         activeCategory={activeCategory}
         onClick={onCategoryClick}

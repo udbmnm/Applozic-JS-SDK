@@ -4,13 +4,13 @@ import {
   Image,
   Text,
   useColorModeValue,
-  VStack,
-} from "@chakra-ui/react";
-import React from "react";
-import { ReportIcon } from "../../icons/ReportIcon";
-import { StopIcon } from "../../icons/StopIcon";
-import { BinIcon } from "../../icons/BinIcon";
-import Icon from "../Icon";
+  VStack
+} from '@chakra-ui/react';
+import React from 'react';
+import { ReportIcon } from '../../icons/ReportIcon';
+import { StopIcon } from '../../icons/StopIcon';
+import { BinIcon } from '../../icons/BinIcon';
+import Icon from '../Icon';
 
 export interface PrivacyAndSupportProps {
   onChatClear?: () => void | Promise<void>;
@@ -19,7 +19,7 @@ export interface PrivacyAndSupportProps {
 
 const PrivacyAndSupport = ({
   onChatClear,
-  onBlockUser,
+  onBlockUser
 }: PrivacyAndSupportProps) => {
   const clearChat = () => {
     if (onChatClear) {
@@ -36,7 +36,7 @@ const PrivacyAndSupport = ({
     <VStack minWidth="200px" spacing={4} align="stretch">
       <Box>
         <Text fontSize="14px" fontWeight="400" color="textHeader.500">
-          {"Privacy & Support"}
+          {'Privacy & Support'}
         </Text>
       </Box>
       {/* <HStack onClick={clearChat}>
@@ -60,14 +60,14 @@ const PrivacyAndSupport = ({
           icon="cancel"
           size={16}
           style={{ opacity: 0.6 }}
-          color={useColorModeValue("#09021A", "#FFF")}
+          color={useColorModeValue('#09021A', '#FFF')}
         />
 
         <Text
           color="textMain.700"
           fontSize="16px"
           fontWeight="400"
-          style={{ marginLeft: "16px" }}
+          style={{ marginLeft: '16px' }}
         >
           Block User
         </Text>

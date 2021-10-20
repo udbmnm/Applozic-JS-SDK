@@ -1,5 +1,5 @@
-import ActiveChat from "./ActiveChat";
-import { ChatType } from "./ChatType";
+import ActiveChat from './ActiveChat';
+import { ChatType } from './ChatType';
 
 interface RecentChat {
   contactId: string;

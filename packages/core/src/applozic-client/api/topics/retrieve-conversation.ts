@@ -61,14 +61,11 @@ const retrieveConversationBuilder = (
     topicDetail,
     ...rest
   }) => {
-    const response: BaseResponse<RetrieveConversationRes> = await applozicClient.makeApiCall(
-      METHODS.POST,
-      ENDPOINT,
-      {
+    const response: BaseResponse<RetrieveConversationRes> =
+      await applozicClient.makeApiCall(METHODS.POST, ENDPOINT, {
         data: { topicDetail: JSON.stringify(topicDetail), ...rest },
         useAuth: true
-      }
-    );
+      });
     return response;
   };
   return retrieveConversationApi;

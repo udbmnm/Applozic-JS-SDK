@@ -1,10 +1,10 @@
-import { HStack, VStack, Spacer, Box, Text, Avatar } from "@chakra-ui/react";
-import { AnimationControls } from "framer-motion";
-import React, { forwardRef, useState } from "react";
-import { getNameFromGroup, getNameFromUser } from "@applozic/core-sdk";
-import useGetUserInfo from "../../../hooks/queries/useGetUserInfo";
-import { ChatType, Message, MessageStatus } from "../../../models/chat";
-import { RecentChat } from "../../../models/chat";
+import { HStack, VStack, Spacer, Box, Text, Avatar } from '@chakra-ui/react';
+import { AnimationControls } from 'framer-motion';
+import React, { forwardRef, useState } from 'react';
+import { getNameFromGroup, getNameFromUser } from '@applozic/core-sdk';
+import useGetUserInfo from '../../../hooks/queries/useGetUserInfo';
+import { ChatType, Message, MessageStatus } from '../../../models/chat';
+import { RecentChat } from '../../../models/chat';
 import {
   isToday,
   getAmPm,
@@ -13,14 +13,14 @@ import {
   wasInThisYear,
   getMonthName,
   getReadableHours,
-  getReadableMinutes,
-} from "../../../time-utils";
-import MotionBox from "../../MotionBox";
-import useGetGroupInfo from "../../../hooks/queries/useGetGroupInfo";
-import { useQuery } from "react-query";
-import { useUnreadCount } from "../../../hooks/queries/useGetUnreadCount";
-import MessageStatusIcon from "../../Icon/MessageStatusIcon";
-import ChevronHover from "../../ChevronHover";
+  getReadableMinutes
+} from '../../../time-utils';
+import MotionBox from '../../MotionBox';
+import useGetGroupInfo from '../../../hooks/queries/useGetGroupInfo';
+import { useQuery } from 'react-query';
+import { useUnreadCount } from '../../../hooks/queries/useGetUnreadCount';
+import MessageStatusIcon from '../../Icon/MessageStatusIcon';
+import ChevronHover from '../../ChevronHover';
 
 const getTimeStamp = (date: Date) => {
   if (isToday(date)) {
@@ -59,40 +59,40 @@ const RecentChatItem = forwardRef<any, IRecentChatItem>(
       ? getNameFromUser(user)
       : group
       ? getNameFromGroup(group)
-      : "";
+      : '';
 
-    const imageUrl = user?.imageLink || group?.imageUrl || "";
+    const imageUrl = user?.imageLink || group?.imageUrl || '';
 
-    let { data: messages } = useQuery<Message[]>([
-      "messages-local",
-      recentChat.contactId,
+    const { data: messages } = useQuery<Message[]>([
+      'messages-local',
+      recentChat.contactId
     ]);
 
     const lastMessage =
       messages && messages.length > 0 ? messages[messages.length - 1] : null;
     const [hovered, sethovered] = useState(false);
     const [viewingInfo, setViewingInfo] = useState(false);
-    let messageText = "";
+    let messageText = '';
     try {
       if (lastMessage?.messageText) {
         messageText = JSON.parse(lastMessage?.messageText);
-        messageText = "Location Shared";
+        messageText = 'Location Shared';
       }
     } catch (e) {
       if (lastMessage?.messageText) {
         messageText = lastMessage?.messageText;
       } else {
         if (lastMessage?.file) {
-          messageText = "Audio Message Sent";
+          messageText = 'Audio Message Sent';
         }
       }
     }
 
     const chevronItems = [
       {
-        label: "Delete Conversation",
-        onClick: onClearChat,
-      },
+        label: 'Delete Conversation',
+        onClick: onClearChat
+      }
     ];
 
     return (
@@ -100,9 +100,9 @@ const RecentChatItem = forwardRef<any, IRecentChatItem>(
         ref={ref}
         key={recentChat.contactId}
         cursor="pointer"
-        width={"full"}
+        width={'full'}
         onClick={onClick}
-        display={"flex"}
+        display={'flex'}
         alignItems="center"
         mb={2}
         justifyContent="center"
@@ -113,11 +113,11 @@ const RecentChatItem = forwardRef<any, IRecentChatItem>(
         <MotionBox
           animate={controls}
           variants={{
-            open: { opacity: 1, display: "flex", flex: 1 },
-            closed: { opacity: 0, display: "none", flex: 0 },
+            open: { opacity: 1, display: 'flex', flex: 1 },
+            closed: { opacity: 0, display: 'none', flex: 0 }
           }}
           initial="open"
-          transition={{ type: "tween" }}
+          transition={{ type: 'tween' }}
           flex={1}
           ml={2}
         >
@@ -141,7 +141,7 @@ const RecentChatItem = forwardRef<any, IRecentChatItem>(
           <Spacer />
           <VStack alignItems="flex-end" width="120px">
             <Text fontSize="11px" color="textHeader.500">
-              {lastMessage ? getTimeStamp(lastMessage.timeStamp) : ""}
+              {lastMessage ? getTimeStamp(lastMessage.timeStamp) : ''}
             </Text>
             <HStack>
               {unreadCount && (

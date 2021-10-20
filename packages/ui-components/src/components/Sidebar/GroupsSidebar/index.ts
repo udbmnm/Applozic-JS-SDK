@@ -1,1 +1,1 @@
-export { default } from "./GroupsSidebar";
+export { default } from './GroupsSidebar';

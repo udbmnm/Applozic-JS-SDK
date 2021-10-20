@@ -2,9 +2,9 @@ import {
   getNameFromGroup,
   getNameFromUser,
   Group,
-  User,
-} from "@applozic/core-sdk";
-import { ChatType } from ".";
+  User
+} from '@applozic/core-sdk';
+import { ChatType } from '.';
 
 interface ActiveChat {
   user?: User;
@@ -26,12 +26,12 @@ export const getContactNameAndImageFromActiveChat = (a: ActiveChat) => {
     ? getNameFromUser(a.user)
     : a.group
     ? getNameFromGroup(a.group)
-    : "";
+    : '';
 
   const contactImageUrl = a.user?.imageLink || a.group?.imageUrl;
   return {
     contactName,
-    contactImageUrl,
+    contactImageUrl
   };
 };
 

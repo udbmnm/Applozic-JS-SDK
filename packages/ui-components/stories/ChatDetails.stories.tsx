@@ -12,7 +12,7 @@ import {
   PictureAndNameProps,
   PrivacyAndSupport,
   PrivacyAndSupportProps,
-} from "@applozic/ui-components";
+} from "../src";
 import { UserRoles } from "@applozic/core-sdk";
 
 export default {

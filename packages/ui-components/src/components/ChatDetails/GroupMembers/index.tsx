@@ -1,11 +1,11 @@
-import React from "react";
-import { getNameFromUser, User } from "@applozic/core-sdk";
-import { Avatar, HStack, Input, Tag, Text, VStack } from "@chakra-ui/react";
-import { SmallAddIcon } from "@chakra-ui/icons";
+import React from 'react';
+import { getNameFromUser, User } from '@applozic/core-sdk';
+import { Avatar, HStack, Input, Tag, Text, VStack } from '@chakra-ui/react';
+import { SmallAddIcon } from '@chakra-ui/icons';
 
 const GroupMemberItem = ({
   isAdmin,
-  user,
+  user
 }: {
   isAdmin: boolean;
   user: User;
@@ -13,8 +13,8 @@ const GroupMemberItem = ({
   // const { data: user } = useGetUserInfo(memberId, true);
   return (
     <HStack width="full">
-      <Avatar src={user?.imageLink} name={user ? getNameFromUser(user) : ""} />
-      <Text>{user ? getNameFromUser(user) : ""}</Text>
+      <Avatar src={user?.imageLink} name={user ? getNameFromUser(user) : ''} />
+      <Text>{user ? getNameFromUser(user) : ''}</Text>
       {isAdmin && <Tag>Admin</Tag>}
     </HStack>
   );
@@ -24,7 +24,7 @@ function GroupMembers({
   adminId,
   members,
   numberOfMembers,
-  addNewMember,
+  addNewMember
 }: {
   adminId?: string;
   numberOfMembers?: number;
@@ -49,8 +49,9 @@ function GroupMembers({
       </HStack>
       <VStack width="full">
         {members &&
-          members?.map((member) => (
+          members?.map((member, key) => (
             <GroupMemberItem
+              key={key}
               isAdmin={member?.userId === adminId}
               user={member}
             />

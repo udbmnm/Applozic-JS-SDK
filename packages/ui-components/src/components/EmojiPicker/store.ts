@@ -47,7 +47,7 @@ export const searchEmojis = (
     return stringToSearch.includes(searchText.toLocaleLowerCase());
   });
   return emojiData.sort((a, b) => {
-    let aTokens = [
+    const aTokens = [
       ...a.description.split(' '),
       ...a.category.split(' & '),
       ...a.aliases,
@@ -57,11 +57,9 @@ export const searchEmojis = (
       return -1;
     }
 
-    let bTokens = [
-      ...b.description.split(' '),
-      ...b.aliases,
-      ...b.tags
-    ].map(item => item.toLocaleLowerCase());
+    const bTokens = [...b.description.split(' '), ...b.aliases, ...b.tags].map(
+      item => item.toLocaleLowerCase()
+    );
     if (new Set(bTokens).has(searchText.toLocaleLowerCase())) {
       return 1;
     }

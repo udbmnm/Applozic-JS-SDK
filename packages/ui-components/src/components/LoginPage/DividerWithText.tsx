@@ -3,9 +3,9 @@ import {
   HStack,
   StackProps,
   Text,
-  useColorModeValue as mode,
-} from "@chakra-ui/react";
-import * as React from "react";
+  useColorModeValue as mode
+} from '@chakra-ui/react';
+import * as React from 'react';
 
 export const DividerWithText = (props: StackProps) => (
   <HStack my="8" {...props}>
@@ -15,7 +15,7 @@ export const DividerWithText = (props: StackProps) => (
       textTransform="uppercase"
       fontSize="sm"
       fontWeight="semibold"
-      color={mode("gray.600", "gray.200")}
+      color={mode('gray.600', 'gray.200')}
     >
       {props.children}
     </Text>

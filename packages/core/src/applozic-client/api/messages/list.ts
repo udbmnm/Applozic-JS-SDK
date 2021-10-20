@@ -37,10 +37,8 @@ const sendMessageToUserBuilder = (
   applozicClient: BaseClient
 ): MessageListApi => {
   const sendMessageToUserApi: MessageListApi = async messageListRequest => {
-    const response: BaseResponse<MessageListRes> = await applozicClient.makeApiCall(
-      METHODS.GET,
-      ENDPOINT,
-      {
+    const response: BaseResponse<MessageListRes> =
+      await applozicClient.makeApiCall(METHODS.GET, ENDPOINT, {
         query: {
           ...messageListRequest,
           // Have to deal with numerical values separately
@@ -61,8 +59,7 @@ const sendMessageToUserBuilder = (
             : undefined
         },
         useAuth: true
-      }
-    );
+      });
     return response.response;
   };
   return sendMessageToUserApi;

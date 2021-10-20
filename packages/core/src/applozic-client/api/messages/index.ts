@@ -109,7 +109,7 @@ export interface MessagesApi {
    *  mainPageSize: 50, // Number of recent chats to load
    * });
    * ```
-   * 
+   *
    *
    * #### Get conversation with a user
    *
@@ -126,8 +126,8 @@ export interface MessagesApi {
    *  pageSize: 50
    * });
    * ```
-   * 
-   * 
+   *
+   *
    * #### Get conversation with a group
    *
    * ```typescript

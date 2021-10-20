@@ -1,4 +1,4 @@
-import React, { CSSProperties } from "react";
+import React, { CSSProperties } from 'react';
 import {
   Flex,
   Box,
@@ -19,14 +19,14 @@ import {
   useStyles,
   useTab,
   chakra,
-  TabProps,
-} from "@chakra-ui/react";
-import Photos, { PhotosProps } from "./Photos";
-import Links, { LinksProps } from "./Links";
-import Docs, { DocsProps } from "./Docs";
-import ScrollArea from "../ScrollArea";
-import Icon from "../Icon";
-import { AnimatePresence } from "framer-motion";
+  TabProps
+} from '@chakra-ui/react';
+import Photos, { PhotosProps } from './Photos';
+import Links, { LinksProps } from './Links';
+import Docs, { DocsProps } from './Docs';
+import ScrollArea from '../ScrollArea';
+import Icon from '../Icon';
+import { AnimatePresence } from 'framer-motion';
 
 export interface ISharedMedia {
   defaultTab?: TABS;
@@ -41,9 +41,9 @@ export interface ISharedMediaView extends ISharedMedia {
 }
 
 export enum TABS {
-  PHOTOS = "photos",
-  LINKS = "links",
-  DOCS = "docs",
+  PHOTOS = 'photos',
+  LINKS = 'links',
+  DOCS = 'docs'
 }
 
 interface IMediaTab extends TabProps {
@@ -70,8 +70,8 @@ const SharedMedia = ({
         {isFullView ? (
           <HStack
             justifyContent="space-between"
-            width={"full"}
-            boxShadow={"0px 4px 4px rgba(0, 0, 0, 0.08)"}
+            width={'full'}
+            boxShadow={'0px 4px 4px rgba(0, 0, 0, 0.08)'}
             pt={3}
             pb={3}
             pl={6}
@@ -99,9 +99,9 @@ const SharedMedia = ({
         )}
       </AnimatePresence>
 
-      <Tabs variant="unstyled" width={"full"}>
+      <Tabs variant="unstyled" width={'full'}>
         <TabList
-          backgroundColor={"#ebebec"}
+          backgroundColor={'#ebebec'}
           padding="4px"
           borderRadius="5px"
           justifyContent="space-between"
@@ -109,38 +109,38 @@ const SharedMedia = ({
           <Tab
             borderRadius="5px"
             flex={1}
-            fontWeight={"400"}
+            fontWeight={'400'}
             bg="transparent"
-            color={"textMain.300"}
+            color={'textMain.300'}
             padding={1}
-            fontSize={"13px"}
+            fontSize={'13px'}
             _selected={{
-              color: "textMain.500",
-              bg: "white",
-              fontWeight: "500",
+              color: 'textMain.500',
+              bg: 'white',
+              fontWeight: '500'
             }}
           >
             Photos
           </Tab>
           <Tab
             borderRadius="5px"
-            fontWeight={"400"}
+            fontWeight={'400'}
             flex={1}
             bg="transparent"
-            color={"textMain.300"}
+            color={'textMain.300'}
             padding={1}
-            fontSize={"13px"}
+            fontSize={'13px'}
             _selected={{
-              color: "textMain.500",
-              bg: "white",
-              fontWeight: "500",
+              color: 'textMain.500',
+              bg: 'white',
+              fontWeight: '500'
             }}
           >
             Documents
           </Tab>
         </TabList>
         <ScrollArea width="full">
-          <TabPanels maxHeight={isFullView ? "full" : "250px"} minW="300px">
+          <TabPanels maxHeight={isFullView ? 'full' : '250px'} minW="300px">
             <TabPanel>
               <Photos
                 photosList={photosProps?.photosList}

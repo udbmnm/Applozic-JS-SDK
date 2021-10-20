@@ -1,7 +1,7 @@
-import { TabList, Tabs, Divider, chakra } from "@chakra-ui/react";
-import React, { useMemo } from "react";
-import FeatureTabEnum from "../../models/Feature";
-import FeatureTab from "./FeatureTab";
+import { TabList, Tabs, Divider, chakra } from '@chakra-ui/react';
+import React, { useMemo } from 'react';
+import FeatureTabEnum from '../../models/Feature';
+import FeatureTab from './FeatureTab';
 
 export interface FeatureTabsProps {
   featureTabs: FeatureTabEnum[];
@@ -14,9 +14,9 @@ function FeatureTabs({
   featureTabs,
   onChange,
   userName,
-  userImageUrl,
+  userImageUrl
 }: FeatureTabsProps) {
-  const StyledTab = chakra("button", { themeKey: "Tabs.Tab" } as any);
+  const StyledTab = chakra('button', { themeKey: 'Tabs.Tab' } as any);
 
   const getCustomTab = (
     featureTab: FeatureTabEnum,
@@ -36,21 +36,21 @@ function FeatureTabs({
           </>
         );
       case FeatureTabEnum.RECENT_CHATS:
-        return <FeatureTab StyledTab={StyledTab} icon={"chat"} title="Chats" />;
+        return <FeatureTab StyledTab={StyledTab} icon={'chat'} title="Chats" />;
       case FeatureTabEnum.CONTACTS:
         return (
-          <FeatureTab StyledTab={StyledTab} icon={"user"} title="Contacts" />
+          <FeatureTab StyledTab={StyledTab} icon={'user'} title="Contacts" />
         );
       case FeatureTabEnum.GROUPS:
         return (
-          <FeatureTab StyledTab={StyledTab} icon={"group"} title="Groups" />
+          <FeatureTab StyledTab={StyledTab} icon={'group'} title="Groups" />
         );
     }
   };
   return (
     <Tabs
       orientation="vertical"
-      onChange={(index) => onChange(index)}
+      onChange={index => onChange(index)}
       overflowY="auto"
       height="full"
       defaultIndex={1}
@@ -62,7 +62,7 @@ function FeatureTabs({
         width="64px"
         alignItems="center"
       >
-        {featureTabs.map((tab) =>
+        {featureTabs.map(tab =>
           useMemo(() => getCustomTab(tab, userName, userImageUrl), [])
         )}
       </TabList>

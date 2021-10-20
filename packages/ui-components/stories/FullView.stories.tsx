@@ -4,8 +4,8 @@ import { Story } from "@storybook/react";
 import {
   FullViewWithoutBase as FullView,
   FullViewWithoutBaseProps as FullViewProps,
-} from "@applozic/ui-components";
-import { APPLICATION_ID, GIPHY_API_KEY, GOOGLE_MAPS_API_KEY } from "../config";
+} from "../src";
+import { APPLICATION_ID, GIPHY_API_KEY, GOOGLE_MAPS_API_KEY } from "./config";
 
 export default {
   title: "Views/FullView",

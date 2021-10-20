@@ -1,8 +1,8 @@
-import React from "react";
-import { ProvideApplozicClient } from "../../providers/useApplozicClient";
+import React from 'react';
+import { ProvideApplozicClient } from '../../providers/useApplozicClient';
 import FullViewAppWithLogin, {
-  FullViewWithLoginProps,
-} from "./FullViewWithLogin";
+  FullViewWithLoginProps
+} from './FullViewWithLogin';
 
 export interface FullViewWithoutBaseProps extends FullViewWithLoginProps {
   /**

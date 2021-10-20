@@ -48,16 +48,12 @@ const EmojiPicker = ({
   onGifSelected
 }: EmojiPickerProps) => {
   const [searchText, setSearchText] = React.useState(defaultSearchText ?? '');
-  const [
-    activeSmileyCategory,
-    setActiveSmileyCategory
-  ] = React.useState<EMOJI_CATEGORY>(defaultCategory ?? EMOJI_CATEGORY.SMILEYS);
-  const [
-    activeBottomCategory,
-    setActiveBottomCategory
-  ] = React.useState<BOTTOM_CATEGORIES>(
-    defaultBottomCategory ?? BOTTOM_CATEGORIES.SMILEYS
-  );
+  const [activeSmileyCategory, setActiveSmileyCategory] =
+    React.useState<EMOJI_CATEGORY>(defaultCategory ?? EMOJI_CATEGORY.SMILEYS);
+  const [activeBottomCategory, setActiveBottomCategory] =
+    React.useState<BOTTOM_CATEGORIES>(
+      defaultBottomCategory ?? BOTTOM_CATEGORIES.SMILEYS
+    );
 
   const onEmojiClick = (item: EmojiData) => {
     if (onEmojiSelected) {
@@ -132,10 +128,9 @@ const EmojiPicker = ({
     >
       <Box padding="12px">
         <InputGroup>
-          <InputLeftElement
-            pointerEvents="none"
-            children={<SearchIcon color="gray.300" />}
-          />
+          <InputLeftElement pointerEvents="none">
+            <SearchIcon color="gray.300" />
+          </InputLeftElement>
           <Input
             type="text"
             placeholder="Search"

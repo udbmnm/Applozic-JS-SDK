@@ -32,8 +32,8 @@ function GroupMembers({
       </HStack>
       <VStack width="full">
         {members &&
-          members?.map(member => (
-            <HStack justifyContent="space-between" width="full">
+          members?.map((member, key) => (
+            <HStack key={key} justifyContent="space-between" width="full">
               <Avatar
                 src={member.imageLink}
                 name={member.userName ?? member.email}

@@ -1,6 +1,6 @@
-import BaseClient, { METHODS } from "../../base";
+import BaseClient, { METHODS } from '../../base';
 
-const ENDPOINT = "/rest/ws/message/send";
+const ENDPOINT = '/rest/ws/message/send';
 
 interface SendMessageToTopicRes {
   messageKey: string;
@@ -26,15 +26,13 @@ export interface SendMessageToTopicApi {
 const sendMessageToTopicBuilder = (
   applozicClient: BaseClient
 ): SendMessageToTopicApi => {
-  const sendMessageToTopicApi: SendMessageToTopicApi = async (
-    messageRequest
-  ) => {
+  const sendMessageToTopicApi: SendMessageToTopicApi = async messageRequest => {
     const response: SendMessageToTopicRes = await applozicClient.makeApiCall(
       METHODS.POST,
       ENDPOINT,
       {
         data: messageRequest,
-        useAuth: true,
+        useAuth: true
       }
     );
     return response;

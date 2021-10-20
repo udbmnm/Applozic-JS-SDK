@@ -1,12 +1,12 @@
-import { AddIcon } from "@chakra-ui/icons";
-import { HStack, Text, Avatar } from "@chakra-ui/react";
-import { AnimationControls } from "framer-motion";
-import React, { useRef } from "react";
-import MotionBox from "../../MotionBox";
+import { AddIcon } from '@chakra-ui/icons';
+import { HStack, Text, Avatar } from '@chakra-ui/react';
+import { AnimationControls } from 'framer-motion';
+import React, { useRef } from 'react';
+import MotionBox from '../../MotionBox';
 
 function AddGroup({
   onClick,
-  controls,
+  controls
 }: {
   onClick: () => void;
   controls?: AnimationControls;
@@ -14,29 +14,29 @@ function AddGroup({
   return (
     <HStack
       cursor="pointer"
-      width={"100%"}
+      width={'100%'}
       onClick={onClick}
       spacing={2}
       mb={2}
-      display={"flex"}
+      display={'flex'}
       alignItems="center"
       justifyContent="center"
     >
       <Avatar
-        icon={<AddIcon color={"white"} />}
-        background={"primary.500"}
+        icon={<AddIcon color={'white'} />}
+        background={'primary.500'}
         height={9}
         width={9}
       />
       <MotionBox
         animate={controls}
         variants={{
-          open: { opacity: 1, visibility: "initial" },
-          closed: { opacity: 0, visibility: "hidden" },
+          open: { opacity: 1, visibility: 'initial' },
+          closed: { opacity: 0, visibility: 'hidden' }
         }}
-        transition={{ type: "tween" }}
+        transition={{ type: 'tween' }}
         flex={1}
-        display={"flex"}
+        display={'flex'}
         ml={2}
       >
         <Text fontSize="14px" color="textMain.700">

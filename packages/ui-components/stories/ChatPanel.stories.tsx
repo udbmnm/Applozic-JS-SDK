@@ -5,7 +5,7 @@ import {
   MessageStatus,
   ChatPanel,
   ChatPanelProps,
-} from "@applozic/ui-components";
+} from "../src";
 
 export default {
   title: "Components/ChatPanel",

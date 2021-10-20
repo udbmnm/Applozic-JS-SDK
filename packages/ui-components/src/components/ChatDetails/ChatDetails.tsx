@@ -1,27 +1,27 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState } from 'react';
 import {
   VStack,
   Box,
   Flex,
   Spacer,
   Divider,
-  useColorModeValue as mode,
-} from "@chakra-ui/react";
-import ChatDetailsMeta, { ChatDetailsMetaProps } from "./ChatDetailsMeta";
-import SharedMedia from "../SharedMedia";
-import { CloseLight } from "../../icons/Close";
-import PictureAndName from "./PictureAndName";
-import PrivacyAndSupport from "./PrivacyAndSupport";
-import MotionBox from "../MotionBox";
-import { IUpdateGroupDetailsRequest, Group, User } from "@applozic/core-sdk";
-import { ChatType, Message } from "../../models/chat";
-import ScrollArea from "../ScrollArea";
-import GroupMembers from "./GroupMembers";
-import { AnimatePresence } from "framer-motion";
-import AddMembers from "./GroupMembers/AddMembers";
-import { ModifyGroupMembers } from "../../hooks/mutations/useUpdateGroupMembers";
-import GroupOptions from "./GroupOptions";
-import { ISharedMedia } from "../SharedMedia/SharedMedia";
+  useColorModeValue as mode
+} from '@chakra-ui/react';
+import ChatDetailsMeta, { ChatDetailsMetaProps } from './ChatDetailsMeta';
+import SharedMedia from '../SharedMedia';
+import { CloseLight } from '../../icons/Close';
+import PictureAndName from './PictureAndName';
+import PrivacyAndSupport from './PrivacyAndSupport';
+import MotionBox from '../MotionBox';
+import { IUpdateGroupDetailsRequest, Group, User } from '@applozic/core-sdk';
+import { ChatType, Message } from '../../models/chat';
+import ScrollArea from '../ScrollArea';
+import GroupMembers from './GroupMembers';
+import { AnimatePresence } from 'framer-motion';
+import AddMembers from './GroupMembers/AddMembers';
+import { ModifyGroupMembers } from '../../hooks/mutations/useUpdateGroupMembers';
+import GroupOptions from './GroupOptions';
+import { ISharedMedia } from '../SharedMedia/SharedMedia';
 
 export interface ChatDetailProps {
   /**
@@ -89,12 +89,12 @@ const ChatDetails = ({
   onBlockClicked,
   onLeaveGroupClicked,
   onDeleteGroupClicked,
-  isAdmin,
+  isAdmin
 }: ChatDetailProps) => {
   const downloadFileFromUrl = (url: string, filename: string) => {
-    const tempLink = document.createElement("a");
+    const tempLink = document.createElement('a');
     tempLink.href = url;
-    tempLink.setAttribute("download", filename);
+    tempLink.setAttribute('download', filename);
     tempLink.click();
   };
 
@@ -102,16 +102,16 @@ const ChatDetails = ({
     const sharedMedia: ISharedMedia = {
       photosProps: {
         photosList: [],
-        onPhotoClick: (photo) => downloadFileFromUrl(photo.src, photo.id),
+        onPhotoClick: photo => downloadFileFromUrl(photo.src, photo.id)
       },
-      docsProps: { docs: [] },
+      docsProps: { docs: [] }
     };
-    messages?.forEach((message) => {
+    messages?.forEach(message => {
       if (message.file) {
         if (message.file?.thumbnailUrl) {
           sharedMedia?.photosProps?.photosList?.push({
             id: message.key,
-            src: message.file.thumbnailUrl,
+            src: message.file.thumbnailUrl
           });
         } else {
           if (message.file) {
@@ -169,28 +169,28 @@ const ChatDetails = ({
       height="full"
       padding={0}
       width="350px"
-      exit={{ x: "101%" }}
+      exit={{ x: '101%' }}
       transition={{
-        type: "tween",
+        type: 'tween'
       }}
       ml={2}
       animate={{ x: 0 }}
-      initial={{ x: "101%" }}
+      initial={{ x: '101%' }}
       borderRadius={15}
       borderWidth={mode(1, 0)}
       borderColor="#E9E9E9"
-      backgroundColor={mode("#FFFFFF", "#272528")}
+      backgroundColor={mode('#FFFFFF', '#272528')}
     >
       <AnimatePresence>
         {sharedMediaFullScreen && (
           <MotionBox
             zIndex={2}
-            width={"100%"}
+            width={'100%'}
             height="100%"
-            initial={{ y: "101%" }}
-            transition={{ type: "tween" }}
+            initial={{ y: '101%' }}
+            transition={{ type: 'tween' }}
             animate={{ y: 0 }}
-            exit={{ y: "101%" }}
+            exit={{ y: '101%' }}
           >
             <SharedMedia
               photosProps={sharedMedia?.photosProps}
@@ -205,25 +205,25 @@ const ChatDetails = ({
         {addMembers && (
           <MotionBox
             zIndex={2}
-            width={"100%"}
+            width={'100%'}
             height="100%"
-            initial={{ y: "101%" }}
-            transition={{ type: "tween" }}
+            initial={{ y: '101%' }}
+            transition={{ type: 'tween' }}
             animate={{ y: 0 }}
-            exit={{ y: "101%" }}
+            exit={{ y: '101%' }}
           >
             <AddMembers
               onClickCloseAddMembers={() => setaddMembers(false)}
               userContacts={userContacts}
               currentMembers={group?.memberUserKeys}
-              updateMemberList={(userIds) => onUpdateMembers(userIds)}
+              updateMemberList={userIds => onUpdateMembers(userIds)}
             />
           </MotionBox>
         )}
       </AnimatePresence>
       <AnimatePresence>
         {!addMembers && !sharedMediaFullScreen && (
-          <ScrollArea padding={5} width={"full"}>
+          <ScrollArea padding={5} width={'full'}>
             <VStack>
               <Flex width="100%">
                 <Spacer />
@@ -232,10 +232,10 @@ const ChatDetails = ({
                 </Box>
               </Flex>
 
-              <Box style={{ marginTop: "38px" }}>
+              <Box style={{ marginTop: '38px' }}>
                 <PictureAndName
-                  photoKey={"imageUrl"}
-                  nameKey={"newName"}
+                  photoKey={'imageUrl'}
+                  nameKey={'newName'}
                   photoUrl={imageUrl}
                   name={name}
                   isBlocked={isBlocked}
@@ -246,22 +246,22 @@ const ChatDetails = ({
                 />
               </Box>
 
-              <Divider color="#e9e9e9" style={{ marginTop: "20px" }} />
+              <Divider color="#e9e9e9" style={{ marginTop: '20px' }} />
 
               {metaProps && (
                 <>
-                  <Box width="100%" style={{ marginTop: "30px" }}>
+                  <Box width="100%" style={{ marginTop: '30px' }}>
                     <ChatDetailsMeta
                       items={metaProps?.items ? metaProps.items : []}
                     />
                   </Box>
-                  <Divider color="#e9e9e9" style={{ marginTop: "20px" }} />
+                  <Divider color="#e9e9e9" style={{ marginTop: '20px' }} />
                 </>
               )}
 
               {sharedMedia && (
                 <>
-                  <Box width="100%" style={{ marginTop: "20px" }}>
+                  <Box width="100%" style={{ marginTop: '20px' }}>
                     <SharedMedia
                       photosProps={sharedMedia?.photosProps}
                       docsProps={sharedMedia?.docsProps}
@@ -269,11 +269,11 @@ const ChatDetails = ({
                       toggleFullView={() => setSharedMediaFullScreen(true)}
                     />
                   </Box>
-                  <Divider color="#e9e9e9" style={{ marginTop: "20px" }} />
+                  <Divider color="#e9e9e9" style={{ marginTop: '20px' }} />
                 </>
               )}
               {type == ChatType.GROUP && (
-                <Box width="100%" style={{ marginTop: "20px" }}>
+                <Box width="100%" style={{ marginTop: '20px' }}>
                   <GroupMembers
                     adminId={group?.adminId as string}
                     members={groupMembers}
@@ -282,7 +282,7 @@ const ChatDetails = ({
                   />
                 </Box>
               )}
-              <Box width="100%" style={{ marginTop: "20px" }}>
+              <Box width="100%" style={{ marginTop: '20px' }}>
                 {type === ChatType.USER ? (
                   <PrivacyAndSupport
                     onChatClear={onChatClear}

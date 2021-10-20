@@ -1,4 +1,4 @@
-import { MessageStatus } from "../chat";
+import { MessageStatus } from '../chat';
 
 interface SidebarMeta {
   imageUrl?: string;

@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { HamburgerIcon, SearchIcon, WarningIcon } from "@chakra-ui/icons";
+import React, { useEffect, useState } from 'react';
+import { HamburgerIcon, SearchIcon, WarningIcon } from '@chakra-ui/icons';
 import {
   HStack,
   InputGroup,
   InputLeftElement,
   Input,
-  InputRightElement,
-} from "@chakra-ui/react";
-import MotionBox from "../MotionBox";
-import { AnimatePresence } from "framer-motion";
-import Icon from "../Icon";
+  InputRightElement
+} from '@chakra-ui/react';
+import MotionBox from '../MotionBox';
+import { AnimatePresence } from 'framer-motion';
+import Icon from '../Icon';
 
 export interface SearchProps {
   searchValue: string | undefined;
@@ -22,7 +22,7 @@ function Search({
   searchValue,
   setSearchValue,
   setCollapsed,
-  isCollapsed,
+  isCollapsed
 }: SearchProps) {
   return (
     <HStack alignItems="center" justifyContent="center" width="full">
@@ -37,20 +37,19 @@ function Search({
             width="full"
             variants={{
               open: { opacity: 1, flex: 1 },
-              closed: { opacity: 0, flex: 0 },
+              closed: { opacity: 0, flex: 0 }
             }}
-            transition={{ type: "tween" }}
+            transition={{ type: 'tween' }}
           >
             <InputGroup width="full">
-              <InputLeftElement
-                pointerEvents="none"
-                children={<Icon icon="search" color="gray.300" />}
-              />
+              <InputLeftElement pointerEvents="none">
+                <Icon icon="search" color="gray.300" />
+              </InputLeftElement>
               <Input
                 type="text"
                 placeholder="Search"
                 value={searchValue}
-                onChange={(e) =>
+                onChange={e =>
                   setSearchValue && setSearchValue(e.target.value.toString())
                 }
               />

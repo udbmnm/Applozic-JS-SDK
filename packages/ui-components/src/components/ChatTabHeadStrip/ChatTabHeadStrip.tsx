@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from 'react';
 import {
   Avatar,
   useColorModeValue as mode,
@@ -9,11 +9,11 @@ import {
   useStyles,
   useTab,
   TabProps,
-  Tabs,
-} from "@chakra-ui/react";
-import { CloseIcon } from "@chakra-ui/icons";
-import { getNameFromUser, getNameFromGroup } from "@applozic/core-sdk";
-import ActiveChat from "../../models/chat/ActiveChat";
+  Tabs
+} from '@chakra-ui/react';
+import { CloseIcon } from '@chakra-ui/icons';
+import { getNameFromUser, getNameFromGroup } from '@applozic/core-sdk';
+import ActiveChat from '../../models/chat/ActiveChat';
 
 export interface ChatTabHeadStripItem {
   text: string;
@@ -40,7 +40,7 @@ const ChatTabHeadStrip = ({
   onItemClick,
   onCloseClick,
   onDetailsClick,
-  detailOpenIndex,
+  detailOpenIndex
 }: ChatTabHeadStripProps) => {
   const handleClick = (index: number) => {
     if (onItemClick) {
@@ -65,14 +65,14 @@ const ChatTabHeadStrip = ({
       onDetailsClick(index);
     }
   };
-  const activeBg = mode("#FFFFFF", "#1B191D");
-  const inactiveBg = mode("#efefef", "#1B191D");
-  const StyledTab = chakra("button", { themeKey: "Tabs.Tab" } as any);
+  const activeBg = mode('#FFFFFF', '#1B191D');
+  const inactiveBg = mode('#efefef', '#1B191D');
+  const StyledTab = chakra('button', { themeKey: 'Tabs.Tab' } as any);
 
   const ChatTab = ({ activeChat, index, ...rest }: IChatTab) => {
     const tabProps = useTab(rest);
     const styles = useStyles();
-    let text = "";
+    let text = '';
     let imageUrl: string | undefined = undefined;
     if (activeChat?.user) {
       text = activeChat?.user
@@ -80,7 +80,7 @@ const ChatTabHeadStrip = ({
         : activeChat?.user.userId;
       imageUrl = activeChat?.user?.imageLink;
     } else {
-      text = activeChat?.group ? getNameFromGroup(activeChat?.group) : "";
+      text = activeChat?.group ? getNameFromGroup(activeChat?.group) : '';
       imageUrl = activeChat?.group?.imageUrl;
     }
     return (
@@ -94,30 +94,30 @@ const ChatTabHeadStrip = ({
         mr={activeChats && index !== activeChats.length - 1 ? 1 : 0}
         bg={openIndex == index ? activeBg : inactiveBg}
         opacity={openIndex == index ? 1 : 0.6}
-        onClick={(e) => handleClick(index)}
+        onClick={e => handleClick(index)}
       >
         <HStack
           display="flex"
-          h={"full"}
+          h={'full'}
           width="full"
           justifyContent="space-between"
         >
-          <HStack flex={"1 1 0"} display="flex">
+          <HStack flex={'1 1 0'} display="flex">
             <Avatar
               src={imageUrl}
               name={text}
-              size={"xs"}
+              size={'xs'}
               mr={1}
               zIndex={2}
-              onClick={(e) => {
+              onClick={e => {
                 handleDetails(index);
                 if (e.stopPropagation) e.stopPropagation();
               }}
             />
             <Text
               textOverflow="ellipsis"
-              color={"textMain.700"}
-              fontSize={"16px"}
+              color={'textMain.700'}
+              fontSize={'16px'}
               fontWeight="400"
               opacity={openIndex === index ? 1 : 0.6}
             >
@@ -126,9 +126,9 @@ const ChatTabHeadStrip = ({
           </HStack>
           <CloseIcon
             height={11}
-            color={"textMain.700"}
+            color={'textMain.700'}
             zIndex={2}
-            onClick={(e) => {
+            onClick={e => {
               handleClose(index);
               if (e.stopPropagation) e.stopPropagation();
             }}
@@ -141,18 +141,19 @@ const ChatTabHeadStrip = ({
 
   return (
     <TabList
-      w={"full"}
+      w={'full'}
       overflowX="auto"
       border="none"
       sx={{
-        "&::-webkit-scrollbar": {
-          display: "none",
-        },
+        '&::-webkit-scrollbar': {
+          display: 'none'
+        }
       }}
     >
       {activeChats?.map((chat, index) => {
         return (
           <ChatTab
+            key={index}
             borderTopLeftRadius={15}
             borderTopRightRadius={15}
             borderColor="#E9E9E9"

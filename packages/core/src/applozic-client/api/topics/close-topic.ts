@@ -1,6 +1,6 @@
-import BaseClient, { BaseResponse, METHODS } from "../../base";
+import BaseClient, { BaseResponse, METHODS } from '../../base';
 
-const ENDPOINT = "/rest/ws/conversation/closeall";
+const ENDPOINT = '/rest/ws/conversation/closeall';
 
 interface SendMessageReq {
   // unique topic id of the conversation
@@ -13,18 +13,14 @@ export interface CloseTopicApi {
   (messageRequest: SendMessageReq): Promise<BaseResponse<string>>;
 }
 
-const closeTopicBuilder = (
-  applozicClient: BaseClient
-): CloseTopicApi => {
-  const closeTopicApi: CloseTopicApi = async (
-    messageRequest
-  ) => {
+const closeTopicBuilder = (applozicClient: BaseClient): CloseTopicApi => {
+  const closeTopicApi: CloseTopicApi = async messageRequest => {
     const response: BaseResponse<string> = await applozicClient.makeApiCall(
       METHODS.GET,
       ENDPOINT,
       {
         query: { ...messageRequest },
-        useAuth: true,
+        useAuth: true
       }
     );
     return response;

@@ -1,6 +1,9 @@
 import { Message } from '../models/chat';
 
-export const mergeMessages = (fetchMessages: Message[], cacheMessages: Message[]) => {
+export const mergeMessages = (
+  fetchMessages: Message[],
+  cacheMessages: Message[]
+) => {
   const finalKeysSet = new Set<string>();
 
   const webUiKeysFromFetchSet = new Set<string>();

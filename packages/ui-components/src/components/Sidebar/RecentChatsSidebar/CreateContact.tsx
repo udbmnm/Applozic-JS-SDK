@@ -1,4 +1,4 @@
-import { CloseIcon } from "@chakra-ui/icons";
+import { CloseIcon } from '@chakra-ui/icons';
 import {
   HStack,
   VStack,
@@ -7,12 +7,12 @@ import {
   Center,
   Divider,
   Box,
-  Spinner,
-} from "@chakra-ui/react";
-import React, { useState } from "react";
-import { useApplozicClient } from "../../../providers/useApplozicClient";
-import Button from "../../Button";
-import Input from "../../Input";
+  Spinner
+} from '@chakra-ui/react';
+import React, { useState } from 'react';
+import { useApplozicClient } from '../../../providers/useApplozicClient';
+import Button from '../../Button';
+import Input from '../../Input';
 
 interface ICreateContact {
   onClickCloseCreateContact: () => void;
@@ -21,7 +21,7 @@ interface ICreateContact {
 
 function CreateContact({
   onClickCloseCreateContact,
-  onClickCreateContact,
+  onClickCreateContact
 }: ICreateContact) {
   const [contactName, setContactName] = useState<string | undefined>(undefined);
 
@@ -29,10 +29,10 @@ function CreateContact({
     <VStack>
       <HStack
         justifyContent="space-between"
-        display={"flex"}
-        width={"100%"}
+        display={'flex'}
+        width={'100%'}
         flex={1}
-        boxShadow={"0px 4px 4px rgba(0, 0, 0, 0.08)"}
+        boxShadow={'0px 4px 4px rgba(0, 0, 0, 0.08)'}
         pt={3}
         pb={3}
         pl={6}
@@ -43,21 +43,21 @@ function CreateContact({
       </HStack>
       <Box p={3}>
         <Input
-          width={"full"}
-          placeholder={"Enter Contact Name"}
-          onChange={(e) => setContactName(e.target.value)}
+          width={'full'}
+          placeholder={'Enter Contact Name'}
+          onChange={e => setContactName(e.target.value)}
         />
       </Box>
       <Button
-        pos={"absolute"}
+        pos={'absolute'}
         bottom={0}
         w="full"
         borderTopRadius={0}
         borderBottomRadius={10}
-        bgColor={"primary.500"}
-        color={"white"}
+        bgColor={'primary.500'}
+        color={'white'}
         disabled={!contactName}
-        label={"Create Contact"}
+        label={'Create Contact'}
         onClick={() => {
           if (onClickCreateContact && contactName) {
             onClickCreateContact(contactName);
