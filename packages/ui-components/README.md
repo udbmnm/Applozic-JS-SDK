@@ -260,4 +260,11 @@ function App() {
 
 
 
-### Sidebar
+### ChatPanel
+
+#### Usage
+
+
+### ChatDetails
+
+#### Usage
