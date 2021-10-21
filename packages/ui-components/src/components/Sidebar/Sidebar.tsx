@@ -12,28 +12,39 @@ import ContactsSidebar from './ContactsSidebar/ContactsSidebar';
 import { User } from '@applozic/core-sdk';
 import SelfDetails, { SelfDetailProps } from './SelfDetails/SelfDetails';
 import { Divider, useColorModeValue as mode } from '@chakra-ui/react';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, useAnimation } from 'framer-motion';
 import MotionBox from '../MotionBox';
 import ScrollArea from '../ScrollArea';
 import Search, { SearchProps } from './Search';
-import { AnimationControls } from 'framer-motion';
 
 export interface SidebarProps {
+  /** currently selected FeatureTab */
   selectedFeatureTab: FeatureTab;
+  /** Properties to handle the search action */
   search: SearchProps;
+  /** Properties to handle the logged in user's detail page */
   selfDetails: SelfDetailProps;
+  /** List of `RecentChat` items */
   recentChats: RecentChat[] | undefined;
+  /** List of all the users which are the logged in user's contact list */
   users: User[] | undefined;
+  /** `true` if the sidebar is in collapsed state */
+  isCollapsed: boolean;
+  /** Callback to handle group creation */
   onCreateGroup: (newGroup: INewGroup) => void | Promise<void>;
+  /** Callback to handle clearing a given conversation */
   onClearConversation: (
     chatType: ChatType,
     contactId: string
   ) => void | Promise<void>;
+  /** Callback to handle item click */
   handleItemClick: (type: ChatType, contactId: string) => void | Promise<void>;
-  fetchNextRecentChats: () => void;
+  /** Callback to handle fetching more contacts when the bottom of a long list comes into view */
+  fetchNextRecentChats: () => void | Promise<void>;
+  /** `true` if next page of the recent chats is being fetched */
   isFetchingNextRecentChatsPage: boolean;
+  /** [Optional] Callback to handle creation of new contact */
   onCreateContact?: (contactName: string) => void | Promise<void>;
-  controls?: AnimationControls;
 }
 
 function Sidebar({
@@ -42,21 +53,21 @@ function Sidebar({
   selfDetails,
   recentChats,
   users,
+  isCollapsed,
   isFetchingNextRecentChatsPage,
-  controls,
   onCreateGroup: onClickCreateGroup,
   onCreateContact: onClickCreateContact,
   onClearConversation: onClickClearConversation,
   fetchNextRecentChats,
   handleItemClick
 }: SidebarProps) {
+  const controls = useAnimation();
+  useEffect(() => {
+    controls.start(isCollapsed ? 'closed' : 'open');
+  }, [isCollapsed]);
+
   const [showAddGroup, setShowAddGroup] = useState(false);
   const [showAddContact, setShowAddContact] = useState(false);
-  // const [showOverlay, setShowOverlay] = useState(false);
-
-  // useEffect(() => {
-  //   setShowOverlay(showAddGroup || showAddContact);
-  // }, [showAddGroup, showAddContact]);
 
   if (FeatureTab.USER === selectedFeatureTab)
     return <SelfDetails {...selfDetails} />;

@@ -18,12 +18,17 @@ import ScrollArea from '../../ScrollArea';
 import SelfOptions from './SelfOptions';
 
 export interface SelfDetailProps {
+  /** name of logged in user */
   name: string;
+  /** image url of the logged in user */
   imageUrl?: string;
+  /** a list of ChatDetail metadata like email, phone number */
   metaProps?: ChatDetailsMetaProps;
-
+  /** Callback to handle the close action */
   onCloseClicked: () => void | Promise<void>;
+  /** Callback to handle the logout action */
   onLogOutClicked: () => void | Promise<void>;
+  /** Callback to handle update of any of the properties of the user eg: name, image etc */
   onUpdateValue: (
     key: string,
     value: string | undefined

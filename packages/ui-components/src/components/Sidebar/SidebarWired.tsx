@@ -5,7 +5,7 @@ import { ChatType, RecentChat } from '../../models/chat';
 import Sidebar from './Sidebar';
 import useCreateGroup from '../../hooks/mutations/useCreateGroup';
 // import useCreateNewContact from "../../hooks/mutations/useCreateNewContact";
-import { useQuery, useQueryClient } from 'react-query';
+import { useQueryClient } from 'react-query';
 import {
   getNameFromGroup,
   getNameFromUser,
@@ -21,7 +21,6 @@ import useSidebar from '../../hooks/useSidebar';
 import FeatureTab from '../../models/Feature';
 import useGetUserContacts from '../../hooks/queries/useGetContacts';
 import useGetRecentChats from '../../hooks/queries/useGetRecentChats';
-import { useAnimation } from 'framer-motion';
 
 const hasSubString = (a: string, b: string) =>
   a.toLowerCase().indexOf(b.toLowerCase()) >= 0;
@@ -158,13 +157,21 @@ function SidebarWired() {
   // const { mutate: mutateNewContact } = useCreateNewContact();
   const { mutate: updateSelf } = useUpdateSelfInfo();
   const { mutate: logoutUser } = useUserLogout();
-  const controls = useAnimation();
-  useEffect(() => {
-    controls.start(sidebarCollapsed ? 'closed' : 'open');
-  }, [sidebarCollapsed]);
 
   return (
     <Sidebar
+      selectedFeatureTab={activeTab}
+      isCollapsed={sidebarCollapsed}
+      recentChats={recentChats}
+      users={users}
+      search={{
+        searchValue: searchQuery,
+        setSearchValue: setSearchQuery,
+        setCollapsed: setSidebarCollapsed,
+        isCollapsed: sidebarCollapsed
+      }}
+      isFetchingNextRecentChatsPage={isFetchingNextRecentChatsPage}
+      fetchNextRecentChats={() => fetchNextRecentChats()}
       selfDetails={{
         name: self ? getNameFromUser(self) : '',
         imageUrl: self?.imageLink,
@@ -177,18 +184,6 @@ function SidebarWired() {
           updateSelf({ [key]: value });
         }
       }}
-      selectedFeatureTab={activeTab}
-      controls={controls}
-      recentChats={recentChats}
-      users={users}
-      search={{
-        searchValue: searchQuery,
-        setSearchValue: setSearchQuery,
-        setCollapsed: setSidebarCollapsed,
-        isCollapsed: sidebarCollapsed
-      }}
-      isFetchingNextRecentChatsPage={isFetchingNextRecentChatsPage}
-      fetchNextRecentChats={() => fetchNextRecentChats()}
       handleItemClick={(type, contactId) => {
         let user: User | undefined, group: Group | undefined;
         if (type == ChatType.GROUP) {

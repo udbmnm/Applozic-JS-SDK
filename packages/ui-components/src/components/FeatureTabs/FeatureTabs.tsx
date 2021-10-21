@@ -4,9 +4,13 @@ import FeatureTabEnum from '../../models/Feature';
 import FeatureTab from './FeatureTab';
 
 export interface FeatureTabsProps {
+  /** List of Features to enable this decides which of the sidebars will be accessible by the user */
   featureTabs: FeatureTabEnum[];
+  /** Callback to handle the change of index in the tabs */
   onChange: (index: number) => void;
+  /** the name of the logged in use to show in the tabs */
   userName: string;
+  /** the image url of the logged in user to show in the tabs */
   userImageUrl?: string;
 }
 

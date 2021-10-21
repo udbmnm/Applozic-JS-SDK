@@ -30,15 +30,15 @@ const applozicQueryClient = new QueryClient({
 
 export interface BaseProps {
   /**
-   * The colorMode of the UI Application
+   * Set the default theme of the UI components
    */
   colorMode?: 'light' | 'dark';
   /**
-   * Decide if the user's system color mode is being used fo the Application UI
+   * Use the user's system level theme to decide if the UI components should be `light` or `dark`
    */
   useSystemColorMode?: boolean;
 
-  /** The envrionment in which to initialize the FullView */
+  /** The envrionment in which to initialize the UI, hides the [react query devtools](https://react-query.tanstack.com/devtools) in production mode */
   environment?: 'development' | 'production';
 }
 
@@ -91,9 +91,9 @@ function ProvideBase({
         <Global styles={GlobalStyles} />
         {children}
       </ChakraProvider>
-      {/* {environment === "development" && (
+      {environment === "development" && (
         <ReactQueryDevtools initialIsOpen={false} />
-      )} */}
+      )}
     </QueryClientProvider>
   );
 }

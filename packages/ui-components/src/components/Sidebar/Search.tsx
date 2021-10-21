@@ -12,10 +12,14 @@ import { AnimatePresence } from 'framer-motion';
 import Icon from '../Icon';
 
 export interface SearchProps {
+  /** Search query to filter the sidebar items */
   searchValue: string | undefined;
+  /** Callback to update the search query */
   setSearchValue: (query: string) => void;
-  setCollapsed: (state: boolean) => void;
+  /** The current collapsed state of the sidebar */
   isCollapsed: boolean;
+  /** Callback to toggle the collapsed or expanded state of the sidebar */
+  setCollapsed: (state: boolean) => void;
 }
 
 function Search({

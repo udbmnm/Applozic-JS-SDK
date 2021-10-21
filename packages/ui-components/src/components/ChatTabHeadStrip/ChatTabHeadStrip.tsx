@@ -26,7 +26,6 @@ export interface ChatTabHeadStripProps {
   onItemClick?: (index: number) => void;
   onCloseClick?: (index: number) => void;
   onDetailsClick?: (index: number) => void;
-  detailOpenIndex: number;
 }
 
 interface IChatTab extends TabProps {
@@ -39,8 +38,7 @@ const ChatTabHeadStrip = ({
   openIndex,
   onItemClick,
   onCloseClick,
-  onDetailsClick,
-  detailOpenIndex
+  onDetailsClick
 }: ChatTabHeadStripProps) => {
   const handleClick = (index: number) => {
     if (onItemClick) {

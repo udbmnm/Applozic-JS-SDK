@@ -6,9 +6,5 @@ export enum ChatType {
   /**
    * a group chat
    */
-  GROUP = 'group',
-  /**
-   * chat with own account
-   */
-  SELF = 'self'
+  GROUP = 'group'
 }

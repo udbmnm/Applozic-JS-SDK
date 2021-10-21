@@ -9,9 +9,9 @@ export interface FullViewWithoutBaseProps extends FullViewWithLoginProps {
    * The Applozic Application ID as provided after onboarding
    */
   applicationId: string;
-  /** GIPHY API Key */
+  /** GIPHY API Key to enable sending GIFs */
   giphyApiKey?: string;
-  /** Google Maps API Key */
+  /** Google Maps API Key to enable sending Geo Location */
   gMapsApiKey?: string;
 }
 
