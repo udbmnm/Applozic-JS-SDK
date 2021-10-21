@@ -32,16 +32,24 @@ export interface ChatDetailProps {
    * title of chat details
    */
   title: string;
+  /** the image url of the details page */
   imageUrl: string;
+  /** `true` if the user is blocked by the logged in user */
   isBlocked?: boolean;
+  /** `true` if the logged in user is the admin of a group */
   isAdmin: boolean;
-
+  /** list of `Message` items used to fetch the media items */
   messages: Message[] | undefined;
+  /** a list of meta data information about the chat eg: email, phone_number etc  */
   metaProps?: ChatDetailsMetaProps;
+  /** The group object */
   group?: Group;
+  /** The list of User that are members of the group */
   groupMembers?: User[];
+  /** The list of User contacts of the logged in user which will be used to add memebers to a group */
   userContacts?: User[];
 
+  /** function to update the member list with the onSuccess callback */
   updateMemberList?: (
     userIds: string[],
     onSuccess:
@@ -52,7 +60,7 @@ export interface ChatDetailProps {
         ) => void | Promise<unknown>)
       | undefined
   ) => void | Promise<void>;
-
+  /** function to update the group info with the onSuccess callback */
   updateGroupInfo: (
     options: IUpdateGroupDetailsRequest,
     onSuccess?:
@@ -63,10 +71,15 @@ export interface ChatDetailProps {
         ) => void | Promise<unknown>)
       | undefined
   ) => void | Promise<void>;
-  onLeaveGroupClicked: () => void;
-  onDeleteGroupClicked: () => void;
+  /** callback to handle leaving a group */
+  onLeaveGroupClicked: () => void | Promise<void>;
+  /** callback to delete a group */
+  onDeleteGroupClicked: () => void | Promise<void>;
+  /** callback to handle closing the details component */
   onCloseClicked: () => void | Promise<void>;
+  /** callback to handle clearing the chat */
   onChatClearClicked: () => void | Promise<void>;
+  /** callback to handle blocking the chat with a user */
   onBlockClicked: () => void | Promise<void>;
   // onReportClicked: () => void | Promise<void>;
   // onNotificationToggle: (value: boolean) => void | Promise<void>;
