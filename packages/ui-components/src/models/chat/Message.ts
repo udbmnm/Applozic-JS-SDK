@@ -16,7 +16,7 @@ interface Message {
    */
   isReply: boolean;
   /**
-   * The timestamp of
+   * The sent timestamp of the message
    */
   timeStamp: Date;
   /**
@@ -24,7 +24,7 @@ interface Message {
    */
   fromUserId: string;
   /**
-   * The
+   * The message status
    */
   status?: MessageStatus;
   /**
@@ -32,7 +32,7 @@ interface Message {
    */
   reactions?: Array<Reaction>;
   /**
-   * The metadata of an attached file refer to FileMeta from the @applozic/core-sdk
+   * The metadata of an attached file refer to [FileMeta](https://websdk.applozic.com/docs/latest/interfaces/FileMeta.html)
    */
   file?: FileMeta;
   /**

@@ -8,9 +8,11 @@ import MotionBox from '../MotionBox';
 import ChatStatusBar, { ChatStatusBarProps } from '../ChatStatusBar';
 
 export interface ChatPanelProps
-  extends ChatWindowProps,
+  extends ChatStatusBarProps,
+    ChatWindowProps,
     Omit<SendMessageProps, 'handleSend'>,
     ChatStatusBarProps {
+  /** handle sending file and text */
   handleSendFileAndText: (
     text: string,
     fileMeta?: FileMeta | undefined
@@ -36,7 +38,7 @@ function ChatPanel({
   onMessageDelete,
   onFileSelected,
   onSendLocation
-}: ChatPanelProps & ChatWindowProps & ChatStatusBarProps & SendMessageProps) {
+}: ChatPanelProps) {
   const [fileMeta, setFileMeta] = useState<FileMeta | undefined>();
 
   useEffect(() => {

@@ -87,8 +87,6 @@ function App() {
 ## Components
 ### FeatureTabs
 The component to handle the side/bottom tabs and control the active sidebar component. This also gives the developer control over which features should be accessible to the logged in user.
-You can test out the live version with the [interactive storybook](https://ui-storybook.applozic.com/?path=/docs/components-featuretabs--default)
-
 
 #### Usage
 The below `enum` will be needed to initialize and maintain your own implementation of `FeatureTabs`.
@@ -130,13 +128,7 @@ function App() {
 
 ##### Customization
 
-| Property     | Type                      | Description                                                                                  |
-| ------------ | ------------------------- | -------------------------------------------------------------------------------------------- |
-| featureTabs  | `Array<FeatureTab>`       | List of Features to enable this decides which of the sidebars will be accessible by the user |
-| featureTabs  | `Array<FeatureTab>`       | List of Features to enable this decides which of the sidebars will be accessible by the user |
-| onChange     | `(index: number) => void` | Callback to handle the change of index in the tabs                                           |
-| userName     | `string`                  | the name of the logged in use to show in the tabs                                            |
-| userImageUrl | optional - `string`       | the image url of the logged in user to show in the tabs                                      |
+You can test out the live version of the component and refer to details on customisation in the [interactive storybook](https://ui-storybook.applozic.com/?path=/docs/components-featuretabs--default)
 
 
 ### Sidebar
@@ -157,13 +149,13 @@ The type of chats available
 
 ##### `interface` RecentChat
 Defines an item in the sidebar
-| Variable        | Type              | Description                                                                                                                    |
-| --------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| contactId       | `string`          | The unique identifier for the contact **`user.userId`** for `ChatType.USER` and **`group.clientGroupId`** for `ChatType.GROUP` |
-| chatType        | `ChatType`        | The enum value defining the type of chat                                                                                       |
-| imageUrl        | optional `string` | The image URL for the specific chat                                                                                            |
-| lastMessageKey  | `string`          | The unique identifier for the last message in this chat                                                                        |
-| lastMessageTime | `number`          | The numeric timestamp of the last message in this chat                                                                         |
+| Variable        | Type              | Description                                                                                                                                                                                                                                                              |
+| --------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| contactId       | `string`          | The unique identifier for the contact [user.userId](https://websdk.applozic.com/docs/latest/interfaces/User.html#userId) for `ChatType.USER` and [group.clientGroupId](https://websdk.applozic.com/docs/latest/interfaces/Group.html#clientGroupId) for `ChatType.GROUP` |
+| chatType        | `ChatType`        | The enum value defining the type of chat                                                                                                                                                                                                                                 |
+| imageUrl        | optional `string` | The image URL for the specific chat                                                                                                                                                                                                                                      |
+| lastMessageKey  | `string`          | The unique identifier for the last message in this chat                                                                                                                                                                                                                  |
+| lastMessageTime | `number`          | The numeric timestamp of the last message in this chat                                                                                                                                                                                                                   |
 
 ##### `interface` [User](https://websdk.applozic.com/docs/latest/interfaces/User.html)
 Can be imported from to the `@applozic/core-sdk` 
@@ -224,7 +216,12 @@ function App() {
 ```
 
 ##### Customization
-###### SearchProps
+
+###### SidebarProps
+You can test out the live version of the component and refer to details on customisation in the [interactive storybook](https://ui-storybook.applozic.com/?path=/docs/components-featuretabs--default)
+
+
+###### SearchProps : `search`
 | Property       | Type                       | Description                                                       |
 | -------------- | -------------------------- | ----------------------------------------------------------------- |
 | searchValue    | `string | undefined`       | Search query to filter the sidebar items                          |
@@ -232,7 +229,8 @@ function App() {
 | isCollapsed    | `boolean`                  | The current collapsed state of the sidebar                        |
 | setCollapsed   | `(state: boolean) => void` | Callback to toggle the collapsed or expanded state of the sidebar |
 
-###### SelfDetailProps
+
+###### SelfDetailProps : `selfDetails`
 | Property        | Type                                                                             | Description                                                                        |
 | --------------- | -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
 | name            | `string`                                                                         | name of logged in user                                                             |
@@ -242,27 +240,90 @@ function App() {
 | onLogOutClicked | `() => void | Promise<void>`                                                     | Callback to handle the logout action                                               |
 | onUpdateValue   | `(key: string, value: string | undefined ) => void | Promise<void>`              | Callback to handle update of any of the properties of the user eg: name, image etc |
 
-###### SidebarProps
-| Property                      | Type                                                                                      | Description                                                                              |
-| ----------------------------- | ----------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| selectedFeatureTab            | `FeatureTab`                                                                              | currently selected `FeatureTab` to decide the type of sidebar to show                    |
-| search                        | `SearchProps`                                                                             | Properties to handle the search action                                                   |
-| selfDetails                   | `SelfDetailProps`                                                                         | Properties to handle the logged in user's detail page                                    |
-| recentChats                   | `RecentChat[] | undefined`                                                                | List of `RecentChat` items                                                               |
-| users                         | `User[] | undefined`                                                                      | List of all the users which are the logged in user's contact list                        |
-| isCollapsed                   | `boolean`                                                                                 | `true` if the sidebar is in collapsed state                                              |
-| onCreateGroup                 | `(newGroup: INewGroup) => void | Promise<void>`                                           | Callback to handle group creation                                                        |
-| onClearConversation           | `(chatType: ChatType, contactId: string) => void | Promise<void>`                         | Callback to handle clearing a given conversation                                         |
-| handleItemClick               | `(type: ChatType, contactId: string) => void | Promise<void>`                             | Callback to handle item click                                                            |
-| fetchNextRecentChats          | `() => void | Promise<void>`                                                              | Callback to handle fetching more contacts when the bottom of a long list comes into view |
-| isFetchingNextRecentChatsPage | `boolean`                                                                                 | `true` if next page of the recent chats is being fetched                                 |
-| onCreateContact               | `(contactName: string) => void                                     | Promise<void>      ` | ***Optional :*** Callback to handle creation of new contact                              |
-
 
 
 ### ChatPanel
+Build your custom implementation of the ChatPanel UI.
+This component includes:
+1. User Presence Component
+2. Chat Messages Window
+   1. Message information and status
+   2. Pagination
+   3. Group chat meta data
+   4. Hover actions
+      1. Delete chat
+3. Send Message
+   1. Attachments
+   2. GIFs
+   3. Geo-Location
+   4. Audio Recording
 
 #### Usage
+The below `interface(s)` and `enum` will be needed to initialize and maintain your own implementation of the `Sidebar`.
+
+##### `interface` Message
+| Property    | Type                 | Description                                                                                                            |
+| ----------- | -------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| key         | `string`             | An unique identifier for the message                                                                                   |
+| messageText | `string`             | The text content of the message                                                                                        |
+| messageText | `string`             | The text content of the message                                                                                        |
+| isReply     | `boolean`            | Is this message sent by the logged in user?                                                                            |
+| timeStamp   | `Date`               | The sent timestamp of the message                                                                                      |
+| fromUserId  | `string`             | The userId of the sender                                                                                               |
+| status      | `MessageStatus`      | The status of the particular message                                                                                   |
+| reactions   | `UNUSED`             | UNUSED                                                                                                                 |
+| file        | `FileMeta`           | The metadata of an attached file refer to [FileMeta](https://websdk.applozic.com/docs/latest/interfaces/FileMeta.html) |
+| contentType | `MessageContentType` | The contentType of a message which defines the overall behaviour                                                       |
+
+
+
+##### `interface` ActiveChat
+
+
+##### Example
+```Typescript
+
+const function App(){
+   return(
+      <ChatPanel
+         self={self}
+         messages={messages}
+         activeChat={activeChat}
+         handleTyping={typing => {
+            // handle the typing action in the message box
+         }}
+         clearUnreadNotifications={() => {
+            // handle clearing all unread notification on window mount
+         }}
+         onSendLocation={position => {
+               // handle sending a location message
+         }}
+         onFileSelected={()=>
+            // `File` object for upload/other actions after selection
+         }
+         fetchNextPage={() => {
+         // handle fetching the next page when the last message reaches the top of the screen.
+         }}
+         isFetchingNextPage={'true|false'}
+         hasNextPage={'true|false'}
+         handleSendFile={async file => {
+         // handle sending only file.
+         }}
+         onMessageDelete={(message, deleteForAll) => {
+         // handle deletion of message on selection from the hover dropdown
+         }}
+         handleSendFileAndText={(text, fileMeta) => {
+            // handle sending file and text from the message box
+         }}
+    />)
+}
+
+```
+
+##### Customization
+You can test out the live version of the component and refer to details on customisation in the [interactive storybook](https://ui-storybook.applozic.com/?path=/docs/components-chatpanel--chat-panel-idle)
+
+
 
 
 ### ChatDetails

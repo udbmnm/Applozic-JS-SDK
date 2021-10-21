@@ -22,16 +22,27 @@ import ActiveChat, {
 import { User } from '@applozic/core-sdk';
 
 export interface ChatWindowProps {
-  activeChat: ActiveChat;
-  self: User | null | undefined;
-  fetchNextPage: () => void;
-  isFetchingNextPage: boolean;
-  hasNextPage: boolean | undefined;
-  clearUnreadNotifications: () => void;
-  hasAttachment?: boolean;
-  messages?: Message[];
+  /** GIPHY API Key to enable sending GIFs */
   giphyApiKey?: string;
+  /** Google Maps API Key to enable sending Geo Location */
   gMapsApiKey?: string;
+  /** The active selected chat to be shown in the window */
+  activeChat: ActiveChat;
+  /** The [User](https://websdk.applozic.com/docs/latest/interfaces/User.html) object of the logged in user */
+  self: User | null | undefined;
+  /** `true` if an attachment is uploaded successfully */
+  hasAttachment?: boolean;
+  /** Array list of `Message` sorted in reverse chronological order */
+  messages?: Message[];
+  /** callback to handle fetching the next page of messages */
+  fetchNextPage: () => void;
+  /** `true` if the next page is being fetched */
+  isFetchingNextPage: boolean;
+  /** `true` there are more messages to be fetched */
+  hasNextPage: boolean | undefined;
+  /** callback to clear all unread notifications when the window is mounted */
+  clearUnreadNotifications: () => void;
+  /** callback to handle deletion of message */
   onMessageDelete?: (message: Message, deleteForAll?: boolean) => void;
 }
 
@@ -53,8 +64,9 @@ function ChatWindow({
     clearUnreadNotifications();
   }, []);
 
-  const { contactName, contactImageUrl } =
-    getContactNameAndImageFromActiveChat(activeChat);
+  const { contactName, contactImageUrl } = getContactNameAndImageFromActiveChat(
+    activeChat
+  );
 
   useEffect(() => {
     if (elementRef?.current) {
@@ -64,11 +76,7 @@ function ChatWindow({
       });
     }
   }, [elementRef, messages]);
-  const {
-    ref: oldestMessage,
-    inView,
-    entry
-  } = useInView({
+  const { ref: oldestMessage, inView, entry } = useInView({
     /* Optional options */
     threshold: 0,
     initialInView: false

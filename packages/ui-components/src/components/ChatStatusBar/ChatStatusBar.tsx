@@ -21,8 +21,11 @@ import {
 } from '../../time-utils';
 
 export interface ChatStatusBarProps {
+  /** `true` if user is online */
   isOnline?: boolean;
+  /** `true` if user is typing */
   isTyping?: boolean;
+  /** The `Date` of the timestamp of last seen message by the user */
   lastSeen?: Date;
 }
 

@@ -21,15 +21,25 @@ import Icon from '../Icon';
 import ReactWaves from '@dschoon/react-waves';
 
 export interface SendMessageProps {
+  /** GiphyAPI Key to enable sending GIFs */
   giphyApiKey?: string;
+  /** Google Maps API Key to enable sending GeoLocation */
   gMapsApiKey?: string;
+  /** is `true` if a message is being sent */
   isSending?: boolean;
+  /** The reponse object of the file upload action [FileMeta](https://websdk.applozic.com/docs/latest/interfaces/FileMeta.html) */
   attachment?: FileMeta;
+  /** callback to handle sending text message  */
   handleSend?: (text: string) => void;
+  /** callback to handle sending file attachment  */
   handleSendFile?: (file: File) => void;
+  /** callback to handle the typing action in the messagebox  */
   handleTyping?: (isTyping: boolean) => void;
+  /** callback to handle `File` object for upload/other actions after selection  */
   onFileSelected?: (file: File) => Promise<FileMeta | undefined>;
+  /** callback to discarding an attached file  */
   onFileDiscarded?: () => void | Promise<void>;
+  /** callback to discarding an attached file  */
   onSendLocation?: (location: Coords) => void | Promise<void>;
 }
 
