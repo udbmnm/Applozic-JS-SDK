@@ -64,9 +64,8 @@ function ChatWindow({
     clearUnreadNotifications();
   }, []);
 
-  const { contactName, contactImageUrl } = getContactNameAndImageFromActiveChat(
-    activeChat
-  );
+  const { contactName, contactImageUrl } =
+    getContactNameAndImageFromActiveChat(activeChat);
 
   useEffect(() => {
     if (elementRef?.current) {
@@ -76,7 +75,11 @@ function ChatWindow({
       });
     }
   }, [elementRef, messages]);
-  const { ref: oldestMessage, inView, entry } = useInView({
+  const {
+    ref: oldestMessage,
+    inView,
+    entry
+  } = useInView({
     /* Optional options */
     threshold: 0,
     initialInView: false

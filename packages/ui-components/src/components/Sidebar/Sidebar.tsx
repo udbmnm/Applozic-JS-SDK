@@ -40,7 +40,7 @@ export interface SidebarProps {
   /** Callback to handle item click */
   handleItemClick: (type: ChatType, contactId: string) => void | Promise<void>;
   /** Callback to handle fetching more contacts when the bottom of a long list comes into view */
-  fetchNextRecentChats: () => void | Promise<void>;
+  fetchNextRecentChats: () => any; // eslint-disable-line @typescript-eslint/no-explicit-any
   /** `true` if next page of the recent chats is being fetched */
   isFetchingNextRecentChatsPage: boolean;
   /** [Optional] Callback to handle creation of new contact */
