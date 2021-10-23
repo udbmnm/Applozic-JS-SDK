@@ -1,3 +1,6 @@
+<a href="https://www.npmjs.com/package/@applozic/core-sdk"><img src="https://badge.fury.io/js/@applozic%2Fcore-sdk@2x.png" alt="npm version" height="20"></a>
+[![Deploy Core SDK](https://github.com/AppLozic/Applozic-JS-SDK/actions/workflows/deploy-core.yml/badge.svg)](https://github.com/AppLozic/Applozic-JS-SDK/actions/workflows/deploy-core.yml)
+
 # Applozic Core JavaScript SDK
 
 ## Installation
