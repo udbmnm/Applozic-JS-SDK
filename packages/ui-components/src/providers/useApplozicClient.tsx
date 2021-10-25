@@ -87,9 +87,11 @@ const useGetApplozicClient = (
   const [loginResult, setLoginResult] = useState<LoginResult | null>();
 
   const logoutUser = async () => {
-    await client?.logout();
-    queryClient.setQueryData(['self', loginResult?.userId], null);
-    queryClient.clear();
+    if (client) {
+      await client?.logout();
+      queryClient.setQueryData(['self', loginResult?.userId], null);
+      queryClient.clear();
+    }
   };
 
   useEffect(() => {
@@ -98,7 +100,8 @@ const useGetApplozicClient = (
 
   useEffect(() => {
     const initSdk = async () => {
-      const client = new ApplozicClient(applicationId, {
+      await logoutUser();
+      const _client = new ApplozicClient(applicationId, {
         useSocket: true,
         events: {
           onMessageReceived: ({ message }) => {
@@ -201,15 +204,14 @@ const useGetApplozicClient = (
         }
       });
       try {
-        await client.init();
-        setClient(client);
-        if (client.loginResult) {
-          queryClient.invalidateQueries(['self', client.loginResult.userId]);
+        await _client.init();
+        setClient(_client);
+        if (_client.loginResult) {
+          queryClient.invalidateQueries(['self', _client.loginResult.userId]);
         }
-        (window as any).alClient = client;
+        (window as any).alClient = _client;
         setIsClientLoaded(true);
       } catch (e) {
-        console.log('error initializing')
         setIsClientLoaded(false);
       }
     };
