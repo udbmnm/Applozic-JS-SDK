@@ -79,7 +79,7 @@ function ProvideBase({
   useEffect(() => {
     setthemeDict(
       theme({
-        initialColorMode,
+        initialColorMode: 'light',
         useSystemColorMode: _useSystemColorMode
       })
     );

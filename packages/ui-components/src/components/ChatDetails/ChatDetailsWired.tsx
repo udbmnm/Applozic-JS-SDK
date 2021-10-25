@@ -9,7 +9,7 @@ import {
 import { ChatType, Message } from '../../models/chat';
 import useUpdateGroupMembers from '../../hooks/mutations/useUpdateGroupMembers';
 import useGetMessages from '../../hooks/queries/useGetUserMessages';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQueryClient } from 'react-query';
 import useGetUserContacts from '../../hooks/queries/useGetContacts';
 import useBlockContact from '../../hooks/mutations/useBlockContact';
 import useClearChat from '../../hooks/mutations/useClearChat';

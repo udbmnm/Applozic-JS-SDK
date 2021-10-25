@@ -14,7 +14,7 @@ const FullViewApp = () => {
       padding={2}
       backgroundColor={mode('background.light', 'background.dark')}
     >
-      <HStack maxWidth="full" height="full">
+      <HStack maxWidth="full" height="full" display="flex">
         <FeatureTabsWired />
         <SidebarWired />
         <ChatWindowWired />

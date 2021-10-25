@@ -1,7 +1,7 @@
 import { ProvideBase } from "../src";
 
 export const parameters = {
-  // layout: "fullscreen",
+  layout: 'fullscreen',
   actions: { argTypesRegex: "^on[A-Z].*" },
   controls: {
     matchers: {

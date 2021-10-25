@@ -6,6 +6,7 @@ import { useRef } from 'react';
 import { motion, useCycle } from 'framer-motion';
 import PluginViewToggle from './PluginViewToggle';
 import { useDimensions } from '../../utils/useDimensions';
+import { Container } from '@chakra-ui/react';
 
 const sidebar = {
   open: (height = 1000) => ({
@@ -47,6 +48,20 @@ const PluginViewWithoutBase = ({
   const { height } = useDimensions(containerRef);
 
   return (
+    // <Container
+    //   width="full"
+    //   style={{
+    //     height: '100vh',
+    //     background:
+    //       'linear-gradient(180deg, #0055ff 0%, rgb(0, 153, 255) 100%)',
+    //     overflow: 'hidden',
+    //     padding: 0,
+    //     margin: 0,
+    //     display: 'flex',
+    //     justifyContent: 'center',
+    //     alignItems: 'center'
+    //   }}
+    // >
     <motion.nav
       initial={false}
       animate={isOpen ? 'open' : 'closed'}
@@ -59,7 +74,7 @@ const PluginViewWithoutBase = ({
           top: 0,
           left: 0,
           bottom: 0,
-          width: '300px',
+          width: '600px',
           background: '#fff'
         }}
         variants={sidebar}
@@ -77,6 +92,7 @@ const PluginViewWithoutBase = ({
       </motion.div>
       <PluginViewToggle toggle={() => toggleOpen()} />
     </motion.nav>
+    // </Container>
   );
 };
 

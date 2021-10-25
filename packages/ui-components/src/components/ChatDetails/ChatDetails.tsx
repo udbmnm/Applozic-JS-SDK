@@ -95,14 +95,14 @@ const ChatDetails = ({
   imageUrl,
   isBlocked,
   metaProps,
+  isAdmin,
   updateMemberList,
   updateGroupInfo,
   onCloseClicked,
   onChatClearClicked,
   onBlockClicked,
   onLeaveGroupClicked,
-  onDeleteGroupClicked,
-  isAdmin
+  onDeleteGroupClicked
 }: ChatDetailProps) => {
   const downloadFileFromUrl = (url: string, filename: string) => {
     const tempLink = document.createElement('a');
@@ -288,6 +288,7 @@ const ChatDetails = ({
               {type == ChatType.GROUP && (
                 <Box width="100%" style={{ marginTop: '20px' }}>
                   <GroupMembers
+                    isAdmin={isAdmin}
                     adminId={group?.adminId as string}
                     members={groupMembers}
                     numberOfMembers={group?.userCount}

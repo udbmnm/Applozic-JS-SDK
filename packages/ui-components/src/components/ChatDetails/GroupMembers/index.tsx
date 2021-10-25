@@ -21,11 +21,13 @@ const GroupMemberItem = ({
 };
 
 function GroupMembers({
+  isAdmin,
   adminId,
   members,
   numberOfMembers,
   addNewMember
 }: {
+  isAdmin: boolean;
   adminId?: string;
   numberOfMembers?: number;
   members?: User[];
@@ -37,14 +39,16 @@ function GroupMembers({
         <Text color="textHeader.500" fontWeight="400" fontSize="14px">
           {numberOfMembers as number} Members
         </Text>
-        <SmallAddIcon
-          color="textAccent.500"
-          fontWeight="400"
-          fontSize="14px"
-          onClick={addNewMember}
-        >
-          Add Member
-        </SmallAddIcon>
+        {isAdmin && (
+          <SmallAddIcon
+            color="textAccent.500"
+            fontWeight="400"
+            fontSize="14px"
+            onClick={addNewMember}
+          >
+            Add Member
+          </SmallAddIcon>
+        )}
       </HStack>
       <VStack width="full">
         {members &&
