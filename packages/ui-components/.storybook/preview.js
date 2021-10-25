@@ -43,7 +43,7 @@ export const decorators = [
     return (
       <ProvideBase
         useSystemColorMode={false}
-        colorMode={context.globals.theme}
+        colorMode={'light'}
         environment={context.globals.environment}
       >
         <Story />

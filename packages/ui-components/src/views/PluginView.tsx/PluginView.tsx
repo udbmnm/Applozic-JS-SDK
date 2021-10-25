@@ -3,23 +3,23 @@ import { ProvideBase } from '../..';
 import { BaseProps } from '../../providers/useBase';
 import { ViewProps } from '../ViewProps';
 
-import FullViewWithoutBase from './FullViewWithoutBase';
+import PluginViewWithoutBase from './PluginViewWithoutBase';
 
-export interface FullViewProps extends ViewProps, BaseProps {}
+export interface PluginViewProps extends ViewProps, BaseProps {}
 
 const FullView = ({
   colorMode,
   useSystemColorMode,
   environment,
   ...rest
-}: FullViewProps) => {
+}: PluginViewProps) => {
   return (
     <ProvideBase
       colorMode={colorMode}
       useSystemColorMode={useSystemColorMode}
       environment={environment}
     >
-      <FullViewWithoutBase {...rest} />
+      <PluginViewWithoutBase {...rest} />
     </ProvideBase>
   );
 };

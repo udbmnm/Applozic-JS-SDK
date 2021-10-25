@@ -1,26 +1,14 @@
 import React from 'react';
 import { ProvideApplozicClient } from '../../providers/useApplozicClient';
-import FullViewAppWithLogin, {
-  FullViewWithLoginProps
-} from './FullViewWithLogin';
-
-export interface FullViewWithoutBaseProps extends FullViewWithLoginProps {
-  /**
-   * The Applozic Application ID as provided after onboarding
-   */
-  applicationId: string;
-  /** GIPHY API Key to enable sending GIFs */
-  giphyApiKey?: string;
-  /** Google Maps API Key to enable sending Geo Location */
-  gMapsApiKey?: string;
-}
+import { ViewProps } from '../ViewProps';
+import FullViewAppWithLogin from './FullViewWithLogin';
 
 const FullViewWithoutBase = ({
   applicationId,
   giphyApiKey,
   gMapsApiKey,
   ...rest
-}: FullViewWithoutBaseProps) => {
+}: ViewProps) => {
   return (
     <ProvideApplozicClient
       applicationId={applicationId}

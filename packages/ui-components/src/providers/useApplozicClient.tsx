@@ -20,7 +20,7 @@ import { IPresence } from '../hooks/usePresence';
 import { IUnreadCount } from '../hooks/queries/useGetUnreadCount';
 import { mergeRecentChats } from '../utils/recentChatsMerger';
 import useDeleteMesssage from '../hooks/mutations/useDeleteMessage';
-import { FullViewProps } from '../views/FullView';
+import { ViewProps } from '../views/ViewProps';
 
 interface IApplozicClient {
   client: ApplozicClient | undefined;
@@ -208,7 +208,7 @@ const useGetApplozicClient = (
 };
 
 export interface ProvideApplozicClientProps
-  extends Omit<FullViewProps, 'loginPage'> {
+  extends Omit<ViewProps, 'loginPage'> {
   children: React.ReactNode;
 }
 

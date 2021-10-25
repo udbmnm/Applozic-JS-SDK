@@ -3,7 +3,7 @@ import LoginPage from '../../components/LoginPage';
 import useGetSelfDetails from '../../hooks/queries/useGetSelfDetails';
 import { useApplozicClient } from '../../providers/useApplozicClient';
 import { ViewWithLoginProps } from '../ViewProps';
-import FullViewApp from './FullViewApp';
+import PluginViewApp from './PluginViewApp';
 
 function FullViewAppWithLogin({ loginPage }: ViewWithLoginProps) {
   const { isClientLoaded } = useApplozicClient();
@@ -13,7 +13,7 @@ function FullViewAppWithLogin({ loginPage }: ViewWithLoginProps) {
     return <div>Loading Applozic Client...</div>;
   }
   return user ? (
-    <FullViewApp />
+    <PluginViewApp />
   ) : (
     <LoginPage
       topHeader={loginPage.topHeader}

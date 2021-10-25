@@ -14,7 +14,7 @@ export interface LoginPageProps {
 
 const LoginPage: React.FC<LoginPageProps> = ({ topHeader, topSubHeader }) => {
   return (
-    <Box minH="100vh" bg={{ md: mode('gray.100', 'inherit') }}>
+    <Box minH="full" bg={{ md: mode('gray.100', 'inherit') }}>
       <Box
         maxW="6xl"
         mx="auto"

@@ -60,11 +60,10 @@ import ActiveChat from './models/chat/ActiveChat';
 import FeatureTab from './models/Feature';
 import { ProvideApplozicClient } from './providers/useApplozicClient';
 import ProvideBase from './providers/useBase';
-import FullView, {
-  FullViewProps,
-  FullViewWithoutBase,
-  FullViewWithoutBaseProps
-} from './views/FullView';
+import FullView, { FullViewProps, FullViewWithoutBase } from './views/FullView';
+import { PluginViewProps, PluginViewWithoutBase } from './views/PluginView.tsx';
+import PluginView from './views/PluginView.tsx/PluginView';
+import { ViewProps } from './views/ViewProps';
 
 export {
   MessageStatus,
@@ -107,8 +106,10 @@ export {
   ChatDetailsWired,
   // Component to be used in storybook
   FullViewWithoutBase,
+  PluginViewWithoutBase,
   // Final component to be used by developer
-  FullView
+  FullView,
+  PluginView
 };
 
 export type {
@@ -141,7 +142,9 @@ export type {
   PrivacyAndSupportProps,
   PictureAndNameProps,
   ChatDetailProps,
+  // GenericViewProps
+  ViewProps,
   // Full View props
-  FullViewWithoutBaseProps,
-  FullViewProps
+  FullViewProps,
+  PluginViewProps
 };

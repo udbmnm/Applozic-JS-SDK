@@ -4,6 +4,8 @@ import FeatureTabEnum from '../../models/Feature';
 import FeatureTab from './FeatureTab';
 
 export interface FeatureTabsProps {
+  /** the orientation in which the tabs will be placed */
+  orientation: 'horizontal' | 'vertical';
   /** List of Features to enable this decides which of the sidebars will be accessible by the user */
   featureTabs: FeatureTabEnum[];
   /** Callback to handle the change of index in the tabs */
@@ -15,6 +17,7 @@ export interface FeatureTabsProps {
 }
 
 function FeatureTabs({
+  orientation = 'vertical',
   featureTabs,
   onChange,
   userName,
@@ -53,7 +56,7 @@ function FeatureTabs({
   };
   return (
     <Tabs
-      orientation="vertical"
+      orientation={orientation}
       onChange={index => onChange(index)}
       overflowY="auto"
       height="full"
@@ -62,8 +65,9 @@ function FeatureTabs({
       <TabList
         borderWidth={0}
         overflowY="auto"
-        height="full"
-        width="64px"
+        overflowX="auto"
+        height={orientation === 'horizontal' ? '64px' : 'full'}
+        width={orientation === 'horizontal' ? 'full' : '64px'}
         alignItems="center"
       >
         {featureTabs.map(tab =>
