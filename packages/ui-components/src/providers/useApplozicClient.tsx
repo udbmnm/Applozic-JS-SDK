@@ -90,7 +90,6 @@ const useGetApplozicClient = (
     await client?.logout();
     queryClient.setQueryData(['self', loginResult?.userId], null);
     queryClient.clear();
-    setLoginResult(null);
   };
 
   useEffect(() => {

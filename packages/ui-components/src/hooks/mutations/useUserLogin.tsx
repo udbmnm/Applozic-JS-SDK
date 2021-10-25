@@ -6,26 +6,27 @@ function useUserLogin() {
   const { client, loginResult } = useApplozicClient();
   const queryClient = useQueryClient();
   const toast = useToast();
+  const showLoginErrorToast = (title: string, description: string) => {
+    queryClient.setQueryData(['self', loginResult?.userId], null);
+    toast({
+      title,
+      description,
+      status: 'error'
+    });
+  };
+
   return useMutation(
-    async ({ email, password }: { email: string; password: string }) => {
-      return await client?.login(email, password);
-    },
+    async ({ email, password }: { email: string; password: string }) =>
+      client?.login(email, password),
     {
       onSuccess: async data => {
         if ((data as any) === 'INVALID_APPID') {
-          queryClient.setQueryData(['self', loginResult?.userId], null);
-          toast({
-            title: 'Error logging in',
-            description: (data as any).toString(),
-            status: 'error'
-          });
+          showLoginErrorToast('Error logging in', (data as any).toString());
         } else if ((data as any) === 'INVALID_PASSWORD') {
-          queryClient.setQueryData(['self', loginResult?.userId], null);
-          toast({
-            title: 'Wrong password please try again',
-            description: (data as any).toString(),
-            status: 'error'
-          });
+          showLoginErrorToast(
+            'Wrong password please try again',
+            (data as any).toString()
+          );
         } else {
           if (data) {
             const response = await client?.contacts.getUserDetails([
@@ -37,7 +38,10 @@ function useUserLogin() {
           }
         }
       },
-      onError: error => {
+      onError: (error: Error) => {
+        if (error.message === 'Invalid password') {
+          showLoginErrorToast('Wrong password please try again', error.message);
+        }
         console.log({ error });
       }
     }
