@@ -6,6 +6,7 @@ function useUserLogin() {
   const { client, loginResult } = useApplozicClient();
   const queryClient = useQueryClient();
   const toast = useToast();
+  
   const showLoginErrorToast = (title: string, description: string) => {
     queryClient.setQueryData(['self', loginResult?.userId], null);
     toast({
@@ -42,7 +43,7 @@ function useUserLogin() {
         if (error.message === 'Invalid password') {
           showLoginErrorToast('Wrong password please try again', error.message);
         }
-        console.log({ error });
+        showLoginErrorToast('Error logging in', error.message);
       }
     }
   );

@@ -200,16 +200,22 @@ const useGetApplozicClient = (
           }
         }
       });
-      await client.init();
-      setClient(client);
-      if (client.loginResult) {
-        queryClient.invalidateQueries(['self', client.loginResult.userId]);
+      try {
+        await client.init();
+        setClient(client);
+        if (client.loginResult) {
+          queryClient.invalidateQueries(['self', client.loginResult.userId]);
+        }
+        (window as any).alClient = client;
+        setIsClientLoaded(true);
+      } catch (e) {
+        console.log('error initializing')
+        setIsClientLoaded(false);
       }
-      (window as any).alClient = client;
-      setIsClientLoaded(true);
     };
+    setIsClientLoaded(false);
     initSdk();
-  }, []);
+  }, [applicationId]);
 
   return {
     client,
