@@ -17,10 +17,11 @@ function ChatPanelWired({ activeChat }: { activeChat: ActiveChat }) {
   const toast = useToast();
   const { client } = useApplozicClient();
   const contactId = getIdFromActiveChat(activeChat);
-  const { fetchNextPage, isFetchingNextPage, hasNextPage } =
-    useGetMessages(activeChat);
+  const { fetchNextPage, isFetchingNextPage, hasNextPage } = useGetMessages(
+    activeChat
+  );
 
-  const self = useGetSelfDetails();
+  const { data: self } = useGetSelfDetails();
 
   const { data: messages = [] } = useQuery<Message[]>([
     'messages-local',

@@ -36,6 +36,9 @@ function useUserLogin() {
             queryClient.setQueryData(['self', loginResult?.userId], user);
           }
         }
+      },
+      onError: error => {
+        console.log({ error });
       }
     }
   );

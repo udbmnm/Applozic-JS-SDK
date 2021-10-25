@@ -41,7 +41,7 @@ function CreateGroup({
   );
 
   return (
-    <ScrollArea height="full" width="full" bg="white">
+    <ScrollArea height="full" width="full">
       <VStack height="full" width="full">
         <HStack
           justifyContent="space-between"

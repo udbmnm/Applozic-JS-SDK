@@ -72,6 +72,7 @@ function Sidebar({
   if (FeatureTab.USER === selectedFeatureTab)
     return <SelfDetails {...selfDetails} />;
 
+  console.log({ showAddContact, showAddGroup });
   const getOverlayComponent = () => {
     if (showAddContact) {
       return (
@@ -85,19 +86,21 @@ function Sidebar({
       );
     }
     if (showAddGroup) {
-      <CreateGroup
-        contacts={users}
-        onClickCloseCreateGroup={() => setShowAddGroup(false)}
-        onClickCreateGroup={(groupName, imageUrl, memberIds) => {
-          setShowAddGroup(false);
-          onClickCreateGroup({
-            groupName,
-            imageUrl,
-            type: GroupTypes.PRIVATE,
-            memberIds
-          });
-        }}
-      />;
+      return (
+        <CreateGroup
+          contacts={users}
+          onClickCloseCreateGroup={() => setShowAddGroup(false)}
+          onClickCreateGroup={(groupName, imageUrl, memberIds) => {
+            setShowAddGroup(false);
+            onClickCreateGroup({
+              groupName,
+              imageUrl,
+              type: GroupTypes.PRIVATE,
+              memberIds
+            });
+          }}
+        />
+      );
     }
   };
 
@@ -122,7 +125,7 @@ function Sidebar({
             recentChats={
               recentChats?.filter(chat => chat.chatType == ChatType.GROUP) ?? []
             }
-            onClickAddGroup={() => setShowAddContact(true)}
+            onClickAddGroup={() => setShowAddGroup(true)}
             onClickRecentChat={handleItemClick}
           />
         );

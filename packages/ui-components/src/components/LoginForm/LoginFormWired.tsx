@@ -5,7 +5,7 @@ import LoginForm from './LoginForm';
 
 function LoginFormWired() {
   const { mutate: login } = useUserLogin();
-  const self = useGetSelfDetails();
+  const { data: self } = useGetSelfDetails();
   return (
     <LoginForm disabled={!!self} onSubmit={values => login && login(values)} />
   );

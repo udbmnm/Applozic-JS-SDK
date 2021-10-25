@@ -7,19 +7,23 @@ import FullViewApp from './FullViewApp';
 
 function FullViewAppWithLogin({ loginPage }: ViewWithLoginProps) {
   const { isClientLoaded } = useApplozicClient();
-  const user = useGetSelfDetails();
+  const { data: user, status } = useGetSelfDetails();
 
   if (!isClientLoaded) {
     return <div>Loading Applozic Client...</div>;
   }
-  return user ? (
-    <FullViewApp />
-  ) : (
-    <LoginPage
-      topHeader={loginPage.topHeader}
-      topSubHeader={loginPage.topSubHeader}
-    />
-  );
+  if (status !== 'loading') {
+    return user ? (
+      <FullViewApp />
+    ) : (
+      <LoginPage
+        topHeader={loginPage.topHeader}
+        topSubHeader={loginPage.topSubHeader}
+      />
+    );
+  } else {
+    return <div>Loading details..</div>;
+  }
 }
 
 export default FullViewAppWithLogin;

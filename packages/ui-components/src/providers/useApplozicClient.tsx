@@ -25,6 +25,7 @@ import { ViewProps } from '../views/ViewProps';
 interface IApplozicClient {
   client: ApplozicClient | undefined;
   loginResult: LoginResult | null | undefined;
+  logoutUser?: () => Promise<void>;
   isClientLoaded: boolean;
   giphyApiKey?: string;
   gMapsApiKey?: string;
@@ -82,6 +83,19 @@ const useGetApplozicClient = (
   const deleteMessage = (contactId: string, messageKey: string) => {
     deleteMessageMutation({ messageKey, contactId });
   };
+
+  const [loginResult, setLoginResult] = useState<LoginResult | null>();
+
+  const logoutUser = async () => {
+    await client?.logout();
+    queryClient.setQueryData(['self', loginResult?.userId], null);
+    queryClient.clear();
+    setLoginResult(null);
+  };
+
+  useEffect(() => {
+    setLoginResult(client?.loginResult);
+  }, [client?.loginResult]);
 
   useEffect(() => {
     const initSdk = async () => {
@@ -200,7 +214,8 @@ const useGetApplozicClient = (
 
   return {
     client,
-    loginResult: client?.loginResult,
+    loginResult,
+    logoutUser,
     isClientLoaded,
     giphyApiKey,
     gMapsApiKey

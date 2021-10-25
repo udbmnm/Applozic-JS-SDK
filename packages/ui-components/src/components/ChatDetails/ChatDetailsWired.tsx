@@ -99,6 +99,10 @@ const ChatDetailsWired = ({ activeChat }: ChatDetailWiredProps) => {
           }
         )
       }
+      groupMembers={group?.groupUsers?.map(u => {
+        const user = queryClient.getQueryData<User>(['user', u.userId, true]);
+        return user as User;
+      })}
       onCloseClicked={() => hideChatDetail()}
       onBlockClicked={() =>
         activeChat.user && blockContact({ userId: activeChat.user.userId })

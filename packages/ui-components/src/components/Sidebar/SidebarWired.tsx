@@ -15,7 +15,6 @@ import {
 import useClearChat from '../../hooks/mutations/useClearChat';
 import useActiveChats from '../../hooks/useActiveChats';
 import useUpdateSelfInfo from '../../hooks/mutations/useUpdateUserInfo';
-import useUserLogout from '../../hooks/mutations/useUserLogout';
 import useGetSelfDetails from '../../hooks/queries/useGetSelfDetails';
 import useSidebar from '../../hooks/useSidebar';
 import FeatureTab from '../../models/Feature';
@@ -39,9 +38,9 @@ const findSearchTermInUser = (query: string, user: User) => {
 };
 
 function SidebarWired() {
-  const { client, loginResult } = useApplozicClient();
+  const { client, loginResult, logoutUser } = useApplozicClient();
   const queryClient = useQueryClient();
-  const self = useGetSelfDetails();
+  const { data: self } = useGetSelfDetails();
   const {
     activeTab,
     setActiveTab,
@@ -156,7 +155,6 @@ function SidebarWired() {
   const { mutate: mutateNewGroup } = useCreateGroup();
   // const { mutate: mutateNewContact } = useCreateNewContact();
   const { mutate: updateSelf } = useUpdateSelfInfo();
-  const { mutate: logoutUser } = useUserLogout();
 
   return (
     <Sidebar
@@ -176,10 +174,7 @@ function SidebarWired() {
         name: self ? getNameFromUser(self) : '',
         imageUrl: self?.imageLink,
         onCloseClicked: () => setActiveTab(FeatureTab.RECENT_CHATS),
-        onLogOutClicked: () =>
-          logoutUser(undefined, {
-            onSuccess: () => setActiveTab(FeatureTab.RECENT_CHATS)
-          }),
+        onLogOutClicked: () => logoutUser && logoutUser(),
         onUpdateValue: (key, value) => {
           updateSelf({ [key]: value });
         }

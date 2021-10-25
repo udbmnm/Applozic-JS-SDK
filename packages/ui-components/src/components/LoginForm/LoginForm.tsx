@@ -30,7 +30,6 @@ function LoginForm({ disabled, initialValues, onSubmit }: LoginFormProps) {
           id: 'email',
           label: 'Email / User ID',
           placeholder: 'Enter your email or user ID',
-          type: 'email',
           disabled
         },
         {

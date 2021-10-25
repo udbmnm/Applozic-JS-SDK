@@ -9,7 +9,7 @@ function FeatureTabsWired({
 }: {
   orientation?: 'horizontal' | 'vertical' | undefined;
 }) {
-  const user = useGetSelfDetails();
+  const { data: user } = useGetSelfDetails();
   const ActiveFeatures = [
     FeatureTab.USER,
     FeatureTab.RECENT_CHATS,

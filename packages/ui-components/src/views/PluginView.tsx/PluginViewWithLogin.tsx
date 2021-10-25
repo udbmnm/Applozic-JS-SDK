@@ -5,9 +5,9 @@ import { useApplozicClient } from '../../providers/useApplozicClient';
 import { ViewWithLoginProps } from '../ViewProps';
 import PluginViewApp from './PluginViewApp';
 
-function FullViewAppWithLogin({ loginPage }: ViewWithLoginProps) {
+function PluginViewAppWithLogin({ loginPage }: ViewWithLoginProps) {
   const { isClientLoaded } = useApplozicClient();
-  const user = useGetSelfDetails();
+  const { data: user } = useGetSelfDetails();
 
   if (!isClientLoaded) {
     return <div>Loading Applozic Client...</div>;
@@ -22,4 +22,4 @@ function FullViewAppWithLogin({ loginPage }: ViewWithLoginProps) {
   );
 }
 
-export default FullViewAppWithLogin;
+export default PluginViewAppWithLogin;

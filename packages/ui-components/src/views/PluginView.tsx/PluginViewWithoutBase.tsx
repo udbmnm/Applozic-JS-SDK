@@ -62,36 +62,34 @@ const PluginViewWithoutBase = ({
     //     alignItems: 'center'
     //   }}
     // >
-    <motion.nav
-      initial={false}
-      animate={isOpen ? 'open' : 'closed'}
-      custom={height}
-      ref={containerRef}
+    <ProvideApplozicClient
+      applicationId={applicationId}
+      giphyApiKey={giphyApiKey}
+      gMapsApiKey={gMapsApiKey}
     >
-      <motion.div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          bottom: 0,
-          width: '600px',
-          background: '#fff'
-        }}
-        variants={sidebar}
-      />
-      <motion.div variants={variants}>
-        {isOpen && (
-          <ProvideApplozicClient
-            applicationId={applicationId}
-            giphyApiKey={giphyApiKey}
-            gMapsApiKey={gMapsApiKey}
-          >
-            <PluginViewWithLogin {...rest} />
-          </ProvideApplozicClient>
-        )}
-      </motion.div>
-      <PluginViewToggle toggle={() => toggleOpen()} />
-    </motion.nav>
+      <motion.nav
+        initial={false}
+        animate={isOpen ? 'open' : 'closed'}
+        custom={height}
+        ref={containerRef}
+      >
+        <motion.div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            bottom: 0,
+            width: '600px',
+            background: '#fff'
+          }}
+          variants={sidebar}
+        />
+        <motion.div variants={variants}>
+          {isOpen && <PluginViewWithLogin {...rest} />}
+        </motion.div>
+        <PluginViewToggle toggle={() => toggleOpen()} />
+      </motion.nav>
+    </ProvideApplozicClient>
     // </Container>
   );
 };
