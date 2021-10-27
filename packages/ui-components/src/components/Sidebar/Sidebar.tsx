@@ -72,7 +72,6 @@ function Sidebar({
   if (FeatureTab.USER === selectedFeatureTab)
     return <SelfDetails {...selfDetails} />;
 
-  console.log({ showAddContact, showAddGroup });
   const getOverlayComponent = () => {
     if (showAddContact) {
       return (

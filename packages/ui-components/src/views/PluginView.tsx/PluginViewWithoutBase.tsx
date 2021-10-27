@@ -3,39 +3,19 @@ import { ProvideApplozicClient } from '../../providers/useApplozicClient';
 import { ViewProps } from '../ViewProps';
 import PluginViewWithLogin from './PluginViewWithLogin';
 import { useRef } from 'react';
-import { motion, useCycle } from 'framer-motion';
-import PluginViewToggle from './PluginViewToggle';
-import { useDimensions } from '../../utils/useDimensions';
-import { Container } from '@chakra-ui/react';
-
-const sidebar = {
-  open: (height = 1000) => ({
-    clipPath: `circle(${height * 2 + 200}px at 40px 40px)`,
-    transition: {
-      type: 'spring',
-      stiffness: 20,
-      restDelta: 2
-    }
-  }),
-  closed: {
-    clipPath: 'circle(30px at 40px 40px)',
-    transition: {
-      delay: 0.5,
-      type: 'spring',
-      stiffness: 400,
-      damping: 40
-    }
-  }
-};
-
-const variants = {
-  open: {
-    transition: { staggerChildren: 0.07, delayChildren: 0.2 }
-  },
-  closed: {
-    transition: { staggerChildren: 0.05, staggerDirection: -1 }
-  }
-};
+import {
+  IconButton,
+  Popover,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverTrigger,
+  Box,
+  useColorModeValue as mode,
+  useDisclosure
+} from '@chakra-ui/react';
+import FocusLock from 'react-focus-lock';
+import { Icon } from '../..';
 
 const PluginViewWithoutBase = ({
   applicationId,
@@ -43,54 +23,48 @@ const PluginViewWithoutBase = ({
   gMapsApiKey,
   ...rest
 }: ViewProps) => {
-  const [isOpen, toggleOpen] = useCycle(false, true);
-  const containerRef = useRef(null);
-  const { height } = useDimensions(containerRef);
+  const { onOpen, onClose, isOpen } = useDisclosure();
+  const firstFieldRef = useRef(null);
 
   return (
-    // <Container
-    //   width="full"
-    //   style={{
-    //     height: '100vh',
-    //     background:
-    //       'linear-gradient(180deg, #0055ff 0%, rgb(0, 153, 255) 100%)',
-    //     overflow: 'hidden',
-    //     padding: 0,
-    //     margin: 0,
-    //     display: 'flex',
-    //     justifyContent: 'center',
-    //     alignItems: 'center'
-    //   }}
-    // >
-    <ProvideApplozicClient
-      applicationId={applicationId}
-      giphyApiKey={giphyApiKey}
-      gMapsApiKey={gMapsApiKey}
+    <Popover
+      isLazy
+      isOpen={isOpen}
+      initialFocusRef={firstFieldRef}
+      onOpen={onOpen}
+      onClose={onClose}
+      placement="top"
+      closeOnBlur={false}
     >
-      <motion.nav
-        initial={false}
-        animate={isOpen ? 'open' : 'closed'}
-        custom={height}
-        ref={containerRef}
+      <Box position={'fixed'} right={4} bottom={4}>
+        <PopoverTrigger>
+          <IconButton
+            aria-label="edit"
+            size="lg"
+            style={{ borderRadius: '50%' }}
+            icon={<Icon icon="chat" color="black" size={24} />}
+          />
+        </PopoverTrigger>
+      </Box>
+      <PopoverContent
+        w={400}
+        maxH={700}
+        p={2}
+        backgroundColor={mode('background.light', 'background.dark')}
       >
-        <motion.div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            bottom: 0,
-            width: '600px',
-            background: '#fff'
-          }}
-          variants={sidebar}
-        />
-        <motion.div variants={variants}>
-          {isOpen && <PluginViewWithLogin {...rest} />}
-        </motion.div>
-        <PluginViewToggle toggle={() => toggleOpen()} />
-      </motion.nav>
-    </ProvideApplozicClient>
-    // </Container>
+        <FocusLock returnFocus persistentFocus={false}>
+          <PopoverArrow />
+          <PopoverCloseButton />
+          <ProvideApplozicClient
+            applicationId={applicationId}
+            giphyApiKey={giphyApiKey}
+            gMapsApiKey={gMapsApiKey}
+          >
+            <PluginViewWithLogin {...rest} />
+          </ProvideApplozicClient>
+        </FocusLock>
+      </PopoverContent>
+    </Popover>
   );
 };
 

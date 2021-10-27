@@ -1,4 +1,5 @@
 import React from 'react';
+import { LoginFormWired } from '../..';
 import LoginPage from '../../components/LoginPage';
 import useGetSelfDetails from '../../hooks/queries/useGetSelfDetails';
 import { useApplozicClient } from '../../providers/useApplozicClient';
@@ -15,10 +16,11 @@ function PluginViewAppWithLogin({ loginPage }: ViewWithLoginProps) {
   return user ? (
     <PluginViewApp />
   ) : (
-    <LoginPage
-      topHeader={loginPage.topHeader}
-      topSubHeader={loginPage.topSubHeader}
-    />
+    <LoginFormWired />
+    // <LoginPage
+    //   topHeader={loginPage.topHeader}
+    //   topSubHeader={loginPage.topSubHeader}
+    // />
   );
 }
 

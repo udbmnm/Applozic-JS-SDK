@@ -64,9 +64,9 @@ function FeatureTabs({
     >
       <TabList
         borderWidth={0}
-        overflowY="auto"
-        overflowX="auto"
-        height={orientation === 'horizontal' ? '64px' : 'full'}
+        overflowY={orientation === 'horizontal' ? 'hidden' : 'auto'}
+        overflowX={orientation === 'horizontal' ? 'auto' : 'hidden'}
+        height={orientation !== 'horizontal' ? 'full' : 'auto'}
         width={orientation === 'horizontal' ? 'full' : '64px'}
         alignItems="center"
       >
