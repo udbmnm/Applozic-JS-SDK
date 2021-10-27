@@ -48,7 +48,7 @@ const PluginViewWithoutBase = ({
       </Box>
       <PopoverContent
         w={400}
-        maxH={700}
+        maxH={'40%'}
         p={2}
         backgroundColor={mode('background.light', 'background.dark')}
       >

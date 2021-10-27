@@ -21,7 +21,7 @@ const PluginViewApp = () => {
       padding={2}
       backgroundColor={mode('background.light', 'background.dark')}
     >
-      <VStack maxWidth="full" height="full">
+      <VStack>
         {openIndex < 0 && <SidebarWired />}
         {/* <ChatWindowWired /> */}
         {openIndex >= 0 ? (
