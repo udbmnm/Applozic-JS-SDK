@@ -1,41 +1,60 @@
-import { ProvideBase } from "../src";
+import { ProvideBase } from '../src';
 
 export const parameters = {
   layout: 'fullscreen',
-  actions: { argTypesRegex: "^on[A-Z].*" },
+  options: {
+    storySort: {
+      order: [
+        'Views',
+        'Components',
+        [
+          'FeatureTabs',
+          'Sidebar',
+          'ChatStatusBar',
+          'SendMessage',
+          'ChatPanel',
+          'ChatDetails'
+        ],
+        'WiredComponents',
+        'Core',
+        'WIP'
+      ]
+    }
+  },
+  actions: { argTypesRegex: '^on[A-Z].*' },
   controls: {
     matchers: {
       color: /(background|color)$/i,
-      date: /Date$/,
-    },
-  },
+      date: /Date$/
+    }
+  }
 };
 
 export const globalTypes = {
   theme: {
-    name: "Theme",
-    description: "Global theme for components",
-    defaultValue: "light",
+    name: 'Theme',
+    description: 'Global theme for components',
+    defaultValue: 'light',
     toolbar: {
-      icon: "lightning",
+      icon: 'lightning',
       // Array of plain string values or MenuItem shape (see below)
-      items: ["light", "dark"],
+      items: ['light', 'dark'],
       // Property that specifies if the name of the item will be displayed
-      showName: true,
-    },
+      showName: true
+    }
   },
   environment: {
-    name: "Environment",
-    description: "The application environment",
-    defaultValue: "development",
+    name: 'Environment',
+    description: 'The application environment',
+    defaultValue: 'development',
     toolbar: {
-      icon: "wrench",
+      icon: 'wrench',
       // Array of plain string values or MenuItem shape (see below)
-      items: ["development", "production"],
+      items: ['development', 'production'],
       // Property that specifies if the name of the item will be displayed
-      showName: true,
-    },
-  },
+      showName: true
+    }
+  }
 };
 
 export const decorators = [
@@ -49,5 +68,5 @@ export const decorators = [
         <Story />
       </ProvideBase>
     );
-  },
+  }
 ];

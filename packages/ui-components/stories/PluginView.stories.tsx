@@ -5,7 +5,7 @@ import { PluginViewWithoutBase as PluginView, ViewProps } from '../src';
 import { APPLICATION_ID, GIPHY_API_KEY, GOOGLE_MAPS_API_KEY } from './config';
 
 export default {
-  title: 'Views/PluginView',
+  title: 'WIP/PluginView',
   component: PluginView
 } as Meta;
 
