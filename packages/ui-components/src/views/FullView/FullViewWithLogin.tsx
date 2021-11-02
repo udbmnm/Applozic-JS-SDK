@@ -1,3 +1,4 @@
+import { Center, Container } from '@chakra-ui/layout';
 import React from 'react';
 import LoginPage from '../../components/LoginPage';
 import useGetSelfDetails from '../../hooks/queries/useGetSelfDetails';
@@ -10,7 +11,11 @@ function FullViewAppWithLogin({ loginPage }: ViewWithLoginProps) {
   const { data: user, status } = useGetSelfDetails();
 
   if (!isClientLoaded) {
-    return <div>Loading Applozic Client...</div>;
+    return (
+      <Container>
+        <Center>Loading Applozic Client...</Center>
+      </Container>
+    );
   }
   if (status !== 'loading') {
     return user ? (
@@ -22,7 +27,11 @@ function FullViewAppWithLogin({ loginPage }: ViewWithLoginProps) {
       />
     );
   } else {
-    return <div>Loading details..</div>;
+    return (
+      <Container>
+        <Center>Loading details..</Center>
+      </Container>
+    );
   }
 }
 

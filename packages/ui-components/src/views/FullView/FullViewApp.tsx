@@ -7,14 +7,14 @@ import FeatureTabsWired from '../../components/FeatureTabs/FeatureTabsWired';
 const FullViewApp = () => {
   return (
     <Container
-      maxWidth="100vw"
-      height="100vh"
+      maxW="100vw"
+      h="100vh"
       overflowX="hidden"
       overflowY="hidden"
       padding={2}
       backgroundColor={mode('background.light', 'background.dark')}
     >
-      <HStack maxWidth="full" height="full" display="flex">
+      <HStack w="full" h="full" display="flex" flexDirection="row">
         <FeatureTabsWired />
         <SidebarWired />
         <ChatWindowWired />

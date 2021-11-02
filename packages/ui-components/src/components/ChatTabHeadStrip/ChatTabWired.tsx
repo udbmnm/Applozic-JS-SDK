@@ -1,13 +1,15 @@
 import React from 'react';
-import ChatTabHeadStrip from './ChatTabHeadStrip';
 import useActiveChats from '../../hooks/useActiveChats';
+import ChatTab from './ChatTab';
 
-export interface ChatTabHeadStripWiredProps {
+export interface ChatTabWiredProps {
+  /** unique identifier */
+  key: string;
   /** Show the back icon instead of the cross to handle plugin view */
   showBack?: boolean;
 }
 
-const ChatTabHeadStripWired = ({ showBack }: ChatTabHeadStripWiredProps) => {
+function ChatTabWired({ key, showBack }: ChatTabWiredProps) {
   const {
     activeChats,
     openIndex,
@@ -15,12 +17,9 @@ const ChatTabHeadStripWired = ({ showBack }: ChatTabHeadStripWiredProps) => {
     removeActiveChat: removeContact,
     showChatDetail
   } = useActiveChats();
-
   return (
-    <ChatTabHeadStrip
+    <ChatTab
       showBack={!!showBack}
-      activeChats={activeChats}
-      openIndex={openIndex}
       onItemClick={index => {
         activeChats && setActiveChat(activeChats[index]);
       }}
@@ -30,8 +29,13 @@ const ChatTabHeadStripWired = ({ showBack }: ChatTabHeadStripWiredProps) => {
       onDetailsClick={index => {
         showChatDetail(index);
       }}
+      key={key}
+      activeChat={activeChats[openIndex]}
+      index={openIndex}
+      isSelected={true}
+      isLast={false}
     />
   );
-};
+}
 
-export default ChatTabHeadStripWired;
+export default ChatTabWired;

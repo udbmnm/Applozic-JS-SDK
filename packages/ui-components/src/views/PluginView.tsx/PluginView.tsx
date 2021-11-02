@@ -1,13 +1,16 @@
 import React from 'react';
 import { ProvideBase } from '../..';
 import { BaseProps } from '../../providers/useBase';
-import { ViewProps } from '../ViewProps';
 
-import PluginViewWithoutBase from './PluginViewWithoutBase';
+import PluginViewWithoutBase, {
+  PluginViewWithoutBaseProps
+} from './PluginViewWithoutBase';
 
-export interface PluginViewProps extends ViewProps, BaseProps {}
+export interface PluginViewProps
+  extends PluginViewWithoutBaseProps,
+    BaseProps {}
 
-const FullView = ({
+const PluginView = ({
   colorMode,
   useSystemColorMode,
   environment,
@@ -24,4 +27,4 @@ const FullView = ({
   );
 };
 
-export default FullView;
+export default PluginView;

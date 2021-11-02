@@ -37,7 +37,12 @@ const findSearchTermInUser = (query: string, user: User) => {
   );
 };
 
-function SidebarWired() {
+interface SidebarWiredProps {
+  /** Show the hamburger on the left to collapse the sidebar */
+  hideHamburger?: boolean;
+}
+
+function SidebarWired({ hideHamburger }: SidebarWiredProps) {
   const { client, loginResult, logoutUser } = useApplozicClient();
   const queryClient = useQueryClient();
   const { data: self } = useGetSelfDetails();
@@ -166,7 +171,8 @@ function SidebarWired() {
         searchValue: searchQuery,
         setSearchValue: setSearchQuery,
         setCollapsed: setSidebarCollapsed,
-        isCollapsed: sidebarCollapsed
+        isCollapsed: sidebarCollapsed,
+        hideHamburger
       }}
       isFetchingNextRecentChatsPage={isFetchingNextRecentChatsPage}
       fetchNextRecentChats={() => fetchNextRecentChats()}

@@ -1,9 +1,7 @@
 import React from 'react';
 import {
-  Box,
   Center,
   HStack,
-  Spacer,
   Square,
   Text,
   useColorModeValue as mode
@@ -51,14 +49,15 @@ const ChatStatusBar = ({
 }: ChatStatusBarProps) => {
   return (
     <HStack
-      width="100%"
+      w="full"
+      flexShrink={0}
       borderColor="#E9E9E9"
       borderBottomWidth={1}
       backgroundColor={mode('#fff', '#1B191D')}
       paddingLeft={4}
       paddingTop={3}
       paddingBottom={3}
-      h={'48px'}
+      marginBottom={3}
     >
       {isOnline !== undefined && (
         <Center>
@@ -66,7 +65,7 @@ const ChatStatusBar = ({
             size="6px"
             borderRadius="full"
             bg={isOnline ? 'green.500' : 'grey'}
-          ></Square>
+          />
         </Center>
       )}
       {isTyping ? (

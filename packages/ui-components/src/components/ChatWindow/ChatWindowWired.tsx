@@ -1,4 +1,4 @@
-import { Box, Tabs } from '@chakra-ui/react';
+import { TabPanels, TabPanel, Tabs, Box } from '@chakra-ui/react';
 import React from 'react';
 import NoChatSelected from './NoChatSelected';
 
@@ -8,38 +8,61 @@ import { AnimatePresence } from 'framer-motion';
 import MotionBox from '../MotionBox';
 import useActiveChats from '../../hooks/useActiveChats';
 import ChatPanelWired from '../ChatPanel/ChatPanelWired';
+import { getIdFromActiveChat } from '../../models/chat/ActiveChat';
+import useSidebar from '../../hooks/useSidebar';
 
 function ChatWindowWired() {
   const { activeChats, openIndex, detailOpenIndex } = useActiveChats();
-  
-  // const fullyOpen = sidebarCollapsed && detailOpenIndex < 0;
-  // const onlyDetailOpen = sidebarCollapsed && detailOpenIndex >= 0;
-  // const onlySidebarOpen = !sidebarCollapsed && detailOpenIndex < 0;
-  const activeChat = activeChats[openIndex];
+  const { sidebarCollapsed } = useSidebar();
+
+  const fullyOpen = sidebarCollapsed && detailOpenIndex < 0;
+  const onlyDetailOpen = sidebarCollapsed && detailOpenIndex >= 0;
+  const onlySidebarOpen = !sidebarCollapsed && detailOpenIndex < 0;
   return (
     <MotionBox
-      display="flex"
-      flex={1}
-      height="calc(100vh - 63px)"
-      flexDirection="row"
+      h="full"
+      maxW={`calc(100% - ${
+        fullyOpen
+          ? '200px'
+          : onlySidebarOpen
+          ? '420px'
+          : onlyDetailOpen
+          ? '200px'
+          : '460px'
+      })`}
       flexGrow={1}
+      display="flex"
+      flexDirection="row"
+      m={0}
     >
-      {activeChats.length === 0 || openIndex < 0 ? (
-        <NoChatSelected />
-      ) : (
-        <Tabs
-          isFitted
-          variant="enclosed"
-          width={detailOpenIndex > -1 ? 'calc(100% - 350px)' : 'full'}
-          height="full"
-          index={openIndex}
-        >
-          <ChatTabHeadStripWired />
-          <ChatPanelWired activeChat={activeChat} />
-        </Tabs>
-      )}
+      <Tabs
+        h="full"
+        w={detailOpenIndex > -1 ? 'calc(100% - 350px)' : 'full'}
+        isLazy
+        lazyBehavior="keepMounted"
+        isFitted
+        variant="enclosed"
+        index={openIndex}
+      >
+        <ChatTabHeadStripWired />
+        {activeChats.length === 0 || openIndex < 0 ? (
+          <NoChatSelected />
+        ) : (
+          <TabPanels>
+            {activeChats.map(activeChat => (
+              <TabPanel p={0} key={getIdFromActiveChat(activeChat)}>
+                <ChatPanelWired activeChat={activeChat} />
+              </TabPanel>
+            ))}
+          </TabPanels>
+        )}
+      </Tabs>
       <AnimatePresence>
-        {detailOpenIndex > -1 && <ChatDetailsWired activeChat={activeChat} />}
+        {detailOpenIndex > -1 && (
+          <Box ml={2}>
+            <ChatDetailsWired activeChat={activeChats[openIndex]} />
+          </Box>
+        )}
       </AnimatePresence>
     </MotionBox>
   );

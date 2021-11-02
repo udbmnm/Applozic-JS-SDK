@@ -1,4 +1,4 @@
-import { useColorModeValue as mode, Box } from '@chakra-ui/react';
+import { useColorModeValue as mode, Box, VStack } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import SendMessage, { SendMessageProps } from '../SendMessage';
 import ChatWindow, { ChatWindowProps } from '../ChatWindow';
@@ -12,6 +12,8 @@ export interface ChatPanelProps
     ChatWindowProps,
     Omit<SendMessageProps, 'handleSend'>,
     ChatStatusBarProps {
+  /** define if this panel is being used by the plugin view */
+  isPlugin: boolean;
   /** handle sending file and text */
   handleSendFileAndText: (
     text: string,
@@ -20,6 +22,7 @@ export interface ChatPanelProps
 }
 
 function ChatPanel({
+  isPlugin,
   self,
   activeChat,
   messages,
@@ -47,13 +50,17 @@ function ChatPanel({
 
   return (
     <MotionBox
-      padding={0}
+      p={0}
+      m={0}
       borderBottomRadius={15}
       borderWidth={mode(1, 0)}
       borderColor="#E9E9E9"
-      flexDirection="column"
-      height="full"
+      h={isPlugin ? 'calc(100% - 48px)' : 'calc(100vh - 64px)'}
+      w="full"
       backgroundColor={mode('#FFFFFF', '#1B191D')}
+      display="flex"
+      flexWrap="nowrap"
+      flexDirection="column"
     >
       {activeChat.user && (
         <ChatStatusBar
@@ -62,7 +69,6 @@ function ChatPanel({
           isTyping={isTyping}
         />
       )}
-      <Box h={3} />
       <ChatWindow
         clearUnreadNotifications={clearUnreadNotifications}
         activeChat={activeChat}

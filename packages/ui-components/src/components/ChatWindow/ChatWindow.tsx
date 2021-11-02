@@ -1,6 +1,6 @@
 import {
   Text,
-  Container,
+  List,
   VStack,
   Center,
   Avatar,
@@ -8,7 +8,8 @@ import {
   Spinner,
   HStack,
   Box,
-  AvatarGroup
+  AvatarGroup,
+  ListItem
 } from '@chakra-ui/react';
 import React, { useEffect, useRef } from 'react';
 import { ChatType, Message } from '../../models/chat';
@@ -51,21 +52,21 @@ function ChatWindow({
   activeChat,
   messages,
   gMapsApiKey,
-  hasAttachment,
   hasNextPage,
   isFetchingNextPage,
   clearUnreadNotifications,
   onMessageDelete,
   fetchNextPage
 }: ChatWindowProps) {
-  const elementRef = useRef<null | HTMLDivElement>(null);
+  const elementRef = useRef<null | HTMLLIElement>(null);
 
   useEffect(() => {
     clearUnreadNotifications();
   }, []);
 
-  const { contactName, contactImageUrl } =
-    getContactNameAndImageFromActiveChat(activeChat);
+  const { contactName, contactImageUrl } = getContactNameAndImageFromActiveChat(
+    activeChat
+  );
 
   useEffect(() => {
     if (elementRef?.current) {
@@ -75,11 +76,7 @@ function ChatWindow({
       });
     }
   }, [elementRef, messages]);
-  const {
-    ref: oldestMessage,
-    inView,
-    entry
-  } = useInView({
+  const { ref: oldestMessage, inView } = useInView({
     /* Optional options */
     threshold: 0,
     initialInView: false
@@ -89,85 +86,87 @@ function ChatWindow({
       fetchNextPage();
     }
   }, [inView]);
+  // `calc(100% - ${
+  //   activeChat?.user
+  //     ? `${hasAttachment ? '183px' : '115px'}`
+  //     : `${hasAttachment ? '135px' : '67px'}`
+  // })`
   return (
-    <Container
-      maxW="100%"
-      display="flex"
-      flexShrink={1}
+    <ScrollArea
+      w="full"
+      h="full"
       flexGrow={1}
-      flexBasis={0}
-      h={`calc(100% - ${
-        activeChat?.user
-          ? `${hasAttachment ? '183px' : '115px'}`
-          : `${hasAttachment ? '135px' : '67px'}`
-      })`}
+      px={3}
       backgroundColor={mode('#FFFFFF', '#1B191D')}
     >
       {messages && messages.length > 0 ? (
-        <ScrollArea pr={3} pl={3}>
-          <VStack
-            as="ul"
-            w="full"
-            spacing={4}
-            display="flex"
-            flexDirection="column"
-          >
-            {isFetchingNextPage && hasNextPage && (
+        <List
+          h="full"
+          w="full"
+          spacing={4}
+          display="flex"
+          flexDirection="column"
+        >
+          {isFetchingNextPage && hasNextPage && (
+            <ListItem>
               <HStack>
                 <Spinner />
                 <Text>Fetching older messages...</Text>
               </HStack>
-            )}
-            {messages.map((message: Message, index: number) => (
-              <>
-                {(index === 0 ||
+            </ListItem>
+          )}
+          {messages.map((message: Message, index: number) => (
+            <ListItem
+              key={message.key}
+              ref={index == 0 ? oldestMessage : null}
+              display="flex"
+              flexDirection="column"
+            >
+              {(index === 0 ||
+                messages[index - 1].timeStamp.getDate() !==
+                  message.timeStamp.getDate()) && (
+                <Text
+                  color="textMain.300"
+                  fontSize="11px"
+                  bg="#F2F0F5"
+                  py={0.5}
+                  px={1.5}
+                  mb={2}
+                  alignSelf="center"
+                  borderRadius={4}
+                >
+                  {message.timeStamp.getDate()}{' '}
+                  {getMonthName(message.timeStamp)}
+                  {message.timeStamp.getFullYear() !== new Date().getFullYear()
+                    ? ' ' + message.timeStamp.getFullYear()
+                    : ''}
+                </Text>
+              )}
+              <ChatBubble
+                gMapsApiKey={gMapsApiKey}
+                chatType={activeChat.user ? ChatType.USER : ChatType.GROUP}
+                showTime={
+                  index === 0 ||
                   messages[index - 1].timeStamp.getDate() !==
-                    message.timeStamp.getDate()) && (
-                  <Box
-                    bg="#F2F0F5"
-                    p="2px"
-                    pl="6px"
-                    pr="6px"
-                    borderRadius="4px"
-                  >
-                    <Text color="textMain.300" fontSize="11px">
-                      {message.timeStamp.getDate()}{' '}
-                      {getMonthName(message.timeStamp)}
-                      {message.timeStamp.getFullYear() !==
-                      new Date().getFullYear()
-                        ? ' ' + message.timeStamp.getFullYear()
-                        : ''}
-                    </Text>
-                  </Box>
-                )}
-                <ChatBubble
-                  gMapsApiKey={gMapsApiKey}
-                  chatType={activeChat.user ? ChatType.USER : ChatType.GROUP}
-                  ref={index == 0 ? oldestMessage : null}
-                  showTime={
-                    index === 0 ||
-                    messages[index - 1].timeStamp.getDate() !==
-                      message.timeStamp.getDate() ||
-                    message.timeStamp.getTime() -
-                      messages[index - 1].timeStamp.getTime() >
-                      1000 * 60 * 10
+                    message.timeStamp.getDate() ||
+                  message.timeStamp.getTime() -
+                    messages[index - 1].timeStamp.getTime() >
+                    1000 * 60 * 10
+                }
+                message={message}
+                showUserInfo={false}
+                onMessageDelete={deleteForAll => {
+                  if (onMessageDelete) {
+                    onMessageDelete(message, deleteForAll);
                   }
-                  message={message}
-                  showUserInfo={false}
-                  onMessageDelete={deleteForAll => {
-                    if (onMessageDelete) {
-                      onMessageDelete(message, deleteForAll);
-                    }
-                  }}
-                />
-              </>
-            ))}
-            {/* {typing && <Text fontStyle="italic">Typing...</Text>} */}
-          </VStack>
-          <div ref={elementRef} />
-        </ScrollArea>
+                }}
+              />
+            </ListItem>
+          ))}
+          <ListItem ref={elementRef} />
+        </List>
       ) : (
-        <Center justifyContent="center" w="full">
+        <Center justifyContent="center" maxW="full" maxH="full">
           <VStack spacing={3}>
             <AvatarGroup size="md" max={2}>
               <Avatar src={contactImageUrl} name={contactName} />
@@ -181,7 +180,7 @@ function ChatWindow({
           </VStack>
         </Center>
       )}
-    </Container>
+    </ScrollArea>
   );
 }
 

@@ -1,6 +1,6 @@
+import { Center, Container } from '@chakra-ui/react';
 import React from 'react';
 import { LoginFormWired } from '../..';
-import LoginPage from '../../components/LoginPage';
 import useGetSelfDetails from '../../hooks/queries/useGetSelfDetails';
 import { useApplozicClient } from '../../providers/useApplozicClient';
 import { ViewWithLoginProps } from '../ViewProps';
@@ -8,20 +8,30 @@ import PluginViewApp from './PluginViewApp';
 
 function PluginViewAppWithLogin({ loginPage }: ViewWithLoginProps) {
   const { isClientLoaded } = useApplozicClient();
-  const { data: user } = useGetSelfDetails();
-
+  const { data: user, status } = useGetSelfDetails();
   if (!isClientLoaded) {
-    return <div>Loading Applozic Client...</div>;
+    return (
+      <Container>
+        <Center>Loading Applozic Client...</Center>
+      </Container>
+    );
   }
-  return user ? (
-    <PluginViewApp />
-  ) : (
-    <LoginFormWired />
-    // <LoginPage
-    //   topHeader={loginPage.topHeader}
-    //   topSubHeader={loginPage.topSubHeader}
-    // />
-  );
+
+  if (status !== 'loading') {
+    return user ? (
+      <PluginViewApp />
+    ) : (
+      <Container>
+        <LoginFormWired />
+      </Container>
+    );
+  } else {
+    return (
+      <Container>
+        <Center>Loading details..</Center>
+      </Container>
+    );
+  }
 }
 
 export default PluginViewAppWithLogin;

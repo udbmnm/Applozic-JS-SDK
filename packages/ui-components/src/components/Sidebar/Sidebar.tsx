@@ -146,17 +146,17 @@ function Sidebar({
 
   return (
     <MotionBox
-      borderWidth={mode(1, 0)}
-      width={'350px'}
-      m="0"
+      w={'350px'}
+      h="full"
+      m={0}
       borderColor="#E9E9E9"
+      borderWidth={mode(1, 0)}
       borderRadius={15}
-      height="full"
+      backgroundColor={mode('#FFFFFF', '#1B191D')}
       animate={controls}
       initial="open"
       variants={{ open: { width: '350px' }, closed: { width: '100px' } }}
       transition={{ type: 'tween' }}
-      backgroundColor={mode('#FFFFFF', '#1B191D')}
     >
       <AnimatePresence>
         {(showAddGroup || showAddContact) && (
@@ -180,6 +180,7 @@ function Sidebar({
             flexFlow="column"
             display={'flex'}
             flex={1}
+            borderRadius={15}
             height="full"
             width="full"
             initial={{ x: '101%', opacity: 0 }}
@@ -189,7 +190,12 @@ function Sidebar({
           >
             <Search {...search} />
             <Divider mt={1.5} mb={1.5} />
-            <ScrollArea width={'full'} hideScrollbar={true} overflowX="hidden">
+            <ScrollArea
+              width={'full'}
+              height="full"
+              hideScrollbar={true}
+              overflowX="hidden"
+            >
               {getComponent()}
             </ScrollArea>
           </MotionBox>

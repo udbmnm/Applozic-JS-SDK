@@ -179,20 +179,19 @@ const ChatDetails = ({
 
   return (
     <MotionBox
-      height="full"
-      padding={0}
-      width="350px"
-      exit={{ x: '101%' }}
-      transition={{
-        type: 'tween'
-      }}
-      ml={2}
-      animate={{ x: 0 }}
-      initial={{ x: '101%' }}
+      w="350px"
+      h="full"
+      p={0}
       borderRadius={15}
       borderWidth={mode(1, 0)}
       borderColor="#E9E9E9"
       backgroundColor={mode('#FFFFFF', '#272528')}
+      exit={{ x: '101%' }}
+      transition={{
+        type: 'tween'
+      }}
+      animate={{ x: 0 }}
+      initial={{ x: '101%' }}
     >
       <AnimatePresence>
         {sharedMediaFullScreen && (

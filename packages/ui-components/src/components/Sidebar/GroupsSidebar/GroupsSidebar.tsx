@@ -1,5 +1,5 @@
 import React from 'react';
-import { VStack } from '@chakra-ui/react';
+import { ListItem, List } from '@chakra-ui/react';
 import { ChatType } from '../../../models/chat';
 import { RecentChat } from '../../../models/chat';
 import RecentChatItem from '../RecentChatsSidebar/RecentChatItem';
@@ -29,18 +29,21 @@ const GroupsSidebar = ({
   };
 
   return (
-    <VStack height="full" width={'full'}>
-      <AddGroup onClick={onClickAddGroup} />
+    <List height="full" width={'full'}>
+      <ListItem key="add_group">
+        <AddGroup onClick={onClickAddGroup} />
+      </ListItem>
       {recentChats.map((recentChat, key) => (
-        <RecentChatItem
-          key={key}
-          onClearChat={() => {}} // eslint-disable-line
-          recentChat={recentChat}
-          controls={controls}
-          onClick={handleClick(recentChat.chatType, recentChat.contactId)}
-        />
+        <ListItem key={key}>
+          <RecentChatItem
+            onClearChat={() => {}} // eslint-disable-line
+            recentChat={recentChat}
+            controls={controls}
+            onClick={handleClick(recentChat.chatType, recentChat.contactId)}
+          />
+        </ListItem>
       ))}
-    </VStack>
+    </List>
   );
 };
 

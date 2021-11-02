@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { HamburgerIcon, SearchIcon, WarningIcon } from '@chakra-ui/icons';
-import {
-  HStack,
-  InputGroup,
-  InputLeftElement,
-  Input,
-  InputRightElement
-} from '@chakra-ui/react';
+import React from 'react';
+import { HamburgerIcon } from '@chakra-ui/icons';
+import { HStack, InputGroup, InputLeftElement, Input } from '@chakra-ui/react';
 import MotionBox from '../MotionBox';
 import { AnimatePresence } from 'framer-motion';
 import Icon from '../Icon';
 
 export interface SearchProps {
+  /** Show the hamburger on the left to collapse the sidebar */
+  hideHamburger?: boolean;
   /** Search query to filter the sidebar items */
   searchValue: string | undefined;
   /** Callback to update the search query */
@@ -23,6 +19,7 @@ export interface SearchProps {
 }
 
 function Search({
+  hideHamburger,
   searchValue,
   setSearchValue,
   setCollapsed,
@@ -30,9 +27,11 @@ function Search({
 }: SearchProps) {
   return (
     <HStack alignItems="center" justifyContent="center" width="full">
-      <HamburgerIcon
-        onClick={() => setCollapsed && setCollapsed(!isCollapsed)}
-      />
+      {!hideHamburger && (
+        <HamburgerIcon
+          onClick={() => setCollapsed && setCollapsed(!isCollapsed)}
+        />
+      )}
       <AnimatePresence>
         {!isCollapsed && (
           <MotionBox

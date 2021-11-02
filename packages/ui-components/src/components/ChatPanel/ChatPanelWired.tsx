@@ -12,8 +12,14 @@ import { useApplozicClient } from '../../providers/useApplozicClient';
 import useSendUserMessage from '../../hooks/mutations/useSendUserMessage';
 import ActiveChat, { getIdFromActiveChat } from '../../models/chat/ActiveChat';
 import { v4 } from 'uuid';
+import { usePresence } from '../../hooks/usePresence';
 
-function ChatPanelWired({ activeChat }: { activeChat: ActiveChat }) {
+export interface ChatPanelWiredProps {
+  isPlugin?: boolean;
+  activeChat: ActiveChat;
+}
+
+function ChatPanelWired({ isPlugin, activeChat }: ChatPanelWiredProps) {
   const toast = useToast();
   const { client } = useApplozicClient();
   const contactId = getIdFromActiveChat(activeChat);
@@ -22,7 +28,7 @@ function ChatPanelWired({ activeChat }: { activeChat: ActiveChat }) {
   );
 
   const { data: self } = useGetSelfDetails();
-
+  const presenceData = usePresence(self?.userId ?? '');
   const { data: messages = [] } = useQuery<Message[]>([
     'messages-local',
     activeChat.group?.clientGroupId ?? activeChat.user?.userId
@@ -45,8 +51,12 @@ function ChatPanelWired({ activeChat }: { activeChat: ActiveChat }) {
 
   return (
     <ChatPanel
+      isPlugin={!!isPlugin}
       self={self}
       messages={messages}
+      isOnline={presenceData.isOnline}
+      isTyping={presenceData.isTyping}
+      lastSeen={presenceData.lastSeen}
       activeChat={activeChat}
       handleTyping={typing => {
         setTimeout(

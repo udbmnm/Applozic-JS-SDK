@@ -8,7 +8,7 @@ interface ScrollProps extends BoxProps {
 const ScrollArea = ({ hideScrollbar, ...rest }: ScrollProps) => (
   <Box
     overflowY="auto"
-    minH="px"
+    // minH="px"
     maxH="full"
     width="100%"
     {...rest}

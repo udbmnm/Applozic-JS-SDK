@@ -17,24 +17,31 @@ import {
 import FocusLock from 'react-focus-lock';
 import { Icon } from '../..';
 
+export interface PluginViewWithoutBaseProps extends ViewProps {
+  /** load the chat application lazyly, this will improve performance of your application but will add a short loading delay*/
+  isLazy: boolean;
+}
+
 const PluginViewWithoutBase = ({
   applicationId,
   giphyApiKey,
   gMapsApiKey,
+  isLazy,
   ...rest
-}: ViewProps) => {
+}: PluginViewWithoutBaseProps) => {
   const { onOpen, onClose, isOpen } = useDisclosure();
   const firstFieldRef = useRef(null);
 
   return (
     <Popover
-      isLazy
+      isLazy={isLazy}
+      lazyBehavior="keepMounted"
       isOpen={isOpen}
       initialFocusRef={firstFieldRef}
       onOpen={onOpen}
       onClose={onClose}
       placement="top"
-      closeOnBlur={false}
+      // closeOnBlur={false}
     >
       <Box position={'fixed'} right={4} bottom={4}>
         <PopoverTrigger>
@@ -47,14 +54,13 @@ const PluginViewWithoutBase = ({
         </PopoverTrigger>
       </Box>
       <PopoverContent
-        w={400}
-        maxH={'40%'}
-        p={2}
+        w={350}
+        p={0}
+        borderRadius={15}
         backgroundColor={mode('background.light', 'background.dark')}
       >
         <FocusLock returnFocus persistentFocus={false}>
           <PopoverArrow />
-          <PopoverCloseButton />
           <ProvideApplozicClient
             applicationId={applicationId}
             giphyApiKey={giphyApiKey}

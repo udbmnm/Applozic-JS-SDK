@@ -163,13 +163,7 @@ function SendMessage({
   const audioTime = getHourMinutsSeconds(audioFile?.durationSeconds || 0);
 
   return (
-    <VStack
-      flex={'0 0 48px'}
-      marginRight={12}
-      marginLeft={12}
-      pt={2}
-      spacing={0}
-    >
+    <VStack width="full" p={2} spacing={0} flexShrink={0}>
       {/* TODO remove temporary VStack to debug recording */}
       {attachment && (
         <Box

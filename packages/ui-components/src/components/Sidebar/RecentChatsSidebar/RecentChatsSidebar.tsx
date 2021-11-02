@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { VStack } from '@chakra-ui/react';
+import { List, ListItem } from '@chakra-ui/react';
 import { ChatType } from '../../../models/chat';
 import { RecentChat } from '../../../models/chat';
 import RecentChatItem from './RecentChatItem';
@@ -45,22 +45,22 @@ const RecentChatsSidebar = ({
   }, [inView]);
 
   return (
-    <VStack width={'full'} height={'full'}>
+    <List width={'full'} height={'full'}>
       {recentChats &&
         recentChats?.length > 0 &&
         recentChats.map((recentChat, key) => (
-          <RecentChatItem
-            key={key}
-            ref={oldestChat}
-            recentChat={recentChat}
-            controls={controls}
-            onClick={handleClick(recentChat.chatType, recentChat.contactId)}
-            onClearChat={() => {
-              onClearConversation(recentChat.chatType, recentChat.contactId);
-            }}
-          />
+          <ListItem key={key} ref={oldestChat}>
+            <RecentChatItem
+              recentChat={recentChat}
+              controls={controls}
+              onClick={handleClick(recentChat.chatType, recentChat.contactId)}
+              onClearChat={() => {
+                onClearConversation(recentChat.chatType, recentChat.contactId);
+              }}
+            />
+          </ListItem>
         ))}
-    </VStack>
+    </List>
   );
 };
 /** : ( // <AddContact onClick={onClickAddContact} />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { VStack } from '@chakra-ui/react';
+import { List, ListItem } from '@chakra-ui/react';
 import { User } from '@applozic/core-sdk';
 import ContactItem from './ContactItem';
 import { AnimationControls } from 'framer-motion';
@@ -24,17 +24,20 @@ const ContactsSidebar = ({
   };
 
   return (
-    <VStack width={'full'} height="full">
+    <List height="full" width={'full'}>
+      {/* <ListItem key={'add_contact'}> */}
       {/* <AddContact onClick={onClickAddContact} /> */}
+      {/* </ListItem> */}
       {users?.map((user, key) => (
-        <ContactItem
-          key={key}
-          user={user}
-          controls={controls}
-          onClick={handleClick(user.userId)}
-        />
+        <ListItem key={key}>
+          <ContactItem
+            user={user}
+            controls={controls}
+            onClick={handleClick(user.userId)}
+          />
+        </ListItem>
       ))}
-    </VStack>
+    </List>
   );
 };
 

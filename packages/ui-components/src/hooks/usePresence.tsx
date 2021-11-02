@@ -1,7 +1,5 @@
 import { useQuery } from 'react-query';
-import { User } from '@applozic/core-sdk';
 import useGetUserInfo from './queries/useGetUserInfo';
-import { ChatType } from '../models/chat';
 
 export interface IPresence {
   isTyping: boolean;
