@@ -84,19 +84,13 @@ const useGetApplozicClient = (
     deleteMessageMutation({ messageKey, contactId });
   };
 
-  const [loginResult, setLoginResult] = useState<LoginResult | null>();
-
   const logoutUser = async () => {
     if (client) {
-      await client?.logout();
-      queryClient.setQueryData(['self', loginResult?.userId], null);
+      await client.logout();
+      queryClient.setQueryData(['self', client.loginResult?.userId], null);
       queryClient.clear();
     }
   };
-
-  useEffect(() => {
-    setLoginResult(client?.loginResult);
-  }, [client?.loginResult]);
 
   useEffect(() => {
     const initSdk = async () => {
@@ -221,7 +215,7 @@ const useGetApplozicClient = (
 
   return {
     client,
-    loginResult,
+    loginResult: client?.loginResult,
     logoutUser,
     isClientLoaded,
     giphyApiKey,
