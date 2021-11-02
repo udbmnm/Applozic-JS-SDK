@@ -4,14 +4,13 @@ import {
   useColorModeValue as mode,
   VStack,
   Box,
-  Heading,
-  Spacer
+  Heading
 } from '@chakra-ui/react';
 import React from 'react';
 import { LoginFormWired } from '../..';
 import useGetSelfDetails from '../../hooks/queries/useGetSelfDetails';
 import { useApplozicClient } from '../../providers/useApplozicClient';
-import Loading from '../LoadingClient';
+import Loading from '../Loading';
 import { ViewWithLoginProps } from '../ViewProps';
 import PluginViewApp from './PluginViewApp';
 

@@ -1,11 +1,10 @@
-import { Center, Container, HStack } from '@chakra-ui/layout';
-import { useColorModeValue as mode, Spinner, Text } from '@chakra-ui/react';
+import { Container } from '@chakra-ui/layout';
+import { useColorModeValue as mode } from '@chakra-ui/react';
 import React from 'react';
 import LoginPage from '../../components/LoginPage';
 import useGetSelfDetails from '../../hooks/queries/useGetSelfDetails';
 import { useApplozicClient } from '../../providers/useApplozicClient';
-import Loading from '../LoadingClient';
-import LoadingClient from '../LoadingClient';
+import Loading from '../Loading';
 import { ViewWithLoginProps } from '../ViewProps';
 import FullViewApp from './FullViewApp';
 
