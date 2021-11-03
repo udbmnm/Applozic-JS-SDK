@@ -10,33 +10,30 @@ $ npm i @applozic/ui-components
 
 ## Views
 
-### FullView
+These are a full fleged implementations of the [@applozic/core](https://www.npmjs.com/package/@applozic/core-sdk) package with best practices of. Both light and dark themes are supported depending on the `colorMode` prop provided to the view.
 
-This is a full fleged implementation of the @applozic/core package with best practices.
-The UI supports both light and dark theme depending on the `colorMode` prop provided to the view.
-
-You can test out the live version with the [interactive storybook](https://ui-storybook.applozic.com/?path=/docs/views-fullview--default)
-
-It has the following features implemented.
-
+Views have the following features implemented.
 1. Login
 2. Feature Tabs
    1. Recent Chats
    2. Contacts
    3. Groups
-3. Sidebar with search and tab specific entities
-4. Chat window
+3. User details
+   1. Update details
+   2. Logout
+4. Sidebar with search and tab specific chat/user entities
+5. Chat window
    1. Send Message
       1. Send Attachment
       2. Send Audio message
-   2. View chats
+   2. Chat content
       1. Pagination.
       2. Delete chat.
       3. Update chat status.
    3. User Presence
       1. User Online
       2. User Last Seen timestamp
-5. Chat details
+6. Chat details
    1. Contact
       1. View details
       2. Clear Chat
@@ -49,9 +46,12 @@ It has the following features implemented.
       5. Add new members
       6. Delete group {for admins}
       7. Leave group
-6. User details
-   1. Update details
-   2. Logout
+
+### FullView
+This is a full page version of the applozic chat. 
+You can test out the live version with the [interactive storybook](https://ui-storybook.applozic.com/?path=/docs/views-fullview--default)
+
+
 
 #### Example
 
@@ -78,14 +78,19 @@ function App() {
 
 ##### Customization
 
-| Property           | Type           | Description                                                                                |
-| ------------------ | -------------- | ------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| colorMode          | `'light'       | 'dark'`                                                                                    | Set the default theme of the UI components                                                                                                    |
-| useSystemColorMode | `boolean`      | Use the users system level theme to decide if the UI components should be `light`or `dark` |
-| environment        | `'development' | 'production'`                                                                              | The envrionment in which to initialize the UI, hides the [react query devtools](https://react-query.tanstack.com/devtools) in production mode |
-| applicationId      | `string`       | The Applozic Application ID as provided after onboarding                                   |
-| giphyApiKey        | `string`       | GIPHY API Key to enable sending GIFs                                                       |
-| gMapsApiKey        | `string`       | Google Maps API Key to enable sending Geo Location                                         |
+| Property           | Type                        | Description                                                                                                                                   |
+| ------------------ | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| colorMode          | `light`, `dark`             | Set the default theme of the UI components                                                                                                    |
+| useSystemColorMode | `boolean`                   | Use the users system level theme to decide if the UI components should be `light`or `dark`                                                    |
+| environment        | `development`, `production` | The envrionment in which to initialize the UI, hides the [react query devtools](https://react-query.tanstack.com/devtools) in production mode |
+| applicationId      | `string`                    | The Applozic Application ID as provided after onboarding                                                                                      |
+| giphyApiKey        | `string`                    | GIPHY API Key to enable sending GIFs                                                                                                          |
+| gMapsApiKey        | `string`                    | Google Maps API Key to enable sending Geo Location                                                                                            |
+
+### PluginView
+This is a popover version of the chat that can be added contextually to any page in your own website. 
+You can test out the live version with the [interactive storybook](https://ui-storybook.applozic.com/?path=/docs/views-pluginview--default)
+
 
 ## Components
 
@@ -100,12 +105,12 @@ The below `enum` will be needed to initialize and maintain your own implementati
 ##### `enum` FeatureTab
 
 These are the currently available options for the feature tabs. This will be useful to define the `Sidebar` component.
-| Feature Name | Description |
+| Feature Name              | Description                                                      |
 | ------------------------- | ---------------------------------------------------------------- |
-| `FeatureTab.USER` | The logged in user's details and other options |
+| `FeatureTab.USER`         | The logged in user's details and other options                   |
 | `FeatureTab.RECENT_CHATS` | The most recent chats of the logged in user with users or groups |
-| `FeatureTab.GROUPS` | All the groups the logged in user is a part of or has created |
-| `FeatureTab.CONTACTS` | All the users with which the logged in user is in contact with |
+| `FeatureTab.GROUPS`       | All the groups the logged in user is a part of or has created    |
+| `FeatureTab.CONTACTS`     | All the users with which the logged in user is in contact with   |
 
 ###### Example
 
@@ -148,21 +153,21 @@ The below `interface(s)` and `enum` will be needed to initialize and maintain yo
 ##### `enum` ChatType
 
 The type of chats available
-| Chat Type | Description |
+| Chat Type        | Description              |
 | ---------------- | ------------------------ |
-| `ChatType.USER` | Chat with a user contact |
-| `ChatType.GROUP` | Chat with a group |
+| `ChatType.USER`  | Chat with a user contact |
+| `ChatType.GROUP` | Chat with a group        |
 
 ##### `interface` RecentChat
 
 Defines an item in the sidebar
-| Variable | Type | Description |
+| Variable        | Type              | Description                                                                                                                                                                                                                                                              |
 | --------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| contactId | `string` | The unique identifier for the contact [user.userId](https://websdk.applozic.com/docs/latest/interfaces/User.html#userId) for `ChatType.USER` and [group.clientGroupId](https://websdk.applozic.com/docs/latest/interfaces/Group.html#clientGroupId) for `ChatType.GROUP` |
-| chatType | `ChatType` | The enum value defining the type of chat |
-| imageUrl | optional `string` | The image URL for the specific chat |
-| lastMessageKey | `string` | The unique identifier for the last message in this chat |
-| lastMessageTime | `number` | The numeric timestamp of the last message in this chat |
+| contactId       | `string`          | The unique identifier for the contact [user.userId](https://websdk.applozic.com/docs/latest/interfaces/User.html#userId) for `ChatType.USER` and [group.clientGroupId](https://websdk.applozic.com/docs/latest/interfaces/Group.html#clientGroupId) for `ChatType.GROUP` |
+| chatType        | `ChatType`        | The enum value defining the type of chat                                                                                                                                                                                                                                 |
+| imageUrl        | optional `string` | The image URL for the specific chat                                                                                                                                                                                                                                      |
+| lastMessageKey  | `string`          | The unique identifier for the last message in this chat                                                                                                                                                                                                                  |
+| lastMessageTime | `number`          | The numeric timestamp of the last message in this chat                                                                                                                                                                                                                   |
 
 ##### `interface` [User](https://websdk.applozic.com/docs/latest/interfaces/User.html)
 
@@ -233,22 +238,22 @@ You can test out the live version of the component and refer to details on custo
 ###### SearchProps : `search`
 
 | Property       | Type                       | Description                                                       |
-| -------------- | -------------------------- | ----------------------------------------------------------------- | ---------------------------------------- |
-| searchValue    | `string                    | undefined`                                                        | Search query to filter the sidebar items |
+| -------------- | -------------------------- | ----------------------------------------------------------------- |
+| searchValue    | `string`, `undefined`      | Search query to filter the sidebar items                          |
 | setSearchValue | `(query: string) => void`  | Callback to update the search query                               |
 | isCollapsed    | `boolean`                  | The current collapsed state of the sidebar                        |
 | setCollapsed   | `(state: boolean) => void` | Callback to toggle the collapsed or expanded state of the sidebar |
 
 ###### SelfDetailProps : `selfDetails`
 
-| Property        | Type                                       | Description            |
-| --------------- | ------------------------------------------ | ---------------------- | ------------------------------------------------------ | ---------------------------------------------------------------------------------- |
-| name            | `string`                                   | name of logged in user |
-| imageUrl        | `string                                    | undefined`             | image url of the logged in user                        |
-| metaProps       | `{ items:[{header: string, text:string}] } | undefined`             | a list of ChatDetail metadata like email, phone number |
-| onCloseClicked  | `() => void                                | Promise<void>`         | Callback to handle the close action                    |
-| onLogOutClicked | `() => void                                | Promise<void>`         | Callback to handle the logout action                   |
-| onUpdateValue   | `(key: string, value: string               | undefined ) => void    | Promise<void>`                                         | Callback to handle update of any of the properties of the user eg: name, image etc |
+| Property        | Type                                                                                 | Description                                                                        |
+| --------------- | ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
+| name            | `string`                                                                             | name of logged in user                                                             |
+| imageUrl        | `string`, `undefined`                                                                | image url of the logged in user                                                    |
+| metaProps       | `{ items:[{header: string, text:string}] }`, `undefined`                             | a list of ChatDetail metadata like email, phone number                             |
+| onCloseClicked  | `() => void                                \ Promise<void>`                          | Callback to handle the close action                                                |
+| onLogOutClicked | `() => void                                \ Promise<void>`                          | Callback to handle the logout action                                               |
+| onUpdateValue   | `(key: string, value: string               \ undefined ) => void    | Promise<void>` | Callback to handle update of any of the properties of the user eg: name, image etc |
 
 ### ChatPanel
 
