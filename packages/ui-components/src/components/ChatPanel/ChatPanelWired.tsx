@@ -23,12 +23,11 @@ function ChatPanelWired({ isPlugin, activeChat }: ChatPanelWiredProps) {
   const toast = useToast();
   const { client } = useApplozicClient();
   const contactId = getIdFromActiveChat(activeChat);
-  const { fetchNextPage, isFetchingNextPage, hasNextPage } = useGetMessages(
-    activeChat
-  );
+  const { fetchNextPage, isFetchingNextPage, hasNextPage } =
+    useGetMessages(activeChat);
 
   const { data: self } = useGetSelfDetails();
-  const presenceData = usePresence(self?.userId ?? '');
+  const presenceData = usePresence(activeChat.user?.userId ?? '');
   const { data: messages = [] } = useQuery<Message[]>([
     'messages-local',
     activeChat.group?.clientGroupId ?? activeChat.user?.userId
