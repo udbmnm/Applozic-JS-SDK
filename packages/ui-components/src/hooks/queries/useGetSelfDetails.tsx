@@ -29,7 +29,6 @@ const getUserFromLoginResult = (
 
 function useGetSelfDetails() {
   const { client, loginResult } = useApplozicClient();
-  console.log({ loginResult });
   return useQuery<User | null>(['self', loginResult?.userId], async () => {
     if (loginResult?.userId) {
       const response = await client?.contacts.getUserDetails([
