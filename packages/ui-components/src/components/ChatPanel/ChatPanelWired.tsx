@@ -21,7 +21,7 @@ export interface ChatPanelWiredProps {
 
 function ChatPanelWired({ isPlugin, activeChat }: ChatPanelWiredProps) {
   const toast = useToast();
-  const { client } = useApplozicClient();
+  const { client, giphyApiKey, gMapsApiKey } = useApplozicClient();
   const contactId = getIdFromActiveChat(activeChat);
   const { fetchNextPage, isFetchingNextPage, hasNextPage } =
     useGetMessages(activeChat);
@@ -51,6 +51,8 @@ function ChatPanelWired({ isPlugin, activeChat }: ChatPanelWiredProps) {
   return (
     <ChatPanel
       isPlugin={!!isPlugin}
+      giphyApiKey={giphyApiKey}
+      gMapsApiKey={gMapsApiKey}
       self={self}
       messages={messages}
       isOnline={presenceData.isOnline}
