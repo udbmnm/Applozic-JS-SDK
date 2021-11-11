@@ -48,8 +48,9 @@ const PluginViewWithoutBase = ({
           <IconButton
             aria-label="edit"
             size="lg"
+            backgroundColor="brand.primary"
             style={{ borderRadius: '50%' }}
-            icon={<Icon icon="chat" color="black" size={24} />}
+            icon={<Icon icon="chat" color="white" size={24} />}
           />
         </PopoverTrigger>
       </Box>

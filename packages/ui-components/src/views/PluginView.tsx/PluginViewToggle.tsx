@@ -25,10 +25,13 @@ export const PluginViewToggle = ({
   <IconButton
     onClick={toggle}
     type="button"
+    backgroundColor="brand.secondary"
+    background="brand.secondary"
     aria-label="plugin-button"
     style={{
       outline: 'none',
       border: 'none',
+      backgroundColor: 'brand.secondary',
       // -webkit-user-select: "none",
       // -moz-user-select: "none",
       // -ms-user-select: "none",
