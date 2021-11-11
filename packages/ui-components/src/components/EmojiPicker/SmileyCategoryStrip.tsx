@@ -102,7 +102,7 @@ const SmileyCategoryStrip = ({
             height="0"
             border="1px solid"
             borderColor={
-              activeCategory === emoji.category ? 'accent.500' : 'transparent'
+              activeCategory === emoji.category ? 'brand.primary' : 'transparent'
             }
             borderRadius="5px"
           ></Box>

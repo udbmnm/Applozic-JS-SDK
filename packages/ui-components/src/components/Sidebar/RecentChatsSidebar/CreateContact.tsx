@@ -54,7 +54,7 @@ function CreateContact({
         w="full"
         borderTopRadius={0}
         borderBottomRadius={10}
-        bgColor={'primary.500'}
+        bgColor={'brand.primary'}
         color={'white'}
         disabled={!contactName}
         label={'Create Contact'}

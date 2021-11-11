@@ -146,7 +146,7 @@ const RecentChatItem = ({
           <HStack>
             {unreadCount && (
               <Box
-                bg="primary.500"
+                bg="brand.primary"
                 borderRadius="full"
                 paddingLeft="6px"
                 paddingRight="6px"

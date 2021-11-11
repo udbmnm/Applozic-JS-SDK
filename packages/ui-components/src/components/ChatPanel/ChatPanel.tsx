@@ -54,10 +54,10 @@ function ChatPanel({
       m={0}
       borderBottomRadius={15}
       borderWidth={mode(1, 0)}
-      borderColor="#E9E9E9"
+      borderColor="pane.light"
       h={isPlugin ? 'calc(100% - 48px)' : 'calc(100vh - 64px)'}
       w="full"
-      backgroundColor={mode('#FFFFFF', '#1B191D')}
+      backgroundColor={mode('card.light', 'pane.dark')}
       display="flex"
       flexWrap="nowrap"
       flexDirection="column"

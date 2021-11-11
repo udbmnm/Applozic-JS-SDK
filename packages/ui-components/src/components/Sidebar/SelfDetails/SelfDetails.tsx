@@ -68,8 +68,8 @@ const SelfDetails = ({
       initial={{ x: '-101%' }}
       borderRadius={15}
       borderWidth={mode(1, 0)}
-      borderColor="#E9E9E9"
-      backgroundColor={mode('#FFFFFF', '#272528')}
+      borderColor="pane.light"
+      backgroundColor={mode('card.light', 'pane.dark')}
     >
       <ScrollArea padding={5} width={'full'}>
         <VStack>
@@ -92,7 +92,7 @@ const SelfDetails = ({
             />
           </Box>
 
-          <Divider color="#e9e9e9" style={{ marginTop: '20px' }} />
+          <Divider color="border.500" style={{ marginTop: '20px' }} />
 
           {metaProps && (
             <>
@@ -101,7 +101,7 @@ const SelfDetails = ({
                   items={metaProps?.items ? metaProps.items : []}
                 />
               </Box>
-              <Divider color="#e9e9e9" style={{ marginTop: '20px' }} />
+              <Divider color="border.500" style={{ marginTop: '20px' }} />
             </>
           )}
           <Spacer />

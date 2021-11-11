@@ -73,7 +73,7 @@ function CreateGroup({
           bottom={0}
           w="full"
           borderTopRadius={0}
-          bgColor={'primary.500'}
+          bgColor={'brand.primary'}
           color={'white'}
           disabled={!groupName}
           label={'Create Group'}

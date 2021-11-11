@@ -56,12 +56,7 @@ const PrivacyAndSupport = ({
         </Text>
       </HStack> */}
       <HStack onClick={blockUser}>
-        <Icon
-          icon="cancel"
-          size={16}
-          style={{ opacity: 0.6 }}
-          color={useColorModeValue('#09021A', '#FFF')}
-        />
+        <Icon icon="cancel" size={16} style={{ opacity: 0.6 }} />
 
         <Text
           color="textMain.700"

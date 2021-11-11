@@ -97,7 +97,7 @@ function ChatWindow({
       h="full"
       flexGrow={1}
       px={3}
-      backgroundColor={mode('#FFFFFF', '#1B191D')}
+      backgroundColor={mode('card.light', 'pane.dark')}
     >
       {messages && messages.length > 0 ? (
         <List

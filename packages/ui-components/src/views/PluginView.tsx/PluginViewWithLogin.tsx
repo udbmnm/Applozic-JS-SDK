@@ -24,7 +24,7 @@ function PluginViewAppWithLogin({ loginPage }: ViewWithLoginProps) {
       overflowX="hidden"
       overflowY="hidden"
       padding={0}
-      backgroundColor={mode('background.light', 'background.dark')}
+      backgroundColor={mode('container.light', 'container.dark')}
     >
       {!isClientLoaded ? (
         <Loading message="Applozic client" />

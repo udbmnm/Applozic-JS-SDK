@@ -65,7 +65,7 @@ function AddMembers({
           borderRadius={0}
           flexShrink={0}
           h={12}
-          bgColor="primary.500"
+          bgColor="brand.primary"
           color="white"
           label={'Add Members'}
           onClick={() => updateMemberList(selectedUsers.map(a => a.toString()))}

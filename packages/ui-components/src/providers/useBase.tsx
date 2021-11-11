@@ -1,6 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect,
+  useState,
+  FunctionComponent,
+  ReactNode,
+  PropsWithChildren
+} from 'react';
 import theme from '../theme';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, useColorMode } from '@chakra-ui/react';
 import { Dict } from '@chakra-ui/utils';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Global, css } from '@emotion/core';
@@ -40,56 +46,51 @@ export interface BaseProps {
 
   /** The envrionment in which to initialize the UI, hides the [react query devtools](https://react-query.tanstack.com/devtools) in production mode */
   environment?: 'development' | 'production';
+  /** Brand Colors */
+  brandColors?: {
+    /** Primary color of the theme */
+    primary: string;
+    /** Secondary color of the theme */
+    secondary: string;
+  };
 }
 
 interface BaseProviderProps extends BaseProps {
   children: React.ReactNode;
 }
 
+interface ToggledChildProps {
+  colorMode: string;
+}
+
+const ToggledChild = ({
+  colorMode,
+  children
+}: PropsWithChildren<ToggledChildProps>) => {
+  const { setColorMode } = useColorMode();
+  useEffect(() => {
+    setColorMode(colorMode);
+  }, [colorMode]);
+  return <div>{children}</div>;
+};
+
 function ProvideBase({
   children,
   colorMode,
   useSystemColorMode = false,
-  environment
+  environment,
+  brandColors
 }: BaseProviderProps) {
-  const [initialColorMode, setinitialColorMode] = useState<'light' | 'dark'>(
-    'light'
-  );
-  const [_useSystemColorMode, setuseSystemColorMode] = useState<boolean>(false);
-
-  const [themeDict, setthemeDict] = useState<Dict<any>>(
-    theme({
-      initialColorMode,
-      useSystemColorMode
-    })
-  );
-
-  useEffect(() => {
-    if (colorMode) {
-      setinitialColorMode(colorMode);
-    }
-  }, [colorMode]);
-
-  useEffect(() => {
-    if (useSystemColorMode) {
-      setuseSystemColorMode(useSystemColorMode);
-    }
-  }, [useSystemColorMode]);
-
-  useEffect(() => {
-    setthemeDict(
-      theme({
-        initialColorMode: 'light',
-        useSystemColorMode: _useSystemColorMode
-      })
-    );
-  }, [initialColorMode, _useSystemColorMode]);
-
   return (
     <QueryClientProvider client={applozicQueryClient}>
-      <ChakraProvider theme={themeDict}>
+      <ChakraProvider
+        theme={theme({
+          useSystemColorMode,
+          brandColors
+        })}
+      >
         <Global styles={GlobalStyles} />
-        {children}
+        <ToggledChild colorMode={colorMode ?? 'light'}>{children}</ToggledChild>
       </ChakraProvider>
       {environment === 'development' && (
         <ReactQueryDevtools initialIsOpen={false} />

@@ -34,7 +34,7 @@ export interface DocDownloadItem {
 const DocDownloadItem = ({ doc, variant, width, icon }: DocDownloadItem) => {
   return (
     <HStack
-      bg={variant === VARIANTS.ACCENTED ? 'accent.700' : '#E3DFE8'}
+      bg={variant === VARIANTS.ACCENTED ? 'brand.secondary' : 'secondary.700'}
       style={{
         borderRadius: '5px',
         paddingRight: '8px'

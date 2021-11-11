@@ -40,7 +40,7 @@ const GetCategoryBox = ({
       flex="1"
       borderRadius="4px"
       cursor="pointer"
-      bg={isActive ? 'accent.500' : 'white'}
+      bg={isActive ? 'brand.primary' : 'white'}
       onClick={() => onClick(category)}
       style={{ height: '32px' }}
     >

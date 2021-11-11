@@ -50,7 +50,7 @@ const GroupOptions = ({
           icon="cancel"
           size={16}
           style={{ opacity: 0.6 }}
-          color={useColorModeValue('#09021A', '#FFF')}
+          color={useColorModeValue('icon.light', 'icon.dark')}
         />
 
         <Text
@@ -68,7 +68,7 @@ const GroupOptions = ({
             icon="delete"
             size={16}
             style={{ opacity: 0.6 }}
-            color={useColorModeValue('#09021A', '#FFF')}
+            color={useColorModeValue('icon.light', 'icon.dark')}
           />
 
           <Text

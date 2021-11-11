@@ -37,8 +37,8 @@ const ChatTab = ({
   isLast,
   tabProps
 }: IChatTab) => {
-  const activeBg = mode('#FFFFFF', '#1B191D');
-  const inactiveBg = mode('#efefef', '#1B191D');
+  const activeBg = mode('card.light', 'pane.dark');
+  const inactiveBg = mode('pane.light', 'pane.dark');
 
   const styles = useStyleConfig('Tab');
   let text = '';
@@ -61,7 +61,7 @@ const ChatTab = ({
       px={2}
       borderTopLeftRadius={15}
       borderTopRightRadius={15}
-      borderColor="#E9E9E9"
+      borderColor="pane.light"
       borderWidth={mode(1, 0)}
       borderBottom={0}
       ref={isSelected ? activeTab : undefined}

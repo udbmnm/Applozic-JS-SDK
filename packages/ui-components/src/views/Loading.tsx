@@ -5,7 +5,7 @@ function Loading({ message }: { message: string }) {
   return (
     <Center h="full">
       <HStack>
-        <Spinner color="primary.500" />
+        <Spinner color="brand.primary" />
         <Text>{`Loading ${message}...`}</Text>
       </HStack>
     </Center>

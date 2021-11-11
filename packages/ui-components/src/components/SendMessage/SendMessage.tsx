@@ -170,7 +170,7 @@ function SendMessage({
           width="100%"
           padding="10px"
           borderTopRadius="12px"
-          bg={mode('sendMessageBg.500', '#373539')}
+          bg={mode('sendMessageBg.light', 'sendMessageBg.dark')}
         >
           <DocDownloadItem
             doc={attachment}
@@ -197,7 +197,7 @@ function SendMessage({
 
       <HStack
         width="100%"
-        bg={mode('sendMessageBg.500', '#373539')}
+        bg={mode('sendMessageBg.light', 'sendMessageBg.dark')}
         paddingLeft="20px"
         paddingRight="20px"
         borderTopRadius={attachment ? '0px' : '12px'}
@@ -240,7 +240,7 @@ function SendMessage({
                 cursorWidth: 0,
                 height: 38,
                 hideScrollbar: true,
-                progressColor: '#6139C0',
+                progressColor: 'brand.primary',
                 responsive: true,
                 waveColor: '#D1D6DA',
                 barWidth: 1
@@ -335,7 +335,7 @@ function SendMessage({
 
         {(messageText.length > 0 || audioFile) && (
           <Box onClick={sendMessage} cursor="pointer">
-            <Icon icon={'fill-send-1'} size={18} color={'#6139C0'} />
+            <Icon icon={'fill-send-1'} size={18} color={'brand.primary'} />
           </Box>
         )}
       </HStack>

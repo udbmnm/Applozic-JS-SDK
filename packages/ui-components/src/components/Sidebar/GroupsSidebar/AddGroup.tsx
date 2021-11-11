@@ -24,7 +24,7 @@ function AddGroup({
     >
       <Avatar
         icon={<AddIcon color={'white'} />}
-        background={'primary.500'}
+        background={'brand.primary'}
         height={9}
         width={9}
       />

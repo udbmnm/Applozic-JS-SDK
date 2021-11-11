@@ -152,7 +152,7 @@ const ChatBubble = ({
           isActionMessage
             ? '#F2F0F5'
             : message.isReply
-            ? 'primary.500'
+            ? 'brand.primary'
             : mode('#F2F0F5', '#2E2D32')
         }
         borderRadius="md"
@@ -226,7 +226,7 @@ const ChatBubble = ({
                         hideScrollbar: true,
                         progressColor: '#bbb',
                         responsive: true,
-                        waveColor: message.isReply ? 'white' : '#09021A',
+                        waveColor: message.isReply ? 'icon.dark' : 'icon.light',
                         barWidth: 1
                       }}
                       volume={1}
@@ -287,7 +287,7 @@ const ChatBubble = ({
                           href={decoratedHref}
                           key={key}
                           color={
-                            message.isReply ? 'textMain.700' : 'accent.700'
+                            message.isReply ? 'textMain.700' : 'brand.secondary'
                           }
                         >
                           {decoratedText}

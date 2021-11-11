@@ -43,7 +43,7 @@ const FeatureTab = ({
         {icon ? (
           <Box
             backgroundColor={
-              isSelected ? '#6139C0' : mode('#E6E4EC', '#4A484B')
+              isSelected ? 'brand.primary' : mode('#E6E4EC', '#4A484B')
             }
             pt={2}
             pb={2}

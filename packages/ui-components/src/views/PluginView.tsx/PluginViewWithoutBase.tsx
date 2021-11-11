@@ -57,7 +57,7 @@ const PluginViewWithoutBase = ({
         w={350}
         p={0}
         borderRadius={15}
-        backgroundColor={mode('background.light', 'background.dark')}
+        backgroundColor={mode('container.light', 'container.dark')}
       >
         <FocusLock returnFocus persistentFocus={false}>
           <PopoverArrow />

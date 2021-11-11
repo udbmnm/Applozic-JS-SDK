@@ -51,9 +51,9 @@ const ChatStatusBar = ({
     <HStack
       w="full"
       flexShrink={0}
-      borderColor="#E9E9E9"
+      borderColor="pane.light"
       borderBottomWidth={1}
-      backgroundColor={mode('#fff', '#1B191D')}
+      backgroundColor={mode('card.light', 'pane.dark')}
       paddingLeft={4}
       paddingTop={3}
       paddingBottom={3}

@@ -184,8 +184,8 @@ const ChatDetails = ({
       p={0}
       borderRadius={15}
       borderWidth={mode(1, 0)}
-      borderColor="#E9E9E9"
-      backgroundColor={mode('#FFFFFF', '#272528')}
+      borderColor="pane.light"
+      backgroundColor={mode('card.light', 'card.dark')}
       exit={{ x: '101%' }}
       transition={{
         type: 'tween'
@@ -258,7 +258,7 @@ const ChatDetails = ({
                 />
               </Box>
 
-              <Divider color="#e9e9e9" style={{ marginTop: '20px' }} />
+              <Divider color="border.500" style={{ marginTop: '20px' }} />
 
               {metaProps && (
                 <>
@@ -267,7 +267,7 @@ const ChatDetails = ({
                       items={metaProps?.items ? metaProps.items : []}
                     />
                   </Box>
-                  <Divider color="#e9e9e9" style={{ marginTop: '20px' }} />
+                  <Divider color="border.500" style={{ marginTop: '20px' }} />
                 </>
               )}
 
@@ -281,7 +281,7 @@ const ChatDetails = ({
                       toggleFullView={() => setSharedMediaFullScreen(true)}
                     />
                   </Box>
-                  <Divider color="#e9e9e9" style={{ marginTop: '20px' }} />
+                  <Divider color="divider.500" style={{ marginTop: '20px' }} />
                 </>
               )}
               {type == ChatType.GROUP && (

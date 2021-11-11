@@ -21,7 +21,7 @@ function GroupMembers({
           {(numberOfMembers as number) + 1} Members
         </Text>
         <SmallAddIcon
-          color="textAccent.500"
+          color="brand.primary"
           fontWeight="400"
           fontSize="14px"
           onClick={addNewMember}

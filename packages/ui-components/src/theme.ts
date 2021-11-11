@@ -2,22 +2,22 @@ import { extendTheme } from '@chakra-ui/react';
 
 export interface ITheme {
   /**
-   * Initial color mode of the chat application
-   */
-  initialColorMode: 'light' | 'dark';
-  /**
    * Decide the chat application color based on user's system theme
    */
   useSystemColorMode: boolean;
+  /** theme Colors */
+  brandColors?: {
+    /** Primary color of the theme */
+    primary: string;
+    /** Secondary color of the theme */
+    secondary: string;
+  };
 }
 
-const theme = ({
-  initialColorMode = 'light',
-  useSystemColorMode = false
-}: ITheme) =>
+const theme = ({ useSystemColorMode = false, brandColors }: ITheme) =>
   extendTheme({
     config: {
-      initialColorMode: initialColorMode,
+      initialColorMode: 'light',
       useSystemColorMode: useSystemColorMode
     },
     fonts: {
@@ -33,15 +33,32 @@ const theme = ({
       xxl: '3rem'
     },
     colors: {
-      background: {
+      container: {
         light: '#F8F8F8',
         dark: '#2E2D32'
       },
-      primary: {
-        500: '#6139C0',
-        700: '#3D227C'
+      card: {
+        light: '#FFFFFF',
+        dark: '#272528'
       },
-      accent: { 500: '#6139C0', 700: '#3D227C' },
+      pane: {
+        light: '#E9E9E9',
+        dark: '#1B191D'
+      },
+      border: {
+        500: '#E9E9E9'
+      },
+      icon: {
+        light: '#09021A',
+        dark: '#FFFFFF'
+      },
+      brand: {
+        primary: brandColors?.primary ?? '#6139C0',
+        secondary: brandColors?.secondary ?? '#3D227C'
+      },
+      secondary: {
+        700: '#E3DFE8'
+      },
       textHeader: {
         500: '#9d9aa2'
       },
@@ -50,15 +67,13 @@ const theme = ({
         400: '#6B6776',
         500: '#09021A'
       },
-      textAccent: {
-        500: '#6139C0'
-      },
       textLight: {
         900: '#ffffff',
         500: '#b1a7c9'
       },
       sendMessageBg: {
-        500: '#EBEBEC'
+        light: '#EBEBEC',
+        dark: '#373539'
       }
     }
   });

@@ -41,7 +41,7 @@ function GroupMembers({
         </Text>
         {isAdmin && (
           <SmallAddIcon
-            color="textAccent.500"
+            color="brand.primary"
             fontWeight="400"
             fontSize="14px"
             onClick={addNewMember}

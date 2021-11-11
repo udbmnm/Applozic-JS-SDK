@@ -14,7 +14,7 @@ const Docs = ({ docs }: DocsProps) => {
         key={key}
         align="stretch"
         w="100%"
-        bg="accent.500"
+        bg="brand.primary"
         borderRadius="8px"
         padding="6px"
         spacing={0}

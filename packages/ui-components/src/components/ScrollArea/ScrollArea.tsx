@@ -20,7 +20,7 @@ const ScrollArea = ({ hideScrollbar, ...rest }: ScrollProps) => (
         width: hideScrollbar ? 0 : '4px'
       },
       '&::-webkit-scrollbar-thumb': {
-        bg: mode('#E9E9E9', '#1B191D'),
+        bg: mode('pane.light', 'pane.dark'),
         borderRadius: '20px'
       }
     }}

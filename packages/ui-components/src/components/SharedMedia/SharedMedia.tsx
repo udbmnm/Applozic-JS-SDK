@@ -87,7 +87,7 @@ const SharedMedia = ({
             </Text>
             {empty && (
               <Text
-                color="textAccent.500"
+                color="brand.primary"
                 fontWeight="400"
                 fontSize="14px"
                 onClick={toggleFullView}

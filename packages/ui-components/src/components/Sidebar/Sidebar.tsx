@@ -149,10 +149,10 @@ function Sidebar({
       w={'350px'}
       h="full"
       m={0}
-      borderColor="#E9E9E9"
+      borderColor="pane.light"
       borderWidth={mode(1, 0)}
       borderRadius={15}
-      backgroundColor={mode('#FFFFFF', '#1B191D')}
+      backgroundColor={mode('card.light', 'pane.dark')}
       animate={controls}
       initial="open"
       variants={{ open: { width: '350px' }, closed: { width: '100px' } }}

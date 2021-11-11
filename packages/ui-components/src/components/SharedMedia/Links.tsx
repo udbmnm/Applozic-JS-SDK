@@ -33,7 +33,7 @@ const Links = ({ links }: LinksProps) => {
         key={key}
         align="stretch"
         w="100%"
-        bg="accent.500"
+        bg="brand.primary"
         spacing={0}
         style={{
           borderRadius: '8px',
@@ -42,7 +42,7 @@ const Links = ({ links }: LinksProps) => {
         }}
       >
         <HStack
-          bg="accent.700"
+          bg="brand.secondary"
           style={{
             borderRadius: '5px',
             padding: link.metaImage ? '0' : '8px'
