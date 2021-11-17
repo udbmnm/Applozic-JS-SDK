@@ -21,6 +21,7 @@ import { IUnreadCount } from '../hooks/queries/useGetUnreadCount';
 import { mergeRecentChats } from '../utils/recentChatsMerger';
 import useDeleteMesssage from '../hooks/mutations/useDeleteMessage';
 import { ViewProps } from '../views/ViewProps';
+import useActiveChats from '../hooks/useActiveChats';
 
 interface IApplozicClient {
   client: ApplozicClient | undefined;
@@ -44,6 +45,7 @@ const useGetApplozicClient = (
 ) => {
   const [client, setClient] = useState<ApplozicClient | undefined>();
   const { mutate: deleteMessageMutation } = useDeleteMesssage();
+  const { activeChats, openIndex } = useActiveChats();
   const [isClientLoaded, setIsClientLoaded] = useState(false);
   const queryClient = useQueryClient();
 
@@ -100,17 +102,27 @@ const useGetApplozicClient = (
         events: {
           onMessageReceived: ({ message }) => {
             messageUpdateHandler(message as MessageData);
-            queryClient.setQueryData<IUnreadCount>(
-              [
-                'unread-count',
-                (message as MessageData).clientGroupId
-                  ? (message as MessageData).clientGroupId
-                  : (message as MessageData).contactIds
-              ],
-              ({ unreadCount } = { unreadCount: 0 }) => ({
-                unreadCount: unreadCount ? unreadCount + 1 : 1
-              })
-            );
+            if (openIndex >= 0) {
+              const chat = activeChats[openIndex];
+              const chatId = chat.group?.clientGroupId || chat.user?.userId;
+              const messageFromId = (message as MessageData).clientGroupId
+                ? (message as MessageData).clientGroupId
+                : (message as MessageData).contactIds;
+
+              if (messageFromId !== chatId) {
+                queryClient.setQueryData<IUnreadCount>(
+                  [
+                    'unread-count',
+                    (message as MessageData).clientGroupId
+                      ? (message as MessageData).clientGroupId
+                      : (message as MessageData).contactIds
+                  ],
+                  ({ unreadCount } = { unreadCount: 0 }) => ({
+                    unreadCount: unreadCount ? unreadCount + 1 : 1
+                  })
+                );
+              }
+            }
           },
           onMessageDelivered: ({ message }) => {
             messageUpdateHandler(message as MessageData);
@@ -143,6 +155,9 @@ const useGetApplozicClient = (
           },
           onMessageSentUpdate: message => {
             // TODO: handle this
+          },
+          onConversationDeliveredAndRead: userId => {
+            console.log('onConversationDeliveredAndRead', { userId });
           },
           onMessageDeleted: deleteMessage,
           onConversationRead: userId => {
