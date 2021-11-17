@@ -12,10 +12,10 @@
     base-64 "^1.0.0"
     superagent "^6.1.0"
 
-"@applozic/ui-components@^0.0.16":
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/@applozic/ui-components/-/ui-components-0.0.16.tgz#9b583be9b1aefc9627dc6ecef36b34d9db48228f"
-  integrity sha512-79tPMtZl/clvu2GJDoVRdB2FHD3jOGp2naMZEywmrEQeWvVbsvaVXR9uRbKsnqYXjWHt1L8aNy7H5iH0b4CTPQ==
+"@applozic/ui-components@^0.0.17":
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/@applozic/ui-components/-/ui-components-0.0.17.tgz#01dd2985126a2cea04a9f8c284cdb95cfb5bf883"
+  integrity sha512-TPaDMizwWCfF6ksOjXIQ1+sEDnVazQDFpFR5gSd+7/dcJRA24kJ14/fRVdyS3NLnq71WuOp1m4/rUTvhmEAr4g==
   dependencies:
     "@applozic/core-sdk" "0.0.13"
     "@applozic/local-store" "0.0.5"
