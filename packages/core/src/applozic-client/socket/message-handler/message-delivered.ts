@@ -5,7 +5,10 @@ const processMessageDelivered: MessageHandler = async (
 ) => {
   const { events } = data;
   if (events && events.onMessageDelivered) {
-    events.onMessageDelivered(data.messageData);
+    const [messageKey, userId] = (data.messageData.message as string).split(
+      ','
+    );
+    events.onMessageDelivered(messageKey, userId);
   }
 };
 

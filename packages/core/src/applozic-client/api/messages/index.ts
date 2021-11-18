@@ -10,6 +10,9 @@ import deleteMessageBuilder, { DeleteMessageApi } from './delete';
 import messageInfoBuilder, { MessageInfoApi } from './info';
 import messageListBuilder, { MessageListApi } from './list';
 import sendMessageBuilder, { SendMessageApi } from './send';
+import markMessageDeliveredBuilder, {
+  MarkMessageDeliveredApi
+} from './mark-as-delivered';
 
 export interface MessagesApi {
   /**
@@ -147,6 +150,16 @@ export interface MessagesApi {
    */
   list: MessageListApi;
   /**
+   * Mark a message as delivered. This sends an update to the sender that
+   * the message was delivered.
+   *
+   * Usage:
+   * ```
+   * await applozicClient.messages.markAsDelivered('message-key');
+   * ```
+   */
+  markAsDelivered: MarkMessageDeliveredApi;
+  /**
    * This a single wrapper over the send message API.
    *
    * ### Send message to a user
@@ -222,6 +235,7 @@ const messagesApiBuilder = (client: BaseClient): MessagesApi => ({
   // TODO uncomment after testing message info endpoint
   // info: messageInfoBuilder(client),
   list: messageListBuilder(client),
+  markAsDelivered: markMessageDeliveredBuilder(client),
   send: sendMessageBuilder(client)
 });
 

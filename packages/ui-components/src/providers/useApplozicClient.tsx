@@ -45,7 +45,6 @@ const useGetApplozicClient = (
 ) => {
   const [client, setClient] = useState<ApplozicClient | undefined>();
   const { mutate: deleteMessageMutation } = useDeleteMesssage();
-  const { activeChats, openIndex } = useActiveChats();
   const [isClientLoaded, setIsClientLoaded] = useState(false);
   const queryClient = useQueryClient();
 
@@ -86,6 +85,22 @@ const useGetApplozicClient = (
     deleteMessageMutation({ messageKey, contactId });
   };
 
+  const conversationDeliveredAndRead = (userId: string) => {
+    const currentMessages = queryClient.getQueryData<UIMessage[]>([
+      'messages-local',
+      userId
+    ]);
+    if (currentMessages) {
+      queryClient.setQueryData<UIMessage[]>(
+        ['messages-local', userId],
+        currentMessages.map(message => ({
+          ...message,
+          status: MessageStatus.READ
+        }))
+      );
+    }
+  };
+
   const logoutUser = async () => {
     if (client) {
       await client.logout();
@@ -101,31 +116,46 @@ const useGetApplozicClient = (
         useSocket: true,
         events: {
           onMessageReceived: ({ message }) => {
-            messageUpdateHandler(message as MessageData);
-            if (openIndex >= 0) {
-              const chat = activeChats[openIndex];
-              const chatId = chat.group?.clientGroupId || chat.user?.userId;
-              const messageFromId = (message as MessageData).clientGroupId
-                ? (message as MessageData).clientGroupId
-                : (message as MessageData).contactIds;
-
-              if (messageFromId !== chatId) {
-                queryClient.setQueryData<IUnreadCount>(
-                  [
-                    'unread-count',
-                    (message as MessageData).clientGroupId
-                      ? (message as MessageData).clientGroupId
-                      : (message as MessageData).contactIds
-                  ],
-                  ({ unreadCount } = { unreadCount: 0 }) => ({
-                    unreadCount: unreadCount ? unreadCount + 1 : 1
-                  })
-                );
-              }
+            // if (client) {
+            if ((message as MessageData).pairedMessageKey) {
+              _client.messages.markAsDelivered(
+                (message as MessageData).pairedMessageKey ?? ''
+              );
             }
-          },
-          onMessageDelivered: ({ message }) => {
+            // }
             messageUpdateHandler(message as MessageData);
+
+            queryClient.setQueryData<IUnreadCount>(
+              [
+                'unread-count',
+                (message as MessageData).clientGroupId
+                  ? (message as MessageData).clientGroupId
+                  : (message as MessageData).contactIds
+              ],
+              ({ unreadCount } = { unreadCount: 0 }) => ({
+                unreadCount: unreadCount ? unreadCount + 1 : 1
+              })
+            );
+          },
+          onMessageDelivered: (messageKey, userId) => {
+            const currentMessages = queryClient.getQueryData<UIMessage[]>([
+              'messages-local',
+              userId
+            ]);
+            if (currentMessages) {
+              queryClient.setQueryData<UIMessage[]>(
+                ['messages-local', userId],
+                currentMessages.map(message => {
+                  if (message.key === messageKey) {
+                    return {
+                      ...message,
+                      status: MessageStatus.DELIVERED
+                    };
+                  }
+                  return message;
+                })
+              );
+            }
           },
           onMessageRead: (contactId, messageKey) => {
             const currentMessages = queryClient.getQueryData<UIMessage[]>([
@@ -156,27 +186,9 @@ const useGetApplozicClient = (
           onMessageSentUpdate: message => {
             // TODO: handle this
           },
-          onConversationDeliveredAndRead: userId => {
-            console.log('onConversationDeliveredAndRead', { userId });
-          },
           onMessageDeleted: deleteMessage,
-          onConversationRead: userId => {
-            const currentMessages = queryClient.getQueryData<UIMessage[]>([
-              'messages-local',
-              ChatType.USER,
-              userId
-            ]);
-            if (currentMessages) {
-              queryClient.setQueryData<UIMessage[]>(
-                ['messages-local', userId],
-                currentMessages.map(message => ({
-                  ...message,
-                  status: MessageStatus.READ
-                }))
-              );
-            }
-          },
-
+          onConversationDeliveredAndRead: conversationDeliveredAndRead,
+          onConversationRead: conversationDeliveredAndRead,
           onConversationDeleted: contactId => {
             queryClient.setQueryData<UIMessage[]>(
               ['messages-local', contactId],
