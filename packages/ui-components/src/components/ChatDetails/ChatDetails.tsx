@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   VStack,
   Box,
@@ -7,13 +7,19 @@ import {
   Divider,
   useColorModeValue as mode
 } from '@chakra-ui/react';
+import Icon from '../Icon';
 import ChatDetailsMeta, { ChatDetailsMetaProps } from './ChatDetailsMeta';
 import SharedMedia from '../SharedMedia';
 import { CloseLight } from '../../icons/Close';
-import PictureAndName from './PictureAndName';
+import PictureAndName, { GroupType } from './PictureAndName';
 import PrivacyAndSupport from './PrivacyAndSupport';
 import MotionBox from '../MotionBox';
-import { IUpdateGroupDetailsRequest, Group, User } from '@applozic/core-sdk';
+import {
+  IUpdateGroupDetailsRequest,
+  Group,
+  User,
+  GroupTypes
+} from '@applozic/core-sdk';
 import { ChatType, Message } from '../../models/chat';
 import ScrollArea from '../ScrollArea';
 import GroupMembers from './GroupMembers';
@@ -22,6 +28,7 @@ import AddMembers from './GroupMembers/AddMembers';
 import { ModifyGroupMembers } from '../../hooks/mutations/useUpdateGroupMembers';
 import GroupOptions from './GroupOptions';
 import { ISharedMedia } from '../SharedMedia/SharedMedia';
+import { GroupTypeDetails } from '../Sidebar/GroupsSidebar/CreateGroup';
 
 export interface ChatDetailProps {
   /**
@@ -176,6 +183,13 @@ const ChatDetails = ({
   };
   const [addMembers, setaddMembers] = useState(false);
   const [sharedMediaFullScreen, setSharedMediaFullScreen] = useState(false);
+  const [groupType, setGroupType] = useState<GroupType>();
+
+  useEffect(() => {
+    if (group) {
+      setGroupType(GroupTypeDetails.find(a => a.id === group.type));
+    }
+  }, [group]);
 
   return (
     <MotionBox
@@ -255,6 +269,7 @@ const ChatDetails = ({
                   onUpdateValue={(key, value) =>
                     onUpdateGroupInfo({ [key]: value })
                   }
+                  groupType={groupType}
                 />
               </Box>
 
@@ -270,7 +285,6 @@ const ChatDetails = ({
                   <Divider color="border.500" style={{ marginTop: '20px' }} />
                 </>
               )}
-
               {sharedMedia && (
                 <>
                   <Box width="100%" style={{ marginTop: '20px' }}>
@@ -288,13 +302,13 @@ const ChatDetails = ({
                 <Box width="100%" style={{ marginTop: '20px' }}>
                   <GroupMembers
                     isAdmin={isAdmin}
-                    adminId={group?.adminId as string}
+                    group={group}
                     members={groupMembers}
-                    numberOfMembers={group?.userCount}
                     addNewMember={() => setaddMembers(true)}
                   />
                 </Box>
               )}
+
               <Box width="100%" style={{ marginTop: '20px' }}>
                 {type === ChatType.USER ? (
                   <PrivacyAndSupport

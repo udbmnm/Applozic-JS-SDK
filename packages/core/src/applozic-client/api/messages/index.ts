@@ -10,6 +10,11 @@ import deleteMessageBuilder, { DeleteMessageApi } from './delete';
 import messageInfoBuilder, { MessageInfoApi } from './info';
 import messageListBuilder, { MessageListApi } from './list';
 import sendMessageBuilder, { SendMessageApi } from './send';
+import sendButtonBuilder, { SendButtonApi } from './sendButton';
+import sendImageCaptionBuilder, { SendImageCaptionApi } from './sendImageCaption';
+import sendCardBuilder, { SendCardApi } from './sendCard';
+import sendCardCarouselBuilder, { SendCardCarouselApi } from './sendCardCarousel';
+import sendListBuilder, { SendListApi } from './sendList';
 
 export interface MessagesApi {
   /**
@@ -212,6 +217,12 @@ export interface MessagesApi {
    * console.log({ messageResult });
    */
   send: SendMessageApi;
+
+  sendButtons: SendButtonApi;
+  sendImageWithCaption: SendImageCaptionApi;
+  sendList: SendListApi;
+  sendCard: SendCardApi;
+  sendCardCarousel: SendCardCarouselApi;
 }
 
 const messagesApiBuilder = (client: BaseClient): MessagesApi => ({
@@ -222,7 +233,12 @@ const messagesApiBuilder = (client: BaseClient): MessagesApi => ({
   // TODO uncomment after testing message info endpoint
   // info: messageInfoBuilder(client),
   list: messageListBuilder(client),
-  send: sendMessageBuilder(client)
+  send: sendMessageBuilder(client),
+  sendButtons: sendButtonBuilder(client),
+  sendImageWithCaption: sendImageCaptionBuilder(client),
+  sendList: sendListBuilder(client),
+  sendCard: sendCardBuilder(client),
+  sendCardCarousel: sendCardCarouselBuilder(client)
 });
 
 export default messagesApiBuilder;

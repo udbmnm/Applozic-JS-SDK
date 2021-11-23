@@ -89,12 +89,12 @@ function Sidebar({
         <CreateGroup
           contacts={users}
           onClickCloseCreateGroup={() => setShowAddGroup(false)}
-          onClickCreateGroup={(groupName, imageUrl, memberIds) => {
+          onClickCreateGroup={(groupName, groupType, imageUrl, memberIds) => {
             setShowAddGroup(false);
             onClickCreateGroup({
               groupName,
               imageUrl,
-              type: GroupTypes.PRIVATE,
+              type: groupType,
               memberIds
             });
           }}

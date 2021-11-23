@@ -1,6 +1,7 @@
 import { HStack, VStack, Spacer, Box, Text, Avatar } from '@chakra-ui/react';
+import { GroupTypes } from '@applozic/core-sdk';
 import { AnimationControls } from 'framer-motion';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getNameFromGroup, getNameFromUser } from '@applozic/core-sdk';
 import useGetUserInfo from '../../../hooks/queries/useGetUserInfo';
 import { ChatType, Message, MessageStatus } from '../../../models/chat';
@@ -41,6 +42,7 @@ interface IRecentChatItem {
   onClick: () => void;
   onClearChat: () => void;
 }
+
 const RecentChatItem = ({
   recentChat,
   controls,
@@ -55,39 +57,50 @@ const RecentChatItem = ({
     recentChat.contactId,
     recentChat.chatType === ChatType.GROUP
   );
-  const { unreadCount } = useUnreadCount(recentChat.contactId);
-
-  const name = user
-    ? getNameFromUser(user)
-    : group
-    ? getNameFromGroup(group)
-    : '';
-
-  const imageUrl = user?.imageLink || group?.imageUrl || '';
 
   const { data: messages } = useQuery<Message[]>([
     'messages-local',
     recentChat.contactId
   ]);
+  const { unreadCount } = useUnreadCount(recentChat.contactId);
 
-  const lastMessage =
-    messages && messages.length > 0 ? messages[messages.length - 1] : null;
-  const [hovered, sethovered] = useState(false);
-  let messageText = '';
-  try {
-    if (lastMessage?.messageText) {
-      messageText = JSON.parse(lastMessage?.messageText);
-      messageText = 'Location Shared';
-    }
-  } catch (e) {
-    if (lastMessage?.messageText) {
-      messageText = lastMessage?.messageText;
-    } else {
-      if (lastMessage?.file) {
-        messageText = 'Audio Message Sent';
+  const [name, setName] = useState<string>();
+  const [imageUrl, setImageUrl] = useState<string>();
+  useEffect(() => {
+    setName(
+      user ? getNameFromUser(user) : group ? getNameFromGroup(group) : ''
+    );
+    setImageUrl(user?.imageLink || group?.imageUrl || '');
+  }, [user, group]);
+  const [lastMessage, setLastMessage] = useState<Message | null>(null);
+  useEffect(() => {
+    setLastMessage(
+      messages && messages.length > 0 ? messages[messages.length - 1] : null
+    );
+  }, [messages]);
+
+  const [messageText, setMessageText] = useState('');
+
+  useEffect(() => {
+    let messageText = '';
+    try {
+      if (lastMessage?.messageText) {
+        messageText = JSON.parse(lastMessage?.messageText);
+        messageText = 'Location Shared';
+      }
+    } catch (e) {
+      if (lastMessage?.messageText) {
+        messageText = lastMessage?.messageText;
+      } else {
+        if (lastMessage?.file) {
+          messageText = 'Audio Message Sent';
+        }
       }
     }
-  }
+    setMessageText(messageText);
+  }, [lastMessage]);
+
+  const [hovered, sethovered] = useState(false);
 
   const chevronItems = [
     {
@@ -95,73 +108,75 @@ const RecentChatItem = ({
       onClick: onClearChat
     }
   ];
-
-  return (
-    <HStack
-      key={recentChat.contactId}
-      cursor="pointer"
-      width={'full'}
-      onClick={onClick}
-      display={'flex'}
-      alignItems="center"
-      mb={2}
-      justifyContent="center"
-      onMouseEnter={() => sethovered(true)}
-      onMouseLeave={() => sethovered(false)}
-    >
-      <Avatar src={imageUrl} height={9} width={9} name={name} />
-      <MotionBox
-        animate={controls}
-        variants={{
-          open: { opacity: 1, display: 'flex', flex: 1 },
-          closed: { opacity: 0, display: 'none', flex: 0 }
-        }}
-        initial="open"
-        transition={{ type: 'tween' }}
-        flex={1}
-        ml={2}
+  if (name || imageUrl) {
+    return (
+      <HStack
+        key={recentChat.contactId}
+        cursor="pointer"
+        width={'full'}
+        onClick={onClick}
+        display={'flex'}
+        alignItems="center"
+        mb={2}
+        justifyContent="center"
+        onMouseEnter={() => sethovered(true)}
+        onMouseLeave={() => sethovered(false)}
       >
-        <VStack spacing={0} alignItems="flex-start">
-          <Text fontSize="14px" color="textMain.700">
-            {name}
-          </Text>
-          <HStack>
-            {lastMessage?.status &&
-              lastMessage.status !== MessageStatus.RECEIVED && (
-                <MessageStatusIcon
-                  color="textMain.400"
-                  status={lastMessage.status}
-                />
-              )}
-            <Text fontSize="11px" color="textMain.400" noOfLines={1}>
-              {messageText}
+        <Avatar src={imageUrl} height={9} width={9} name={name} />
+        <MotionBox
+          animate={controls}
+          variants={{
+            open: { opacity: 1, display: 'flex', flex: 1 },
+            closed: { opacity: 0, display: 'none', flex: 0 }
+          }}
+          initial="open"
+          transition={{ type: 'tween' }}
+          flex={1}
+          ml={2}
+        >
+          <VStack spacing={0} alignItems="flex-start">
+            <Text fontSize="14px" color="textMain.700">
+              {name}
             </Text>
-          </HStack>
-        </VStack>
-        <Spacer />
-        <VStack alignItems="flex-end" width="120px">
-          <Text fontSize="11px" color="textHeader.500">
-            {lastMessage ? getTimeStamp(lastMessage.timeStamp) : ''}
-          </Text>
-          <HStack>
-            {unreadCount && (
-              <Box
-                bg="brand.primary"
-                borderRadius="full"
-                paddingLeft="6px"
-                paddingRight="6px"
-              >
-                <Text color="white" fontSize="12px">
-                  {unreadCount}
-                </Text>
-              </Box>
-            )}
-            <ChevronHover hovered={hovered} items={chevronItems} />
-          </HStack>
-        </VStack>
-      </MotionBox>
-    </HStack>
-  );
+            <HStack>
+              {lastMessage?.status &&
+                lastMessage.status !== MessageStatus.RECEIVED && (
+                  <MessageStatusIcon
+                    color="textMain.400"
+                    status={lastMessage.status}
+                  />
+                )}
+              <Text fontSize="11px" color="textMain.400" noOfLines={1}>
+                {messageText}
+              </Text>
+            </HStack>
+          </VStack>
+          <Spacer />
+          <VStack alignItems="flex-end" width="120px">
+            <Text fontSize="11px" color="textHeader.500">
+              {lastMessage ? getTimeStamp(lastMessage.timeStamp) : ''}
+            </Text>
+            <HStack>
+              {unreadCount && (
+                <Box
+                  bg="brand.primary"
+                  borderRadius="full"
+                  paddingLeft="6px"
+                  paddingRight="6px"
+                >
+                  <Text color="white" fontSize="12px">
+                    {unreadCount}
+                  </Text>
+                </Box>
+              )}
+              <ChevronHover hovered={hovered} items={chevronItems} />
+            </HStack>
+          </VStack>
+        </MotionBox>
+      </HStack>
+    );
+  }
+  return <Box />;
 };
 
 export default RecentChatItem;

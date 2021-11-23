@@ -1,4 +1,4 @@
-import React, { forwardRef, useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { MotionListItemProps } from '../MotionListItem/MotionListItem';
 import MotionListItem from '../MotionListItem';
 import { ChatType, Message } from '../../models/chat';
@@ -59,20 +59,29 @@ const ChatBubble = ({
   const [hovered, setHovered] = useState(false);
   const [file, setFile] = useState<File>();
   const [playAudio, setPlayAudio] = useState(false);
-  const [fileUrl] = useState(
-    'https://applozic.appspot.com/rest/ws/aws/file/' + message.file?.blobKey ??
-      ''
-  );
-
-  const onFileClick = () => {
-    if (message.file) {
-      downloadFileFromUrl(fileUrl, message.file.name);
-    }
-  };
+  const [fileUrl, setFileUrl] = useState<string>();
 
   useEffect(() => {
-    getFileBlobFromUrl(fileUrl).then(setFile);
-  }, []);
+    if (message.file?.blobKey) {
+      setFileUrl(
+        'https://applozic.appspot.com/rest/ws/aws/file/' + message.file?.blobKey
+      );
+    } else {
+      setFileUrl(undefined);
+    }
+  }, [message.file?.blobKey]);
+
+  const onFileClick = useCallback(
+    (): boolean | void =>
+      !!message.file &&
+      !!fileUrl &&
+      downloadFileFromUrl(fileUrl, message.file.name),
+    []
+  );
+
+  useEffect(() => {
+    fileUrl && getFileBlobFromUrl(fileUrl).then(setFile);
+  }, [fileUrl]);
 
   const location = { lat: 0, lon: 0 };
   let isLocationParsed = false;

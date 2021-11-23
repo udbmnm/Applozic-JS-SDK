@@ -1,29 +1,27 @@
 import { CloseIcon } from '@chakra-ui/icons';
-import {
-  HStack,
-  VStack,
-  Text,
-  Avatar,
-  Center,
-  Divider,
-  Box,
-  Spinner,
-  Spacer,
-  Flex
-} from '@chakra-ui/react';
-import React, { useEffect, useRef, useState } from 'react';
+import { HStack, VStack, Text, Divider, useRadioGroup } from '@chakra-ui/react';
+import React, { useState } from 'react';
 import Button from '../../Button';
+import Icon from '../../Icon';
 import Input from '../../Input';
 import EditableImage from '../../EditableImage';
 import MemberList from '../../ChatDetails/GroupMembers/MemberList';
-import { User } from '@applozic/core-sdk';
+import { GroupTypes, User } from '@applozic/core-sdk';
 import ScrollArea from '../../ScrollArea';
+import GroupTypeCard from './GroupTypeCard';
+
+export const GroupTypeDetails = [
+  { id: GroupTypes.PUBLIC, name: 'Public', icon: 'Language' },
+  { id: GroupTypes.PRIVATE, name: 'Private', icon: 'password-lock' },
+  { id: GroupTypes.OPEN, name: 'Open', icon: 'group-1' }
+];
 
 interface ICreateGroup {
   contacts?: User[];
   onClickCloseCreateGroup: () => void;
   onClickCreateGroup?: (
     groupName: string,
+    groupType: GroupTypes,
     imageUrl?: string,
     memberIds?: string[]
   ) => void | Promise<void>;
@@ -39,6 +37,17 @@ function CreateGroup({
   const [selectedUsers, setSelectedUsers] = useState<string[] | undefined>(
     undefined
   );
+  const [groupType, setGroupType] = useState<string>(
+    GroupTypes.PRIVATE.toString()
+  );
+
+  const { getRootProps, getRadioProps } = useRadioGroup({
+    name: 'group-type',
+    defaultValue: GroupTypes.PRIVATE.toString(),
+    onChange: setGroupType
+  });
+
+  const group = getRootProps();
 
   return (
     <ScrollArea height="full" width="full">
@@ -65,6 +74,34 @@ function CreateGroup({
             placeholder={'Enter Group Name'}
             onChange={e => setGroupName(e.target.value)}
           />
+          <HStack {...group}>
+            {GroupTypeDetails.map(value => {
+              const radio = getRadioProps({ value: value.id.toString() });
+              return (
+                <GroupTypeCard key={value.id.toString()} {...radio}>
+                  <HStack>
+                    <Icon
+                      icon={value.icon}
+                      color={
+                        groupType.toString() === value.id.toString()
+                          ? 'white'
+                          : 'text.500'
+                      }
+                    />
+                    <Text
+                      color={
+                        groupType.toString() === value.id.toString()
+                          ? 'white'
+                          : 'text.500'
+                      }
+                    >
+                      {value.name}
+                    </Text>
+                  </HStack>
+                </GroupTypeCard>
+              );
+            })}
+          </HStack>
           <Divider />
         </VStack>
         <MemberList contacts={contacts} onSelectMembers={setSelectedUsers} />
@@ -79,7 +116,12 @@ function CreateGroup({
           label={'Create Group'}
           onClick={() => {
             if (onClickCreateGroup && groupName) {
-              onClickCreateGroup(groupName, imageUrl, selectedUsers);
+              onClickCreateGroup(
+                groupName,
+                parseInt(groupType, 10) as GroupTypes,
+                imageUrl,
+                selectedUsers
+              );
             }
           }}
         />

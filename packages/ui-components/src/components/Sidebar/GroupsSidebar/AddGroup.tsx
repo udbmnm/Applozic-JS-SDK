@@ -1,7 +1,7 @@
 import { AddIcon } from '@chakra-ui/icons';
 import { HStack, Text, Avatar } from '@chakra-ui/react';
 import { AnimationControls } from 'framer-motion';
-import React, { useRef } from 'react';
+import React from 'react';
 import MotionBox from '../../MotionBox';
 
 function AddGroup({

@@ -1,6 +1,5 @@
 // import * as fs from 'fs';
 // import ApplozicClient from '..';
-import fs from 'fs';
 import ApplozicClient from '../';
 const APPLICATION_ID = 'applozic-sample-app';
 
@@ -8,6 +7,8 @@ const applozicClient = new ApplozicClient(APPLICATION_ID, {
   useSocket: false,
   useStore: false
 });
+
+(window as any).alClient = applozicClient;
 
 const main = async () => {
   try {
@@ -61,11 +62,22 @@ const main = async () => {
     // );
     // console.log(unblockUser);
 
-    // const sendMessage = await applozicClient.messages.send({
-    //   to: 'some-email@applozic.com',
-    //   message: 'This is a test message'
-    // });
-    // console.log('Message key:', sendMessage);
+    const sendButtons = await applozicClient.messages.sendButtons({
+      to: 'some-email-12@applozic.com',
+      metadata: {
+        payload: [
+          {
+            name: 'Pay',
+            replyText:
+              'optional, will be used as acknowledgement message to user in case of requestType JSON. Default value is same as name parameter'
+          }
+        ],
+        formData: { amount: '1000', description: 'movie ticket' },
+        formAction: 'https://example.com/book',
+        requestType: 'json'
+      }
+    });
+    console.log('Message key:', sendButtons);
     // const messageInfo = await applozicClient.messages.info(
     //   sendMessage.messageKey
     // );

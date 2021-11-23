@@ -1,4 +1,11 @@
 import FileMeta from './FileMeta';
+import {
+  ButtonRichTextMetaData,
+  ImageWithCaptionRichTextMetaData,
+  ListRichTextMetaData,
+  CardRichTextMetaData,
+  CardCarouselRichTextMetaData
+} from './RichTextContent';
 
 export enum MESSAGE_CATEGORY {
   HIDDEN = 'HIDDEN',
@@ -95,6 +102,14 @@ export enum MESSAGE_TYPE_CODES {
   MESSAGE_SENT_UPDATE = 'APPLOZIC_03'
 }
 
+export type MetaData =
+  | ButtonRichTextMetaData
+  | ImageWithCaptionRichTextMetaData
+  | ListRichTextMetaData
+  | CardRichTextMetaData
+  | CardCarouselRichTextMetaData
+  | { [key: string]: string };
+
 export interface SendMessageRes {
   messageKey: string;
   createdAt: number;
@@ -102,10 +117,14 @@ export interface SendMessageRes {
 
 export interface BaseSendMessageReq {
   message: string;
-  metadata?: { [key: string]: string };
+  metadata?: MetaData;
   contentType?: MessageContentType;
   fileMeta?: FileMeta;
   type?: MessageType;
+}
+
+export interface BaseSendMetaDataMessageReq {
+  metadata: MetaData;
 }
 
 export interface BaseBroadcastMessageReq {
@@ -119,9 +138,21 @@ export interface SendMessageUserReq extends BaseSendMessageReq {
   to: string;
 }
 
+export interface SendMetaDataUserReq<T> {
+  /** userId of receiver */
+  to: string;
+  metadata: T;
+}
+
 export interface SendMessageGroupReq extends BaseSendMessageReq {
   /** Id of group to send message to */
   clientGroupId: string;
+}
+
+export interface SendMetaDataGroupReq<T> {
+  /** Id of group to send metadata to */
+  clientGroupId: string;
+  metadata: T;
 }
 
 export interface SendMessageUserBroadcastReq extends BaseBroadcastMessageReq {
@@ -133,6 +164,10 @@ export interface SendMessageGroupBroadcastReq extends BaseBroadcastMessageReq {
   /** Id of group to send message to */
   clientGroupIds: string[];
 }
+
+export type SendMetaDataReq<T> =
+  | SendMetaDataUserReq<T>
+  | SendMetaDataGroupReq<T>;
 
 export type SendMessageReq =
   | SendMessageUserReq

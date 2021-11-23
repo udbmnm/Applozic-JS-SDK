@@ -59,6 +59,7 @@ const ChatTab = ({
       h={12}
       minW={48}
       px={2}
+      cursor='pointer'
       borderTopLeftRadius={15}
       borderTopRightRadius={15}
       borderColor="pane.light"
@@ -113,7 +114,7 @@ const ChatTab = ({
         </HStack>
         {!showBack && (
           <CloseIcon
-            h={'max'}
+            h={2.5}
             color={'textMain.700'}
             zIndex={2}
             onClick={e => {

@@ -1,7 +1,15 @@
-import { Center, Tag, VStack } from '@chakra-ui/react';
+import { GroupTypes } from '@applozic/core-sdk';
+import { Center, Tag, VStack, TagLabel, TagLeftIcon } from '@chakra-ui/react';
 import React from 'react';
 import EditableImage from '../EditableImage';
 import { EditableText } from './EditableText';
+import Icon from '../Icon';
+
+export interface GroupType {
+  id: GroupTypes;
+  name: string;
+  icon: string;
+}
 
 export interface PictureAndNameProps {
   photoKey: string;
@@ -14,6 +22,7 @@ export interface PictureAndNameProps {
     value: string | undefined
   ) => void | Promise<void>;
   isEditable: boolean;
+  groupType?: GroupType | undefined;
 }
 
 const PictureAndName = ({
@@ -23,18 +32,19 @@ const PictureAndName = ({
   name,
   isBlocked,
   onUpdateValue,
-  isEditable
+  isEditable,
+  groupType
 }: PictureAndNameProps) => {
   return (
-    <VStack width="100%" minWidth="200px" spacing={4} align="stretch">
-      <EditableImage
-        isEditable={isEditable}
-        previewImage={photoUrl}
-        onFileUploaded={fileMeta =>
-          onUpdateValue(photoKey, fileMeta.thumbnailUrl)
-        }
-      />
-      <Center width="100%" style={{ marginTop: '20px' }}>
+    <Center width="100%" minWidth="200px" mt={3} align="stretch">
+      <VStack width="100%" spacing={4}>
+        <EditableImage
+          isEditable={isEditable}
+          previewImage={photoUrl}
+          onFileUploaded={fileMeta =>
+            onUpdateValue(photoKey, fileMeta.thumbnailUrl)
+          }
+        />
         <EditableText
           disabled={!isEditable}
           defaultValue={name}
@@ -42,15 +52,21 @@ const PictureAndName = ({
             onUpdateValue(nameKey, nextValue);
           }}
         />
-      </Center>
-      {isBlocked && (
-        <Center width="100%" mt={3}>
+        {isBlocked && (
           <Tag size={'md'} variant="solid" colorScheme="red">
             Blocked by you
           </Tag>
-        </Center>
-      )}
-    </VStack>
+        )}
+        {groupType && (
+          <Tag size={'sm'} variant="subtle" backgroundColor="brand.secondary">
+            <TagLeftIcon>
+              <Icon icon={groupType.icon} color="white" />
+            </TagLeftIcon>
+            <TagLabel color="white">{groupType.name} Group</TagLabel>
+          </Tag>
+        )}
+      </VStack>
+    </Center>
   );
 };
 
