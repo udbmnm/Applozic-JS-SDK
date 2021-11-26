@@ -1,11 +1,4 @@
 import FileMeta from './FileMeta';
-import {
-  ButtonRichTextMetaData,
-  ImageWithCaptionRichTextMetaData,
-  ListRichTextMetaData,
-  CardRichTextMetaData,
-  CardCarouselRichTextMetaData
-} from './RichTextContent';
 
 export enum MESSAGE_CATEGORY {
   HIDDEN = 'HIDDEN',
@@ -102,14 +95,6 @@ export enum MESSAGE_TYPE_CODES {
   MESSAGE_SENT_UPDATE = 'APPLOZIC_03'
 }
 
-export type MetaData =
-  | ButtonRichTextMetaData
-  | ImageWithCaptionRichTextMetaData
-  | ListRichTextMetaData
-  | CardRichTextMetaData
-  | CardCarouselRichTextMetaData
-  | { [key: string]: string };
-
 export interface SendMessageRes {
   messageKey: string;
   createdAt: number;
@@ -117,14 +102,10 @@ export interface SendMessageRes {
 
 export interface BaseSendMessageReq {
   message: string;
-  metadata?: MetaData;
+  metadata?: { [key: string]: string };
   contentType?: MessageContentType;
   fileMeta?: FileMeta;
   type?: MessageType;
-}
-
-export interface BaseSendMetaDataMessageReq {
-  metadata: MetaData;
 }
 
 export interface BaseBroadcastMessageReq {

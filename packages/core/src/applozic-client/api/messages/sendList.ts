@@ -1,6 +1,6 @@
 import BaseClient, { METHODS } from '../../base';
 import { SendMessageRes, SendMetaDataReq } from '../../models/Message';
-import { getMetaDataFromPayload, ListRichTextMetaData, MessageMetaDataTemplateType } from "../../models/RichTextContent";
+import { getMetaDataFromRichTextContent, ListRichTextMetaData, MessageMetaDataTemplateType } from "../../models/RichTextContent";
 
 const ENDPOINT = '/rest/ws/message/v2/send';
 
@@ -15,7 +15,7 @@ const sendListBuilder = (applozicClient: BaseClient): SendListApi => {
   const sendListApi: SendListApi = async messageRequest => {
     const data = {
       ...messageRequest,
-      metadata: getMetaDataFromPayload(
+      metadata: getMetaDataFromRichTextContent(
         MessageMetaDataTemplateType.LIST,
         messageRequest.metadata
       )

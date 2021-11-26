@@ -11,9 +11,10 @@ import messageInfoBuilder, { MessageInfoApi } from './info';
 import messageListBuilder, { MessageListApi } from './list';
 import sendMessageBuilder, { SendMessageApi } from './send';
 import sendButtonBuilder, { SendButtonApi } from './sendButton';
-import sendImageCaptionBuilder, { SendImageCaptionApi } from './sendImageCaption';
-import sendCardBuilder, { SendCardApi } from './sendCard';
-import sendCardCarouselBuilder, { SendCardCarouselApi } from './sendCardCarousel';
+import sendImageCaptionBuilder, {
+  SendImageCaptionApi
+} from './sendImageCaption';
+import sendCardsBuilder, { SendCardsApi } from './sendCards';
 import sendListBuilder, { SendListApi } from './sendList';
 
 export interface MessagesApi {
@@ -221,8 +222,7 @@ export interface MessagesApi {
   sendButtons: SendButtonApi;
   sendImageWithCaption: SendImageCaptionApi;
   sendList: SendListApi;
-  sendCard: SendCardApi;
-  sendCardCarousel: SendCardCarouselApi;
+  sendCards: SendCardsApi;
 }
 
 const messagesApiBuilder = (client: BaseClient): MessagesApi => ({
@@ -237,8 +237,7 @@ const messagesApiBuilder = (client: BaseClient): MessagesApi => ({
   sendButtons: sendButtonBuilder(client),
   sendImageWithCaption: sendImageCaptionBuilder(client),
   sendList: sendListBuilder(client),
-  sendCard: sendCardBuilder(client),
-  sendCardCarousel: sendCardCarouselBuilder(client)
+  sendCards: sendCardsBuilder(client)
 });
 
 export default messagesApiBuilder;

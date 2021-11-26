@@ -165,6 +165,24 @@ import ApplozicSocket, {
 } from './applozic-client/socket';
 import { SocketEventListener } from './applozic-client/socket/socket-events';
 import { LoginApi } from './applozic-client/api/login';
+import {
+  MessageMetaDataTemplateType,
+  RichTextMetaData,
+  Button,
+  Card,
+  getRichTextContentFromMetaData,
+  ImageWithCaption,
+  List,
+  CardLinkAction,
+  CardQuickReplyAction,
+  CardSubmitAction,
+  LinkButton,
+  ListElement,
+  ListLinkAction,
+  ListQuickReplyAction,
+  SubmitButton,
+  SuggestedResponseButton
+} from './applozic-client/models/RichTextContent';
 
 export {
   BaseBlockListItemDetail,
@@ -243,6 +261,22 @@ export {
   BaseClientWithStore,
   IncomingMessage,
   Message,
+  MessageMetaDataTemplateType,
+  RichTextMetaData,
+  Button,
+  LinkButton,
+  SubmitButton,
+  SuggestedResponseButton,
+  ImageWithCaption,
+  List,
+  ListElement,
+  ListLinkAction,
+  ListQuickReplyAction,
+  Card,
+  CardQuickReplyAction,
+  CardLinkAction,
+  CardSubmitAction,
+  getRichTextContentFromMetaData,
   MessageData,
   LoginResult,
   MessageContentType,

@@ -2,7 +2,7 @@ import BaseClient, { METHODS } from '../../base';
 import { SendMessageRes, SendMetaDataReq } from '../../models/Message';
 import {
   ButtonRichTextMetaData,
-  getMetaDataFromPayload,
+  getMetaDataFromRichTextContent,
   MessageMetaDataTemplateType
 } from '../../models/RichTextContent';
 
@@ -21,7 +21,7 @@ const sendButtonBuilder = (applozicClient: BaseClient): SendButtonApi => {
   const sendButtonApi: SendButtonApi = async messageRequest => {
     const data = {
       ...messageRequest,
-      metadata: getMetaDataFromPayload(
+      metadata: getMetaDataFromRichTextContent(
         MessageMetaDataTemplateType.BUTTON,
         messageRequest.metadata
       )

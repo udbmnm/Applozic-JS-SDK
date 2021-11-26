@@ -1,21 +1,21 @@
 import BaseClient, { METHODS } from '../../base';
 import { SendMessageRes, SendMetaDataReq } from '../../models/Message';
-import { CardRichTextMetaData, getMetaDataFromPayload, MessageMetaDataTemplateType } from "../../models/RichTextContent";
+import { CardsRichTextMetaData, getMetaDataFromRichTextContent, MessageMetaDataTemplateType } from "../../models/RichTextContent";
 
 const ENDPOINT = '/rest/ws/message/v2/send';
 
 /**
  * For usage, see {@link MessagesApi.send}
  */
-export interface SendCardApi {
-  (messageRequest: SendMetaDataReq<CardRichTextMetaData>): Promise<SendMessageRes>;
+export interface SendCardsApi {
+  (messageRequest: SendMetaDataReq<CardsRichTextMetaData>): Promise<SendMessageRes>;
 }
 
-const sendCardBuilder = (applozicClient: BaseClient): SendCardApi => {
-  const sendCardApi: SendCardApi = async messageRequest => {
+const sendCardsBuilder = (applozicClient: BaseClient): SendCardsApi => {
+  const sendCardsApi: SendCardsApi = async messageRequest => {
     const data = {
       ...messageRequest,
-      metadata: getMetaDataFromPayload(
+      metadata: getMetaDataFromRichTextContent(
         MessageMetaDataTemplateType.CARD,
         messageRequest.metadata
       )
@@ -26,7 +26,7 @@ const sendCardBuilder = (applozicClient: BaseClient): SendCardApi => {
     });
     return result.response;
   };
-  return sendCardApi;
+  return sendCardsApi;
 };
 
-export default sendCardBuilder;
+export default sendCardsBuilder;

@@ -1,6 +1,10 @@
 import BaseClient, { METHODS } from '../../base';
 import { SendMessageRes, SendMetaDataReq } from '../../models/Message';
-import { getMetaDataFromPayload, ImageWithCaptionRichTextMetaData, MessageMetaDataTemplateType } from '../../models/RichTextContent';
+import {
+  getMetaDataFromRichTextContent,
+  ImageWithCaptionRichTextMetaData,
+  MessageMetaDataTemplateType
+} from '../../models/RichTextContent';
 
 const ENDPOINT = '/rest/ws/message/v2/send';
 
@@ -19,7 +23,7 @@ const sendImageCaptionBuilder = (
   const sendImageCaptionApi: SendImageCaptionApi = async messageRequest => {
     const data = {
       ...messageRequest,
-      metadata: getMetaDataFromPayload(
+      metadata: getMetaDataFromRichTextContent(
         MessageMetaDataTemplateType.IMAGE_CAPTION,
         messageRequest.metadata
       )

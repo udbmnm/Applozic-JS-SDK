@@ -1,3 +1,10 @@
+export enum MessageMetaDataTemplateType {
+  BUTTON = '3',
+  IMAGE_CAPTION = '9',
+  LIST = '7',
+  CARD = '10'
+}
+
 export interface RichTextContent<T> {
   formData?: { [key: string]: string };
   formAction?: string;
@@ -5,11 +12,13 @@ export interface RichTextContent<T> {
   payload: T;
 }
 
-export enum MessageMetaDataTemplateType {
-  BUTTON = '3',
-  IMAGE_CAPTION = '9',
-  LIST = '7',
-  CARD = '10'
+export interface RichTextMetaData {
+  template: MessageMetaDataTemplateType;
+  contentType: string;
+  payload: string;
+  formData: string;
+  formAction?: string;
+  requestType?: 'json';
 }
 
 export interface LinkButton {
@@ -28,9 +37,9 @@ export interface SuggestedResponseButton {
   message: string;
 }
 
-export type ButtonRichTextMetaData = RichTextContent<
-  (LinkButton | SubmitButton | SuggestedResponseButton)[]
->;
+export type Button = LinkButton | SubmitButton | SuggestedResponseButton;
+
+export type ButtonRichTextMetaData = RichTextContent<Button[]>;
 
 export interface ImageWithCaption {
   caption: string;
@@ -107,19 +116,33 @@ export interface Card {
   }[];
 }
 
-export type CardRichTextMetaData = RichTextContent<Card>;
+export type CardsRichTextMetaData = RichTextContent<Card[]>;
 
-export type CardCarouselRichTextMetaData = RichTextContent<Card[]>;
-
-export function getMetaDataFromPayload<T>(
+export function getMetaDataFromRichTextContent<T>(
   template: MessageMetaDataTemplateType,
   { payload, formData, formAction, requestType }: RichTextContent<T>
-) {
+): RichTextMetaData {
   return {
     template,
     contentType: '300',
-    payload: payload.toString(),
-    formData: formData.toString(),
+    payload: JSON.stringify(payload),
+    formData: JSON.stringify(formData),
+    formAction,
+    requestType
+  };
+}
+
+export function getRichTextContentFromMetaData<T>({
+  payload,
+  formData,
+  formAction,
+  requestType
+}: RichTextMetaData): RichTextContent<T> {
+  return {
+    payload: JSON.parse(payload) as T,
+    formData: formData
+      ? (JSON.parse(formData) as { [key: string]: string })
+      : undefined,
     formAction,
     requestType
   };

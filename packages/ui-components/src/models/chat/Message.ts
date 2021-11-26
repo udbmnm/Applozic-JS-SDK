@@ -1,4 +1,4 @@
-import { FileMeta, MessageContentType } from '@applozic/core-sdk';
+import { FileMeta, MessageContentType, MetaData } from '@applozic/core-sdk';
 import MessageStatus from './MessageStatus';
 import Reaction from './Reaction';
 
@@ -38,7 +38,7 @@ interface Message {
   /**
    * A key value pair for sending specific metadata for a message to handle custom use-cases.
    */
-  metadata?: { [key: string]: string };
+  metadata?: MetaData;
   /**
    * The contentType of a message which defines the overall behaviour
    */

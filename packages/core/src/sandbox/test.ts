@@ -62,22 +62,154 @@ const main = async () => {
     // );
     // console.log(unblockUser);
 
-    const sendButtons = await applozicClient.messages.sendButtons({
+    // const sendButtons = await applozicClient.messages.sendButtons({
+    //   to: 'some-email-12@applozic.com',
+    //   metadata: {
+    //     payload: [
+    //       {
+    //         name: 'Pay',
+    //         replyText:
+    //           'optional, will be used as acknowledgement message to user in case of requestType JSON. Default value is same as name parameter'
+    //       }
+    //     ],
+    //     formData: { amount: '1000', description: 'movie ticket' },
+    //     formAction: 'https://example.com/book',
+    //     requestType: 'json'
+    //   }
+    // });
+    // console.log('Message key:', sendButtons);
+
+    // const sendImageCaption = await applozicClient.messages.sendImageWithCaption(
+    //   {
+    //     to: 'some-email-12@applozic.com',
+    //     metadata: {
+    //       payload: [
+    //         {
+    //           url:
+    //             'https://m.media-amazon.com/images/M/MV5BNTliYjlkNDQtMjFlNS00NjgzLWFmMWEtYmM2Mzc2Zjg3ZjEyXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_FMjpg_UX1000_.jpg',
+    //           caption: 'This is the caption'
+    //         }
+    //       ]
+    //     }
+    //   }
+    // );
+    // console.log('Message key:', sendImageCaption);
+
+    // const sendList = await applozicClient.messages.sendList({
+    //   to: 'some-email-12@applozic.com',
+    //   metadata: {
+    //     payload: {
+    //       headerImgSrc:
+    //         'https://cdn.shopify.com/s/files/1/0326/7189/t/65/assets/pf-e820b2e0--mother-tree-forest_500x.jpg?v=1619557558',
+    //       headerText: 'Header text.',
+    //       elements: [
+    //         {
+    //           imgSrc: 'https://bit.ly/dan-abramov',
+    //           title: 'List item 1',
+    //           description: 'Description for the list item',
+    //           action: {
+    //             url: 'https://www.google.com',
+    //             type: 'link'
+    //           }
+    //         }
+    //       ],
+    //       buttons: [
+    //         {
+    //           name: 'See us on facebook',
+    //           action: {
+    //             url: 'https://www.facebook.com',
+    //             type: 'link'
+    //           }
+    //         }
+    //       ]
+    //     }
+    //   }
+    // });
+    // console.log('Message key:', sendList);
+    const sendCard = await applozicClient.messages.sendCards({
       to: 'some-email-12@applozic.com',
       metadata: {
         payload: [
           {
-            name: 'Pay',
-            replyText:
-              'optional, will be used as acknowledgement message to user in case of requestType JSON. Default value is same as name parameter'
+            title: 'Card Title',
+            subtitle: 'Card Subtitle ',
+            header: {
+              overlayText: 'Overlay Text',
+              imgSrc: 'https://cdn.shopify.com/s/files/1/0326/7189/t/65/assets/pf-e820b2e0--mother-tree-forest_500x.jpg?v=1619557558'
+            },
+            description:
+              'This is a sample description of the card. It is for sampling purposes.',
+            titleExt: 'title extension',
+            buttons: [
+              {
+                name: 'Open Facebook',
+                action: {
+                  type: 'link',
+                  payload: {
+                    url: 'https://www.facebook.com'
+                  }
+                }
+              }
+            ]
           }
-        ],
-        formData: { amount: '1000', description: 'movie ticket' },
-        formAction: 'https://example.com/book',
-        requestType: 'json'
+        ]
       }
     });
-    console.log('Message key:', sendButtons);
+    console.log('Message key:', sendCard);
+
+    const sendCards = await applozicClient.messages.sendCards({
+      to: 'some-email-12@applozic.com',
+      metadata: {
+        payload: [
+          {
+            title: 'Card Title 1',
+            subtitle: 'Card Subtitle 1',
+            header: {
+              overlayText: 'Overlay Text 1',
+              imgSrc: 'https://cdn.shopify.com/s/files/1/0326/7189/t/65/assets/pf-e820b2e0--mother-tree-forest_500x.jpg?v=1619557558'
+            },
+            description:
+              'This is a sample description of the card. It is for sampling purposes.',
+            titleExt: 'title extension',
+            buttons: [
+              {
+                name: 'Open Facebook',
+                action: {
+                  type: 'link',
+                  payload: {
+                    url: 'https://www.facebook.com'
+                  }
+                }
+              }
+            ]
+          },
+          {
+            title: 'Card Title 2',
+            subtitle: 'Card Subtitle 2',
+            header: {
+              overlayText: 'Overlay Text 2',
+              imgSrc: 'https://cdn.shopify.com/s/files/1/0326/7189/t/65/assets/pf-e820b2e0--mother-tree-forest_500x.jpg?v=1619557558'
+            },
+            description:
+              'This is a sample description of the card. It is for sampling purposes.',
+            titleExt: 'title extension',
+            buttons: [
+              {
+                name: 'Open Facebook',
+                action: {
+                  type: 'link',
+                  payload: {
+                    url: 'https://www.facebook.com'
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    });
+    console.log('Message key:', sendCards);
+
     // const messageInfo = await applozicClient.messages.info(
     //   sendMessage.messageKey
     // );
