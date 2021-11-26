@@ -80,6 +80,10 @@ function ChatPanel({
         hasAttachment={!!fileMeta}
         messages={messages}
         onMessageDelete={onMessageDelete}
+        sendQuickReply={text => {
+          handleSendFileAndText(text, fileMeta);
+          setFileMeta(undefined);
+        }}
       />
       <SendMessage
         giphyApiKey={giphyApiKey}

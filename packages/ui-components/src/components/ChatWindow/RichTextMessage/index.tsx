@@ -5,8 +5,7 @@ import {
 } from '@applozic/core-sdk';
 import { useColorModeValue as mode } from '@chakra-ui/react';
 import ButtonMessage from './ButtonMessage';
-import CardCarouselMessage from './CardCarouselMessage';
-import CardMessage from './CardMessage';
+import CardMessage from './CardsMessage';
 import ImageCaptionMessage from './ImageCaptionMessage';
 import ListMessage from './ListMessage';
 import MotionListItem from '../../MotionListItem';
@@ -21,7 +20,7 @@ function RichTextMessage({
   key: string;
   metadata: RichTextMetaData;
   onFileClick: () => boolean | void;
-  sendQuickReply: (text: string) => Promise<void>;
+  sendQuickReply: (text: string) => void;
 }) {
   const handleFormSubmission = async (
     formAction: string,

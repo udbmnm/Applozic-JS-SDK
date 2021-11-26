@@ -45,6 +45,8 @@ export interface ChatWindowProps {
   clearUnreadNotifications: () => void;
   /** callback to handle deletion of message */
   onMessageDelete?: (message: Message, deleteForAll?: boolean) => void;
+  /** callback to handle Rich Text Actions */
+  sendQuickReply: (text: string) => void;
 }
 
 function ChatWindow({
@@ -56,7 +58,8 @@ function ChatWindow({
   isFetchingNextPage,
   clearUnreadNotifications,
   onMessageDelete,
-  fetchNextPage
+  fetchNextPage,
+  sendQuickReply
 }: ChatWindowProps) {
   const elementRef = useRef<null | HTMLLIElement>(null);
 
@@ -64,9 +67,8 @@ function ChatWindow({
     clearUnreadNotifications();
   }, []);
 
-  const { contactName, contactImageUrl } = getContactNameAndImageFromActiveChat(
-    activeChat
-  );
+  const { contactName, contactImageUrl } =
+    getContactNameAndImageFromActiveChat(activeChat);
 
   useEffect(() => {
     if (elementRef?.current) {
@@ -160,6 +162,7 @@ function ChatWindow({
                     onMessageDelete(message, deleteForAll);
                   }
                 }}
+                sendQuickReply={sendQuickReply}
               />
             </ListItem>
           ))}

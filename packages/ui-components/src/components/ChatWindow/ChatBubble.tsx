@@ -45,6 +45,7 @@ export interface ChatBubbleProps extends MotionListItemProps {
   chatType: ChatType;
   gMapsApiKey?: string;
   onMessageDelete?: (deleteForAll?: boolean) => void;
+  sendQuickReply: (text: string) => void;
 }
 
 const ChatBubble = ({
@@ -55,7 +56,8 @@ const ChatBubble = ({
   userImage,
   chatType,
   gMapsApiKey,
-  onMessageDelete
+  onMessageDelete,
+  sendQuickReply
 }: ChatBubbleProps) => {
   const [hovered, setHovered] = useState(false);
   const [file, setFile] = useState<File>();
@@ -157,6 +159,7 @@ const ChatBubble = ({
           key={message.key}
           metadata={message.metadata}
           onFileClick={onFileClick}
+          sendQuickReply={sendQuickReply}
         />
       ) : (
         <MotionListItem

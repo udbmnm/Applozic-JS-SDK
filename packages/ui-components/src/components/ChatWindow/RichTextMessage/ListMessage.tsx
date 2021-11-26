@@ -25,7 +25,7 @@ function ListMessage({
   sendQuickReply
 }: {
   metadata: RichTextMetaData;
-  sendQuickReply: (text: string) => Promise<void>;
+  sendQuickReply: (text: string) => void;
 }) {
   const handleAction = (action: ListLinkAction | ListQuickReplyAction) => {
     switch (action.type) {
