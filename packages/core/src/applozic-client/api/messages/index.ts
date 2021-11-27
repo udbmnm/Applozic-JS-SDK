@@ -10,12 +10,12 @@ import deleteMessageBuilder, { DeleteMessageApi } from './delete';
 import messageInfoBuilder, { MessageInfoApi } from './info';
 import messageListBuilder, { MessageListApi } from './list';
 import sendMessageBuilder, { SendMessageApi } from './send';
-import sendButtonBuilder, { SendButtonApi } from './sendButton';
+import sendButtonBuilder, { SendButtonApi } from './send-button';
 import sendImageCaptionBuilder, {
   SendImageCaptionApi
-} from './sendImageCaption';
-import sendCardsBuilder, { SendCardsApi } from './sendCards';
-import sendListBuilder, { SendListApi } from './sendList';
+} from './send-image-caption';
+import sendCardsBuilder, { SendCardsApi } from './send-cards';
+import sendListBuilder, { SendListApi } from './send-list';
 
 export interface MessagesApi {
   /**
