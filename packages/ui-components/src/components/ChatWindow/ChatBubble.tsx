@@ -3,7 +3,7 @@ import { MotionListItemProps } from '../MotionListItem/MotionListItem';
 import MotionListItem from '../MotionListItem';
 import { ChatType, Message } from '../../models/chat';
 import DocDownloadItem, { VARIANTS } from '../DocDownloadItem';
-import { MessageContentType } from '@applozic/core-sdk';
+import { MessageContentType, RichTextMetaData } from '@applozic/core-sdk';
 import {
   HStack,
   Text,
@@ -104,7 +104,8 @@ const ChatBubble = ({
     }
   }
 
-  const isActionMessage = !!message?.metadata?.action;
+  const isActionMessage = !!(message?.metadata as { [key: string]: any })
+    ?.action;
 
   const chevronItems = [
     {
@@ -157,7 +158,7 @@ const ChatBubble = ({
       {message.metadata && message.metadata?.contentType === '300' ? (
         <RichTextMessage
           key={message.key}
-          metadata={message.metadata}
+          metadata={message.metadata as RichTextMetaData}
           onFileClick={onFileClick}
           sendQuickReply={sendQuickReply}
         />

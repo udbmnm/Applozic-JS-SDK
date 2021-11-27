@@ -1,3 +1,3 @@
-export default function percentage(x, y) {
+export default function percentage(x: number, y: number) {
   return 100 / (y / x);
 }

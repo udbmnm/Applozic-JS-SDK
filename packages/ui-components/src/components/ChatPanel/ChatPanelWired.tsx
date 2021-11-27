@@ -23,8 +23,9 @@ function ChatPanelWired({ isPlugin, activeChat }: ChatPanelWiredProps) {
   const toast = useToast();
   const { client, giphyApiKey, gMapsApiKey } = useApplozicClient();
   const contactId = getIdFromActiveChat(activeChat);
-  const { fetchNextPage, isFetchingNextPage, hasNextPage } =
-    useGetMessages(activeChat);
+  const { fetchNextPage, isFetchingNextPage, hasNextPage } = useGetMessages(
+    activeChat
+  );
 
   const { data: self } = useGetSelfDetails();
   const presenceData = usePresence(activeChat.user?.userId ?? '');
@@ -50,6 +51,14 @@ function ChatPanelWired({ isPlugin, activeChat }: ChatPanelWiredProps) {
 
   return (
     <ChatPanel
+      sendQuickReply={text => {
+        sendMessage({
+          to: getIdFromActiveChat(activeChat),
+          clientGroupId: getIdFromActiveChat(activeChat),
+          message: text,
+          metadata: { webUiKey: v4() }
+        });
+      }}
       isPlugin={!!isPlugin}
       giphyApiKey={giphyApiKey}
       gMapsApiKey={gMapsApiKey}

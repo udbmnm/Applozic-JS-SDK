@@ -15,11 +15,12 @@ export const mergeMessages = (
   const keyToMessageCacheMap = new Map<string, Message>();
 
   fetchMessages.forEach(message => {
+    const metadata: { [key: string]: any } | undefined = message?.metadata;
     finalKeysSet.add(message.key);
     messageKeysInFetchSet.add(message.key);
     keyToMessageFetchMap.set(message.key, message);
-    if (message.metadata?.webUiKey) {
-      webUiKeysFromFetchSet.add(message.metadata.webUiKey);
+    if (metadata?.webUiKey) {
+      webUiKeysFromFetchSet.add(metadata?.webUiKey);
     }
   });
 
@@ -35,12 +36,12 @@ export const mergeMessages = (
     .map(key => {
       const cacheItem = keyToMessageCacheMap.get(key);
       const fetchItem = keyToMessageFetchMap.get(key);
-
-      if (fetchItem && fetchItem.metadata?.webUiKey) {
+      const metadata: { [key: string]: any } | undefined = fetchItem?.metadata;
+      if (fetchItem && metadata?.webUiKey) {
         // Try to fetch the time stamp from cache if available
         // This is to avoid the message jumping up and down when sending a lot of
         // message one by one. There is the change the message look out of order
-        const webUiKey = fetchItem.metadata.webUiKey;
+        const webUiKey = metadata?.webUiKey;
         const cachedPendingMessage = keyToMessageCacheMap.get(webUiKey);
         if (cachedPendingMessage) {
           fetchItem.timeStamp = cachedPendingMessage.timeStamp;
