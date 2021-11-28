@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   getRichTextContentFromMetaData,
   RichTextMetaData,
@@ -54,15 +54,22 @@ function CardMessage({
         break;
     }
   };
+  const [imageLoaded, setimageLoaded] = useState(false);
 
   const Card = (card: Card) => (
-    <Box maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden">
+    <Box maxW="280px" borderWidth="1px" borderRadius="lg" overflow="hidden">
       {card.header.imgSrc && (
         <Box width="full" position="relative" textAlign="center">
-          <Image src={card.header.imgSrc} width="full" />
+          <Image
+            src={card.header.imgSrc}
+            width="full"
+            onLoad={() => setimageLoaded(true)}
+          />
           {card.header.overlayText && (
             <Box
-              position="absolute"
+              position={
+                card.header.imgSrc && imageLoaded ? 'absolute' : 'relative'
+              }
               backgroundColor="white"
               top="50%"
               padding={2}
@@ -89,7 +96,11 @@ function CardMessage({
           </Heading>
         )}
       </VStack>
-      {card.description && <Text color="text.500">{card.description}</Text>}
+      {card.description && (
+        <Text color="text.500" padding={2}>
+          {card.description}
+        </Text>
+      )}
       {card.buttons && (
         <ButtonGroup alignItems="center" width="full">
           {card.buttons.map(button => (
@@ -111,7 +122,7 @@ function CardMessage({
   try {
     const { payload } = getRichTextContentFromMetaData<Card[]>(metadata);
     return payload.length > 1 ? (
-      <ChakraCarousel gap={10}>
+      <ChakraCarousel gap={8}>
         {payload.map(card => (
           <Card key={card.title} {...card} />
         ))}

@@ -67,10 +67,12 @@ function ChatWindow({
     clearUnreadNotifications();
   }, []);
 
-  const { contactName, contactImageUrl } =
-    getContactNameAndImageFromActiveChat(activeChat);
+  const { contactName, contactImageUrl } = getContactNameAndImageFromActiveChat(
+    activeChat
+  );
 
   useEffect(() => {
+    console.log('ChatWindow: useEffect');
     if (elementRef?.current) {
       elementRef.current.scrollIntoView({
         block: 'nearest',

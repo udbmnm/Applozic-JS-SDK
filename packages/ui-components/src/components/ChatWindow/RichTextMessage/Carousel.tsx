@@ -208,7 +208,7 @@ const Slider = ({
     <>
       <Box
         useRef={ref}
-        w={{ base: '100%', md: `calc(100% + ${gap}px)` }}
+        maxW={{ base: '100%', md: `calc(100% + ${gap}px)` }}
         ml={{ base: 0, md: `-${gap / 2}px` }}
         px={`${gap / 2}px`}
         position="relative"
@@ -391,7 +391,7 @@ const Track = ({
       {itemWidth && (
         <VStack useRef={node} spacing={5} alignItems="stretch">
           <MotionFlex
-            dragConstraints={node}
+            ref={node}
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
             animate={controls}
@@ -400,7 +400,6 @@ const Track = ({
             _active={{ cursor: 'grabbing' }}
             minWidth="min-content"
             flexWrap="nowrap"
-            cursor="grab"
           >
             {children}
           </MotionFlex>

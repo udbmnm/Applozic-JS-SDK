@@ -106,6 +106,8 @@ const ChatBubble = ({
 
   const isActionMessage = !!(message?.metadata as { [key: string]: any })
     ?.action;
+  const isRichTextMessage =
+    message.metadata && message.metadata?.contentType === '300';
 
   const chevronItems = [
     {
@@ -138,8 +140,8 @@ const ChatBubble = ({
         isActionMessage ? 'center' : message.isReply ? 'flex-end' : 'flex-start'
       }
       spacing={2}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseEnter={() => !isRichTextMessage && setHovered(true)}
+      onMouseLeave={() => !isRichTextMessage && setHovered(false)}
     >
       {showUserInfo && (
         <MotionListItem
@@ -155,7 +157,7 @@ const ChatBubble = ({
       {message.isReply && !isActionMessage && (showTime || hovered) && (
         <TimeStampItem />
       )}
-      {message.metadata && message.metadata?.contentType === '300' ? (
+      {isRichTextMessage ? (
         <RichTextMessage
           key={message.key}
           metadata={message.metadata as RichTextMetaData}
@@ -347,7 +349,6 @@ const ChatBubble = ({
               )}
             </HStack>
           </VStack>
-          )
         </MotionListItem>
       )}
       {!message.isReply && !isActionMessage && (showTime || hovered) && (
