@@ -15,7 +15,8 @@ function useDeleteMesssage() {
       contactId: string;
       deleteForAll?: boolean;
     }) => {
-      return { messageKey, contactId, deleteForAll };
+      const response = await client?.messages.delete(messageKey, deleteForAll);
+      return response;
     },
     {
       onMutate: async ({ messageKey, contactId, deleteForAll }) => {

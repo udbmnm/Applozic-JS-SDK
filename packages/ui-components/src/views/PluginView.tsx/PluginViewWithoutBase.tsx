@@ -30,18 +30,16 @@ const PluginViewWithoutBase = ({
   ...rest
 }: PluginViewWithoutBaseProps) => {
   const { onOpen, onClose, isOpen } = useDisclosure();
-  const firstFieldRef = useRef(null);
+  // const firstFieldRef = useRef(null);
 
   return (
     <Popover
       isLazy={isLazy}
       lazyBehavior="keepMounted"
       isOpen={isOpen}
-      initialFocusRef={firstFieldRef}
       onOpen={onOpen}
       onClose={onClose}
       placement="top"
-      // closeOnBlur={false}
     >
       <Box position={'fixed'} right={4} bottom={4}>
         <PopoverTrigger>
@@ -60,16 +58,16 @@ const PluginViewWithoutBase = ({
         borderRadius={15}
         backgroundColor={mode('container.light', 'container.dark')}
       >
-        <FocusLock returnFocus persistentFocus={false}>
-          <PopoverArrow />
-          <ProvideApplozicClient
-            applicationId={applicationId}
-            giphyApiKey={giphyApiKey}
-            gMapsApiKey={gMapsApiKey}
-          >
-            <PluginViewWithLogin {...rest} />
-          </ProvideApplozicClient>
-        </FocusLock>
+        {/* <FocusLock returnFocus persistentFocus={false}> */}
+        <PopoverArrow />
+        <ProvideApplozicClient
+          applicationId={applicationId}
+          giphyApiKey={giphyApiKey}
+          gMapsApiKey={gMapsApiKey}
+        >
+          <PluginViewWithLogin {...rest} />
+        </ProvideApplozicClient>
+        {/* </FocusLock> */}
       </PopoverContent>
     </Popover>
   );

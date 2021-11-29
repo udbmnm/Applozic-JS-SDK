@@ -1,5 +1,5 @@
-import { useToast, ToastId } from '@chakra-ui/react';
-import React from 'react';
+import { useToast, ToastId, useWhyDidYouUpdate } from '@chakra-ui/react';
+import React, { useCallback } from 'react';
 import { MessageContentType } from '@applozic/core-sdk';
 import { Message } from '../../models/chat';
 
@@ -27,6 +27,8 @@ function ChatPanelWired({ isPlugin, activeChat }: ChatPanelWiredProps) {
     activeChat
   );
 
+  useWhyDidYouUpdate('ChatPanelWired', { isPlugin, activeChat });
+
   const { data: self } = useGetSelfDetails();
   const presenceData = usePresence(activeChat.user?.userId ?? '');
   const { data: messages = [] } = useQuery<Message[]>([
@@ -49,16 +51,52 @@ function ChatPanelWired({ isPlugin, activeChat }: ChatPanelWiredProps) {
 
   const { mutate: sendMessage } = useSendUserMessage();
 
+  const clearUnreadNotifications = useCallback(() => {
+    queryClient.setQueryData(
+      [
+        'unread-count',
+        activeChat.group?.clientGroupId ?? activeChat.user?.userId
+      ],
+      {
+        unreadCount: 0
+      }
+    );
+  }, []);
+
+  const onMessageDelete = useCallback(
+    (
+      contactId: string | undefined,
+      message: Message,
+      deleteForAll?: boolean
+    ) => {
+      if (contactId) {
+        deleteMessageMutation(
+          {
+            messageKey: message.key,
+            contactId,
+            deleteForAll
+          },
+          {
+            onSuccess: () => {
+              toast({ title: 'Message Deleted!' });
+            }
+          }
+        );
+      }
+    },
+    []
+  );
+
   return (
     <ChatPanel
-      sendQuickReply={text => {
+      sendQuickReply={text =>
         sendMessage({
           to: getIdFromActiveChat(activeChat),
           clientGroupId: getIdFromActiveChat(activeChat),
           message: text,
           metadata: { webUiKey: v4() }
-        });
-      }}
+        })
+      }
       isPlugin={!!isPlugin}
       giphyApiKey={giphyApiKey}
       gMapsApiKey={gMapsApiKey}
@@ -74,17 +112,7 @@ function ChatPanelWired({ isPlugin, activeChat }: ChatPanelWiredProps) {
           100
         );
       }}
-      clearUnreadNotifications={() => {
-        queryClient.setQueryData(
-          [
-            'unread-count',
-            activeChat.group?.clientGroupId ?? activeChat.user?.userId
-          ],
-          {
-            unreadCount: 0
-          }
-        );
-      }}
+      clearUnreadNotifications={clearUnreadNotifications}
       onSendLocation={position => {
         if (sendMessage) {
           sendMessage({
@@ -97,9 +125,7 @@ function ChatPanelWired({ isPlugin, activeChat }: ChatPanelWiredProps) {
         }
       }}
       onFileSelected={getUploadResult}
-      fetchNextPage={() => {
-        fetchNextPage();
-      }}
+      fetchNextPage={fetchNextPage}
       isFetchingNextPage={isFetchingNextPage}
       hasNextPage={hasNextPage}
       handleSendFile={async file => {
@@ -114,15 +140,7 @@ function ChatPanelWired({ isPlugin, activeChat }: ChatPanelWiredProps) {
           });
         }
       }}
-      onMessageDelete={(message, deleteForAll) => {
-        if (contactId) {
-          deleteMessageMutation({
-            messageKey: message.key,
-            contactId,
-            deleteForAll
-          });
-        }
-      }}
+      onMessageDelete={onMessageDelete}
       handleSendFileAndText={(text, fileMeta) => {
         sendMessage({
           to: getIdFromActiveChat(activeChat),

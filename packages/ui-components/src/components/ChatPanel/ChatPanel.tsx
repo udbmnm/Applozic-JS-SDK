@@ -1,11 +1,12 @@
 import { useColorModeValue as mode, Box, VStack } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import SendMessage, { SendMessageProps } from '../SendMessage';
 import ChatWindow, { ChatWindowProps } from '../ChatWindow';
 import { FileMeta } from '@applozic/core-sdk';
 
 import MotionBox from '../MotionBox';
 import ChatStatusBar, { ChatStatusBarProps } from '../ChatStatusBar';
+import { getIdFromActiveChat } from '../../models/chat/ActiveChat';
 
 export interface ChatPanelProps
   extends ChatStatusBarProps,
@@ -48,6 +49,14 @@ function ChatPanel({
     clearUnreadNotifications();
   }, []);
 
+  const sendQuickReply = useCallback(
+    (text: string) => {
+      handleSendFileAndText(text, fileMeta);
+      setFileMeta(undefined);
+    },
+    [fileMeta]
+  );
+
   return (
     <MotionBox
       p={0}
@@ -80,10 +89,7 @@ function ChatPanel({
         hasAttachment={!!fileMeta}
         messages={messages}
         onMessageDelete={onMessageDelete}
-        sendQuickReply={text => {
-          handleSendFileAndText(text, fileMeta);
-          setFileMeta(undefined);
-        }}
+        sendQuickReply={sendQuickReply}
       />
       <SendMessage
         giphyApiKey={giphyApiKey}

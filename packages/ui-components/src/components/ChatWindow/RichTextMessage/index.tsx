@@ -3,7 +3,10 @@ import {
   MessageMetaDataTemplateType,
   RichTextMetaData
 } from '@applozic/core-sdk';
-import { useColorModeValue as mode } from '@chakra-ui/react';
+import {
+  useColorModeValue as mode,
+  useWhyDidYouUpdate
+} from '@chakra-ui/react';
 import ButtonMessage from './ButtonMessage';
 import CardMessage from './CardsMessage';
 import ImageCaptionMessage from './ImageCaptionMessage';
@@ -57,20 +60,22 @@ function RichTextMessage({
         return <div />;
     }
   };
-  console.log({ metadata, template: metadata.template });
-
+  useWhyDidYouUpdate('RichTextMessage', {
+    key,
+    metadata,
+    onFileClick,
+    sendQuickReply
+  });
   return (
     <MotionListItem
       key={key}
       initial={false}
-      layout
       backgroundColor={
         metadata.template === MessageMetaDataTemplateType.IMAGE_CAPTION
           ? mode('#F2F0F5', '#2E2D32')
           : 'transparent'
       }
       listStyleType="none"
-      userSelect="none"
       borderRadius={'md'}
     >
       {getRichTextContent()}

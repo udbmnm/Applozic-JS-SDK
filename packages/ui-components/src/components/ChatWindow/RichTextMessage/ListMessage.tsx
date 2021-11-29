@@ -72,6 +72,7 @@ function ListMessage({
           <ButtonGroup alignItems="center" width="full">
             {payload.buttons.map(button => (
               <Button
+                autoFocus={false}
                 width="full"
                 borderTopRadius="0"
                 key={button.name}

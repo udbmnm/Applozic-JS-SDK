@@ -57,30 +57,26 @@ function CardMessage({
   const [imageLoaded, setimageLoaded] = useState(false);
 
   const Card = (card: Card) => (
-    <Box maxW="280px" borderWidth="1px" borderRadius="lg" overflow="hidden">
-      {card.header.imgSrc && (
-        <Box width="full" position="relative" textAlign="center">
-          <Image
-            src={card.header.imgSrc}
-            width="full"
-            onLoad={() => setimageLoaded(true)}
-          />
-          {card.header.overlayText && (
-            <Box
-              position={
-                card.header.imgSrc && imageLoaded ? 'absolute' : 'relative'
-              }
-              backgroundColor="white"
-              top="50%"
-              padding={2}
-              borderTopRightRadius={'sm'}
-              borderBottomRightRadius={'sm'}
-            >
-              <Text>{card.header.overlayText}</Text>
-            </Box>
-          )}
-        </Box>
-      )}
+    <Box w="280px" borderWidth="1px" borderRadius="lg" overflow="hidden">
+      <Box width="full" position="relative" textAlign="center">
+        <Image
+          src={card.header.imgSrc}
+          width="full"
+          onLoad={() => setimageLoaded(true)}
+        />
+        {card.header.overlayText && (
+          <Box
+            position={imageLoaded ? 'absolute' : 'relative'}
+            backgroundColor="white"
+            top="50%"
+            padding={2}
+            borderTopRightRadius={'sm'}
+            borderBottomRightRadius={'sm'}
+          >
+            <Text>{card.header.overlayText}</Text>
+          </Box>
+        )}
+      </Box>
       <VStack alignItems="flex-start" padding={2}>
         <HStack alignItems="center">
           {card.title && (
@@ -102,9 +98,10 @@ function CardMessage({
         </Text>
       )}
       {card.buttons && (
-        <ButtonGroup alignItems="center" width="full">
+        <ButtonGroup autoFocus={false} alignItems="center" width="full">
           {card.buttons.map(button => (
             <Button
+              autoFocus={false}
               width="full"
               borderTopRadius="0"
               key={button.name}

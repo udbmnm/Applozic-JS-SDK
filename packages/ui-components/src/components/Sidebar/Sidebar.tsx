@@ -175,14 +175,14 @@ function Sidebar({
       <AnimatePresence>
         {!(showAddGroup || showAddContact) && (
           <MotionBox
-            paddingX={6}
-            paddingTop={6}
-            flexFlow="column"
             display={'flex'}
             flex={1}
+            h="full"
+            w="full"
+            px={6}
+            pt={6}
+            flexFlow="column"
             borderRadius={15}
-            height="full"
-            width="full"
             initial={{ x: '101%', opacity: 0 }}
             transition={{ type: 'tween' }}
             animate={{ x: 0, opacity: 1 }}

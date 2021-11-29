@@ -126,36 +126,36 @@ const main = async () => {
     //   }
     // });
     // console.log('Message key:', sendList);
-    const sendCard = await applozicClient.messages.sendCards({
-      to: 'some-email-12@applozic.com',
-      metadata: {
-        payload: [
-          {
-            title: 'Card Title',
-            subtitle: 'Card Subtitle ',
-            header: {
-              overlayText: 'Overlay Text',
-              imgSrc: 'https://cdn.shopify.com/s/files/1/0326/7189/t/65/assets/pf-e820b2e0--mother-tree-forest_500x.jpg?v=1619557558'
-            },
-            description:
-              'This is a sample description of the card. It is for sampling purposes.',
-            titleExt: 'title extension',
-            buttons: [
-              {
-                name: 'Open Facebook',
-                action: {
-                  type: 'link',
-                  payload: {
-                    url: 'https://www.facebook.com'
-                  }
-                }
-              }
-            ]
-          }
-        ]
-      }
-    });
-    console.log('Message key:', sendCard);
+    // const sendCard = await applozicClient.messages.sendCards({
+    //   to: 'some-email-12@applozic.com',
+    //   metadata: {
+    //     payload: [
+    //       {
+    //         title: 'Card Title',
+    //         subtitle: 'Card Subtitle ',
+    //         header: {
+    //           overlayText: 'Overlay Text',
+    //           imgSrc: 'https://cdn.shopify.com/s/files/1/0326/7189/t/65/assets/pf-e820b2e0--mother-tree-forest_500x.jpg?v=1619557558'
+    //         },
+    //         description:
+    //           'This is a sample description of the card. It is for sampling purposes.',
+    //         titleExt: 'title extension',
+    //         buttons: [
+    //           {
+    //             name: 'Open Facebook',
+    //             action: {
+    //               type: 'link',
+    //               payload: {
+    //                 url: 'https://www.facebook.com'
+    //               }
+    //             }
+    //           }
+    //         ]
+    //       }
+    //     ]
+    //   }
+    // });
+    // console.log('Message key:', sendCard);
 
     const sendCards = await applozicClient.messages.sendCards({
       to: 'some-email-12@applozic.com',
@@ -166,7 +166,8 @@ const main = async () => {
             subtitle: 'Card Subtitle 1',
             header: {
               overlayText: 'Overlay Text 1',
-              imgSrc: 'https://cdn.shopify.com/s/files/1/0326/7189/t/65/assets/pf-e820b2e0--mother-tree-forest_500x.jpg?v=1619557558'
+              imgSrc:
+                'https://cdn.shopify.com/s/files/1/0326/7189/t/65/assets/pf-e820b2e0--mother-tree-forest_500x.jpg?v=1619557558'
             },
             description:
               'This is a sample description of the card. It is for sampling purposes.',
@@ -188,7 +189,31 @@ const main = async () => {
             subtitle: 'Card Subtitle 2',
             header: {
               overlayText: 'Overlay Text 2',
-              imgSrc: 'https://cdn.shopify.com/s/files/1/0326/7189/t/65/assets/pf-e820b2e0--mother-tree-forest_500x.jpg?v=1619557558'
+              imgSrc:
+                'https://cdn.shopify.com/s/files/1/0326/7189/t/65/assets/pf-e820b2e0--mother-tree-forest_500x.jpg?v=1619557558'
+            },
+            description:
+              'This is a sample description of the card. It is for sampling purposes.',
+            titleExt: 'title extension',
+            buttons: [
+              {
+                name: 'Open Facebook',
+                action: {
+                  type: 'link',
+                  payload: {
+                    url: 'https://www.facebook.com'
+                  }
+                }
+              }
+            ]
+          },
+          {
+            title: 'Card Title 3',
+            subtitle: 'Card Subtitle 3',
+            header: {
+              overlayText: 'Overlay Text 3',
+              imgSrc:
+                'https://cdn.shopify.com/s/files/1/0326/7189/t/65/assets/pf-e820b2e0--mother-tree-forest_500x.jpg?v=1619557558'
             },
             description:
               'This is a sample description of the card. It is for sampling purposes.',

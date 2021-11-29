@@ -1,4 +1,4 @@
-import { TabList, Tabs, Divider, chakra } from '@chakra-ui/react';
+import { TabList, Tabs, Divider, chakra, Box } from '@chakra-ui/react';
 import React, { useMemo } from 'react';
 import FeatureTabEnum from '../../models/Feature';
 import FeatureTab from './FeatureTab';
@@ -33,14 +33,14 @@ function FeatureTabs({
     switch (featureTab) {
       case FeatureTabEnum.USER:
         return (
-          <>
+          <Box key={userName}>
             <FeatureTab
               StyledTab={StyledTab}
               imageUrl={userImageUrl}
               title={userName}
             />
             <Divider />
-          </>
+          </Box>
         );
       case FeatureTabEnum.RECENT_CHATS:
         return <FeatureTab StyledTab={StyledTab} icon={'chat'} title="Chats" />;
@@ -59,7 +59,7 @@ function FeatureTabs({
       orientation={orientation}
       onChange={index => onChange(index)}
       overflowY="auto"
-      height="full"
+      height={orientation === 'horizontal' ? 'auto' : 'full'}
       defaultIndex={1}
     >
       <TabList

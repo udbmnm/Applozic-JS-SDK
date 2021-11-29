@@ -35,6 +35,7 @@ function ButtonMessage({ metadata }: { metadata: RichTextMetaData }) {
           }
           return (
             <ButtonUI
+              autoFocus={false}
               key={key}
               size="sm"
               backgroundColor={'brand.primary'}

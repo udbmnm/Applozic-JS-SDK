@@ -19,6 +19,7 @@ import useLeaveGroup from '../../hooks/mutations/useLeaveGroup';
 import useDeleteGroup from '../../hooks/mutations/useDeleteGroup';
 import ActiveChat, { getIdFromActiveChat } from '../../models/chat/ActiveChat';
 import useActiveChats from '../../hooks/useActiveChats';
+import { toast, useToast } from '@chakra-ui/toast';
 
 export interface ChatDetailWiredProps {
   activeChat: ActiveChat;
@@ -67,6 +68,8 @@ const ChatDetailsWired = ({ activeChat }: ChatDetailWiredProps) => {
   const { mutate: leaveGroup } = useLeaveGroup();
   const { mutate: deleteGroup } = useDeleteGroup();
 
+  const toast = useToast();
+
   return (
     <ChatDetails
       title={
@@ -114,7 +117,19 @@ const ChatDetailsWired = ({ activeChat }: ChatDetailWiredProps) => {
           ? { userId: activeChat.user.userId }
           : undefined;
         if (toDelete) {
-          clearChat(toDelete);
+          clearChat(toDelete, {
+            onSuccess: () => {
+              toast({
+                title: 'Chat Cleared',
+                description: 'You have successfully cleared the chat.',
+                status: 'success',
+                duration: 4000,
+                position: 'bottom',
+                variant: 'left-accent',
+                isClosable: true
+              });
+            }
+          });
         }
       }}
       onDeleteGroupClicked={() =>

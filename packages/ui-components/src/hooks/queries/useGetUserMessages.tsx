@@ -16,7 +16,7 @@ import ActiveChat, {
 const PAGE_SIZE = 50;
 
 function useGetMessages(activeChat: ActiveChat) {
-  const { client, loginResult } = useApplozicClient();
+  const { client } = useApplozicClient();
 
   const queryClient = useQueryClient();
   const activeChatId = getIdFromActiveChat(activeChat);

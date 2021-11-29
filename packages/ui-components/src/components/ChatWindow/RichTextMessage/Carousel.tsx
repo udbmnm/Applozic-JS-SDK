@@ -239,6 +239,7 @@ const Slider = ({
 
       <Flex w={`${itemWidth}px`} mt={`${gap / 2}px`} mx="auto">
         <Button
+          autoFocus={false}
           onClick={handleDecrementClick}
           onFocus={handleFocus}
           mr={`${gap / 3}px`}
@@ -264,6 +265,7 @@ const Slider = ({
         />
 
         <Button
+          autoFocus={false}
           onClick={handleIncrementClick}
           onFocus={handleFocus}
           ml={`${gap / 3}px`}

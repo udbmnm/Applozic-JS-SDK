@@ -34,6 +34,7 @@ const FeatureTab = ({
   const inActiveColor = mode('#6B6776', '#ABABAD');
   return (
     <StyledTab
+      key={title}
       __css={styles.tab}
       {...tabProps}
       borderWidth={0}

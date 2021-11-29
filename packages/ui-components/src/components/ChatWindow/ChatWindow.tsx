@@ -7,20 +7,21 @@ import {
   useColorModeValue as mode,
   Spinner,
   HStack,
-  Box,
   AvatarGroup,
-  ListItem
+  ListItem,
+  useWhyDidYouUpdate
 } from '@chakra-ui/react';
-import React, { useEffect, useRef } from 'react';
-import { ChatType, Message } from '../../models/chat';
+import React, { useEffect, useMemo, useRef } from 'react';
+import { Message } from '../../models/chat';
 import ScrollArea from '../ScrollArea';
-import ChatBubble from './ChatBubble';
 import { useInView } from 'react-intersection-observer';
-import { getMonthName } from '../../time-utils';
 import ActiveChat, {
   getContactNameAndImageFromActiveChat
 } from '../../models/chat/ActiveChat';
+import MessageItem from './MessageItem';
 import { User } from '@applozic/core-sdk';
+import MotionListItem from '../MotionListItem';
+import { getMonthName } from '../../time-utils';
 
 export interface ChatWindowProps {
   /** GIPHY API Key to enable sending GIFs */
@@ -44,7 +45,11 @@ export interface ChatWindowProps {
   /** callback to clear all unread notifications when the window is mounted */
   clearUnreadNotifications: () => void;
   /** callback to handle deletion of message */
-  onMessageDelete?: (message: Message, deleteForAll?: boolean) => void;
+  onMessageDelete?: (
+    contactId: string | undefined,
+    message: Message,
+    deleteForAll?: boolean
+  ) => void;
   /** callback to handle Rich Text Actions */
   sendQuickReply: (text: string) => void;
 }
@@ -72,7 +77,6 @@ function ChatWindow({
   );
 
   useEffect(() => {
-    console.log('ChatWindow: useEffect');
     if (elementRef?.current) {
       elementRef.current.scrollIntoView({
         block: 'nearest',
@@ -82,19 +86,27 @@ function ChatWindow({
   }, [elementRef, messages]);
   const { ref: oldestMessage, inView } = useInView({
     /* Optional options */
-    threshold: 0,
-    initialInView: false
+    threshold: 0
   });
   useEffect(() => {
-    if (!isFetchingNextPage && inView && fetchNextPage) {
+    if (!isFetchingNextPage && inView && fetchNextPage && hasNextPage) {
       fetchNextPage();
     }
   }, [inView]);
-  // `calc(100% - ${
-  //   activeChat?.user
-  //     ? `${hasAttachment ? '183px' : '115px'}`
-  //     : `${hasAttachment ? '135px' : '67px'}`
-  // })`
+
+  useWhyDidYouUpdate('ChatWindow', {
+    self,
+    activeChat,
+    messages,
+    gMapsApiKey,
+    hasNextPage,
+    isFetchingNextPage,
+    clearUnreadNotifications,
+    onMessageDelete,
+    fetchNextPage,
+    sendQuickReply
+  });
+
   return (
     <ScrollArea
       w="full"
@@ -111,7 +123,7 @@ function ChatWindow({
           display="flex"
           flexDirection="column"
         >
-          {isFetchingNextPage && hasNextPage && (
+          {isFetchingNextPage && (
             <ListItem>
               <HStack>
                 <Spinner />
@@ -119,55 +131,64 @@ function ChatWindow({
               </HStack>
             </ListItem>
           )}
-          {messages.map((message: Message, index: number) => (
-            <ListItem
-              key={message.key}
-              ref={index == 0 ? oldestMessage : null}
-              display="flex"
-              flexDirection="column"
-            >
-              {(index === 0 ||
-                messages[index - 1].timeStamp.getDate() !==
-                  message.timeStamp.getDate()) && (
-                <Text
-                  color="textMain.300"
-                  fontSize="11px"
-                  bg="#F2F0F5"
-                  py={0.5}
-                  px={1.5}
-                  mb={2}
+          <ListItem ref={oldestMessage} />
+          {messages.map((message: Message, index: number) => {
+            const previousMessage = messages[index - 1];
+            const showTime =
+              previousMessage === undefined ||
+              previousMessage.timeStamp.getDate() !==
+                message.timeStamp.getDate() ||
+              message.timeStamp.getTime() -
+                previousMessage.timeStamp.getTime() >
+                1000 * 60 * 10;
+            return showTime ? (
+              [
+                <MotionListItem
+                  key={message.timeStamp.getDate().toString()}
+                  display="flex"
                   alignSelf="center"
-                  borderRadius={4}
                 >
-                  {message.timeStamp.getDate()}{' '}
-                  {getMonthName(message.timeStamp)}
-                  {message.timeStamp.getFullYear() !== new Date().getFullYear()
-                    ? ' ' + message.timeStamp.getFullYear()
-                    : ''}
-                </Text>
-              )}
-              <ChatBubble
-                gMapsApiKey={gMapsApiKey}
-                chatType={activeChat.user ? ChatType.USER : ChatType.GROUP}
-                showTime={
-                  index === 0 ||
-                  messages[index - 1].timeStamp.getDate() !==
-                    message.timeStamp.getDate() ||
-                  message.timeStamp.getTime() -
-                    messages[index - 1].timeStamp.getTime() >
-                    1000 * 60 * 10
-                }
+                  <Text
+                    color="textMain.300"
+                    fontSize="11px"
+                    bg="#F2F0F5"
+                    py={0.5}
+                    px={1.5}
+                    mb={2}
+                    alignSelf="center"
+                    borderRadius={4}
+                  >
+                    {message.timeStamp.getDate()}{' '}
+                    {getMonthName(message.timeStamp)}
+                    {message.timeStamp.getFullYear() !==
+                    new Date().getFullYear()
+                      ? ' ' + message.timeStamp.getFullYear()
+                      : ''}
+                  </Text>
+                </MotionListItem>,
+                <MessageItem
+                  message={message}
+                  key={index}
+                  showTime={showTime}
+                  gMapsApiKey={gMapsApiKey}
+                  sendQuickReply={sendQuickReply}
+                  onMessageDelete={onMessageDelete}
+                  activeChat={activeChat}
+                />
+              ]
+            ) : (
+              <MessageItem
                 message={message}
-                showUserInfo={false}
-                onMessageDelete={deleteForAll => {
-                  if (onMessageDelete) {
-                    onMessageDelete(message, deleteForAll);
-                  }
-                }}
+                key={index}
+                showTime={showTime}
+                gMapsApiKey={gMapsApiKey}
                 sendQuickReply={sendQuickReply}
+                onMessageDelete={onMessageDelete}
+                activeChat={activeChat}
               />
-            </ListItem>
-          ))}
+            );
+          })}
+
           <ListItem ref={elementRef} />
         </List>
       ) : (

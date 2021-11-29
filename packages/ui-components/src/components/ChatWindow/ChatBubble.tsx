@@ -1,9 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { MotionListItemProps } from '../MotionListItem/MotionListItem';
-import MotionListItem from '../MotionListItem';
+import React, { useState } from 'react';
 import { ChatType, Message } from '../../models/chat';
 import DocDownloadItem, { VARIANTS } from '../DocDownloadItem';
-import { MessageContentType, RichTextMetaData } from '@applozic/core-sdk';
+import { MessageContentType } from '@applozic/core-sdk';
 import {
   HStack,
   Text,
@@ -13,30 +11,22 @@ import {
   VStack,
   Link,
   Box,
-  Spacer
+  Spacer,
+  useWhyDidYouUpdate
 } from '@chakra-ui/react';
 import Linkify from 'react-linkify';
 import Icon from '../Icon';
 import MessageStatusIcon from '../Icon/MessageStatusIcon';
 import ReactWaves from '@dschoon/react-waves';
-import { getFileBlobFromUrl } from '../../utils/file';
 import ChevronHover from '../ChevronHover';
 import {
   getReadableHours,
   getReadableMinutes,
   getAmPm
 } from '../../time-utils';
-import RichTextMessage from './RichTextMessage';
+import MotionListItem from '../MotionListItem';
 
-const downloadFileFromUrl = (url: string, filename: string) => {
-  ({ url, filename });
-  const tempLink = document.createElement('a');
-  tempLink.href = url;
-  tempLink.setAttribute('download', filename);
-  tempLink.click();
-};
-
-export interface ChatBubbleProps extends MotionListItemProps {
+export interface ChatBubbleProps {
   showTime?: boolean;
   message: Message;
   showUserInfo?: boolean;
@@ -44,8 +34,9 @@ export interface ChatBubbleProps extends MotionListItemProps {
   userImage?: string;
   chatType: ChatType;
   gMapsApiKey?: string;
-  onMessageDelete?: (deleteForAll?: boolean) => void;
-  sendQuickReply: (text: string) => void;
+  onMessageDelete?: (deleteForAll?: boolean | undefined) => void;
+  onFileClick: () => void;
+  fileUrl: string | undefined;
 }
 
 const ChatBubble = ({
@@ -57,34 +48,12 @@ const ChatBubble = ({
   chatType,
   gMapsApiKey,
   onMessageDelete,
-  sendQuickReply
+  onFileClick,
+  fileUrl
 }: ChatBubbleProps) => {
   const [hovered, setHovered] = useState(false);
-  const [file, setFile] = useState<File>();
+
   const [playAudio, setPlayAudio] = useState(false);
-  const [fileUrl, setFileUrl] = useState<string>();
-
-  useEffect(() => {
-    if (message.file?.blobKey) {
-      setFileUrl(
-        'https://applozic.appspot.com/rest/ws/aws/file/' + message.file?.blobKey
-      );
-    } else {
-      setFileUrl(undefined);
-    }
-  }, [message.file?.blobKey]);
-
-  const onFileClick = useCallback(
-    (): boolean | void =>
-      !!message.file &&
-      !!fileUrl &&
-      downloadFileFromUrl(fileUrl, message.file.name),
-    []
-  );
-
-  useEffect(() => {
-    fileUrl && getFileBlobFromUrl(fileUrl).then(setFile);
-  }, [fileUrl]);
 
   const location = { lat: 0, lon: 0 };
   let isLocationParsed = false;
@@ -123,6 +92,17 @@ const ChatBubble = ({
     });
   }
 
+  useWhyDidYouUpdate('ChatBubble', {
+    showTime,
+    message,
+    showUserInfo,
+    userName,
+    userImage,
+    chatType,
+    gMapsApiKey,
+    onMessageDelete
+  });
+
   const TimeStampItem = () => {
     return (
       <Box>
@@ -135,42 +115,28 @@ const ChatBubble = ({
   };
 
   return (
-    <HStack
+    <MotionListItem
+      key={message.key}
       alignSelf={
         isActionMessage ? 'center' : message.isReply ? 'flex-end' : 'flex-start'
       }
-      spacing={2}
-      onMouseEnter={() => !isRichTextMessage && setHovered(true)}
-      onMouseLeave={() => !isRichTextMessage && setHovered(false)}
     >
-      {showUserInfo && (
-        <MotionListItem
-          key={message.key}
-          initial={false}
-          layout
-          listStyleType="none"
-          userSelect="none"
-        >
+      <HStack
+        spacing={2}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        {showUserInfo && (
           <Avatar size="md" name={userName ?? ''} src={userImage} />
-        </MotionListItem>
-      )}
-      {message.isReply && !isActionMessage && (showTime || hovered) && (
-        <TimeStampItem />
-      )}
-      {isRichTextMessage ? (
-        <RichTextMessage
-          key={message.key}
-          metadata={message.metadata as RichTextMetaData}
-          onFileClick={onFileClick}
-          sendQuickReply={sendQuickReply}
-        />
-      ) : (
-        <MotionListItem
-          key={message.key}
-          initial={false}
+        )}
+        {message.isReply && !isActionMessage && (showTime || hovered) && (
+          <TimeStampItem />
+        )}
+        <VStack
+          spacing={1}
+          alignItems="flex-start"
           layout
-          listStyleType="none"
-          userSelect="none"
+          width="full"
           bg={
             isActionMessage
               ? '#F2F0F5'
@@ -181,180 +147,172 @@ const ChatBubble = ({
           borderRadius="md"
           p={2}
           display="inline-flex"
-          width={message.file ? '290px' : 'auto'}
+          w={message.file ? '290px' : 'auto'}
         >
-          <VStack spacing={1} alignItems="flex-start" width="full">
-            {showUserInfo && (
-              <Text color="textLight.500">{userName ?? ''}</Text>
+          {showUserInfo && <Text color="textLight.500">{userName ?? ''}</Text>}
+          {message.file?.thumbnailUrl && (
+            <Image
+              src={message.file.thumbnailUrl}
+              width="280px"
+              onClick={onFileClick}
+              cursor="pointer"
+            />
+          )}
+          {message.contentType === MessageContentType.LOCATION &&
+            isLocationParsed && (
+              <Link
+                href={`https://www.google.com/maps/search/?api=1&query=${location.lat},${location.lon}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {gMapsApiKey ? (
+                  <Image
+                    src={`https://maps.googleapis.com/maps/api/staticmap?center=${location.lat},${location.lon}&zoom=12&size=200x100&key=${gMapsApiKey}&markers=${location.lat},${location.lon}`}
+                    width="200px"
+                    height="100px"
+                    cursor="pointer"
+                    // eslint-disable-next-line
+                    onload={() => {}}
+                  />
+                ) : (
+                  <Text>Please provide a Google Maps API key for preview</Text>
+                )}
+              </Link>
             )}
-            {message.file?.thumbnailUrl && (
-              <Image
-                src={message.file.thumbnailUrl}
-                width="280px"
-                onClick={onFileClick}
-                cursor="pointer"
-              />
-            )}
-            {message.contentType === MessageContentType.LOCATION &&
-              isLocationParsed && (
-                <Link
-                  href={`https://www.google.com/maps/search/?api=1&query=${location.lat},${location.lon}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {gMapsApiKey ? (
-                    <Image
-                      src={`https://maps.googleapis.com/maps/api/staticmap?center=${location.lat},${location.lon}&zoom=12&size=200x100&key=${gMapsApiKey}&markers=${location.lat},${location.lon}`}
-                      width="200px"
-                      height="100px"
-                      cursor="pointer"
-                      // eslint-disable-next-line
-                      onload={() => {}}
-                    />
-                  ) : (
-                    <Text>
-                      Please provide a Google Maps API key for preview
-                    </Text>
-                  )}
-                </Link>
-              )}
-            {!message.file?.thumbnailUrl && message.file?.blobKey && (
-              <Box width="full">
-                {message.file &&
-                message.file.contentType.indexOf('audio/') >= 0 ? (
-                  <HStack width="100%" height="25px">
-                    {/* <audio
+          {!message.file?.thumbnailUrl && message.file?.blobKey && (
+            <Box width="full">
+              {message.file &&
+              message.file.contentType.indexOf('audio/') >= 0 ? (
+                <HStack width="100%" height="25px">
+                  {/* <audio
                       src={URL.createObjectURL(file)}
                       controls
                       // style={{ display: 'none' }}
                     /> */}
-                    <Icon
-                      icon={'play'}
-                      size={16}
-                      style={{ opacity: 0.6 }}
-                      color={
-                        isActionMessage
-                          ? 'textMain.300'
-                          : message.isReply
-                          ? 'white'
-                          : 'textMain.700'
-                      }
-                      cursor="pointer"
-                      onClick={() => setPlayAudio(!playAudio)}
-                    />
-                    <Box marginLeft="-80px" width="200px">
-                      <ReactWaves
-                        audioFile={fileUrl}
-                        style={{ padding: '0', width: '100%' }}
-                        options={{
-                          barHeight: 28,
-                          cursorWidth: 0,
-                          height: 30,
-                          hideScrollbar: true,
-                          progressColor: '#bbb',
-                          responsive: true,
-                          waveColor: message.isReply
-                            ? 'icon.dark'
-                            : 'icon.light',
-                          barWidth: 1
-                        }}
-                        volume={1}
-                        zoom={1}
-                        playing={playAudio}
-                      />
-                    </Box>
-                    <Spacer />
-                    <Icon
-                      icon={'download'}
-                      size={16}
-                      style={{ opacity: 0.6 }}
-                      color={
-                        isActionMessage
-                          ? 'textMain.300'
-                          : message.isReply
-                          ? 'white'
-                          : 'textMain.700'
-                      }
-                      cursor="pointer"
-                      onClick={onFileClick}
-                    />
-                  </HStack>
-                ) : (
-                  <Box onClick={onFileClick} cursor="pointer">
-                    <DocDownloadItem
-                      doc={message.file}
-                      variant={
-                        message.isReply ? VARIANTS.ACCENTED : VARIANTS.DEFAULT
-                      }
-                      width={275}
+                  <Icon
+                    icon={'play'}
+                    size={16}
+                    style={{ opacity: 0.6 }}
+                    color={
+                      isActionMessage
+                        ? 'textMain.300'
+                        : message.isReply
+                        ? 'white'
+                        : 'textMain.700'
+                    }
+                    cursor="pointer"
+                    onClick={() => setPlayAudio(!playAudio)}
+                  />
+                  <Box marginLeft="-80px" width="200px">
+                    <ReactWaves
+                      audioFile={fileUrl}
+                      style={{ padding: '0', width: '100%' }}
+                      options={{
+                        barHeight: 28,
+                        cursorWidth: 0,
+                        height: 30,
+                        hideScrollbar: true,
+                        progressColor: '#bbb',
+                        responsive: true,
+                        waveColor: message.isReply ? 'icon.dark' : 'icon.light',
+                        barWidth: 1
+                      }}
+                      volume={1}
+                      zoom={1}
+                      playing={playAudio}
                     />
                   </Box>
-                )}
-              </Box>
-            )}
+                  <Spacer />
+                  <Icon
+                    icon={'download'}
+                    size={16}
+                    style={{ opacity: 0.6 }}
+                    color={
+                      isActionMessage
+                        ? 'textMain.300'
+                        : message.isReply
+                        ? 'white'
+                        : 'textMain.700'
+                    }
+                    cursor="pointer"
+                    onClick={onFileClick}
+                  />
+                </HStack>
+              ) : (
+                <Box onClick={onFileClick} cursor="pointer">
+                  <DocDownloadItem
+                    doc={message.file}
+                    variant={
+                      message.isReply ? VARIANTS.ACCENTED : VARIANTS.DEFAULT
+                    }
+                    width={275}
+                  />
+                </Box>
+              )}
+            </Box>
+          )}
 
-            <HStack spacing={2} alignItems="flex-end" width="full">
-              {message.contentType !== MessageContentType.LOCATION && (
-                <Text
-                  color={
-                    isActionMessage
-                      ? 'textMain.300'
-                      : message.isReply
-                      ? 'white'
-                      : 'textMain.700'
-                  }
-                  fontSize={isActionMessage ? '11px' : '14px'}
-                  fontWeight="400"
+          <HStack spacing={2} alignItems="flex-end" width="full">
+            {message.contentType !== MessageContentType.LOCATION && (
+              <Text
+                color={
+                  isActionMessage
+                    ? 'textMain.300'
+                    : message.isReply
+                    ? 'white'
+                    : 'textMain.700'
+                }
+                fontSize={isActionMessage ? '11px' : '14px'}
+                fontWeight="400"
+              >
+                <Linkify
+                  componentDecorator={(decoratedHref, decoratedText, key) => {
+                    if (!isActionMessage) {
+                      return (
+                        <Link
+                          target="blank"
+                          rel="noopener noreferrer"
+                          href={decoratedHref}
+                          key={key}
+                          color={
+                            message.isReply ? 'textMain.700' : 'brand.secondary'
+                          }
+                        >
+                          {decoratedText}
+                        </Link>
+                      );
+                    } else {
+                      return <>{decoratedText}</>;
+                    }
+                  }}
                 >
-                  <Linkify
-                    componentDecorator={(decoratedHref, decoratedText, key) => {
-                      if (!isActionMessage) {
-                        return (
-                          <Link
-                            target="blank"
-                            rel="noopener noreferrer"
-                            href={decoratedHref}
-                            key={key}
-                            color={
-                              message.isReply
-                                ? 'textMain.700'
-                                : 'brand.secondary'
-                            }
-                          >
-                            {decoratedText}
-                          </Link>
-                        );
-                      } else {
-                        return <>{decoratedText}</>;
-                      }
-                    }}
-                  >
-                    {message.messageText}
-                  </Linkify>
-                </Text>
-              )}
-              <Spacer />
-              {!isActionMessage && message.isReply && message?.status && (
-                <MessageStatusIcon status={message.status} />
-              )}
-              {!isActionMessage && !message.isReply && (
-                <ChevronHover hovered={hovered} items={chevronItems} />
-              )}
-              {!isActionMessage && message.isReply && hovered && (
-                <ChevronHover
-                  hovered={hovered}
-                  color="white"
-                  items={chevronItems}
-                />
-              )}
-            </HStack>
-          </VStack>
-        </MotionListItem>
-      )}
-      {!message.isReply && !isActionMessage && (showTime || hovered) && (
-        <TimeStampItem />
-      )}
-    </HStack>
+                  {message.messageText}
+                </Linkify>
+              </Text>
+            )}
+            <Spacer />
+            {!isActionMessage && message.isReply && message?.status && (
+              <MessageStatusIcon status={message.status} />
+            )}
+            {!isActionMessage && !message.isReply && (
+              <ChevronHover hovered={hovered} items={chevronItems} />
+            )}
+            {!isActionMessage && message.isReply && hovered && (
+              <ChevronHover
+                hovered={hovered}
+                color="white"
+                items={chevronItems}
+              />
+            )}
+          </HStack>
+        </VStack>
+
+        {!message.isReply &&
+          !isActionMessage &&
+          !isRichTextMessage &&
+          (showTime || hovered) && <TimeStampItem />}
+      </HStack>
+    </MotionListItem>
   );
 };
 
