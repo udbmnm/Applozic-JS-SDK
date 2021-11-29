@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   MessageMetaDataTemplateType,
   RichTextMetaData
@@ -25,17 +25,20 @@ function RichTextMessage({
   onFileClick: () => boolean | void;
   sendQuickReply: (text: string) => void;
 }) {
-  const handleFormSubmission = async (
-    formAction: string,
-    requestType: string | undefined,
-    formData: { [key: string]: string },
-    callback: () => void
-  ) => {
-    if (requestType === 'json') {
-      await superagent.post(formAction).send(formData).end();
-      callback();
-    }
-  };
+  const handleFormSubmission = useCallback(
+    async (
+      formAction: string,
+      requestType: string | undefined,
+      formData: { [key: string]: string },
+      callback: () => void
+    ) => {
+      if (requestType === 'json') {
+        await superagent.post(formAction).send(formData).end();
+        callback();
+      }
+    },
+    []
+  );
   const getRichTextContent = () => {
     switch (metadata.template) {
       case MessageMetaDataTemplateType.BUTTON:

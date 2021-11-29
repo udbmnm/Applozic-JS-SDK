@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   getRichTextContentFromMetaData,
   RichTextMetaData,
@@ -27,16 +27,6 @@ function ListMessage({
   metadata: RichTextMetaData;
   sendQuickReply: (text: string) => void;
 }) {
-  const handleAction = (action: ListLinkAction | ListQuickReplyAction) => {
-    switch (action.type) {
-      case 'link':
-        window.open((action as ListLinkAction).url);
-        break;
-      case 'quick_reply':
-        sendQuickReply((action as ListQuickReplyAction).text);
-        break;
-    }
-  };
   try {
     const { payload } = getRichTextContentFromMetaData<List>(metadata);
     return (
@@ -69,20 +59,35 @@ function ListMessage({
           ))}
         </ListUI>
         {payload.buttons && (
-          <ButtonGroup alignItems="center" width="full">
-            {payload.buttons.map(button => (
-              <Button
-                autoFocus={false}
-                width="full"
-                borderTopRadius="0"
-                key={button.name}
-                backgroundColor="brand.primary"
-                color="white"
-                onClick={() => handleAction(button.action)}
-              >
-                {button.name}
-              </Button>
-            ))}
+          <ButtonGroup alignItems="center" width="full" autoFocus={false}>
+            {payload.buttons.map(button => {
+              const handleAction = useCallback(
+                (action: ListLinkAction | ListQuickReplyAction) => {
+                  switch (action.type) {
+                    case 'link':
+                      window.open((action as ListLinkAction).url);
+                      break;
+                    case 'quick_reply':
+                      sendQuickReply((action as ListQuickReplyAction).text);
+                      break;
+                  }
+                },
+                [button]
+              );
+              return (
+                <Button
+                  autoFocus={false}
+                  width="full"
+                  borderTopRadius="0"
+                  key={button.name}
+                  backgroundColor="brand.primary"
+                  color="white"
+                  onClick={() => handleAction(button.action)}
+                >
+                  {button.name}
+                </Button>
+              );
+            })}
           </ButtonGroup>
         )}
       </Box>

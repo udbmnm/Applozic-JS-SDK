@@ -21,6 +21,7 @@ function PluginViewAppWithLogin({ loginPage }: ViewWithLoginProps) {
     <Container
       maxW="full"
       h={480}
+      borderRadius={15}
       overflowX="hidden"
       overflowY="hidden"
       padding={0}
