@@ -1,4 +1,11 @@
-import { useState, useCallback, useLayoutEffect } from 'react';
+import {
+  useState,
+  useCallback,
+  useLayoutEffect,
+  LegacyRef,
+  useRef,
+  RefObject
+} from 'react';
 
 const debounce = (
   limit: number | undefined,
@@ -24,7 +31,7 @@ interface Dimensions {
   bottom: number;
 }
 
-function getDimensionObject(node: HTMLElement): Dimensions {
+function getDimensionObject(node: HTMLDivElement): Dimensions {
   const rect = node.getBoundingClientRect();
   return {
     width: rect.width,
@@ -40,17 +47,14 @@ function getDimensionObject(node: HTMLElement): Dimensions {
 
 export default function useBoundingRect(limit?: number) {
   const [dimensions, setDimensions] = useState<Dimensions>();
-  const [node, setNode] = useState<HTMLElement>();
-
-  const ref = useCallback((node: HTMLElement) => {
-    setNode(node);
-  }, []);
+  const ref = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
+    const node = ref.current;
     if ('undefined' !== typeof window && node) {
       const measure = () =>
-        window.requestAnimationFrame(
-          () => node && setDimensions(getDimensionObject(node))
+        window.requestAnimationFrame(() =>
+          setDimensions(getDimensionObject(node))
         );
       measure();
 
@@ -63,7 +67,7 @@ export default function useBoundingRect(limit?: number) {
         window.removeEventListener('scroll', listener);
       };
     }
-  }, [node, limit]);
+  }, [ref, limit]);
 
-  return { ref, dimensions, node };
+  return { ref, dimensions };
 }

@@ -104,23 +104,22 @@ const ChakraCarousel = ({
   );
 
   const [isGreaterThanXL] = useMediaQuery(`(min-width: ${breakpoints.xl})`);
-
   useEffect(() => {
-    if (isBetweenBaseAndMd) {
-      setItemWidth(sliderWidth - gap);
-      setMultiplier(0.65);
-      setConstraint(1);
-    }
-    if (isBetweenMdAndXl) {
-      setItemWidth(sliderWidth / 2 - gap);
-      setMultiplier(0.5);
-      setConstraint(2);
-    }
-    if (isGreaterThanXL) {
-      setItemWidth(sliderWidth / 3 - gap);
-      setMultiplier(0.35);
-      setConstraint(3);
-    }
+    // if (isBetweenBaseAndMd) {
+    setItemWidth(sliderWidth - gap);
+    setMultiplier(0.65);
+    setConstraint(1);
+    // }
+    // if (isBetweenMdAndXl) {
+    //   setItemWidth(sliderWidth / 2 - gap);
+    //   setMultiplier(0.5);
+    //   setConstraint(2);
+    // }
+    // if (isGreaterThanXL) {
+    //   setItemWidth(sliderWidth / 3 - gap);
+    //   setMultiplier(0.35);
+    //   setConstraint(3);
+    // }
   }, [isBetweenBaseAndMd, isBetweenMdAndXl, isGreaterThanXL, sliderWidth, gap]);
 
   const sliderProps: SliderProps = {
@@ -184,7 +183,7 @@ const Slider = ({
   gap
 }: PropsWithChildren<SliderProps>) => {
   const { ref, dimensions } = useBoundingRect();
-
+  console.log({ dimensions });
   useLayoutEffect(
     () => initSliderWidth(Math.round(dimensions?.width ?? 0)),
     [dimensions?.width, initSliderWidth]
@@ -207,7 +206,7 @@ const Slider = ({
   return (
     <>
       <Box
-        useRef={ref}
+        ref={ref}
         maxW={{ base: '100%', md: `calc(100% + ${gap}px)` }}
         ml={{ base: 0, md: `-${gap / 2}px` }}
         px={`${gap / 2}px`}
@@ -430,6 +429,7 @@ const Item = ({
     userDidTab && index + 1 === positions.length && setTrackIsActive(false);
     setUserDidTab(false);
   };
+  console.log({ activeItem });
 
   const handleKeyUp: KeyboardEventHandler<HTMLDivElement> | undefined = event =>
     event.key === 'Tab' &&

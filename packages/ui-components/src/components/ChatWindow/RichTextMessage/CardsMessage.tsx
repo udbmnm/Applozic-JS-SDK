@@ -15,7 +15,8 @@ import {
   VStack,
   Text,
   ButtonGroup,
-  Button
+  Button,
+  Flex
 } from '@chakra-ui/react';
 import ChakraCarousel from './Carousel';
 
@@ -57,8 +58,14 @@ function CardMessage({
   const [imageLoaded, setimageLoaded] = useState(false);
 
   const Card = (card: Card) => (
-    <Box w="280px" borderWidth="1px" borderRadius="lg" overflow="hidden">
-      <Box width="full" position="relative" textAlign="center">
+    <Flex
+      borderWidth="1px"
+      borderRadius="lg"
+      overflow="hidden"
+      flexDirection="column"
+      flex={1}
+    >
+      <Box w="full" position="relative" textAlign="center">
         <Image
           src={card.header.imgSrc}
           width="full"
@@ -77,8 +84,8 @@ function CardMessage({
           </Box>
         )}
       </Box>
-      <VStack alignItems="flex-start" padding={2}>
-        <HStack alignItems="center">
+      <VStack alignItems="flex-start" padding={2} w="full">
+        <HStack alignItems="center" w="full">
           {card.title && (
             <Heading as="h3" size="lg" color="text.500">
               {card.title}
@@ -87,13 +94,13 @@ function CardMessage({
           {card.titleExt && <Text>{card.titleExt}</Text>}
         </HStack>
         {card.subtitle && (
-          <Heading as="h5" size="sm" color="text.500" opacity={0.5}>
+          <Heading as="h5" size="sm" color="text.500" opacity={0.5} w="full">
             {card.subtitle}
           </Heading>
         )}
       </VStack>
       {card.description && (
-        <Text color="text.500" padding={2}>
+        <Text color="text.500" padding={2} width="full">
           {card.description}
         </Text>
       )}
@@ -114,12 +121,12 @@ function CardMessage({
           ))}
         </ButtonGroup>
       )}
-    </Box>
+    </Flex>
   );
   try {
     const { payload } = getRichTextContentFromMetaData<Card[]>(metadata);
     return payload.length > 1 ? (
-      <ChakraCarousel gap={8}>
+      <ChakraCarousel gap={2}>
         {payload.map(card => (
           <Card key={card.title} {...card} />
         ))}
