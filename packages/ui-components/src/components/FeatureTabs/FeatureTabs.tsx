@@ -23,7 +23,10 @@ function FeatureTabs({
   userName,
   userImageUrl
 }: FeatureTabsProps) {
-  const StyledTab = chakra('button', { themeKey: 'Tabs.Tab' } as any);
+  const StyledTab = useMemo(
+    () => chakra('button', { themeKey: 'Tabs.Tab' } as any),
+    []
+  );
 
   const getCustomTab = (
     featureTab: FeatureTabEnum,
@@ -70,9 +73,7 @@ function FeatureTabs({
         width={orientation === 'horizontal' ? 'full' : '64px'}
         alignItems="center"
       >
-        {featureTabs.map(tab =>
-          useMemo(() => getCustomTab(tab, userName, userImageUrl), [])
-        )}
+        {featureTabs.map(tab => getCustomTab(tab, userName, userImageUrl))}
       </TabList>
     </Tabs>
   );

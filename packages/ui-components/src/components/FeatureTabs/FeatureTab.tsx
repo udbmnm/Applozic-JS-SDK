@@ -60,7 +60,9 @@ const FeatureTab = ({
           </Box>
         ) : (
           <Avatar
-            size="s"
+            h="40px"
+            w="40px"
+            borderRadius={12}
             src={imageUrl}
             name={title}
             color={isSelected ? activeColor : inActiveColor}

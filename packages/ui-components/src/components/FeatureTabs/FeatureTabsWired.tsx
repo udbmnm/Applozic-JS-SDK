@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import useGetSelfDetails from '../../hooks/queries/useGetSelfDetails';
 import useSidebar from '../../hooks/useSidebar';
 import FeatureTab from '../../models/Feature';
@@ -17,11 +17,18 @@ function FeatureTabsWired({
     FeatureTab.GROUPS
   ];
   const { setActiveTab } = useSidebar();
+
+  const onChange = useCallback(
+    (index: number) => {
+      setActiveTab(ActiveFeatures[index]);
+    },
+    [ActiveFeatures]
+  );
   return (
     <FeatureTabs
       orientation={orientation}
       featureTabs={ActiveFeatures}
-      onChange={index => setActiveTab(ActiveFeatures[index])}
+      onChange={onChange}
       userName={user?.displayName ?? user?.email ?? user?.userId ?? ''}
       userImageUrl={user?.imageLink}
     />
