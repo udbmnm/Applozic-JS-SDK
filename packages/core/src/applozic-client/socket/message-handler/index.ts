@@ -2,6 +2,7 @@ import { MESSAGE_TYPE_CODES } from '../../models/Message';
 import { MessageHandler, MessageHandlerData } from './base-handler';
 
 import conversationDeleted from './conversation-deleted';
+import conversationDeliveredAndRead from './conversation-delivered-and-read';
 import conversationRead from './conversation-read';
 import messageDeleted from './message-deleted';
 import messageDelivered from './message-delivered';
@@ -34,6 +35,8 @@ const handlers: MessageHandlerMap = {
   [MESSAGE_TYPE_CODES.MT_MESSAGE_DELIVERED_READ_1]: messageRead,
   [MESSAGE_TYPE_CODES.MT_MESSAGE_DELIVERED_READ_2]: messageRead,
 
+  [MESSAGE_TYPE_CODES.CONVERSATION_DELIVERED_AND_READ]: conversationDeliveredAndRead,
+
   [MESSAGE_TYPE_CODES.MESSAGE_RECEIVED_1]: messageReceived,
   [MESSAGE_TYPE_CODES.MESSAGE_RECEIVED_2]: messageReceived,
 
@@ -56,6 +59,7 @@ const handlers: MessageHandlerMap = {
 };
 
 export const processMessage: MessageHandler = (data: MessageHandlerData) => {
+  console.log('raw message', data);
   if (handlers[data.messageData.type]) {
     return handlers[data.messageData.type](data);
   }

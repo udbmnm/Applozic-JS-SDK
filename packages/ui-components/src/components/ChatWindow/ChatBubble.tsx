@@ -71,7 +71,9 @@ const ChatBubble = ({
   };
 
   useEffect(() => {
-    getFileBlobFromUrl(fileUrl).then(setFile);
+    if (message.file?.blobKey) {
+      getFileBlobFromUrl(fileUrl).then(setFile);
+    }
   }, []);
 
   const location = { lat: 0, lon: 0 };

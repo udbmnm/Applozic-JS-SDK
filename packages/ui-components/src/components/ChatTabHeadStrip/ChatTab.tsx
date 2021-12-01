@@ -63,6 +63,7 @@ const ChatTab = ({
       borderTopRightRadius={15}
       borderColor="pane.light"
       borderWidth={mode(1, 0)}
+      cursor="pointer"
       borderBottom={0}
       ref={isSelected ? activeTab : undefined}
       mr={isLast ? 1 : 0}

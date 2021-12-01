@@ -21,6 +21,7 @@ import { IUnreadCount } from '../hooks/queries/useGetUnreadCount';
 import { mergeRecentChats } from '../utils/recentChatsMerger';
 import useDeleteMesssage from '../hooks/mutations/useDeleteMessage';
 import { ViewProps } from '../views/ViewProps';
+import useActiveChats from '../hooks/useActiveChats';
 
 interface IApplozicClient {
   client: ApplozicClient | undefined;
@@ -84,6 +85,22 @@ const useGetApplozicClient = (
     deleteMessageMutation({ messageKey, contactId });
   };
 
+  const conversationDeliveredAndRead = (userId: string) => {
+    const currentMessages = queryClient.getQueryData<UIMessage[]>([
+      'messages-local',
+      userId
+    ]);
+    if (currentMessages) {
+      queryClient.setQueryData<UIMessage[]>(
+        ['messages-local', userId],
+        currentMessages.map(message => ({
+          ...message,
+          status: MessageStatus.READ
+        }))
+      );
+    }
+  };
+
   const logoutUser = async () => {
     if (client) {
       await client.logout();
@@ -99,7 +116,15 @@ const useGetApplozicClient = (
         useSocket: true,
         events: {
           onMessageReceived: ({ message }) => {
+            // if (client) {
+            if ((message as MessageData).pairedMessageKey) {
+              _client.messages.markAsDelivered(
+                (message as MessageData).pairedMessageKey ?? ''
+              );
+            }
+            // }
             messageUpdateHandler(message as MessageData);
+
             queryClient.setQueryData<IUnreadCount>(
               [
                 'unread-count',
@@ -112,8 +137,25 @@ const useGetApplozicClient = (
               })
             );
           },
-          onMessageDelivered: ({ message }) => {
-            messageUpdateHandler(message as MessageData);
+          onMessageDelivered: (messageKey, userId) => {
+            const currentMessages = queryClient.getQueryData<UIMessage[]>([
+              'messages-local',
+              userId
+            ]);
+            if (currentMessages) {
+              queryClient.setQueryData<UIMessage[]>(
+                ['messages-local', userId],
+                currentMessages.map(message => {
+                  if (message.key === messageKey) {
+                    return {
+                      ...message,
+                      status: MessageStatus.DELIVERED
+                    };
+                  }
+                  return message;
+                })
+              );
+            }
           },
           onMessageRead: (contactId, messageKey) => {
             const currentMessages = queryClient.getQueryData<UIMessage[]>([
@@ -145,23 +187,8 @@ const useGetApplozicClient = (
             // TODO: handle this
           },
           onMessageDeleted: deleteMessage,
-          onConversationRead: userId => {
-            const currentMessages = queryClient.getQueryData<UIMessage[]>([
-              'messages-local',
-              ChatType.USER,
-              userId
-            ]);
-            if (currentMessages) {
-              queryClient.setQueryData<UIMessage[]>(
-                ['messages-local', userId],
-                currentMessages.map(message => ({
-                  ...message,
-                  status: MessageStatus.READ
-                }))
-              );
-            }
-          },
-
+          onConversationDeliveredAndRead: conversationDeliveredAndRead,
+          onConversationRead: conversationDeliveredAndRead,
           onConversationDeleted: contactId => {
             queryClient.setQueryData<UIMessage[]>(
               ['messages-local', contactId],
