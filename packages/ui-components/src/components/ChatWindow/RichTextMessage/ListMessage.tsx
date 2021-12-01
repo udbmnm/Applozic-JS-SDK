@@ -27,6 +27,19 @@ function ListMessage({
   metadata: RichTextMetaData;
   sendQuickReply: (text: string) => void;
 }) {
+  const handleAction = useCallback(
+    (action: ListLinkAction | ListQuickReplyAction) => {
+      switch (action.type) {
+        case 'link':
+          window.open((action as ListLinkAction).url);
+          break;
+        case 'quick_reply':
+          sendQuickReply((action as ListQuickReplyAction).text);
+          break;
+      }
+    },
+    [metadata]
+  );
   try {
     const { payload } = getRichTextContentFromMetaData<List>(metadata);
     return (
@@ -61,19 +74,6 @@ function ListMessage({
         {payload.buttons && (
           <ButtonGroup alignItems="center" width="full" autoFocus={false}>
             {payload.buttons.map(button => {
-              const handleAction = useCallback(
-                (action: ListLinkAction | ListQuickReplyAction) => {
-                  switch (action.type) {
-                    case 'link':
-                      window.open((action as ListLinkAction).url);
-                      break;
-                    case 'quick_reply':
-                      sendQuickReply((action as ListQuickReplyAction).text);
-                      break;
-                  }
-                },
-                [button]
-              );
               return (
                 <Button
                   autoFocus={false}

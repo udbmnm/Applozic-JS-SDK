@@ -12,7 +12,11 @@ import ContactsSidebar from './ContactsSidebar/ContactsSidebar';
 import { User } from '@applozic/core-sdk';
 import SelfDetails, { SelfDetailProps } from './SelfDetails/SelfDetails';
 import { Divider, useColorModeValue as mode } from '@chakra-ui/react';
-import { AnimatePresence, useAnimation } from 'framer-motion';
+import {
+  AnimatePresence,
+  AnimationControls,
+  useAnimation
+} from 'framer-motion';
 import MotionBox from '../MotionBox';
 import ScrollArea from '../ScrollArea';
 import Search, { SearchProps } from './Search';
@@ -60,6 +64,7 @@ export interface BaseSidebarProps {
   isFetchingNextPage: boolean;
   hasMorePages: boolean | undefined;
   isFiltered: boolean;
+  controls?: AnimationControls;
 }
 
 function Sidebar({
@@ -132,9 +137,10 @@ function Sidebar({
             onClickAddContact={() => setShowAddContact(true)}
             onClearConversation={onClickClearConversation}
             onClickContact={handleItemClick}
-            fetchNextRecentChats={fetchNextRecentChats}
-            isFetchingNextRecentChatsPage={isFetchingNextRecentChatsPage}
-            hasMoreRecentChats={hasMoreRecentChats}
+            fetchNextPage={fetchNextRecentChats}
+            hasMorePages={hasMoreRecentChats}
+            isFetchingNextPage={isFetchingNextRecentChatsPage}
+            isFiltered={!!search.searchValue && search.searchValue.length > 0}
           />
         );
       case FeatureTab.GROUPS:
@@ -146,9 +152,10 @@ function Sidebar({
             }
             onClickAddGroup={() => setShowAddGroup(true)}
             onClickRecentChat={handleItemClick}
-            fetchNextRecentChats={fetchNextRecentChats}
-            hasMoreRecentChats={hasMoreRecentChats}
-            isFetchingNextRecentChatsPage={isFetchingNextRecentChatsPage}
+            fetchNextPage={fetchNextRecentChats}
+            hasMorePages={hasMoreRecentChats}
+            isFetchingNextPage={isFetchingNextRecentChatsPage}
+            isFiltered={!!search.searchValue && search.searchValue.length > 0}
           />
         );
       case FeatureTab.CONTACTS:
@@ -160,9 +167,10 @@ function Sidebar({
             onClickContact={contactId =>
               handleItemClick(ChatType.USER, contactId)
             }
-            fetchNextContacts={fetchNextContacts}
-            isFetchingNextContactsPage={isFetchingNextContactsPage}
-            hasMoreContacts={hasMoreContacts}
+            fetchNextPage={fetchNextContacts}
+            hasMorePages={hasMoreContacts}
+            isFetchingNextPage={isFetchingNextContactsPage}
+            isFiltered={!!search.searchValue && search.searchValue.length > 0}
           />
         );
       default:

@@ -40,6 +40,7 @@ const PluginViewWithoutBase = ({
       onOpen={onOpen}
       onClose={onClose}
       placement="top"
+      closeOnBlur={false}
     >
       <Box position={'fixed'} right={4} bottom={4}>
         <PopoverTrigger>

@@ -11,9 +11,6 @@ export interface IRecentChats extends BaseSidebarProps {
   onClickContact: (contactId: string) => void | Promise<void>;
   onClickAddContact: () => void | Promise<void>;
   controls?: AnimationControls;
-  fetchNextContacts: () => void;
-  isFetchingNextContactsPage: boolean;
-  hasMoreContacts: boolean | undefined;
 }
 
 const ContactsSidebar = ({

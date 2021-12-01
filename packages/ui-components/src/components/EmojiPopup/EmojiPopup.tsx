@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   Box,
   Popover,
@@ -22,9 +22,14 @@ const EmojiPopup = ({
   onGifSelected
 }: EmojiPopupProps) => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const toggle = () => setIsOpen(!isOpen);
-  const close = () => setIsOpen(false);
 
+  const toggle = useCallback(() => {
+    setIsOpen(!isOpen);
+  }, []);
+  const close = useCallback(() => {
+    setIsOpen(false);
+  }, []);
+  console.log({ isOpen });
   const onEmojiClick = (emoji: EmojiData) => {
     if (onEmojiSelected) {
       onEmojiSelected(emoji.emoji);
@@ -44,7 +49,7 @@ const EmojiPopup = ({
       placement="top-start"
       isOpen={isOpen}
       onClose={close}
-      returnFocusOnClose={false}
+      returnFocusOnClose={true}
       closeOnBlur={false}
     >
       <PopoverTrigger>
