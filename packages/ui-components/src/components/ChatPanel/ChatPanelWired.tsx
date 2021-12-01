@@ -1,4 +1,4 @@
-import { useToast, ToastId, useWhyDidYouUpdate } from '@chakra-ui/react';
+import { useToast, ToastId } from '@chakra-ui/react';
 import React, { useCallback } from 'react';
 import { MessageContentType } from '@applozic/core-sdk';
 import { Message } from '../../models/chat';
@@ -26,8 +26,6 @@ function ChatPanelWired({ isPlugin, activeChat }: ChatPanelWiredProps) {
   const { fetchNextPage, isFetchingNextPage, hasNextPage } = useGetMessages(
     activeChat
   );
-
-  useWhyDidYouUpdate('ChatPanelWired', { isPlugin, activeChat });
 
   const { data: self } = useGetSelfDetails();
   const presenceData = usePresence(activeChat.user?.userId ?? '');

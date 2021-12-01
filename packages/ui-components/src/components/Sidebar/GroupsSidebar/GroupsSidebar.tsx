@@ -1,25 +1,29 @@
-import React from 'react';
-import { ListItem, List } from '@chakra-ui/react';
+import React, { useEffect } from 'react';
+import { ListItem, List, ListIcon, Spinner, Text } from '@chakra-ui/react';
 import { ChatType } from '../../../models/chat';
 import { RecentChat } from '../../../models/chat';
 import RecentChatItem from '../RecentChatsSidebar/RecentChatItem';
 import AddGroup from './AddGroup';
 import { AnimationControls } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+import { BaseSidebarProps } from '..';
 
-export interface IGroups {
+export interface IGroups extends BaseSidebarProps {
   recentChats: RecentChat[];
   onClickRecentChat: (
     type: ChatType,
     contactId: string
   ) => void | Promise<void>;
   onClickAddGroup: () => void;
-  controls?: AnimationControls;
 }
 
 const GroupsSidebar = ({
   recentChats,
   onClickRecentChat,
   onClickAddGroup,
+  fetchNextPage,
+  isFetchingNextPage,
+  hasMorePages,
   controls
 }: IGroups) => {
   const handleClick = (type: ChatType, contactId: string) => () => {
@@ -27,6 +31,17 @@ const GroupsSidebar = ({
       onClickRecentChat(type, contactId);
     }
   };
+
+  const { ref: bottom, inView } = useInView({
+    threshold: 0,
+    initialInView: false
+  });
+
+  useEffect(() => {
+    if (inView && fetchNextPage && !isFetchingNextPage && hasMorePages) {
+      fetchNextPage();
+    }
+  }, [inView]);
 
   return (
     <List height="full" width={'full'}>
@@ -43,6 +58,15 @@ const GroupsSidebar = ({
           />
         </ListItem>
       ))}
+      {isFetchingNextPage && (
+        <ListItem>
+          <ListIcon>
+            <Spinner color="brand.primary" />
+          </ListIcon>
+          <Text>Fetching more groups...</Text>
+        </ListItem>
+      )}
+      <ListItem key={'groupsBottom'} ref={bottom} h={2} />
     </List>
   );
 };

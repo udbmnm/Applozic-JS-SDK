@@ -3,10 +3,7 @@ import {
   MessageMetaDataTemplateType,
   RichTextMetaData
 } from '@applozic/core-sdk';
-import {
-  useColorModeValue as mode,
-  useWhyDidYouUpdate
-} from '@chakra-ui/react';
+import { useColorModeValue as mode } from '@chakra-ui/react';
 import ButtonMessage from './ButtonMessage';
 import CardMessage from './CardsMessage';
 import ImageCaptionMessage from './ImageCaptionMessage';
@@ -63,12 +60,6 @@ function RichTextMessage({
         return <div />;
     }
   };
-  useWhyDidYouUpdate('RichTextMessage', {
-    key,
-    metadata,
-    onFileClick,
-    sendQuickReply
-  });
   return (
     <MotionListItem
       key={key}

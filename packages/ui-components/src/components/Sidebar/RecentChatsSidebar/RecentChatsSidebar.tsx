@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import { List, ListItem } from '@chakra-ui/react';
+import { List, ListIcon, ListItem, Text, Spinner } from '@chakra-ui/react';
 import { ChatType } from '../../../models/chat';
 import { RecentChat } from '../../../models/chat';
 import RecentChatItem from './RecentChatItem';
 import { useInView } from 'react-intersection-observer';
-import { AnimationControls } from 'framer-motion';
+import { BaseSidebarProps } from '..';
 
-export interface IRecentChats {
+export interface IRecentChats extends BaseSidebarProps {
   recentChats: RecentChat[] | undefined;
   onClickContact: (type: ChatType, contactId: string) => void | Promise<void>;
   onClickAddContact: () => void | Promise<void>;
@@ -14,9 +14,6 @@ export interface IRecentChats {
     chatType: ChatType,
     contactId: string
   ) => void | Promise<void>;
-  fetchNextRecentChats: () => void;
-  isFetchingNextRecentChatsPage: boolean;
-  controls?: AnimationControls;
 }
 
 const RecentChatsSidebar = ({
@@ -24,8 +21,9 @@ const RecentChatsSidebar = ({
   onClickContact,
   onClickAddContact,
   onClearConversation,
-  fetchNextRecentChats,
-  isFetchingNextRecentChatsPage,
+  fetchNextPage,
+  isFetchingNextPage,
+  hasMorePages,
   controls
 }: IRecentChats) => {
   const handleClick = (type: ChatType, contactId: string) => () => {
@@ -34,13 +32,14 @@ const RecentChatsSidebar = ({
     }
   };
 
-  const { ref: oldestChat, inView } = useInView({
+  const { ref: bottom, inView } = useInView({
     threshold: 0,
     initialInView: false
   });
+
   useEffect(() => {
-    if (!isFetchingNextRecentChatsPage && inView && fetchNextRecentChats) {
-      fetchNextRecentChats();
+    if (inView && fetchNextPage && !isFetchingNextPage && hasMorePages) {
+      fetchNextPage();
     }
   }, [inView]);
 
@@ -49,7 +48,7 @@ const RecentChatsSidebar = ({
       {recentChats &&
         recentChats?.length > 0 &&
         recentChats.map((recentChat, key) => (
-          <ListItem key={key} ref={oldestChat}>
+          <ListItem key={key}>
             <RecentChatItem
               recentChat={recentChat}
               controls={controls}
@@ -60,6 +59,15 @@ const RecentChatsSidebar = ({
             />
           </ListItem>
         ))}
+      {isFetchingNextPage && (
+        <ListItem>
+          <ListIcon>
+            <Spinner color="brand.primary" />
+          </ListIcon>
+          <Text>Fetching more recent chats...</Text>
+        </ListItem>
+      )}
+      <ListItem key={'recentChatsBottom'} ref={bottom} h={2} />
     </List>
   );
 };

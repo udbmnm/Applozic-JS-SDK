@@ -1,4 +1,4 @@
-import Sidebar, { SidebarProps } from './Sidebar';
+import Sidebar, { SidebarProps, BaseSidebarProps } from './Sidebar';
 
 export { Sidebar };
-export type { SidebarProps as ISidebar };
+export type { SidebarProps as ISidebar, BaseSidebarProps };

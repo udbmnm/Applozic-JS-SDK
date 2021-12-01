@@ -16,8 +16,7 @@ import {
   Text,
   ButtonGroup,
   Button,
-  Flex,
-  useWhyDidYouUpdate
+  Flex
 } from '@chakra-ui/react';
 import ChakraCarousel from './Carousel';
 
@@ -137,11 +136,6 @@ function CardMessage({
       </Flex>
     );
   };
-  useWhyDidYouUpdate('CardMessage', {
-    metadata,
-    sendQuickReply,
-    handleFormSubmission
-  });
   try {
     const { payload } = getRichTextContentFromMetaData<Card[]>(metadata);
     return payload.length > 1 ? (

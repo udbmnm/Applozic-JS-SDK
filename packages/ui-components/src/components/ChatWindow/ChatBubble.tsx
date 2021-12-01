@@ -11,8 +11,7 @@ import {
   VStack,
   Link,
   Box,
-  Spacer,
-  useWhyDidYouUpdate
+  Spacer
 } from '@chakra-ui/react';
 import Linkify from 'react-linkify';
 import Icon from '../Icon';
@@ -91,17 +90,6 @@ const ChatBubble = ({
       onClick: () => onMessageDelete && onMessageDelete(true)
     });
   }
-
-  useWhyDidYouUpdate('ChatBubble', {
-    showTime,
-    message,
-    showUserInfo,
-    userName,
-    userImage,
-    chatType,
-    gMapsApiKey,
-    onMessageDelete
-  });
 
   const TimeStampItem = () => {
     return (

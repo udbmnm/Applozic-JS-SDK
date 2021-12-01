@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useEffect } from 'react';
 import { useApplozicClient } from '../../providers/useApplozicClient';
 import { ChatType, RecentChat } from '../../models/chat';
@@ -55,11 +55,17 @@ function SidebarWired({ hideHamburger }: SidebarWiredProps) {
     sidebarCollapsed
   } = useSidebar();
 
-  const { status: contactsStatus } = useGetUserContacts();
+  const {
+    status: contactsStatus,
+    fetchNextPage: fetchContactsNextPage,
+    isFetchingNextPage: isFetchingNextContactsPage,
+    hasNextPage: hasContactsNextPage
+  } = useGetUserContacts();
   const {
     status: recentChatStatus,
-    fetchNextPage: fetchNextRecentChats,
-    isFetchingNextPage: isFetchingNextRecentChatsPage
+    fetchNextPage: fetchNextPageRecentChats,
+    isFetchingNextPage: isFetchingNextRecentChatsPage,
+    hasNextPage: hasNextRecentChatsPage
   } = useGetRecentChats();
 
   const [recentChats, setRecentChats] = useState<RecentChat[]>();
@@ -161,6 +167,13 @@ function SidebarWired({ hideHamburger }: SidebarWiredProps) {
   // const { mutate: mutateNewContact } = useCreateNewContact();
   const { mutate: updateSelf } = useUpdateSelfInfo();
 
+  const fetchNextRecentChats = useCallback(() => {
+    fetchNextPageRecentChats();
+  }, []);
+
+  const fetchNextContacts = useCallback(() => {
+    fetchContactsNextPage();
+  }, []);
   return (
     <Sidebar
       selectedFeatureTab={activeTab}
@@ -175,7 +188,11 @@ function SidebarWired({ hideHamburger }: SidebarWiredProps) {
         hideHamburger
       }}
       isFetchingNextRecentChatsPage={isFetchingNextRecentChatsPage}
-      fetchNextRecentChats={() => fetchNextRecentChats()}
+      fetchNextRecentChats={fetchNextRecentChats}
+      hasMoreRecentChats={hasNextRecentChatsPage}
+      fetchNextContacts={fetchNextContacts}
+      isFetchingNextContactsPage={isFetchingNextContactsPage}
+      hasMoreContacts={hasContactsNextPage}
       selfDetails={{
         name: self ? getNameFromUser(self) : '',
         imageUrl: self?.imageLink,

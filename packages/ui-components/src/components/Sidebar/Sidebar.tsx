@@ -39,12 +39,27 @@ export interface SidebarProps {
   ) => void | Promise<void>;
   /** Callback to handle item click */
   handleItemClick: (type: ChatType, contactId: string) => void | Promise<void>;
-  /** Callback to handle fetching more contacts when the bottom of a long list comes into view */
-  fetchNextRecentChats: () => any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  /** Callback to handle fetching more recent chats when the bottom of a long list comes into view */
+  fetchNextRecentChats: () => void;
   /** `true` if next page of the recent chats is being fetched */
   isFetchingNextRecentChatsPage: boolean;
+  /** `true` if next page of recent chats exists */
+  hasMoreRecentChats: boolean | undefined;
+  /** Callback to handle fetching more contacts when the bottom of a long list comes into view */
+  fetchNextContacts: () => void;
+  /** `true` if next page of the recent chats is being fetched */
+  isFetchingNextContactsPage: boolean;
+  /** `true` if next page of contacts exists */
+  hasMoreContacts: boolean | undefined;
   /** [Optional] Callback to handle creation of new contact */
   onCreateContact?: (contactName: string) => void | Promise<void>;
+}
+
+export interface BaseSidebarProps {
+  fetchNextPage: () => void;
+  isFetchingNextPage: boolean;
+  hasMorePages: boolean | undefined;
+  isFiltered: boolean;
 }
 
 function Sidebar({
@@ -54,11 +69,15 @@ function Sidebar({
   recentChats,
   users,
   isCollapsed,
-  isFetchingNextRecentChatsPage,
   onCreateGroup: onClickCreateGroup,
   onCreateContact: onClickCreateContact,
   onClearConversation: onClickClearConversation,
   fetchNextRecentChats,
+  isFetchingNextRecentChatsPage,
+  hasMoreRecentChats,
+  fetchNextContacts,
+  isFetchingNextContactsPage,
+  hasMoreContacts,
   handleItemClick
 }: SidebarProps) {
   const controls = useAnimation();
@@ -115,6 +134,7 @@ function Sidebar({
             onClickContact={handleItemClick}
             fetchNextRecentChats={fetchNextRecentChats}
             isFetchingNextRecentChatsPage={isFetchingNextRecentChatsPage}
+            hasMoreRecentChats={hasMoreRecentChats}
           />
         );
       case FeatureTab.GROUPS:
@@ -126,6 +146,9 @@ function Sidebar({
             }
             onClickAddGroup={() => setShowAddGroup(true)}
             onClickRecentChat={handleItemClick}
+            fetchNextRecentChats={fetchNextRecentChats}
+            hasMoreRecentChats={hasMoreRecentChats}
+            isFetchingNextRecentChatsPage={isFetchingNextRecentChatsPage}
           />
         );
       case FeatureTab.CONTACTS:
@@ -137,6 +160,9 @@ function Sidebar({
             onClickContact={contactId =>
               handleItemClick(ChatType.USER, contactId)
             }
+            fetchNextContacts={fetchNextContacts}
+            isFetchingNextContactsPage={isFetchingNextContactsPage}
+            hasMoreContacts={hasMoreContacts}
           />
         );
       default:

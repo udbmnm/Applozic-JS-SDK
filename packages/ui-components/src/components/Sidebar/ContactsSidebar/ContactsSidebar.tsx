@@ -1,27 +1,52 @@
-import React from 'react';
-import { List, ListItem } from '@chakra-ui/react';
+import React, { useEffect } from 'react';
+import { List, ListIcon, ListItem, Spinner, Text } from '@chakra-ui/react';
 import { User } from '@applozic/core-sdk';
 import ContactItem from './ContactItem';
 import { AnimationControls } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+import { BaseSidebarProps } from '..';
 
-export interface IRecentChats {
+export interface IRecentChats extends BaseSidebarProps {
   users?: User[];
   onClickContact: (contactId: string) => void | Promise<void>;
   onClickAddContact: () => void | Promise<void>;
   controls?: AnimationControls;
+  fetchNextContacts: () => void;
+  isFetchingNextContactsPage: boolean;
+  hasMoreContacts: boolean | undefined;
 }
 
 const ContactsSidebar = ({
   users,
   onClickContact,
   onClickAddContact,
-  controls
+  controls,
+  fetchNextPage,
+  isFetchingNextPage,
+  isFiltered,
+  hasMorePages
 }: IRecentChats) => {
   const handleClick = (contactId: string) => () => {
     if (onClickContact) {
       onClickContact(contactId);
     }
   };
+  const { ref: bottom, inView } = useInView({
+    threshold: 0,
+    initialInView: false
+  });
+
+  useEffect(() => {
+    if (
+      inView &&
+      fetchNextPage &&
+      !isFetchingNextPage &&
+      hasMorePages &&
+      !isFiltered
+    ) {
+      fetchNextPage();
+    }
+  }, [inView]);
 
   return (
     <List height="full" width={'full'}>
@@ -37,6 +62,15 @@ const ContactsSidebar = ({
           />
         </ListItem>
       ))}
+      {isFetchingNextPage && (
+        <ListItem>
+          <ListIcon>
+            <Spinner color="brand.primary" />
+          </ListIcon>
+          <Text>Fetching more contacts...</Text>
+        </ListItem>
+      )}
+      <ListItem key={'contactsBottom'} ref={bottom} h={2} />
     </List>
   );
 };

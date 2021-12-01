@@ -8,8 +8,7 @@ import {
   Spinner,
   HStack,
   AvatarGroup,
-  ListItem,
-  useWhyDidYouUpdate
+  ListItem
 } from '@chakra-ui/react';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { Message } from '../../models/chat';
@@ -93,19 +92,6 @@ function ChatWindow({
       fetchNextPage();
     }
   }, [inView]);
-
-  useWhyDidYouUpdate('ChatWindow', {
-    self,
-    activeChat,
-    messages,
-    gMapsApiKey,
-    hasNextPage,
-    isFetchingNextPage,
-    clearUnreadNotifications,
-    onMessageDelete,
-    fetchNextPage,
-    sendQuickReply
-  });
 
   return (
     <ScrollArea
