@@ -1,9 +1,12 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, memo } from 'react';
 import {
   MessageMetaDataTemplateType,
   RichTextMetaData
 } from '@applozic/core-sdk';
-import { useColorModeValue as mode } from '@chakra-ui/react';
+import {
+  useColorModeValue as mode,
+  useWhyDidYouUpdate
+} from '@chakra-ui/react';
 import ButtonMessage from './ButtonMessage';
 import CardMessage from './CardsMessage';
 import ImageCaptionMessage from './ImageCaptionMessage';
@@ -15,12 +18,14 @@ function RichTextMessage({
   key,
   metadata,
   onFileClick,
-  sendQuickReply
+  sendQuickReply,
+  isReply
 }: {
   key: string;
   metadata: RichTextMetaData;
   onFileClick: () => boolean | void;
   sendQuickReply: (text: string) => void;
+  isReply: boolean;
 }) {
   const handleFormSubmission = useCallback(
     async (
@@ -60,9 +65,11 @@ function RichTextMessage({
         return <div />;
     }
   };
+  useWhyDidYouUpdate('RichTextMessage', { metadata });
   return (
     <MotionListItem
       key={key}
+      alignSelf={isReply ? 'flex-end' : 'flex-start'}
       initial={false}
       backgroundColor={
         metadata.template === MessageMetaDataTemplateType.IMAGE_CAPTION
@@ -77,4 +84,4 @@ function RichTextMessage({
   );
 }
 
-export default RichTextMessage;
+export default memo(RichTextMessage);

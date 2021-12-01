@@ -4,6 +4,10 @@ interface SocketMessageEvent {
   (message: IncomingMessage): void | Promise<void>;
 }
 
+interface MessageDeliveredEvent {
+  (messageKey: string, userId: string): void | Promise<void>;
+}
+
 interface MessageUpdateEvent {
   (contactId: string, messageKey: string): void | Promise<void>;
 }
@@ -32,7 +36,7 @@ export interface SocketEventListener {
   onConversationReadFromOtherSource?: SocketMessageEvent;
   onConversationRead?: ConversationUpdateEvent;
   onMessageDeleted?: MessageUpdateEvent;
-  onMessageDelivered?: SocketMessageEvent;
+  onMessageDelivered?: MessageDeliveredEvent;
   onMessageRead?: MessageUpdateEvent;
   onMessageReceived?: SocketMessageEvent;
   onMessageSentUpdate?: SocketMessageEvent;

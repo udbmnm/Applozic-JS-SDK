@@ -1,4 +1,5 @@
 import { RichTextMetaData } from '@applozic/core-sdk';
+import { useWhyDidYouUpdate } from '@chakra-ui/react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ChatType, Message, ActiveChat } from '../../models/chat';
 import { getIdFromActiveChat } from '../../models/chat/ActiveChat';
@@ -63,8 +64,17 @@ function MessageItem({
       !!message.file &&
       !!fileUrl &&
       downloadFileFromUrl(fileUrl, message.file.name),
-    [message, fileUrl]
+    [message.file, fileUrl]
   );
+
+  useWhyDidYouUpdate('MessageItem', {
+    message,
+    gMapsApiKey,
+    sendQuickReply,
+    onMessageDelete,
+    activeChat,
+    showTime
+  });
 
   useEffect(() => {
     fileUrl && getFileBlobFromUrl(fileUrl);
@@ -75,6 +85,7 @@ function MessageItem({
       metadata={message.metadata as RichTextMetaData}
       onFileClick={onFileClick}
       sendQuickReply={sendQuickReply}
+      isReply={message.isReply}
     />
   ) : (
     <ChatBubble

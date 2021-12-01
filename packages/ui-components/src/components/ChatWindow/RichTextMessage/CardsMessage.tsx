@@ -16,7 +16,8 @@ import {
   Text,
   ButtonGroup,
   Button,
-  Flex
+  Flex,
+  useWhyDidYouUpdate
 } from '@chakra-ui/react';
 import ChakraCarousel from './Carousel';
 
@@ -36,6 +37,7 @@ function CardMessage({
 }) {
   const Card = ({ card }: { card: Card }) => {
     const [imageLoaded, setimageLoaded] = useState(false);
+    useWhyDidYouUpdate('CardMessage', { card });
     return (
       <Flex
         key={card.title}

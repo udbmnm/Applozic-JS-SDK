@@ -16,6 +16,9 @@ import sendImageCaptionBuilder, {
 } from './send-image-caption';
 import sendCardsBuilder, { SendCardsApi } from './send-cards';
 import sendListBuilder, { SendListApi } from './send-list';
+import markMessageDeliveredBuilder, {
+  MarkMessageDeliveredApi
+} from './mark-as-delivered';
 
 export interface MessagesApi {
   /**
@@ -153,6 +156,16 @@ export interface MessagesApi {
    */
   list: MessageListApi;
   /**
+   * Mark a message as delivered. This sends an update to the sender that
+   * the message was delivered.
+   *
+   * Usage:
+   * ```
+   * await applozicClient.messages.markAsDelivered('message-key');
+   * ```
+   */
+  markAsDelivered: MarkMessageDeliveredApi;
+  /**
    * This a single wrapper over the send message API.
    *
    * ### Send message to a user
@@ -237,7 +250,8 @@ const messagesApiBuilder = (client: BaseClient): MessagesApi => ({
   sendButtons: sendButtonBuilder(client),
   sendImageWithCaption: sendImageCaptionBuilder(client),
   sendList: sendListBuilder(client),
-  sendCards: sendCardsBuilder(client)
+  sendCards: sendCardsBuilder(client),
+  markAsDelivered: markMessageDeliveredBuilder(client)
 });
 
 export default messagesApiBuilder;

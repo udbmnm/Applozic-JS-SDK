@@ -183,7 +183,6 @@ const Slider = ({
   gap
 }: PropsWithChildren<SliderProps>) => {
   const { ref, dimensions } = useBoundingRect();
-  console.log({ dimensions });
   useLayoutEffect(
     () => initSliderWidth(Math.round(dimensions?.width ?? 0)),
     [dimensions?.width, initSliderWidth]
@@ -429,7 +428,6 @@ const Item = ({
     userDidTab && index + 1 === positions.length && setTrackIsActive(false);
     setUserDidTab(false);
   };
-  console.log({ activeItem });
 
   const handleKeyUp: KeyboardEventHandler<HTMLDivElement> | undefined = event =>
     event.key === 'Tab' &&
