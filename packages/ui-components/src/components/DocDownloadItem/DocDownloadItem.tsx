@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  Center,
-  Square,
-  Text,
-  Image,
-  VStack,
-  Box,
-  HStack,
-  Spacer
-} from '@chakra-ui/react';
+import { Center, Square, Text, VStack, HStack, Spacer } from '@chakra-ui/react';
 import { FileMeta } from '@applozic/core-sdk';
 import Icon from '../Icon';
 
@@ -31,7 +22,7 @@ export interface DocDownloadItem {
   icon?: React.ReactNode;
 }
 
-const DocDownloadItem = ({ doc, variant, width, icon }: DocDownloadItem) => {
+const DocDownloadItem = ({ doc, variant, icon }: DocDownloadItem) => {
   return (
     <HStack
       bg={variant === VARIANTS.ACCENTED ? 'brand.secondary' : 'secondary.700'}

@@ -37,7 +37,7 @@ function CardMessage({
 }) {
   const Card = ({ card }: { card: Card }) => {
     const [imageLoaded, setimageLoaded] = useState(false);
-    useWhyDidYouUpdate('CardMessage', { card });
+
     return (
       <Flex
         key={card.title}

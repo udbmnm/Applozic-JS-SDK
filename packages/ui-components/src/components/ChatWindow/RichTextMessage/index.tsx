@@ -44,7 +44,13 @@ function RichTextMessage({
   const getRichTextContent = () => {
     switch (metadata.template) {
       case MessageMetaDataTemplateType.BUTTON:
-        return <ButtonMessage metadata={metadata} />;
+        return (
+          <ButtonMessage
+            metadata={metadata}
+            sendQuickReply={sendQuickReply}
+            handleFormSubmission={handleFormSubmission}
+          />
+        );
       case MessageMetaDataTemplateType.IMAGE_CAPTION:
         return (
           <ImageCaptionMessage metadata={metadata} onFileClick={onFileClick} />
@@ -69,7 +75,13 @@ function RichTextMessage({
   return (
     <MotionListItem
       key={key}
-      alignSelf={isReply ? 'flex-end' : 'flex-start'}
+      alignSelf={
+        metadata.template === MessageMetaDataTemplateType.CARD
+          ? undefined
+          : isReply
+          ? 'flex-end'
+          : 'flex-start'
+      }
       initial={false}
       backgroundColor={
         metadata.template === MessageMetaDataTemplateType.IMAGE_CAPTION

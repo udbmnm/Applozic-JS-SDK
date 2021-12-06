@@ -29,7 +29,6 @@ const EmojiPopup = ({
   const close = useCallback(() => {
     setIsOpen(false);
   }, []);
-  console.log({ isOpen });
   const onEmojiClick = (emoji: EmojiData) => {
     if (onEmojiSelected) {
       onEmojiSelected(emoji.emoji);
